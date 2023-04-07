@@ -5,6 +5,12 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.API", "HUTECHClassroom.API\HUTECHClassroom.API.csproj", "{1C641DC2-062B-4695-82BB-94D91AF933D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Application", "HUTECHClassroom.Application\HUTECHClassroom.Application.csproj", "{CCF3EF2C-9C78-4458-8ACF-0900F1A5C287}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Domain", "HUTECHClassroom.Domain\HUTECHClassroom.Domain.csproj", "{859E9EA2-CAAD-470B-BA71-747A0FD1A2AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Infrastructure", "HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj", "{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{1C641DC2-062B-4695-82BB-94D91AF933D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C641DC2-062B-4695-82BB-94D91AF933D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C641DC2-062B-4695-82BB-94D91AF933D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF3EF2C-9C78-4458-8ACF-0900F1A5C287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF3EF2C-9C78-4458-8ACF-0900F1A5C287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF3EF2C-9C78-4458-8ACF-0900F1A5C287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF3EF2C-9C78-4458-8ACF-0900F1A5C287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{859E9EA2-CAAD-470B-BA71-747A0FD1A2AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{859E9EA2-CAAD-470B-BA71-747A0FD1A2AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{859E9EA2-CAAD-470B-BA71-747A0FD1A2AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{859E9EA2-CAAD-470B-BA71-747A0FD1A2AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
