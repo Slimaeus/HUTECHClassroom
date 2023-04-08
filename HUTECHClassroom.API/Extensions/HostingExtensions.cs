@@ -1,11 +1,14 @@
-﻿namespace HUTECHClassroom.API.Extensions
+﻿using HUTECHClassroom.Application;
+using HUTECHClassroom.Infrastructure;
+
+namespace HUTECHClassroom.API.Extensions
 {
     public static class HostingExtensions
     {
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
-            //builder.Services.AddApplicationServices();
-            //builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
+            builder.Services.AddInfrastructureServices(builder.Configuration);
             builder.Services.AddWebApiServices();
 
             return builder.Build();
