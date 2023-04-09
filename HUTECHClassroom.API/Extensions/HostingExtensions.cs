@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application;
 using HUTECHClassroom.Infrastructure;
+using HUTECHClassroom.Infrastructure.Persistence;
 
 namespace HUTECHClassroom.API.Extensions
 {
@@ -13,12 +14,17 @@ namespace HUTECHClassroom.API.Extensions
 
             return builder.Build();
         }
-        public static WebApplication ConfigurePipeline(this WebApplication app)
+        public static async Task<WebApplication> ConfigurePipelineAsync(this WebApplication app)
         {
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                using var scope = app.Services.CreateScope();
+                var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
+                await initialiser.InitialiseAsync();
+                await initialiser.SeedAsync();
             }
 
             app.UseHttpsRedirection();

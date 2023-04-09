@@ -1,6 +1,13 @@
-﻿namespace HUTECHClassroom.Infrastructure.Persistence
+﻿using HUTECHClassroom.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace HUTECHClassroom.Infrastructure.Persistence
 {
-    public class ApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
     }
 }
