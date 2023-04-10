@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace HUTECHClassroom.Domain.Entities
+namespace HUTECHClassroom.Infrastructure.Identity
 {
     public class ApplicationUser : IdentityUser
     {

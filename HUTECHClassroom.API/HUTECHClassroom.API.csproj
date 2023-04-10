@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\HUTECHClassroom.Application\HUTECHClassroom.Application.csproj" />
     <ProjectReference Include="..\HUTECHClassroom.Domain\HUTECHClassroom.Domain.csproj" />
     <ProjectReference Include="..\HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj" />

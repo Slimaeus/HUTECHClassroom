@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Infrastructure.Persistence;
+﻿using HUTECHClassroom.API.Filters;
+using HUTECHClassroom.Infrastructure.Persistence;
 
 namespace HUTECHClassroom.API
 {
@@ -9,7 +10,10 @@ namespace HUTECHClassroom.API
             services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
             #region Controllers
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<ApiExceptionFilterAttribute>();
+            });
             #endregion
 
             #region Swagger
