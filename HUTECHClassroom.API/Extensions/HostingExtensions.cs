@@ -16,10 +16,14 @@ namespace HUTECHClassroom.API.Extensions
         }
         public static async Task<WebApplication> ConfigurePipelineAsync(this WebApplication app)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "HUTECH_ClassroomV1");
+                options.SwaggerEndpoint("/swagger/v2/swagger.json", "HUTECH_ClassroomV2");
+            });
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
 
                 using var scope = app.Services.CreateScope();
                 var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();

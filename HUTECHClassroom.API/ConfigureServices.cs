@@ -1,5 +1,8 @@
 ﻿using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.OpenApi.Models;
 
 namespace HUTECHClassroom.API
 {
@@ -16,9 +19,58 @@ namespace HUTECHClassroom.API
             });
             #endregion
 
+            #region Versions
+            services.AddApiVersioning(options => {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            });
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+            #endregion
+
             #region Swagger
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1.0",
+                    Title = "HUTECH Classroom",
+                    Description = "API to manage classroom",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    { 
+                        Name = "Slimaeus",
+                        Url = new Uri("https://github.com/Slimaeus")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Example License",
+                        Url = new Uri("https://example.com/license")
+                    }
+                });
+                options.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Version = "v2.0",
+                    Title = "HUTECH Classroom",
+                    Description = "API to manage classroom",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Slimaeus",
+                        Url = new Uri("https://github.com/Slimaeus")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Example License",
+                        Url = new Uri("https://example.com/license")
+                    }
+                });
+            });
             #endregion
 
             return services;

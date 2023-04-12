@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

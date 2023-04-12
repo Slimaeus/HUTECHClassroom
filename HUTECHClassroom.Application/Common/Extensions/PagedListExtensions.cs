@@ -1,4 +1,7 @@
-﻿namespace HUTECHClassroom.Application.Common.Extensions
+﻿using HUTECHClassroom.Application.Common.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace HUTECHClassroom.Application.Common.Extensions
 {
     public static class PagedListExtensions
     {

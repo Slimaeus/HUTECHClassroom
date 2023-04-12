@@ -21,4 +21,8 @@
     <ProjectReference Include="..\HUTECHClassroom.Domain\HUTECHClassroom.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\Configurations\" />
+  </ItemGroup>
+
 </Project>
