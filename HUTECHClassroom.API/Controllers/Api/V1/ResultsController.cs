@@ -8,7 +8,7 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpGet]
         public IActionResult GetNotFound()
         {
-            return NotFound(HttpContext.GetRequestedApiVersion().ToString());
+            return NotFound();
         }
     }
 }

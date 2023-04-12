@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HUTECHClassroom.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace HUTECHClassroom.Infrastructure.Persistence
@@ -39,7 +40,28 @@ namespace HUTECHClassroom.Infrastructure.Persistence
 
         public async Task TrySeedAsync()
         {
-            
+            if (_context.Missions.Any()) return;
+
+            var missions = new List<Mission>
+            {
+                new Mission
+                {
+                    Title = "Let's read",
+                    Description = "Read 1 book"
+                },
+                new Mission
+                {
+                    Title = "Let's write",
+                    Description = "Write 1 note"
+                },
+                new Mission
+                {
+                    Title = "Let's listen",
+                    Description = "Listen 1 song"
+                },
+            };
+
+            await _context.AddRangeAsync(missions);
 
             await _context.SaveChangesAsync();
         }

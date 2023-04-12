@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFrameworkCore.Data.Repository" Version="7.0.6" />
+    <PackageReference Include="EntityFrameworkCore.Data.Repository.Abstractions" Version="7.0.6" />
+    <PackageReference Include="EntityFrameworkCore.Data.UnitOfWork" Version="7.0.6" />
+    <PackageReference Include="EntityFrameworkCore.Data.UnitOfWork.Abstractions" Version="7.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
@@ -19,10 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HUTECHClassroom.Domain\HUTECHClassroom.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Persistence\Configurations\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Infrastructure.Persistence;
+﻿using EntityFrameworkCore.UnitOfWork.Extensions;
+using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,10 +32,10 @@ namespace HUTECHClassroom.Infrastructure
             services.AddScoped<ApplicationDbContextInitializer>();
             #endregion
 
-            //#region UnitOfWork
-            //services.AddUnitOfWork();
-            //services.AddUnitOfWork<ApplicationDbContext>();
-            //#endregion
+            #region UnitOfWork
+            services.AddUnitOfWork();
+            services.AddUnitOfWork<ApplicationDbContext>();
+            #endregion
             return services;
         }
     }
