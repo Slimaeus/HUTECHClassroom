@@ -11,6 +11,10 @@ namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Title)
                 .HasMaxLength(50)
                 .IsRequired();
+
+            builder.Property(x => x.Description)
+                .HasMaxLength(100)
+                .IsRequired();
         }
     }
 }
