@@ -9,7 +9,6 @@
     <Folder Include="Common\Extensions\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Models\" />
-    <Folder Include="Missions\Commands\" />
   </ItemGroup>
 
   <ItemGroup>

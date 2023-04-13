@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCore.Repository.Collections;
 using HUTECHClassroom.Application.Common.Requests;
+using HUTECHClassroom.Application.Missions.Commands;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Missions.Queries;
 using HUTECHClassroom.Domain.Entities;
@@ -13,8 +14,21 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpGet]
         public async Task<ActionResult<IPagedList<MissionDTO>>> Get([FromQuery] GetMissionsWithPaginationQuery request)
             => HandlePagedList(await Mediator.Send(request));
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MissionDTO>> Get(Guid id)
+        [HttpGet("{id}", Name = nameof(GetDetails))]
+        public async Task<ActionResult<MissionDTO>> GetDetails(Guid id)
             => Ok(await Mediator.Send(new GetMissionQuery(id)));
+        [HttpPost]
+        public async Task<ActionResult<MissionDTO>> Post(CreateMissionCommand request)
+        {
+            var missionDTO = await Mediator.Send(request);
+            return CreatedAtRoute(nameof(GetDetails), new { id = missionDTO.Id }, missionDTO);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, UpdateMissionCommand request)
+        {
+            if (id != request.Id) return BadRequest();
+            await Mediator.Send(request);
+            return NoContent();
+        }
     }
 }
