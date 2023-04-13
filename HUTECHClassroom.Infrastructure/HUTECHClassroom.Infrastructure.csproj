@@ -25,4 +25,8 @@
     <ProjectReference Include="..\HUTECHClassroom.Domain\HUTECHClassroom.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\" />
+  </ItemGroup>
+
 </Project>

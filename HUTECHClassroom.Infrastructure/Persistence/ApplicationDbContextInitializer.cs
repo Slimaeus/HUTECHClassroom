@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -7,10 +8,12 @@ namespace HUTECHClassroom.Infrastructure.Persistence
     public class ApplicationDbContextInitializer
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ApplicationDbContextInitializer(ApplicationDbContext context)
+        public ApplicationDbContextInitializer(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task InitialiseAsync()
@@ -40,6 +43,27 @@ namespace HUTECHClassroom.Infrastructure.Persistence
 
         public async Task TrySeedAsync()
         {
+            if (_context.Users.Any()) return;
+
+            var users = new ApplicationUser[]
+            {
+                new ApplicationUser
+                {
+                    UserName = "2080600914",
+                    Email = "thai@gmail.com"
+                },
+                new ApplicationUser
+                {
+                    UserName = "2080600803",
+                    Email = "mei@gmail.com"
+                }
+            };
+
+            foreach (var user in users)
+            {
+                await _userManager.CreateAsync(user, "P@ssw0rd");
+            }
+
             if (_context.Missions.Any()) return;
 
             var missions = new List<Mission>

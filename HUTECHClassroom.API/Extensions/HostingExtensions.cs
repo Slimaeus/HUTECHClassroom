@@ -10,7 +10,7 @@ namespace HUTECHClassroom.API.Extensions
         {
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
-            builder.Services.AddWebApiServices();
+            builder.Services.AddWebApiServices(builder.Configuration);
 
             return builder.Build();
         }

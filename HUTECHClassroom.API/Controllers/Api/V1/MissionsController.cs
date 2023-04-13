@@ -1,9 +1,7 @@
 ﻿using EntityFrameworkCore.Repository.Collections;
-using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Missions.Commands;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Missions.Queries;
-using HUTECHClassroom.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1

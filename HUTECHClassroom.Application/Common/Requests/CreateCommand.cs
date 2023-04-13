@@ -28,7 +28,7 @@ namespace HUTECHClassroom.Application.Common.Requests
 
             await _repository.AddAsync(entity, cancellationToken);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
             return _mapper.Map<TDTO>(entity);
         }
