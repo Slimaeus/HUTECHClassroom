@@ -9,11 +9,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HUTECHClassroom.Application.Common.Requests
 {
-    public record UpdateCommand<TDTO>([Required] Guid Id) : IRequest<TDTO> where TDTO : class;
-    public abstract class UpdateCommandHandler<TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
+    public record UpdateCommand([Required] Guid Id) : IRequest<Unit>;
+    public abstract class UpdateCommandHandler<TEntity, TCommand> : IRequestHandler<TCommand, Unit>
         where TEntity : BaseEntity
-        where TCommand : UpdateCommand<TDTO>
-        where TDTO : class
+        where TCommand : UpdateCommand
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<TEntity> _repository;
@@ -25,7 +24,7 @@ namespace HUTECHClassroom.Application.Common.Requests
             _repository = unitOfWork.Repository<TEntity>();
             _mapper = mapper;
         }
-        public async Task<TDTO> Handle(TCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken)
         {
             var query = _repository.SingleResultQuery()
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
@@ -37,7 +36,7 @@ namespace HUTECHClassroom.Application.Common.Requests
 
             await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
             
-            return _mapper.Map<TDTO>(entity);
+            return Unit.Value;
         }
     }
 }

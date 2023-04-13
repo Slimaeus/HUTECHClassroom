@@ -26,7 +26,11 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, UpdateMissionCommand request)
         {
-            if (id != request.Id) return BadRequest();
+            if (id != request.Id)
+            {
+                ModelState.AddModelError("Id", "Ids are not the same");
+                return ValidationProblem();
+            }
             await Mediator.Send(request);
             return NoContent();
         }
