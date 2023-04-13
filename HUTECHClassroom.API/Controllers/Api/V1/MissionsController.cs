@@ -34,5 +34,10 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
             await Mediator.Send(request);
             return NoContent();
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            return Ok(await Mediator.Send(new DeleteMissionCommand(id)));
+        }
     }
 }
