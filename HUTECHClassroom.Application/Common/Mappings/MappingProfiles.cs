@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using HUTECHClassroom.Application.Missions.DTOs;
+using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Common.Mappings
 {
@@ -6,6 +8,9 @@ namespace HUTECHClassroom.Application.Common.Mappings
     {
         public MappingProfiles()
         {
+            #region Missions
+            CreateMap<Mission, MissionDTO>();
+            #endregion
         }
     }
 }
