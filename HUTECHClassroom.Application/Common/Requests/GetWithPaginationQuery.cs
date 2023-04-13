@@ -6,28 +6,24 @@ using EntityFrameworkCore.Repository.Extensions;
 using EntityFrameworkCore.Repository.Interfaces;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.Exceptions;
-using HUTECHClassroom.Application.Missions.Queries;
 using HUTECHClassroom.Domain.Common;
-using HUTECHClassroom.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Common.Requests
 {
-    public record GetWithPaginationQuery<TEntity, TDTO>(
+    public record GetWithPaginationQuery<TDTO>(
             int PageNumber = 1,
             int PageSize = 10,
             string SearchString = null
-            //Expression<Func<TEntity, bool>> FilterExpression = null
         ) : IRequest<IPagedList<TDTO>>
-            where TDTO : class
-            where TEntity : BaseEntity;
-    public class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, IPagedList<TDTO>>
+            where TDTO : class;
+    public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, IPagedList<TDTO>>
         where TEntity : BaseEntity
-        where TQuery : GetWithPaginationQuery<TEntity, TDTO>
+        where TQuery : GetWithPaginationQuery<TDTO>
         where TDTO : class
-    {
+    {   
         private readonly IRepository<TEntity> _repository;
         private readonly IMapper _mapper;
 
@@ -59,13 +55,7 @@ namespace HUTECHClassroom.Application.Common.Requests
 
             return pagedList;
         }
-        public virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString)
-        {
-            return x => true;
-        }
-        public virtual Expression<Func<TEntity, bool>> FilterPredicate()
-        {
-            return x => true;
-        }
+        public virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString) => x => true;
+        public virtual Expression<Func<TEntity, bool>> FilterPredicate() => x => true;
     }
 }

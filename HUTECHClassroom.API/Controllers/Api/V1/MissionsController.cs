@@ -12,14 +12,9 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
     {
         [HttpGet]
         public async Task<ActionResult<IPagedList<MissionDTO>>> Get([FromQuery] GetMissionsWithPaginationQuery request)
-        {
-            return HandlePagedList(await Mediator.Send(request));
-        }
-
-        [HttpGet("test")]
-        public async Task<ActionResult<IPagedList<MissionDTO>>> Get([FromQuery] GetWithPaginationQuery<Mission, MissionDTO> request)
-        {
-            return HandlePagedList(await Mediator.Send(request));
-        }
+            => HandlePagedList(await Mediator.Send(request));
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MissionDTO>> Get(Guid id)
+            => Ok(await Mediator.Send(new GetMissionQuery(id)));
     }
 }
