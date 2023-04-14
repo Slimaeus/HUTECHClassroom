@@ -1,0 +1,13 @@
+﻿using FluentValidation;
+
+namespace HUTECHClassroom.Application.Missions.Commands
+{
+    public class CreateMissionCommandValidator : AbstractValidator<CreateMissionCommand>
+    {
+        public CreateMissionCommandValidator()
+        {
+            RuleFor(x => x.Title).NotEmpty().MaximumLength(50);
+            RuleFor(x => x.Description).MaximumLength(100);
+        }
+    }
+}

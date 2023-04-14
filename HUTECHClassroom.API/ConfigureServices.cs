@@ -59,7 +59,7 @@ namespace HUTECHClassroom.API
                     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
                     options.ClaimsIdentity.EmailClaimType = ClaimTypes.Email;
                 })
-                //.AddRoleManager<IdentityRole>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

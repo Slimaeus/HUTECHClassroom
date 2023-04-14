@@ -9,11 +9,7 @@ namespace HUTECHClassroom.Application.Missions.Commands
 {
     public record CreateMissionCommand : CreateCommand<MissionDTO>
     {
-        [Required]
-        [MaxLength(50)]
         public string Title { get; set; }
-        [Required]
-        [MaxLength(100)]
         public string Description { get; set; }
         public bool IsDone { get; set; } = false;
     }

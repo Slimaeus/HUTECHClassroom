@@ -1,6 +1,10 @@
-﻿using HUTECHClassroom.Application.Common.Exceptions;
+﻿
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
+using HUTECHClassroom.Application.Common.Exceptions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using LinqKit;
 
 namespace HUTECHClassroom.API.Filters
 {
@@ -12,6 +16,7 @@ namespace HUTECHClassroom.API.Filters
             // Register known exception types and handlers.
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
+                { typeof(Exception), HandleGenericException },
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
@@ -41,11 +46,35 @@ namespace HUTECHClassroom.API.Filters
                 return;
             }
         }
+        private void HandleGenericException(ExceptionContext context)
+        {
+            var details = new ProblemDetails
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "Internal Server Error",
+                Detail = context.Exception.Message,
+                Instance = context.HttpContext.Request.Path
+            };
+
+            context.Result = new ObjectResult(details)
+            {
+                StatusCode = StatusCodes.Status500InternalServerError
+            };
+
+            Console.WriteLine("Hello");
+
+            context.ExceptionHandled = true;
+        }
+
         private void HandleValidationException(ExceptionContext context)
         {
             var exception = (ValidationException)context.Exception;
 
-            var details = new ValidationProblemDetails(exception.Errors)
+            var modelState = exception.Errors
+                .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+                .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
+
+            var details = new ValidationProblemDetails(modelState)
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
