@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
+using HUTECHClassroom.Application.Common.Models;
 
-namespace HUTECHClassroom.Application.Common.Requests
+namespace HUTECHClassroom.Application.Common.Validators
 {
-    public abstract class GetWithPaginationQueryValidator<TQuery, TDTO> : AbstractValidator<TQuery>
-        where TQuery : GetWithPaginationQuery<TDTO>
-        where TDTO : class
+    public class PaginationParamsValidator : AbstractValidator<PaginationParams>
     {
-        public GetWithPaginationQueryValidator()
+        public PaginationParamsValidator()
         {
             RuleFor(x => x.PageNumber)
                 .GreaterThanOrEqualTo(1).WithMessage("PageNumber at least greater than or equal to 1.");

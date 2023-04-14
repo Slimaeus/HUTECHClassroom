@@ -6,6 +6,7 @@ using EntityFrameworkCore.Repository.Extensions;
 using EntityFrameworkCore.Repository.Interfaces;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.Exceptions;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Common.Requests
 {
     public record GetWithPaginationQuery<TDTO>(
-            int PageNumber = 1,
-            int PageSize = 10,
-            string SearchString = null
+            PaginationParams Params = default
         ) : IRequest<IPagedList<TDTO>>
             where TDTO : class;
     public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, IPagedList<TDTO>>
@@ -36,12 +35,12 @@ namespace HUTECHClassroom.Application.Common.Requests
         {
             var query = (IMultipleResultQuery<TEntity>)_repository
                 .MultipleResultQuery()
-                .Page(request.PageNumber, request.PageSize)
+                .Page(request.Params.PageNumber, request.Params.PageSize)
                 .AndFilter(FilterPredicate())
                 .OrderBy(x => x.CreateDate);
 
-            if (!string.IsNullOrEmpty(request.SearchString))
-                query = (IMultipleResultQuery<TEntity>)query.AndFilter(SearchStringPredicate(request.SearchString));
+            if (!string.IsNullOrEmpty(request.Params.SearchString))
+                query = (IMultipleResultQuery<TEntity>)query.AndFilter(SearchStringPredicate(request.Params.SearchString));
 
             var pagedList = await _repository
                 .ToQueryable(query)

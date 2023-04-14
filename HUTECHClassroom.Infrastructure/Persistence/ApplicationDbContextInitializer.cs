@@ -69,17 +69,42 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                 new Mission
                 {
                     Title = "Let's read",
-                    Description = "Read 1 book"
+                    Description = "Read 1 book",
+                    MissionUsers = new MissionUser[]
+                    {
+                        new MissionUser
+                        {
+                            User = users[0],
+                        }
+                    }
                 },
                 new Mission
                 {
                     Title = "Let's write",
-                    Description = "Write 1 note"
+                    Description = "Write 1 note",
+                    MissionUsers = new MissionUser[]
+                    {
+                        new MissionUser
+                        {
+                            User = users[1],
+                        }
+                    }
                 },
                 new Mission
                 {
                     Title = "Let's listen",
-                    Description = "Listen 1 song"
+                    Description = "Listen 1 song",
+                    MissionUsers = new MissionUser[]
+                    {
+                        new MissionUser
+                        {
+                            User = users[0],
+                        },
+                        new MissionUser
+                        {
+                            User = users[1],
+                        }
+                    }
                 },
             };
 

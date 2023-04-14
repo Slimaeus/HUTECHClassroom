@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Domain.Entities;
 using System.Linq.Expressions;
 
-namespace HUTECHClassroom.Application.Missions.Queries.GetMissionWithPagination
+namespace HUTECHClassroom.Application.Missions.Queries.GetMissionsWithPagination
 {
-    public record GetMissionsWithPaginationQuery : GetWithPaginationQuery<MissionDTO>;
+    public record GetMissionsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<MissionDTO>(Params);
     public class GetMissionsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Mission, GetMissionsWithPaginationQuery, MissionDTO>
     {
         public GetMissionsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
