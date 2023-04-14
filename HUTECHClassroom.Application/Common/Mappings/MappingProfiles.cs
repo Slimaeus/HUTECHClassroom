@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using HUTECHClassroom.Application.Missions.Commands;
+using HUTECHClassroom.Application.Missions.Commands.CreateMission;
+using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Domain.Entities;
 

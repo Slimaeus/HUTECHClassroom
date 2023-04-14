@@ -5,7 +5,7 @@ using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace HUTECHClassroom.Application.Missions.Commands
+namespace HUTECHClassroom.Application.Missions.Commands.CreateMission
 {
     public record CreateMissionCommand : CreateCommand<MissionDTO>
     {

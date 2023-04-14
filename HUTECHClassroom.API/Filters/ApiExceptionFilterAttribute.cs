@@ -16,7 +16,7 @@ namespace HUTECHClassroom.API.Filters
             // Register known exception types and handlers.
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
-                { typeof(Exception), HandleGenericException },
+                { typeof(Exception), HandleBaseException },
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
@@ -46,7 +46,7 @@ namespace HUTECHClassroom.API.Filters
                 return;
             }
         }
-        private void HandleGenericException(ExceptionContext context)
+        private void HandleBaseException(ExceptionContext context)
         {
             var details = new ProblemDetails
             {

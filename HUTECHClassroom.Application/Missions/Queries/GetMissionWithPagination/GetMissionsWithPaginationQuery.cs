@@ -5,7 +5,7 @@ using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Domain.Entities;
 using System.Linq.Expressions;
 
-namespace HUTECHClassroom.Application.Missions.Queries
+namespace HUTECHClassroom.Application.Missions.Queries.GetMissionWithPagination
 {
     public record GetMissionsWithPaginationQuery : GetWithPaginationQuery<MissionDTO>;
     public class GetMissionsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Mission, GetMissionsWithPaginationQuery, MissionDTO>
