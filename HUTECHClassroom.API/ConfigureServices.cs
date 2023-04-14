@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 namespace HUTECHClassroom.API
@@ -40,7 +41,24 @@ namespace HUTECHClassroom.API
             #region Identity
             
             services
-                .AddIdentityCore<ApplicationUser>()
+                .AddIdentityCore<ApplicationUser>(options =>
+                {
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 8;
+
+                    options.User.RequireUniqueEmail = true;
+                    
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.SignIn.RequireConfirmedEmail = false;
+                    options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                    options.ClaimsIdentity.UserNameClaimType = ClaimTypes.Name;
+                    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+                    options.ClaimsIdentity.EmailClaimType = ClaimTypes.Email;
+                })
                 //.AddRoleManager<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

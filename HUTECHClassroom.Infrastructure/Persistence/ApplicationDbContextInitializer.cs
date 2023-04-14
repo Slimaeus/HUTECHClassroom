@@ -49,6 +49,11 @@ namespace HUTECHClassroom.Infrastructure.Persistence
             {
                 new ApplicationUser
                 {
+                    UserName = "a",
+                    Email = "a@gmail.com"
+                },
+                new ApplicationUser
+                {
                     UserName = "2080600914",
                     Email = "thai@gmail.com"
                 },
