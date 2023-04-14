@@ -20,11 +20,10 @@ namespace HUTECHClassroom.Application.Account.Queries
             var user = await _userManger.FindByNameAsync(request.UserName);
 
             if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
-
+            
             var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
 
-            if (isSuccess)
-                return new UserDTO { UserName = user.UserName, Email = user.Email, Token = "" };
+            if (isSuccess) return new UserDTO { UserName = user.UserName, Email = user.Email, Token = "" };
 
             throw new UnauthorizedAccessException(nameof(ApplicationUser));
         }

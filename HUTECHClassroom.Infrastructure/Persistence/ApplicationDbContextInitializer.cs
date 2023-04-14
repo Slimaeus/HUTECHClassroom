@@ -43,15 +43,10 @@ namespace HUTECHClassroom.Infrastructure.Persistence
 
         public async Task TrySeedAsync()
         {
-            if (_context.Users.Any()) return;
+            if (_context.Users.Any() || _context.Missions.Any()) return;
 
             var users = new ApplicationUser[]
             {
-                new ApplicationUser
-                {
-                    UserName = "a",
-                    Email = "a@gmail.com"
-                },
                 new ApplicationUser
                 {
                     UserName = "2080600914",
@@ -69,9 +64,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                 await _userManager.CreateAsync(user, "P@ssw0rd");
             }
 
-            if (_context.Missions.Any()) return;
-
-            var missions = new List<Mission>
+            var missions = new Mission[]
             {
                 new Mission
                 {
