@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,11 +22,11 @@ namespace HUTECHClassroom.Infrastructure
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
                 if (env == "Development")
                 {
-                    options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
                 }
                 else
                 {
-                    options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
                 }
             });
 

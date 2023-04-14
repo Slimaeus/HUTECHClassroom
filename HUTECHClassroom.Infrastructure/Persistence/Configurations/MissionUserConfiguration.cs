@@ -8,7 +8,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<MissionUser> builder)
         {
-            builder.HasKey(x => new { x.MissionId, x.UserId });
+            builder.HasKey(x => new { x.UserId, x.MissionId });
         }
     }
 }
