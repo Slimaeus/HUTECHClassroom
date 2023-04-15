@@ -1,8 +1,8 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Application.Common.Interfaces;
 
 namespace HUTECHClassroom.Application.Missions.DTOs
 {
-    public class MissionDTO
+    public record MissionDTO : IEntityDTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

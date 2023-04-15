@@ -1,4 +1,6 @@
 ﻿using EntityFrameworkCore.Repository.Collections;
+using HUTECHClassroom.Application.Common.Interfaces;
+using HUTECHClassroom.Application.Common.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,5 +18,6 @@ namespace HUTECHClassroom.API.Controllers.Api
             Response.Headers.Add("pagination", JsonConvert.SerializeObject(new { currentPage = pagedList.PageIndex, itemsPerPage = pagedList.PageSize, totalItems = pagedList.TotalCount, totalPages = pagedList.TotalPages, hasNext = pagedList.HasNextPage, hasPrevious = pagedList.HasPreviousPage }));
             return Ok(pagedList.Items);
         }
+        
     }
 }

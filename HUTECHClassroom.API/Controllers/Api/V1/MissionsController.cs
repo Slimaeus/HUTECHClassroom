@@ -15,34 +15,23 @@ using Microsoft.AspNetCore.Mvc;
 namespace HUTECHClassroom.API.Controllers.Api.V1
 {
     [ApiVersion("1.0")]
-    public class MissionsController : BaseApiController
+    public class MissionsController : BaseEntityApiController<MissionDTO>
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] PaginationParams @params)
-            => HandlePagedList(await Mediator.Send(new GetMissionsWithPaginationQuery(@params)));
+        public Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] PaginationParams @params)
+            => HandlePaginationQuery(new GetMissionsWithPaginationQuery(@params));
         [HttpGet("{id}", Name = nameof(GetDetails))]
-        public async Task<ActionResult<MissionDTO>> GetDetails(Guid id)
-            => Ok(await Mediator.Send(new GetMissionQuery(id)));
+        public Task<ActionResult<MissionDTO>> GetDetails(Guid id)
+            => HandleGetQuery(new GetMissionQuery(id));
         [HttpPost]
-        public async Task<ActionResult<MissionDTO>> Post(CreateMissionCommand request)
-        {
-            var missionDTO = await Mediator.Send(request);
-            return CreatedAtRoute(nameof(GetDetails), new { id = missionDTO.Id }, missionDTO);
-        }
+        public Task<ActionResult<MissionDTO>> Post(CreateMissionCommand request)
+            => HandleCreateCommand(request, nameof(GetDetails));
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, UpdateMissionCommand request)
-        {
-            if (id != request.Id)
-            {
-                ModelState.AddModelError("Id", "Ids are not the same");
-                return ValidationProblem();
-            }
-            await Mediator.Send(request);
-            return NoContent();
-        }
+        public Task<IActionResult> Put(Guid id, UpdateMissionCommand request)
+            => HandleUpdateCommand(id, request);
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-            => Ok(await Mediator.Send(new DeleteMissionCommand(id)));
+        public Task<ActionResult<MissionDTO>> Delete(Guid id)
+            => HandleDeleteCommand(new DeleteMissionCommand(id));
         [HttpGet("{id}/members")]
         public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
             => HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(id, @params)));
