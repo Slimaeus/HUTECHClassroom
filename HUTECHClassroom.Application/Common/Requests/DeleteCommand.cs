@@ -4,12 +4,10 @@ using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Domain.Common;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace HUTECHClassroom.Application.Common.Requests
 {
-    public record DeleteCommand<TDTO>([Required] Guid Id) : IRequest<TDTO> where TDTO : class;
+    public record DeleteCommand<TDTO>(Guid Id) : IRequest<TDTO> where TDTO : class;
     public abstract class DeleteCommandHandler<TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
         where TEntity : BaseEntity
         where TCommand : DeleteCommand<TDTO>

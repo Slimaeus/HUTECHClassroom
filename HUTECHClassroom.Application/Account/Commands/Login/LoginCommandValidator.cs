@@ -6,8 +6,13 @@ namespace HUTECHClassroom.Application.Account.Commands.Login
     {
         public LoginCommandValidator()
         {
-            RuleFor(x => x.UserName).NotEmpty();
-            RuleFor(x => x.Password).NotEmpty();
+            RuleFor(x => x.UserName)
+                .NotEmpty().WithMessage("UserName is required.")
+                .MinimumLength(3).WithMessage("UserName must be at least 3 characters long.");
+
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Password is requied.")
+                .MinimumLength(8).WithMessage("Password must be at least 8 characters long.");
         }
     }
 }

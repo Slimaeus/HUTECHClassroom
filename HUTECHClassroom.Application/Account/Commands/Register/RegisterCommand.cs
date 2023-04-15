@@ -25,7 +25,7 @@ namespace HUTECHClassroom.Application.Account.Commands.Register
 
             if (result.Succeeded) return new UserDTO { UserName = user.UserName, Email = user.Email, Token = "" };
 
-            throw new Exception();
+            throw new InvalidOperationException("Failed to register");
         }
     }
 }
