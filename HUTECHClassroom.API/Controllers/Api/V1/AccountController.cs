@@ -1,5 +1,6 @@
-﻿using HUTECHClassroom.Application.Account.DTOs;
-using HUTECHClassroom.Application.Account.Queries;
+﻿using HUTECHClassroom.Application.Account.Commands.Login;
+using HUTECHClassroom.Application.Account.Commands.Register;
+using HUTECHClassroom.Application.Account.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1
@@ -8,7 +9,10 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
     public class AccountController : BaseApiController
     {
         [HttpPost("login")]
-        public async Task<ActionResult<UserDTO>> Login(LoginQuery request)
+        public async Task<ActionResult<UserDTO>> Login(LoginCommand request)
+            => Ok(await Mediator.Send(request));
+        [HttpPost("register")]
+        public async Task<ActionResult<UserDTO>> Register(RegisterCommand request)
             => Ok(await Mediator.Send(request));
     }
 }

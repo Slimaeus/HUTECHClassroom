@@ -8,6 +8,7 @@ using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Missions.Queries.GetMission;
 using HUTECHClassroom.Application.Missions.Queries.GetMissionsWithPagination;
+using HUTECHClassroom.Application.Missions.Queries.GetMissionUser;
 using HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,13 +42,12 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
-        {
-            return Ok(await Mediator.Send(new DeleteMissionCommand(id)));
-        }
+            => Ok(await Mediator.Send(new DeleteMissionCommand(id)));
         [HttpGet("{id}/members")]
         public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
-        {
-            return HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(id, @params)));
-        }
+            => HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(id, @params)));
+        [HttpGet("{id}/members/{userName}")]
+        public async Task<ActionResult<MemberDTO>> GetMember(Guid id, string userName)
+            => Ok(await Mediator.Send(new GetMissionUserQuery(id, userName)));
     }
 }

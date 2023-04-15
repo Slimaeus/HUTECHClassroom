@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagination
 {
-    public record GetMissionUsersWithPaginationQuery(Guid MissionId, PaginationParams Params) : GetWithPaginationQuery<MemberDTO>(Params);
+    public record GetMissionUsersWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<MemberDTO>(Params);
     public class GetMissionUsersWithPaginationQueryHandler : IRequestHandler<GetMissionUsersWithPaginationQuery, IPagedList<MemberDTO>>
     {
         private readonly IRepository<ApplicationUser> _repository;
@@ -31,7 +31,7 @@ namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagina
             var query = (IMultipleResultQuery<ApplicationUser>)_repository
                 .MultipleResultQuery()
                 .Page(request.Params.PageNumber, request.Params.PageSize)
-                .AndFilter(x => x.MissionUsers.Any(x => x.MissionId == request.MissionId))
+                .AndFilter(x => x.MissionUsers.Any(x => x.MissionId == request.Id))
                 .OrderBy(x => x.UserName);
             
             var pagedList = await _repository

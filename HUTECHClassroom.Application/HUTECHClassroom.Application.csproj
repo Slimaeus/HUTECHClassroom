@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Account\Commands\" />
+    <Folder Include="Account\Queries\" />
     <Folder Include="Common\Extensions\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Missions\Queries\GetMissionUsers\" />
