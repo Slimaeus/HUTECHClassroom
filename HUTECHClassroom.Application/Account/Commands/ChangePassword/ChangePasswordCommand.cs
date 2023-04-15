@@ -8,12 +8,10 @@ namespace HUTECHClassroom.Application.Account.Commands.ChangePassword
     public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ChangePasswordCommandHandler(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public ChangePasswordCommandHandler(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         public async Task<Unit> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
@@ -23,8 +21,6 @@ namespace HUTECHClassroom.Application.Account.Commands.ChangePassword
 
             var result = await _userManager.ChangePasswordAsync(user, request.Password, request.NewPassword);
             if (!result.Succeeded) throw new InvalidOperationException("Failed to change password");
-
-            await _signInManager.RefreshSignInAsync(user);
 
             return Unit.Value;
         }

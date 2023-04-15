@@ -5,6 +5,7 @@ using FluentValidation;
 using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using LinqKit;
+using System.Diagnostics;
 
 namespace HUTECHClassroom.API.Filters
 {
@@ -16,7 +17,7 @@ namespace HUTECHClassroom.API.Filters
             // Register known exception types and handlers.
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
-                { typeof(Exception), HandleBaseException },
+                { typeof(InvalidOperationException), HandleInvalidOperationException },
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
@@ -46,22 +47,25 @@ namespace HUTECHClassroom.API.Filters
                 return;
             }
         }
-        private void HandleBaseException(ExceptionContext context)
+        private void HandleInvalidOperationException(ExceptionContext context)
         {
+            var exception = (InvalidOperationException)context.Exception;
+
+            // Log the exception details
+            Trace.TraceError($"An invalid operation exception occurred: {exception.Message}");
+
             var details = new ProblemDetails
             {
-                Status = StatusCodes.Status500InternalServerError,
-                Title = "Internal Server Error",
-                Detail = context.Exception.Message,
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Bad Request",
+                Detail = exception.Message,
                 Instance = context.HttpContext.Request.Path
             };
 
             context.Result = new ObjectResult(details)
             {
-                StatusCode = StatusCodes.Status500InternalServerError
+                StatusCode = StatusCodes.Status400BadRequest
             };
-
-            Console.WriteLine("Hello");
 
             context.ExceptionHandled = true;
         }
