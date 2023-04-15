@@ -6,7 +6,7 @@
         public DateTime CreateDate { get; init; } = default;
     }
 
-    public abstract class BaseEntity : BaseEntity<Guid>
+    public abstract class BaseEntity : BaseEntity<Guid>, IEntity
     {
         public BaseEntity()
         {

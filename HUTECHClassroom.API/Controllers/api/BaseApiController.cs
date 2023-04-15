@@ -1,5 +1,4 @@
 ﻿using EntityFrameworkCore.Repository.Collections;
-using HUTECHClassroom.Application.Common.Interfaces;
 using HUTECHClassroom.Application.Common.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
