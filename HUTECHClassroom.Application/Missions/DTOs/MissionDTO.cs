@@ -1,4 +1,4 @@
-﻿using HUTECHClassroom.Application.Common.Interfaces;
+﻿using HUTECHClassroom.Application.Common.DTOs;
 
 namespace HUTECHClassroom.Application.Missions.DTOs
 {

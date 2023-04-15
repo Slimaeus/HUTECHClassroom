@@ -9,7 +9,7 @@ namespace HUTECHClassroom.Application.Common.Requests
 {
     public record DeleteCommand<TDTO>(Guid Id) : IRequest<TDTO> where TDTO : class;
     public abstract class DeleteCommandHandler<TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
-        where TEntity : BaseEntity
+        where TEntity : class, IEntity
         where TCommand : DeleteCommand<TDTO>
         where TDTO : class
     {

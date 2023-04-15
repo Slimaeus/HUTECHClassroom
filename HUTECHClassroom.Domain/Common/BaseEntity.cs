@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Domain.Common
 {
-    public abstract class BaseEntity<TKey>
+    public abstract class BaseEntity<TKey> : IEntity<TKey>, IAuditableEntity
     {
         public TKey Id { get; init; } = default;
         public DateTime CreateDate { get; init; } = default;

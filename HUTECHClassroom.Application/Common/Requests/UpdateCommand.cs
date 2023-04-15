@@ -11,7 +11,7 @@ namespace HUTECHClassroom.Application.Common.Requests
 {
     public record UpdateCommand(Guid Id) : IRequest;
     public abstract class UpdateCommandHandler<TEntity, TCommand> : IRequestHandler<TCommand>
-        where TEntity : BaseEntity
+        where TEntity : class, IEntity
         where TCommand : UpdateCommand
     {
         private readonly IUnitOfWork _unitOfWork;

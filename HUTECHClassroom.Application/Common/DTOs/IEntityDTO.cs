@@ -1,4 +1,4 @@
-﻿namespace HUTECHClassroom.Application.Common.Interfaces
+﻿namespace HUTECHClassroom.Application.Common.DTOs
 {
     public interface IEntityDTO<TKey>
     {

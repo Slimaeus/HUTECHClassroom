@@ -19,7 +19,7 @@ namespace HUTECHClassroom.Application.Common.Requests
         ) : IRequest<IPagedList<TDTO>>
             where TDTO : class;
     public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, IPagedList<TDTO>>
-        where TEntity : BaseEntity
+        where TEntity : class, IEntity, IAuditableEntity
         where TQuery : GetWithPaginationQuery<TDTO>
         where TDTO : class
     {   

@@ -8,7 +8,7 @@ namespace HUTECHClassroom.Application.Common.Requests
 {
     public record CreateCommand<TDTO> : IRequest<TDTO> where TDTO : class;
     public abstract class CreateCommandHandler<TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
-        where TEntity : BaseEntity
+        where TEntity : class, IEntity
         where TCommand : CreateCommand<TDTO>
         where TDTO : class
     {

@@ -11,7 +11,7 @@ namespace HUTECHClassroom.Application.Common.Requests
 {
     public record GetQuery<TDTO>(Guid Id) : IRequest<TDTO> where TDTO : class;
     public abstract class GetQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, TDTO>
-        where TEntity : BaseEntity
+        where TEntity : class, IEntity
         where TQuery : GetQuery<TDTO>
         where TDTO : class
     {
