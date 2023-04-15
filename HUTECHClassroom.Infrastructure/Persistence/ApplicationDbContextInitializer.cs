@@ -43,7 +43,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence
 
         public async Task TrySeedAsync()
         {
-            if (_context.Users.Any() || _context.Missions.Any()) return;
+            if (_context.Users.Any() || _context.Missions.Any() || _context.Projects.Any()) return;
 
             var users = new ApplicationUser[]
             {
@@ -61,8 +61,24 @@ namespace HUTECHClassroom.Infrastructure.Persistence
 
             foreach (var user in users)
             {
-                await _userManager.CreateAsync(user, "P@ssw0rd");
+                await _userManager.CreateAsync(user, "P@ssw0rd").ConfigureAwait(false);
             }
+
+            var projects = new Project[]
+            {
+                new Project
+                {
+                    Name = "Plan together",
+                    Description = "Projects, Groups Management system"
+                },
+                new Project
+                {
+                    Name = "HUTECH Classroom",
+                    Description = "Classroom, Students, Lecturers... Management system"
+                }
+            };
+
+            await _context.AddRangeAsync(projects).ConfigureAwait(false);
 
             var missions = new Mission[]
             {
@@ -76,7 +92,8 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                         {
                             User = users[0],
                         }
-                    }
+                    },
+                    Project = projects[0]
                 },
                 new Mission
                 {
@@ -88,7 +105,8 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                         {
                             User = users[1],
                         }
-                    }
+                    },
+                    Project = projects[1]
                 },
                 new Mission
                 {
@@ -104,11 +122,12 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                         {
                             User = users[1],
                         }
-                    }
+                    },
+                    Project = projects[1]
                 },
             };
 
-            await _context.AddRangeAsync(missions);
+            await _context.AddRangeAsync(missions).ConfigureAwait(false);
 
             await _context.SaveChangesAsync();
         }

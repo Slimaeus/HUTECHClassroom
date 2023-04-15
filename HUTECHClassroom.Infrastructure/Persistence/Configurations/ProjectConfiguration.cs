@@ -4,20 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
 {
-    public class MissionConfiguration : IEntityTypeConfiguration<Mission>
+    public class ProjectConfiguration : IEntityTypeConfiguration<Project>
     {
-        public void Configure(EntityTypeBuilder<Mission> builder)
+        public void Configure(EntityTypeBuilder<Project> builder)
         {
-            builder.Property(x => x.Title)
+            builder.Property(x => x.Name)
                 .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(x => x.Description)
                 .HasMaxLength(100);
-
-            builder.HasOne(x => x.Project)
-                .WithMany(x => x.Missions)
-                .HasForeignKey(x => x.ProjectId);
         }
     }
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230415163558_Init")]
+    [Migration("20230415165324_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -133,12 +133,17 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Missions");
                 });
@@ -156,6 +161,29 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasIndex("MissionId");
 
                     b.ToTable("MissionUser");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Project", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -261,6 +289,17 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Mission", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Project", "Project")
+                        .WithMany("Missions")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.MissionUser", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.Mission", "Mission")
@@ -339,6 +378,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Mission", b =>
                 {
                     b.Navigation("MissionUsers");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Project", b =>
+                {
+                    b.Navigation("Missions");
                 });
 #pragma warning restore 612, 618
         }
