@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Domain.Entities;
 
-namespace HUTECHClassroom.Application.Missions.Commands.DeleteCommand
+namespace HUTECHClassroom.Application.Missions.Commands.DeleteMission
 {
     public record DeleteMissionCommand(Guid Id) : DeleteCommand<MissionDTO>(Id);
     public class DeleteMissionCommandHandler : DeleteCommandHandler<Mission, DeleteMissionCommand, MissionDTO>

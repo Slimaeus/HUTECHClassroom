@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
-using HUTECHClassroom.Application.Missions.Commands.DeleteCommand;
+using HUTECHClassroom.Application.Missions.Commands.DeleteMission;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Missions.Queries.GetMission;
