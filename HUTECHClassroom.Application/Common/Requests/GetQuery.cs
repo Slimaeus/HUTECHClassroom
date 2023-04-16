@@ -6,10 +6,11 @@ using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Common.Requests
 {
-    public record GetQuery<TDTO>(Guid Id) : IRequest<TDTO> where TDTO : class;
+    public record GetQuery<TDTO> : IRequest<TDTO> where TDTO : class;
     public abstract class GetQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, TDTO>
         where TEntity : class, IEntity
         where TQuery : GetQuery<TDTO>
@@ -25,11 +26,9 @@ namespace HUTECHClassroom.Application.Common.Requests
         }
         public async Task<TDTO> Handle(TQuery request, CancellationToken cancellationToken)
         {
-            if (request.Id == Guid.Empty) throw new NotFoundException(nameof(TEntity), request.Id); // !!!Change to Validation Exception
-
             var query = _repository
                 .SingleResultQuery()
-                .AndFilter(m => m.Id == request.Id);
+                .AndFilter(FilterPredicate(request));
 
             var entity = await _repository
                 .ToQueryable(query)
@@ -37,7 +36,10 @@ namespace HUTECHClassroom.Application.Common.Requests
                 .ProjectTo<TDTO>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync(cancellationToken);
 
-            return entity ?? throw new NotFoundException(nameof(TEntity), request.Id);
+            return entity ?? throw new NotFoundException(nameof(TEntity), GetNotFoundKey(request));
         }
+        public virtual object GetNotFoundKey(TQuery query) => string.Empty;
+        public virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
+            => x => true;
     }
 }

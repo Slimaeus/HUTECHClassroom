@@ -1,40 +1,24 @@
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using EntityFrameworkCore.QueryBuilder.Interfaces;
-using EntityFrameworkCore.Repository.Interfaces;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.DTOs;
-using HUTECHClassroom.Application.Common.Exceptions;
+using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Domain.Entities;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUser
 {
-    public record GetMissionUserQuery(Guid Id, string UserName) : IRequest<MemberDTO>;
-    public class GetMissionUserQueryHandler : IRequestHandler<GetMissionUserQuery, MemberDTO>
+    public record GetMissionUserQuery(Guid Id, string UserName) : GetQuery<MemberDTO>;
+    public class GetMissionUserQueryHandler : GetQueryHandler<ApplicationUser,  GetMissionUserQuery, MemberDTO>
     {
-        private readonly IRepository<ApplicationUser> _repository;
-        private readonly IMapper _mapper;
+        public GetMissionUserQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
-        public GetMissionUserQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public override Expression<Func<ApplicationUser, bool>> FilterPredicate(GetMissionUserQuery query)
         {
-            _repository = unitOfWork.Repository<ApplicationUser>();
-            _mapper = mapper;
+            return x => x.UserName == query.UserName && x.MissionUsers.Any(x => x.MissionId == query.Id);
         }
-        public async Task<MemberDTO> Handle(GetMissionUserQuery request, CancellationToken cancellationToken)
+        public override object GetNotFoundKey(GetMissionUserQuery query)
         {
-            var query = (ISingleResultQuery<ApplicationUser>)_repository
-                .SingleResultQuery()
-                .AndFilter(x => x.MissionUsers.Any(x => x.MissionId == request.Id && x.User.UserName == request.UserName));
-
-            var member = await _repository
-                .ToQueryable(query)
-                .AsSplitQuery()
-                .ProjectTo<MemberDTO>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync(cancellationToken);
-
-            return member ?? throw new NotFoundException(nameof(ApplicationUser), request.Id);
+            return query.UserName;
         }
     }
 }

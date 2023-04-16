@@ -35,6 +35,8 @@ namespace HUTECHClassroom.Application.Common.Mappings
             CreateMap<CreateProjectCommand, Project>();
             CreateMap<UpdateProjectCommand, Project>()
                 .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
+
+            CreateMap<Mission, ProjectMissionDTO>();
             #endregion
         }
     }
