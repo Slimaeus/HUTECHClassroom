@@ -9,6 +9,7 @@
     <Folder Include="Account\Queries\" />
     <Folder Include="Common\Extensions\" />
     <Folder Include="Common\Interfaces\" />
+    <Folder Include="Missions\Commands\RemoveMember\" />
     <Folder Include="Missions\Queries\GetMissionUsers\" />
   </ItemGroup>
 

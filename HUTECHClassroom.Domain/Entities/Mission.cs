@@ -11,6 +11,6 @@ namespace HUTECHClassroom.Domain.Entities
         public Guid ProjectId { get; set; }
         public virtual Project Project { get; set; }
 
-        public virtual ICollection<MissionUser> MissionUsers { get; set; }
+        public virtual ICollection<MissionUser> MissionUsers { get; set; } = new HashSet<MissionUser>();
     }
 }
