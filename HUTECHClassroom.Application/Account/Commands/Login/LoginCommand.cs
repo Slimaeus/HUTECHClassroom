@@ -22,7 +22,7 @@ namespace HUTECHClassroom.Application.Account.Commands.Login
 
             var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
 
-            if (isSuccess) return new UserDTO { UserName = user.UserName, Email = user.Email, Token = "" };
+            if (isSuccess) return UserDTO.Create(user);
 
             throw new UnauthorizedAccessException(nameof(ApplicationUser));
         }

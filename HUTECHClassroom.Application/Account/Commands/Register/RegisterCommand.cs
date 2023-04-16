@@ -23,7 +23,7 @@ namespace HUTECHClassroom.Application.Account.Commands.Register
             };
             var result = await _userManger.CreateAsync(user, request.Password);
 
-            if (result.Succeeded) return new UserDTO { UserName = user.UserName, Email = user.Email, Token = "" };
+            if (result.Succeeded) return UserDTO.Create(user);
 
             throw new InvalidOperationException("Failed to register");
         }
