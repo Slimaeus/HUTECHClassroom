@@ -1,10 +1,9 @@
-﻿using EntityFrameworkCore.Repository.Collections;
-using HUTECHClassroom.Application.Common.DTOs;
+﻿using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
 using HUTECHClassroom.Application.Missions.Commands.DeleteMission;
+using HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Missions.Queries.GetMission;
@@ -39,8 +38,11 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpGet("{id}/members/{userName}")]
         public async Task<ActionResult<MemberDTO>> GetMember(Guid id, string userName)
             => Ok(await Mediator.Send(new GetMissionUserQuery(id, userName)));
-        [HttpPatch("{id}/members/{userName}")]
+        [HttpPost("{id}/members/{userName}")]
         public async Task<IActionResult> AddMember(Guid id, string userName)
             => Ok(await Mediator.Send(new AddMissionUserCommand(id, userName)));
+        [HttpDelete("{id}/members/{userName}")]
+        public async Task<IActionResult> RemoveMember(Guid id, string userName)
+            => Ok(await Mediator.Send(new RemoveMissionUserCommand(id, userName)));
     }
 }
