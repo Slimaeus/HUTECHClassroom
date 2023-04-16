@@ -10,10 +10,11 @@
     <Folder Include="Common\Extensions\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Missions\Queries\GetMissionUsers\" />
+    <Folder Include="Projects\Queries\GetProjectMissionsWithPagination\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
     <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />

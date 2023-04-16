@@ -23,9 +23,14 @@ namespace HUTECHClassroom.Application.Common.Mappings
             CreateMap<CreateMissionCommand, Mission>();
             CreateMap<UpdateMissionCommand, Mission>()
                 .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
+
+            CreateMap<Project, MissionProjectDTO>();
+
+            CreateMap<MissionUser, MemberDTO>()
+                .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email));
             #endregion
 
-            #region Missions
+            #region Projects
             CreateMap<Project, ProjectDTO>();
             CreateMap<CreateProjectCommand, Project>();
             CreateMap<UpdateProjectCommand, Project>()

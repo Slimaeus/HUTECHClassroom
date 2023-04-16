@@ -8,5 +8,5 @@ namespace HUTECHClassroom.Application.Common.DTOs
         public DateTime CreateDate { get; init; }
     }
 
-    public abstract record BaseEntityDTO : BaseEntityDTO<Guid> { }
+    public abstract record BaseEntityDTO : BaseEntityDTO<Guid>, IEntityDTO { }
 }

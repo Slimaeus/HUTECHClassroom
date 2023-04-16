@@ -3,8 +3,8 @@
     public class MissionUser
     {
         public Guid MissionId { get; set; }
-        public Mission Mission { get; set; }
+        public virtual Mission Mission { get; set; }
         public Guid UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

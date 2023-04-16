@@ -2,8 +2,8 @@
 {
     public abstract class BaseEntity<TKey> : IEntity<TKey>, IAuditableEntity
     {
-        public TKey Id { get; init; } = default;
-        public DateTime CreateDate { get; init; } = default;
+        public TKey Id { get; init; }
+        public DateTime CreateDate { get; init; }
     }
 
     public abstract class BaseEntity : BaseEntity<Guid>, IEntity

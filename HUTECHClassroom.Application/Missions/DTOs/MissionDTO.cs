@@ -2,11 +2,12 @@
 
 namespace HUTECHClassroom.Application.Missions.DTOs
 {
-    public record MissionDTO : IEntityDTO
+    public record MissionDTO : BaseEntityDTO
     {
-        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsDone { get; set; } = false;
+
+        public MissionProjectDTO Project { get; set; }
     }
 }
