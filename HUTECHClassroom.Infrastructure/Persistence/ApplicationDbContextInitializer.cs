@@ -64,17 +64,35 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                 await _userManager.CreateAsync(user, "P@ssw0rd").ConfigureAwait(false);
             }
 
+            var groups = new Group[]
+            {
+                new Group
+                {
+                    Name = "Owlvernyte",
+                    Description = "Owls group"
+                },
+                new Group
+                {
+                    Name = "Semibox",
+                    Description = "Half of a box"
+                }
+            };
+
+            await _context.AddRangeAsync(groups).ConfigureAwait(false);
+
             var projects = new Project[]
             {
                 new Project
                 {
                     Name = "Plan together",
-                    Description = "Projects, Groups Management system"
+                    Description = "Projects, Groups Management system",
+                    Group = groups[0]
                 },
                 new Project
                 {
                     Name = "HUTECH Classroom",
-                    Description = "Classroom, Students, Lecturers... Management system"
+                    Description = "Classroom, Students, Lecturers... Management system",
+                    Group = groups[1]
                 }
             };
 

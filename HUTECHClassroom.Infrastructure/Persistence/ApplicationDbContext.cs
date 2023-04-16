@@ -14,6 +14,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence
 
         public DbSet<Mission> Missions { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Group> Groups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -22,6 +23,8 @@ namespace HUTECHClassroom.Infrastructure.Persistence
             builder.ApplyConfiguration(new MissionConfiguration());
             builder.ApplyConfiguration(new MissionUserConfiguration());
             builder.ApplyConfiguration(new ProjectConfiguration());
+            builder.ApplyConfiguration(new GroupConfiguration());
+            builder.ApplyConfiguration(new GroupUserConfiguration());
         }
     }
 }
