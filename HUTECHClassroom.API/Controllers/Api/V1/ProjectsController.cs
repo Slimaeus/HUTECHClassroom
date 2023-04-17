@@ -1,9 +1,9 @@
-﻿using HUTECHClassroom.Application.Common.DTOs;
-using HUTECHClassroom.Application.Common.Models;
+﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Missions.DTOs;
-using HUTECHClassroom.Application.Missions.Queries.GetMissionUser;
+using HUTECHClassroom.Application.Projects.Commands.AddMission;
 using HUTECHClassroom.Application.Projects.Commands.CreateProject;
 using HUTECHClassroom.Application.Projects.Commands.DeleteProject;
+using HUTECHClassroom.Application.Projects.Commands.RemoveMission;
 using HUTECHClassroom.Application.Projects.Commands.UpdateProject;
 using HUTECHClassroom.Application.Projects.DTOs;
 using HUTECHClassroom.Application.Projects.Queries.GetProject;
@@ -36,7 +36,13 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         public async Task<ActionResult<IEnumerable<ProjectMissionDTO>>> GetMissions(Guid id, [FromQuery] PaginationParams @params)
             => HandlePagedList(await Mediator.Send(new GetProjectMissionsWithPaginationQuery(id, @params)));
         [HttpGet("{id}/missions/{missionId}")]
-        public async Task<ActionResult<MissionDTO>> GetMember(Guid id, Guid missionId)
+        public async Task<ActionResult<MissionDTO>> GetMission(Guid id, Guid missionId)
             => Ok(await Mediator.Send(new GetProjectMissionQuery(id, missionId)));
+        [HttpPost("{id}/missions/{missionId}")]
+        public async Task<ActionResult<MissionDTO>> AddMission(Guid id, Guid missionId)
+            => Ok(await Mediator.Send(new AddMissionCommand(id, missionId)));
+        [HttpDelete("{id}/missions/{missionId}")]
+        public async Task<ActionResult<MissionDTO>> RemoveMission(Guid id, Guid missionId)
+            => Ok(await Mediator.Send(new RemoveMissionCommand(id, missionId)));
     }
 }
