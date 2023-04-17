@@ -14,6 +14,7 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginCommand request)
             => Ok(await Mediator.Send(request));
+        // For test only
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterCommand request)
             => Ok(await Mediator.Send(request));

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Security.Claims;
 
 namespace HUTECHClassroom.Infrastructure.Persistence
 {
@@ -9,11 +10,13 @@ namespace HUTECHClassroom.Infrastructure.Persistence
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public ApplicationDbContextInitializer(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public ApplicationDbContextInitializer(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task InitialiseAsync()
@@ -43,7 +46,27 @@ namespace HUTECHClassroom.Infrastructure.Persistence
 
         public async Task TrySeedAsync()
         {
-            if (_context.Users.Any() || _context.Missions.Any() || _context.Projects.Any()) return;
+            if (_context.Users.Any() || _context.Missions.Any() || _context.Projects.Any() || _context.Groups.Any() || _context.Roles.Any()) return;
+
+            var studentRole = new ApplicationRole("Student");
+            var roles = new ApplicationRole[6]
+            {
+                new ApplicationRole("Administrator"),
+                new ApplicationRole("TrainingOffice"),
+                new ApplicationRole("Dean"),
+                new ApplicationRole("Lecturer"),
+                new ApplicationRole("Leader"),
+                studentRole
+            };
+
+
+            foreach (var role in roles)
+            {
+                await _roleManager.CreateAsync(role);
+            }
+
+            var readMission = new Claim("mission", "read" );
+            await _roleManager.AddClaimAsync(studentRole, readMission);
 
             var users = new ApplicationUser[]
             {
@@ -72,6 +95,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence
             foreach (var user in users)
             {
                 await _userManager.CreateAsync(user, "P@ssw0rd").ConfigureAwait(false);
+                await _userManager.AddToRoleAsync(user, roles[5].Name);
             }
 
             var groups = new Group[]
