@@ -32,7 +32,7 @@ namespace HUTECHClassroom.Application.Projects.Commands.RemoveMission
 
             if (project == null) throw new NotFoundException(nameof(Mission), request.Id);
 
-            var mission = project.Missions.SingleOrDefault(x => x.Id == request.Id);
+            var mission = project.Missions.SingleOrDefault(x => x.Id == request.MissionId);
 
             if (mission == null) throw new NotFoundException(nameof(Mission), request.MissionId);
 
