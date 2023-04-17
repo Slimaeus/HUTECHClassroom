@@ -42,6 +42,7 @@ namespace HUTECHClassroom.Application.Common.Mappings
                 .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
             CreateMap<Mission, ProjectMissionDTO>();
+            CreateMap<Group, ProjectGroupDTO>();
             #endregion
 
             #region Groups

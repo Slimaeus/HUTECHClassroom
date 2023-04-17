@@ -1,11 +1,8 @@
-﻿using HUTECHClassroom.Domain.Common;
-
-namespace HUTECHClassroom.Application.Common.DTOs
+﻿namespace HUTECHClassroom.Application.Common.DTOs
 {
-    public abstract record BaseEntityDTO<TKey> : IEntityDTO<TKey>, IAuditableEntity
+    public abstract record BaseEntityDTO<TKey> : IEntityDTO<TKey>
     {
         public TKey Id { get; set; }
-        public DateTime CreateDate { get; init; }
     }
 
     public abstract record BaseEntityDTO : BaseEntityDTO<Guid>, IEntityDTO { }

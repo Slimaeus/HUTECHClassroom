@@ -2,10 +2,9 @@
 
 namespace HUTECHClassroom.Application.Projects.DTOs
 {
-    public record ProjectDTO : BaseEntityDTO
+    public record ProjectGroupDTO : BaseEntityDTO
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public ProjectGroupDTO Group { get; set; }
     }
 }
