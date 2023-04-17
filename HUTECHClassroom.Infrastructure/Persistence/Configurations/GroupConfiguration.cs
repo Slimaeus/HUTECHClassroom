@@ -17,6 +17,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.LecturerId)
                 .IsRequired();
+
         }
     }
 }

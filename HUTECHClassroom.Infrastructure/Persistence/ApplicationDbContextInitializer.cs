@@ -56,6 +56,16 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                 {
                     UserName = "2080600803",
                     Email = "mei@gmail.com"
+                },
+                new ApplicationUser
+                {
+                    UserName = "lecturer1",
+                    Email = "lecturer1@gmail.com"
+                },
+                new ApplicationUser
+                {
+                    UserName = "lecturer2",
+                    Email = "lecturer2@gmail.com"
                 }
             };
 
@@ -69,12 +79,32 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                 new Group
                 {
                     Name = "Owlvernyte",
-                    Description = "Owls group"
+                    Description = "Owls group",
+                    Lecturer = users[2],
+                    GroupUsers = new GroupUser[]
+                    {
+                        new GroupUser
+                        {
+                            User = users[0]
+                        }
+                    }
                 },
                 new Group
                 {
                     Name = "Semibox",
-                    Description = "Half of a box"
+                    Description = "Half of a box",
+                    Lecturer = users[3],
+                    GroupUsers = new GroupUser[]
+                    {
+                        new GroupUser
+                        {
+                            User = users[0]
+                        },
+                        new GroupUser
+                        {
+                            User = users[1]
+                        }
+                    }
                 }
             };
 

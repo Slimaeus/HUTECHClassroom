@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HUTECHClassroom.Application.Common.DTOs;
+using HUTECHClassroom.Application.Groups.DTOs;
 using HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
@@ -38,6 +39,10 @@ namespace HUTECHClassroom.Application.Common.Mappings
                 .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
             CreateMap<Mission, ProjectMissionDTO>();
+            #endregion
+
+            #region Groups
+            CreateMap<Group, GroupDTO>();
             #endregion
         }
     }

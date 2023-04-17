@@ -11,5 +11,6 @@ namespace HUTECHClassroom.Domain.Entities
         public virtual ApplicationUser Lecturer { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; } = new HashSet<Project>();
+        public virtual ICollection<GroupUser> GroupUsers { get; set; } = new HashSet<GroupUser>();
     }
 }
