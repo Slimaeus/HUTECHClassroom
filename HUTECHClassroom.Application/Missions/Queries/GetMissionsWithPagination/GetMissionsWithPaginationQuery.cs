@@ -15,6 +15,10 @@ namespace HUTECHClassroom.Application.Missions.Queries.GetMissionsWithPagination
 
         protected override Expression<Func<Mission, bool>> SearchStringPredicate(string searchString)
             => x => x.Title.ToLower().Contains(searchString.ToLower()) || x.Description.ToLower().Contains(searchString.ToLower());
+        protected override Expression<Func<Mission, object>> OrderByKeySelector()
+        {
+            return x => x.CreateDate;
+        }
     }
 }
 

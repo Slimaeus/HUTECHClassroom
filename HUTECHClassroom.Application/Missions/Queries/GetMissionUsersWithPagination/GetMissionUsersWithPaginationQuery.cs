@@ -1,17 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using EntityFrameworkCore.QueryBuilder.Interfaces;
-using EntityFrameworkCore.Repository.Collections;
-using EntityFrameworkCore.Repository.Extensions;
-using EntityFrameworkCore.Repository.Interfaces;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.DTOs;
-using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Domain.Entities;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagination

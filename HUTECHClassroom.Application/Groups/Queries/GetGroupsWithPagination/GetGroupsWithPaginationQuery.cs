@@ -14,9 +14,13 @@ namespace HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination
         public GetGroupsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
         }
-        public override Expression<Func<Group, bool>> SearchStringPredicate(string searchString)
+        protected override Expression<Func<Group, bool>> SearchStringPredicate(string searchString)
         {
             return x => x.Name.ToLower().Equals(searchString.ToLower()) || x.Description.ToLower().Equals(searchString.ToLower());
+        }
+        protected override Expression<Func<Group, object>> OrderByKeySelector()
+        {
+            return x => x.CreateDate;
         }
     }
 }

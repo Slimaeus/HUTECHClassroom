@@ -12,9 +12,12 @@ namespace HUTECHClassroom.Application.Projects.Queries.GetProjectsWithPagination
     public class GetProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Project, GetProjectsWithPaginationQuery, ProjectDTO>
     {
         public GetProjectsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-
-        public override Expression<Func<Project, bool>> SearchStringPredicate(string searchString) =>
+        protected override Expression<Func<Project, bool>> SearchStringPredicate(string searchString) =>
             x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Description.ToLower().Contains(searchString.ToLower());
+        protected override Expression<Func<Project, object>> OrderByKeySelector()
+        {
+            return x => x.CreateDate;
+        }
     }
 }
 

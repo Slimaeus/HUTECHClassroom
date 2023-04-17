@@ -12,39 +12,28 @@ using HUTECHClassroom.Application.Projects.DTOs;
 using HUTECHClassroom.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Projects.Queries.GetProjectMissionsWithPagination
 {
     public record GetProjectMissionsWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<ProjectMissionDTO>(Params);
-    public class GetProjectMissionsWithPaginationQueryHandler : IRequestHandler<GetProjectMissionsWithPaginationQuery, IPagedList<ProjectMissionDTO>>
+    public class GetProjectMissionsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Mission, GetProjectMissionsWithPaginationQuery, ProjectMissionDTO>
     {
-        private readonly IRepository<Mission> _repository;
-        private readonly IMapper _mapper;
-
-        public GetProjectMissionsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetProjectMissionsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
-            _repository = unitOfWork.Repository<Mission>();
-            _mapper = mapper;
         }
-        public async Task<IPagedList<ProjectMissionDTO>> Handle(GetProjectMissionsWithPaginationQuery request, CancellationToken cancellationToken)
+        protected override Expression<Func<Mission, bool>> FilterPredicate(GetProjectMissionsWithPaginationQuery query)
         {
-            var query = (IMultipleResultQuery<Mission>)_repository
-                .MultipleResultQuery()
-                .Page(request.Params.PageNumber, request.Params.PageSize)
-                .AndFilter(x => x.ProjectId == request.Id)
-                .OrderBy(x => x.CreateDate);
-
-            var pagedList = await _repository
-                .ToQueryable(query)
-                .ProjectTo<ProjectMissionDTO>(_mapper.ConfigurationProvider)
-                .AsSplitQuery()
-                .ToListAsync(cancellationToken)
-                .Then<List<ProjectMissionDTO>, IList<ProjectMissionDTO>>(result => result, cancellationToken)
-                .ToPagedListAsync(query.Paging.PageIndex, query.Paging.PageSize, query.Paging.TotalCount, cancellationToken);
-
-            if (pagedList.Count <= 0) throw new NotFoundException(nameof(Mission), "Id");
-
-            return pagedList;
+            return x => x.ProjectId == query.Id;
+        }
+        protected override Expression<Func<Mission, object>> OrderByKeySelector()
+        {
+            return x => x.CreateDate;
+        }
+        protected override Expression<Func<Mission, bool>> SearchStringPredicate(string searchString)
+        {
+            var toLowerSearchString = searchString.ToLower();
+            return x => x.Title.ToLower().Contains(toLowerSearchString) || x.Description.ToLower().Contains(toLowerSearchString);
         }
     }
 }
