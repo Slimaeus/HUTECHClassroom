@@ -8,6 +8,7 @@ namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagina
     {
         public GetMissionUsersWithPaginationQueryValidator()
         {
+            RuleFor(x => x.Id).NotEmpty().NotNull();
         }
     }
 }

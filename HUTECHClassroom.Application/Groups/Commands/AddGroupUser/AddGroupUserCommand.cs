@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using EntityFrameworkCore.Repository.Extensions;
+﻿using EntityFrameworkCore.Repository.Extensions;
 using EntityFrameworkCore.Repository.Interfaces;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.Exceptions;
@@ -8,35 +7,35 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser
+namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUser
 {
-    public record AddMissionUserCommand(Guid Id, string UserName) : IRequest<Unit>;
-    public class AddMissionUserCommandHandler : IRequestHandler<AddMissionUserCommand, Unit>
+    public record AddGroupUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+    public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Mission> _repository;
+        private readonly IRepository<Group> _repository;
         private readonly IRepository<ApplicationUser> _userRepository;
 
-        public AddMissionUserCommandHandler(IUnitOfWork unitOfWork)
+        public AddGroupUserCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _repository = unitOfWork.Repository<Mission>();
-            _userRepository = unitOfWork.Repository<ApplicationUser>();
+            _repository = unitOfWork.Repository<Group>();
+            _userRepository = _unitOfWork.Repository<ApplicationUser>();
         }
-        public async Task<Unit> Handle(AddMissionUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(AddGroupUserCommand request, CancellationToken cancellationToken)
         {
             var query = _repository
                 .SingleResultQuery()
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
-                .Include(i => i.Include(x => x.MissionUsers).ThenInclude(x => x.User))
+                .Include(i => i.Include(x => x.GroupUsers).ThenInclude(x => x.User))
                 .AndFilter(x => x.Id == request.Id);
 
             var mission = await _repository
                 .SingleOrDefaultAsync(query, cancellationToken);
 
-            if (mission == null) throw new NotFoundException(nameof(Mission), request.Id);
+            if (mission == null) throw new NotFoundException(nameof(Group), request.Id);
 
-            if (mission.MissionUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
+            if (mission.GroupUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
 
             var userQuery = _userRepository
                 .SingleResultQuery()
@@ -47,7 +46,7 @@ namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser
 
             if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
 
-            mission.MissionUsers.Add(new MissionUser { User = user });
+            mission.GroupUsers.Add(new GroupUser { User = user });
 
             await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
