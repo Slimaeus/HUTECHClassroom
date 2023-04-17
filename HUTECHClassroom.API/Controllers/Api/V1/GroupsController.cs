@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.Models;
+using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
 using HUTECHClassroom.Application.Groups.Queries.GetGroup;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
@@ -15,5 +16,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpGet("{id}", Name = nameof(GetGroupDetails))]
         public Task<ActionResult<GroupDTO>> GetGroupDetails(Guid id)
             => HandleGetQuery(new GetGroupQuery(id));
+        [HttpPost]
+        public Task<ActionResult<GroupDTO>> Post(CreateGroupCommand command)
+            => HandleCreateCommand(command, nameof(GetGroupDetails));
     }
 }

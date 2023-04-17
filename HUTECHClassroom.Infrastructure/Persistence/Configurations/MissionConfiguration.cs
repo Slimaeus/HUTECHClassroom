@@ -14,10 +14,6 @@ namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.Description)
                 .HasMaxLength(100);
-
-            builder.HasOne(x => x.Project)
-                .WithMany(x => x.Missions)
-                .HasForeignKey(x => x.ProjectId);
         }
     }
 }

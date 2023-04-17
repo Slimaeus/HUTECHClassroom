@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HUTECHClassroom.Application.Common.DTOs;
+using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
-using HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
@@ -9,6 +9,7 @@ using HUTECHClassroom.Application.Projects.Commands.CreateProject;
 using HUTECHClassroom.Application.Projects.Commands.UpdateProject;
 using HUTECHClassroom.Application.Projects.DTOs;
 using HUTECHClassroom.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Common.Mappings
 {
@@ -21,7 +22,8 @@ namespace HUTECHClassroom.Application.Common.Mappings
             #endregion
 
             #region Missions
-            CreateMap<Mission, MissionDTO>();
+            CreateMap<Mission, MissionDTO>()
+                .ForMember(x => x.Project, options => options.MapFrom(x => x.Project));
             CreateMap<CreateMissionCommand, Mission>();
             CreateMap<UpdateMissionCommand, Mission>()
                 .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
@@ -43,6 +45,10 @@ namespace HUTECHClassroom.Application.Common.Mappings
 
             #region Groups
             CreateMap<Group, GroupDTO>();
+            CreateMap<CreateGroupCommand, Group>();
+
+            CreateMap<GroupUser, MemberDTO>()
+                .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email));
             #endregion
         }
     }

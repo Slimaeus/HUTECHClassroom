@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EntityFrameworkCore.Repository.Extensions;
 using EntityFrameworkCore.Repository.Interfaces;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Domain.Common;
@@ -26,11 +27,19 @@ namespace HUTECHClassroom.Application.Common.Requests
         {
             var entity = _mapper.Map<TEntity>(request);
 
+            await ValidateAdditionalField(request, entity);
+
             await _repository.AddAsync(entity, cancellationToken);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+            await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);
 
-            return _mapper.Map<TDTO>(entity);
+            var result = _mapper.Map<TDTO>(entity);
+
+            _repository.RemoveTracking(entity);
+
+            return result;
         }
+
+        protected virtual Task ValidateAdditionalField(TCommand request, TEntity entity) => Task.CompletedTask;
     }
 }
