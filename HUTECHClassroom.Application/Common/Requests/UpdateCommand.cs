@@ -5,12 +5,11 @@ using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace HUTECHClassroom.Application.Common.Requests
 {
-    public record UpdateCommand(Guid Id) : IRequest;
-    public abstract class UpdateCommandHandler<TEntity, TCommand> : IRequestHandler<TCommand>
+    public record UpdateCommand(Guid Id) : IRequest<Unit>;
+    public abstract class UpdateCommandHandler<TEntity, TCommand> : IRequestHandler<TCommand, Unit>
         where TEntity : class, IEntity
         where TCommand : UpdateCommand
     {
@@ -24,7 +23,7 @@ namespace HUTECHClassroom.Application.Common.Requests
             _repository = unitOfWork.Repository<TEntity>();
             _mapper = mapper;
         }
-        public async Task Handle(TCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken)
         {
             var query = _repository.SingleResultQuery()
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
@@ -35,6 +34,8 @@ namespace HUTECHClassroom.Application.Common.Requests
             _mapper.Map(request, entity);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+
+            return Unit.Value;
         }
     }
 }

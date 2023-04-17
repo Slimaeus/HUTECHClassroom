@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using HUTECHClassroom.Application.Common.Validators;
 using HUTECHClassroom.Application.Projects.Commands.UpdateProject;
 
 namespace HUTECHClassroom.Application.Projects.Commands
 {
-    public class UpdateProjectCommandValidator : AbstractValidator<UpdateProjectCommand>
+    public class UpdateProjectCommandValidator : UpdateCommandValidator<UpdateProjectCommand>
     {
         public UpdateProjectCommandValidator()
         {

@@ -15,13 +15,11 @@ namespace HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser
     public class RemoveMissionUserCommandHandler : IRequestHandler<RemoveMissionUserCommand, Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly IRepository<Mission> _repository;
 
-        public RemoveMissionUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public RemoveMissionUserCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _repository = unitOfWork.Repository<Mission>();
         }
         public async Task<Unit> Handle(RemoveMissionUserCommand request, CancellationToken cancellationToken)
@@ -39,7 +37,7 @@ namespace HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser
 
             var user = mission.MissionUsers.SingleOrDefault(x => x.User.UserName == request.UserName);
 
-            if (user == null) throw new NotFoundException(nameof(user), request.UserName);
+            if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
 
             mission.MissionUsers.Remove(user);
 

@@ -15,14 +15,12 @@ namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IMapper _mapper;
         private readonly IRepository<Mission> _repository;
 
-        public AddMissionUserCommandHandler(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public AddMissionUserCommandHandler(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
-            _mapper = mapper;
             _repository = unitOfWork.Repository<Mission>();
         }
         public async Task<Unit> Handle(AddMissionUserCommand request, CancellationToken cancellationToken)
@@ -42,7 +40,7 @@ namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser
 
             var user = await _userManager.FindByNameAsync(request.UserName);
 
-            if (user == null) throw new NotFoundException(nameof(user), request.UserName);
+            if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
 
             mission.MissionUsers.Add(new MissionUser { User = user });
 

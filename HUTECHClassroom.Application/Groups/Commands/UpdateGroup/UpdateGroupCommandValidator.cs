@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using HUTECHClassroom.Application.Common.Validators;
 
 namespace HUTECHClassroom.Application.Groups.Commands.UpdateGroup
 {
-    public class UpdateGroupCommandValidator : AbstractValidator<UpdateGroupCommand>
+    public class UpdateGroupCommandValidator : UpdateCommandValidator<UpdateGroupCommand>
     {
         public UpdateGroupCommandValidator()
         {

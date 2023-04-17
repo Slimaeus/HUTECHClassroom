@@ -6,10 +6,8 @@ namespace HUTECHClassroom.Application.Groups.Commands.CreateGroup
     {
         public CreateGroupCommandValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(50);
+            RuleFor(x => x.Name).NotEmpty().NotNull().MaximumLength(50);
             RuleFor(x => x.Description).MaximumLength(100);
-
-
         }
     }
 }
