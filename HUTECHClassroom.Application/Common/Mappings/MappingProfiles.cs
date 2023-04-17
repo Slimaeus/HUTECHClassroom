@@ -53,6 +53,7 @@ namespace HUTECHClassroom.Application.Common.Mappings
 
             CreateMap<GroupUser, MemberDTO>()
                 .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email));
+            CreateMap<Project, GroupProjectDTO>();
             #endregion
         }
     }

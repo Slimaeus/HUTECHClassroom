@@ -6,6 +6,7 @@ using HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
 using HUTECHClassroom.Application.Groups.Commands.DeleteGroup;
 using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 using Microsoft.AspNetCore.Mvc;
+using HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1
 {
@@ -27,5 +28,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpDelete("{id}")]
         public Task<ActionResult<GroupDTO>> Delete(Guid id)
             => HandleDeleteCommand(new DeleteGroupCommand(id));
+        [HttpGet("{id}/projects")]
+        public async Task<ActionResult<IEnumerable<GroupProjectDTO>>> GetProjects(Guid id, [FromQuery] PaginationParams @params)
+            => HandlePagedList(await Mediator.Send(new GetGroupProjectsWithPaginationQuery(id, @params)));
     }
 }
