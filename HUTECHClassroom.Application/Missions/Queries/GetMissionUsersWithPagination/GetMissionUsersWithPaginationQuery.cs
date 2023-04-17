@@ -12,39 +12,28 @@ using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagination
 {
     public record GetMissionUsersWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<MemberDTO>(Params);
-    public class GetMissionUsersWithPaginationQueryHandler : IRequestHandler<GetMissionUsersWithPaginationQuery, IPagedList<MemberDTO>>
+    public class GetMissionUsersWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationUser, GetMissionUsersWithPaginationQuery, MemberDTO>
     {
-        private readonly IRepository<ApplicationUser> _repository;
-        private readonly IMapper _mapper;
-
-        public GetMissionUsersWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetMissionUsersWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
-            _repository = unitOfWork.Repository<ApplicationUser>();
-            _mapper = mapper;
         }
-        public async Task<IPagedList<MemberDTO>> Handle(GetMissionUsersWithPaginationQuery request, CancellationToken cancellationToken)
+        protected override Expression<Func<ApplicationUser, bool>> FilterPredicate(GetMissionUsersWithPaginationQuery query)
         {
-            var query = (IMultipleResultQuery<ApplicationUser>)_repository
-                .MultipleResultQuery()
-                .Page(request.Params.PageNumber, request.Params.PageSize)
-                .AndFilter(x => x.MissionUsers.Any(x => x.MissionId == request.Id))
-                .OrderBy(x => x.UserName);
-            
-            var pagedList = await _repository
-                .ToQueryable(query)
-                .ProjectTo<MemberDTO>(_mapper.ConfigurationProvider)
-                .AsSplitQuery()
-                .ToListAsync(cancellationToken)
-                .Then<List<MemberDTO>, IList<MemberDTO>>(result => result, cancellationToken)
-                .ToPagedListAsync(query.Paging.PageIndex, query.Paging.PageSize, query.Paging.TotalCount, cancellationToken);
-
-            if (pagedList.Count <= 0) throw new NotFoundException(nameof(ApplicationUser), "Id");
-
-            return pagedList;
+            return x => x.MissionUsers.Any(x => x.MissionId == query.Id);
+        }
+        protected override Expression<Func<ApplicationUser, bool>> SearchStringPredicate(string searchString)
+        {
+            var toLowerSearchString = searchString.ToLower();
+            return x => x.UserName.ToLower().Contains(toLowerSearchString) || x.Email.ToLower().Contains(toLowerSearchString);
+        }
+        protected override Expression<Func<ApplicationUser, object>> OrderByKeySelector()
+        {
+            return x => x.UserName;
         }
     }
 }

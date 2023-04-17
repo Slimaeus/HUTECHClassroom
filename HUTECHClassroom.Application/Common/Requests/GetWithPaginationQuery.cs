@@ -19,7 +19,7 @@ namespace HUTECHClassroom.Application.Common.Requests
         ) : IRequest<IPagedList<TDTO>>
             where TDTO : class;
     public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, IPagedList<TDTO>>
-        where TEntity : class, IEntity, IAuditableEntity
+        where TEntity : class, IEntity
         where TQuery : GetWithPaginationQuery<TDTO>
         where TDTO : class
     {   
@@ -36,8 +36,8 @@ namespace HUTECHClassroom.Application.Common.Requests
             var query = (IMultipleResultQuery<TEntity>)_repository
                 .MultipleResultQuery()
                 .Page(request.Params.PageNumber, request.Params.PageSize)
-                .AndFilter(FilterPredicate())
-                .OrderBy(x => x.CreateDate);
+                .AndFilter(FilterPredicate(request))
+                .OrderBy(OrderByKeySelector());
 
             if (!string.IsNullOrEmpty(request.Params.SearchString))
                 query = (IMultipleResultQuery<TEntity>)query.AndFilter(SearchStringPredicate(request.Params.SearchString));
@@ -54,7 +54,9 @@ namespace HUTECHClassroom.Application.Common.Requests
 
             return pagedList;
         }
-        public virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString) => x => true;
-        public virtual Expression<Func<TEntity, bool>> FilterPredicate() => x => true;
+        protected virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString) => x => true;
+        protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query) => x => true;
+        protected virtual Expression<Func<TEntity, object>> OrderByKeySelector()
+            => x => x.Id;
     }
 }
