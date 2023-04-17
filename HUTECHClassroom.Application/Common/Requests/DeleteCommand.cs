@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using EntityFrameworkCore.Repository.Interfaces;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Domain.Common;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Common.Requests
 {
@@ -28,13 +30,14 @@ namespace HUTECHClassroom.Application.Common.Requests
             var query = _repository.SingleResultQuery()
                 .AndFilter(m => m.Id == request.Id);
 
-            var entity = await _repository.FirstOrDefaultAsync(query, cancellationToken) ?? throw new NotFoundException(nameof(TEntity), request.Id);
+            var dto = await _repository
+                .ToQueryable(query)
+                .ProjectTo<TDTO>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync(cancellationToken) ?? throw new NotFoundException(nameof(TEntity), request.Id);
 
-            _repository.Remove(entity);
+            await _repository.RemoveAsync(x => x.Id == request.Id, cancellationToken).ConfigureAwait(false);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
-
-            return _mapper.Map<TDTO>(entity);
+            return dto;
         }
     }
 }

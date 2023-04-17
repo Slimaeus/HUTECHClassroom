@@ -3,6 +3,8 @@ using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
 using HUTECHClassroom.Application.Groups.Queries.GetGroup;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
+using HUTECHClassroom.Application.Groups.Commands.DeleteGroup;
+using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1
@@ -19,5 +21,11 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpPost]
         public Task<ActionResult<GroupDTO>> Post(CreateGroupCommand command)
             => HandleCreateCommand(command, nameof(GetGroupDetails));
+        [HttpPut("{id}")]
+        public Task<IActionResult> Put(Guid id, UpdateGroupCommand request)
+            => HandleUpdateCommand(id, request);
+        [HttpDelete("{id}")]
+        public Task<ActionResult<GroupDTO>> Delete(Guid id)
+            => HandleDeleteCommand(new DeleteGroupCommand(id));
     }
 }

@@ -7,7 +7,7 @@ namespace HUTECHClassroom.Application.Projects.Commands
     {
         public UpdateProjectCommandValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(50);
+            RuleFor(x => x.Name).MaximumLength(50);
             RuleFor(x => x.Description).MaximumLength(100);
         }
     }

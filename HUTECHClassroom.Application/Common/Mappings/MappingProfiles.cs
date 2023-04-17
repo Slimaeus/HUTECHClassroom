@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
+using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
@@ -46,6 +47,8 @@ namespace HUTECHClassroom.Application.Common.Mappings
             #region Groups
             CreateMap<Group, GroupDTO>();
             CreateMap<CreateGroupCommand, Group>();
+            CreateMap<UpdateGroupCommand, Group>()
+                .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
             CreateMap<GroupUser, MemberDTO>()
                 .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email));
