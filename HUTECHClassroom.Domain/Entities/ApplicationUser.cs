@@ -8,5 +8,6 @@ namespace HUTECHClassroom.Domain.Entities
         public virtual ICollection<MissionUser> MissionUsers { get; set; } = new HashSet<MissionUser>();
         public virtual ICollection<GroupUser> GroupUsers { get; set; } = new HashSet<GroupUser>();
         public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();
+        public virtual ICollection<Classroom> Classrooms { get; set; } = new HashSet<Classroom>();
     }
 }

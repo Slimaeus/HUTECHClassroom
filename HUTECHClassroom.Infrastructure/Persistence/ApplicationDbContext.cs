@@ -12,6 +12,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence
         {
         }
 
+        public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<Mission> Missions { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Group> Groups { get; set; }
@@ -20,6 +21,8 @@ namespace HUTECHClassroom.Infrastructure.Persistence
         {
             base.OnModelCreating(builder);
 
+            builder.ApplyConfiguration(new ClassroomConfiguration());
+            builder.ApplyConfiguration(new ClassroomUserConfiguration());
             builder.ApplyConfiguration(new MissionConfiguration());
             builder.ApplyConfiguration(new MissionUserConfiguration());
             builder.ApplyConfiguration(new ProjectConfiguration());

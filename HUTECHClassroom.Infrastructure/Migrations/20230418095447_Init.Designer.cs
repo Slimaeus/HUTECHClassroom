@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230417072659_Init")]
+    [Migration("20230418095447_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -117,7 +117,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Group", b =>
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,6 +133,56 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<Guid>("LecturerId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Topic")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LecturerId");
+
+                    b.ToTable("Classrooms");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ClassroomUser", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClassroomId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "ClassroomId");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.ToTable("ClassroomUser");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Group", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClassroomId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("LeaderId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -140,7 +190,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LecturerId");
+                    b.HasIndex("ClassroomId");
+
+                    b.HasIndex("LeaderId");
 
                     b.ToTable("Groups");
                 });
@@ -337,15 +389,53 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Group", b =>
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "Lecturer")
-                        .WithMany("Groups")
+                        .WithMany("Classrooms")
                         .HasForeignKey("LecturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Lecturer");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ClassroomUser", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
+                        .WithMany()
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Classroom");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Group", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
+                        .WithMany("Groups")
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "Leader")
+                        .WithMany("Groups")
+                        .HasForeignKey("LeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Classroom");
+
+                    b.Navigation("Leader");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.GroupUser", b =>
@@ -461,11 +551,18 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUser", b =>
                 {
+                    b.Navigation("Classrooms");
+
                     b.Navigation("GroupUsers");
 
                     b.Navigation("Groups");
 
                     b.Navigation("MissionUsers");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
+                {
+                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Group", b =>

@@ -7,6 +7,10 @@
 
   <ItemGroup>
     <Folder Include="Account\Queries\" />
+    <Folder Include="Classrooms\Commands\CreateClassroom\" />
+    <Folder Include="Classrooms\Commands\DeleteClassroom\" />
+    <Folder Include="Classrooms\Commands\UpdateClassroom\" />
+    <Folder Include="Classrooms\Queries\GetClassroom\" />
     <Folder Include="Common\Extensions\" />
     <Folder Include="Missions\Queries\GetMissionUsers\" />
     <Folder Include="Roles\" />

@@ -36,6 +36,7 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpGet("{id}/members")]
         public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
             => HandlePagedList(await Mediator.Send(new GetGroupUsersWithPaginationQuery(id, @params)));
+        // Same as Get User Profile
         [HttpGet("{id}/members/{userName}")]
         public async Task<ActionResult<MemberDTO>> GetMember(Guid id, string userName)
             => Ok(await Mediator.Send(new GetGroupUserQuery(id, userName)));

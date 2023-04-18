@@ -158,22 +158,75 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Groups",
+                name: "Classrooms",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     LecturerId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Groups", x => x.Id);
+                    table.PrimaryKey("PK_Classrooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Groups_AspNetUsers_LecturerId",
+                        name: "FK_Classrooms_AspNetUsers_LecturerId",
                         column: x => x.LecturerId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClassroomUser",
+                columns: table => new
+                {
+                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassroomUser", x => new { x.UserId, x.ClassroomId });
+                    table.ForeignKey(
+                        name: "FK_ClassroomUser_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClassroomUser_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    LeaderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Groups_AspNetUsers_LeaderId",
+                        column: x => x.LeaderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Groups_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -307,9 +360,24 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_LecturerId",
-                table: "Groups",
+                name: "IX_Classrooms_LecturerId",
+                table: "Classrooms",
                 column: "LecturerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClassroomUser_ClassroomId",
+                table: "ClassroomUser",
+                column: "ClassroomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Groups_ClassroomId",
+                table: "Groups",
+                column: "ClassroomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Groups_LeaderId",
+                table: "Groups",
+                column: "LeaderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroupUser_GroupId",
@@ -351,6 +419,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClassroomUser");
+
+            migrationBuilder.DropTable(
                 name: "GroupUser");
 
             migrationBuilder.DropTable(
@@ -367,6 +438,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Classrooms");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

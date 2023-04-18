@@ -33,7 +33,7 @@ namespace HUTECHClassroom.Application.Groups.Commands.CreateGroup
 
             if (lecturer == null) throw new NotFoundException(nameof(ApplicationUser), request.LecturerName);
 
-            entity.Lecturer = lecturer;
+            entity.Leader = lecturer;
         }
     }
 }

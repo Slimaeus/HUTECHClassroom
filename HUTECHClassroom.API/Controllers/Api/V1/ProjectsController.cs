@@ -35,6 +35,7 @@ namespace HUTECHClassroom.API.Controllers.Api.V1
         [HttpGet("{id}/missions")]
         public async Task<ActionResult<IEnumerable<ProjectMissionDTO>>> GetMissions(Guid id, [FromQuery] PaginationParams @params)
             => HandlePagedList(await Mediator.Send(new GetProjectMissionsWithPaginationQuery(id, @params)));
+        // Same as Get Mission
         [HttpGet("{id}/missions/{missionId}")]
         public async Task<ActionResult<MissionDTO>> GetMission(Guid id, Guid missionId)
             => Ok(await Mediator.Send(new GetProjectMissionQuery(id, missionId)));

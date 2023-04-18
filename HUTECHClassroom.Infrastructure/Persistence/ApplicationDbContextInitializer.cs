@@ -46,7 +46,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence
 
         public async Task TrySeedAsync()
         {
-            if (_context.Users.Any() || _context.Missions.Any() || _context.Projects.Any() || _context.Groups.Any() || _context.Roles.Any()) return;
+            if (_context.Users.Any() || _context.Classrooms.Any() || _context.Missions.Any() || _context.Projects.Any() || _context.Groups.Any() || _context.Roles.Any()) return;
 
             var studentRole = new ApplicationRole("Student");
             var roles = new ApplicationRole[6]
@@ -98,26 +98,45 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                 await _userManager.AddToRoleAsync(user, roles[5].Name);
             }
 
+            var classrooms = new Classroom[]
+            {
+                new Classroom
+                {
+                    Title = "Linear algebra",
+                    Description = "A subject",
+                    Topic = "Mathemetics",
+                    Lecturer = users[2],
+                },
+                new Classroom
+                {
+                    Title = "English 1",
+                    Description = "A subject",
+                    Topic = "English",
+                    Lecturer = users[3],
+                }
+            };
+
             var groups = new Group[]
             {
                 new Group
                 {
                     Name = "Owlvernyte",
                     Description = "Owls group",
-                    Lecturer = users[2],
+                    Leader = users[0],
                     GroupUsers = new GroupUser[]
                     {
                         new GroupUser
                         {
                             User = users[0]
                         }
-                    }
+                    },
+                    Classroom = classrooms[0]
                 },
                 new Group
                 {
                     Name = "Semibox",
                     Description = "Half of a box",
-                    Lecturer = users[3],
+                    Leader = users[1],
                     GroupUsers = new GroupUser[]
                     {
                         new GroupUser
@@ -128,7 +147,8 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                         {
                             User = users[1]
                         }
-                    }
+                    },
+                    Classroom = classrooms[1]
                 }
             };
 
