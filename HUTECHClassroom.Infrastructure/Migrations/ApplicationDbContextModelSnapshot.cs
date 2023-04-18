@@ -130,6 +130,10 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<Guid>("LecturerId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Room")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -389,7 +393,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "Lecturer")
-                        .WithMany("Classrooms")
+                        .WithMany()
                         .HasForeignKey("LecturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -406,7 +410,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("ClassroomUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -548,7 +552,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUser", b =>
                 {
-                    b.Navigation("Classrooms");
+                    b.Navigation("ClassroomUsers");
 
                     b.Navigation("GroupUsers");
 

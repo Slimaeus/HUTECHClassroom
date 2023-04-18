@@ -164,6 +164,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    Room = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     LecturerId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)

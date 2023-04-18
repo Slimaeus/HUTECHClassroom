@@ -15,8 +15,8 @@ namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Description)
                 .HasMaxLength(100);
 
-            //builder.Property(x => x.Room)
-            //    .HasMaxLength(20);
+            builder.Property(x => x.Room)
+                .HasMaxLength(50);
 
             builder.Property(x => x.Topic)
                 .HasMaxLength(20);

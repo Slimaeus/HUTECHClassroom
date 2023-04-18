@@ -19,6 +19,7 @@ namespace HUTECHClassroom.Application.Groups
             CreateMap<GroupUser, MemberDTO>()
                 .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email));
             CreateMap<Project, GroupProjectDTO>();
+            CreateMap<Classroom, GroupClassroomDTO>();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace HUTECHClassroom.Application.Groups.Commands.CreateGroup
             RuleFor(x => x.Description).MaximumLength(100);
 
             RuleFor(x => x.LeaderName).NotEmpty().NotNull();
+            RuleFor(x => x.ClassroomId).NotEmpty().NotNull();
         }
     }
 }

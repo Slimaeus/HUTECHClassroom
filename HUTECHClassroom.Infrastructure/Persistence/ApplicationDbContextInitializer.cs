@@ -105,6 +105,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                     Title = "Linear algebra",
                     Description = "A subject",
                     Topic = "Mathemetics",
+                    Room = "101",
                     Lecturer = users[2],
                 },
                 new Classroom
@@ -112,6 +113,7 @@ namespace HUTECHClassroom.Infrastructure.Persistence
                     Title = "English 1",
                     Description = "A subject",
                     Topic = "English",
+                    Room = "102",
                     Lecturer = users[3],
                 }
             };
