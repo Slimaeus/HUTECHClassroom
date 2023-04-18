@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace HUTECHClassroom.Domain.Entities
+namespace HUTECHClassroom.Domain.Entities;
+
+public class ApplicationRole : IdentityRole<Guid>
 {
-    public class ApplicationRole : IdentityRole<Guid>
+    public ApplicationRole()
     {
-        public ApplicationRole()
-        {
-            
-        }
-        public ApplicationRole(string roleName) : base(roleName)
-        {
-        }
+
+    }
+    public ApplicationRole(string roleName) : base(roleName)
+    {
     }
 }

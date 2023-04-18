@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
+namespace HUTECHClassroom.Infrastructure.Persistence.Configurations;
+
+public class MissionUserConfiguration : IEntityTypeConfiguration<MissionUser>
 {
-    public class MissionUserConfiguration : IEntityTypeConfiguration<MissionUser>
+    public void Configure(EntityTypeBuilder<MissionUser> builder)
     {
-        public void Configure(EntityTypeBuilder<MissionUser> builder)
-        {
-            builder.HasKey(x => new { x.UserId, x.MissionId });
-        }
+        builder.HasKey(x => new { x.UserId, x.MissionId });
     }
 }

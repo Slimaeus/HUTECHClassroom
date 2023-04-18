@@ -10,78 +10,77 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 
-namespace HUTECHClassroom.Infrastructure
+namespace HUTECHClassroom.Infrastructure;
+
+public static class ConfigureServices
 {
-    public static class ConfigureServices
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+        #region DbContext
+        services.AddDbContext<DbContext, ApplicationDbContext>(options =>
         {
-            #region DbContext
-            services.AddDbContext<DbContext, ApplicationDbContext>(options =>
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (env == "Development")
             {
-                var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                if (env == "Development")
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            }
+            else
+            {
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            }
+        });
+
+        services.AddScoped<ApplicationDbContextInitializer>();
+        #endregion
+
+        #region UnitOfWork
+        services.AddUnitOfWork();
+        services.AddUnitOfWork<ApplicationDbContext>();
+        #endregion
+
+        #region Identity
+
+        services
+            .AddIdentityCore<ApplicationUser>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 8;
+
+                options.User.RequireUniqueEmail = true;
+
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                options.ClaimsIdentity.UserNameClaimType = ClaimTypes.Name;
+                options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+                options.ClaimsIdentity.EmailClaimType = ClaimTypes.Email;
+            })
+            .AddRoles<ApplicationRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-                }
-                else
-                {
-                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-                }
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = key,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
             });
 
-            services.AddScoped<ApplicationDbContextInitializer>();
-            #endregion
+        #endregion
 
-            #region UnitOfWork
-            services.AddUnitOfWork();
-            services.AddUnitOfWork<ApplicationDbContext>();
-            #endregion
-
-            #region Identity
-
-            services
-                .AddIdentityCore<ApplicationUser>(options =>
-                {
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireDigit = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequiredLength = 8;
-
-                    options.User.RequireUniqueEmail = true;
-
-                    options.SignIn.RequireConfirmedAccount = false;
-                    options.SignIn.RequireConfirmedEmail = false;
-                    options.SignIn.RequireConfirmedPhoneNumber = false;
-
-                    options.ClaimsIdentity.UserNameClaimType = ClaimTypes.Name;
-                    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
-                    options.ClaimsIdentity.EmailClaimType = ClaimTypes.Email;
-                })
-                .AddRoles<ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = key,
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
-
-            #endregion
-
-            return services;
-        }
+        return services;
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace HUTECHClassroom.Domain.Common
+﻿namespace HUTECHClassroom.Domain.Common;
+
+public interface IAuditableEntity
 {
-    public interface IAuditableEntity
-    {
-        DateTime CreateDate { get; init; }
-    }
+    DateTime CreateDate { get; init; }
 }

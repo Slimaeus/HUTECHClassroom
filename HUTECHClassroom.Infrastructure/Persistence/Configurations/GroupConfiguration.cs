@@ -2,22 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
+namespace HUTECHClassroom.Infrastructure.Persistence.Configurations;
+
+public class GroupConfiguration : IEntityTypeConfiguration<Group>
 {
-    public class GroupConfiguration : IEntityTypeConfiguration<Group>
+    public void Configure(EntityTypeBuilder<Group> builder)
     {
-        public void Configure(EntityTypeBuilder<Group> builder)
-        {
-            builder.Property(x => x.Name)
-                .HasMaxLength(50)
-                .IsRequired();
+        builder.Property(x => x.Name)
+            .HasMaxLength(50)
+            .IsRequired();
 
-            builder.Property(x => x.Description)
-                .HasMaxLength(100);
+        builder.Property(x => x.Description)
+            .HasMaxLength(100);
 
-            builder.Property(x => x.LeaderId)
-                .IsRequired();
+        builder.Property(x => x.LeaderId)
+            .IsRequired();
 
-        }
     }
 }

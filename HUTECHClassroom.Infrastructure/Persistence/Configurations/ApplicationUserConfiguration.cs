@@ -2,15 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HUTECHClassroom.Infrastructure.Persistence.Configurations
+namespace HUTECHClassroom.Infrastructure.Persistence.Configurations;
+
+public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
-    public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
-        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
-        {
-            builder.HasMany(x => x.GroupUsers)
-                .WithOne(x => x.User)
-                .HasForeignKey(x => x.UserId);
-        }
+        builder.HasMany(x => x.GroupUsers)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.UserId);
     }
 }

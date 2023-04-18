@@ -1,17 +1,16 @@
-﻿namespace HUTECHClassroom.Domain.Common
-{
-    public abstract class BaseEntity<TKey> : IEntity<TKey>, IAuditableEntity
-    {
-        public TKey Id { get; init; }
-        public DateTime CreateDate { get; init; }
-    }
+﻿namespace HUTECHClassroom.Domain.Common;
 
-    public abstract class BaseEntity : BaseEntity<Guid>, IEntity
+public abstract class BaseEntity<TKey> : IEntity<TKey>, IAuditableEntity
+{
+    public TKey Id { get; init; }
+    public DateTime CreateDate { get; init; }
+}
+
+public abstract class BaseEntity : BaseEntity<Guid>, IEntity
+{
+    public BaseEntity()
     {
-        public BaseEntity()
-        {
-            Id = Guid.NewGuid();
-            CreateDate = DateTime.UtcNow;
-        }
+        Id = Guid.NewGuid();
+        CreateDate = DateTime.UtcNow;
     }
 }
