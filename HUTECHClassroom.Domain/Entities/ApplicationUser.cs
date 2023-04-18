@@ -5,6 +5,8 @@ namespace HUTECHClassroom.Domain.Entities;
 
 public class ApplicationUser : IdentityUser<Guid>, IEntity
 {
+    public Guid FacultyId { get; set; }
+    public virtual Faculty Faculty { get; set; }
     public virtual ICollection<MissionUser> MissionUsers { get; set; } = new HashSet<MissionUser>();
     public virtual ICollection<GroupUser> GroupUsers { get; set; } = new HashSet<GroupUser>();
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();

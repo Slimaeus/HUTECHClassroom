@@ -5,7 +5,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.Register;
 
-public record RegisterCommand(string UserName, string Email, string Password) : IRequest<UserDTO>;
+public record RegisterCommand : IRequest<UserDTO>
+{
+    public string UserName { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+    //public Guid FacultyId { get; set; }
+}
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;

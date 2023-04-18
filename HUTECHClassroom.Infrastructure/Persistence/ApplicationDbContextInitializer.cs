@@ -46,7 +46,19 @@ public class ApplicationDbContextInitializer
 
     public async Task TrySeedAsync()
     {
-        if (_context.Users.Any() || _context.Classrooms.Any() || _context.Missions.Any() || _context.Projects.Any() || _context.Groups.Any() || _context.Roles.Any()) return;
+        if (_context.Faculties.Any() || _context.Users.Any() || _context.Classrooms.Any() || _context.Missions.Any() || _context.Projects.Any() || _context.Groups.Any() || _context.Roles.Any()) return;
+
+        var faculties = new Faculty[]
+        {
+            new Faculty
+            {
+                Name = "Information Technology"
+            },
+            new Faculty
+            {
+                Name = "Marketing"
+            }
+        };
 
         var studentRole = new ApplicationRole("Student");
         var roles = new ApplicationRole[6]
@@ -73,22 +85,26 @@ public class ApplicationDbContextInitializer
             new ApplicationUser
             {
                 UserName = "2080600914",
-                Email = "thai@gmail.com"
+                Email = "thai@gmail.com",
+                Faculty = faculties[0]
             },
             new ApplicationUser
             {
                 UserName = "2080600803",
-                Email = "mei@gmail.com"
+                Email = "mei@gmail.com",
+                Faculty = faculties[0]
             },
             new ApplicationUser
             {
                 UserName = "lecturer1",
-                Email = "lecturer1@gmail.com"
+                Email = "lecturer1@gmail.com",
+                Faculty = faculties[0]
             },
             new ApplicationUser
             {
                 UserName = "lecturer2",
-                Email = "lecturer2@gmail.com"
+                Email = "lecturer2@gmail.com",
+                Faculty = faculties[0]
             }
         };
 
@@ -107,6 +123,7 @@ public class ApplicationDbContextInitializer
                 Topic = "Mathemetics",
                 Room = "101",
                 Lecturer = users[2],
+                Faculty = faculties[0]
             },
             new Classroom
             {
@@ -115,6 +132,7 @@ public class ApplicationDbContextInitializer
                 Topic = "English",
                 Room = "102",
                 Lecturer = users[3],
+                Faculty = faculties[0]
             }
         };
 

@@ -11,6 +11,8 @@ public class Classroom : BaseEntity
 
     public Guid LecturerId { get; set; }
     public virtual ApplicationUser Lecturer { get; set; }
+    public Guid FacultyId { get; set; }
+    public virtual Faculty Faculty { get; set; }
 
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();
     public virtual ICollection<ClassroomUser> ClassroomUsers { get; set; } = new HashSet<ClassroomUser>();

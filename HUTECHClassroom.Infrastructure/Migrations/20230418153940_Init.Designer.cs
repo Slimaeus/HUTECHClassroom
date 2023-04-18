@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230418115634_Init")]
+    [Migration("20230418153940_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -72,6 +72,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("FacultyId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -107,6 +110,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FacultyId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -130,6 +135,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<Guid>("FacultyId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("LecturerId")
                         .HasColumnType("uuid");
 
@@ -147,6 +155,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
 
                     b.HasIndex("LecturerId");
 
@@ -166,6 +176,25 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasIndex("ClassroomId");
 
                     b.ToTable("ClassroomUser");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Faculty", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Group", b =>
@@ -393,13 +422,32 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Faculty", "Faculty")
+                        .WithMany("Users")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Faculty");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
                 {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Faculty", "Faculty")
+                        .WithMany("Classrooms")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "Lecturer")
                         .WithMany()
                         .HasForeignKey("LecturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Faculty");
 
                     b.Navigation("Lecturer");
                 });
@@ -407,7 +455,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ClassroomUser", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
-                        .WithMany()
+                        .WithMany("ClassroomUsers")
                         .HasForeignKey("ClassroomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -566,7 +614,16 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
                 {
+                    b.Navigation("ClassroomUsers");
+
                     b.Navigation("Groups");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Faculty", b =>
+                {
+                    b.Navigation("Classrooms");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Group", b =>
