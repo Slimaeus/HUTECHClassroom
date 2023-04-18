@@ -1,9 +1,8 @@
-﻿namespace HUTECHClassroom.Application.Common.DTOs
-{
-    public interface IEntityDTO<TKey>
-    {
-        TKey Id { get; set; }
-    }
+﻿namespace HUTECHClassroom.Application.Common.DTOs;
 
-    public interface IEntityDTO : IEntityDTO<Guid> { }
+public interface IEntityDTO<TKey>
+{
+    TKey Id { get; set; }
 }
+
+public interface IEntityDTO : IEntityDTO<Guid> { }

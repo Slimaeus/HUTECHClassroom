@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 
-namespace HUTECHClassroom.Application.Projects.Queries.GetProject
+namespace HUTECHClassroom.Application.Projects.Queries.GetProject;
+
+public class GetProjectQueryValidator : AbstractValidator<GetProjectQuery>
 {
-    public class GetProjectQueryValidator : AbstractValidator<GetProjectQuery>
+    public GetProjectQueryValidator()
     {
-        public GetProjectQueryValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty().NotNull();
-        }
+        RuleFor(x => x.Id).NotEmpty().NotNull();
     }
 }

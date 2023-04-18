@@ -1,6 +1,5 @@
-﻿namespace HUTECHClassroom.Application.Common.Interfaces
+﻿namespace HUTECHClassroom.Application.Common.Interfaces;
+
+public interface IClaimsService
 {
-    public interface IClaimsService
-    {
-    }
 }

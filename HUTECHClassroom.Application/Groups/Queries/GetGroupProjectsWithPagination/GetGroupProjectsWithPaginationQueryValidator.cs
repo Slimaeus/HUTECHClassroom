@@ -2,13 +2,12 @@
 using HUTECHClassroom.Application.Common.Validators;
 using HUTECHClassroom.Application.Groups.DTOs;
 
-namespace HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination
+namespace HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination;
+
+public class GetGroupProjectsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetGroupProjectsWithPaginationQuery, GroupProjectDTO>
 {
-    public class GetGroupProjectsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetGroupProjectsWithPaginationQuery, GroupProjectDTO>
+    public GetGroupProjectsWithPaginationQueryValidator()
     {
-        public GetGroupProjectsWithPaginationQueryValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty().NotNull();
-        }
+        RuleFor(x => x.Id).NotEmpty().NotNull();
     }
 }

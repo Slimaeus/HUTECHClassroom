@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 
-namespace HUTECHClassroom.Application.Groups.Queries.GetGroup
+namespace HUTECHClassroom.Application.Groups.Queries.GetGroup;
+
+public class GetGroupQueryValidator : AbstractValidator<GetGroupQuery>
 {
-    public class GetGroupQueryValidator : AbstractValidator<GetGroupQuery>
+    public GetGroupQueryValidator()
     {
-        public GetGroupQueryValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty().NotNull();
-        }
+        RuleFor(x => x.Id).NotEmpty().NotNull();
     }
 }

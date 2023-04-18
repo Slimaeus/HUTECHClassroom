@@ -1,87 +1,81 @@
 ﻿using HUTECHClassroom.API.Filters;
-using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Security.Claims;
-using System.Text;
 
-namespace HUTECHClassroom.API
+namespace HUTECHClassroom.API;
+
+public static class ConfigureServices
 {
-    public static class ConfigureServices
+    public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
+        services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
+
+        #region Controllers
+        services.AddControllers(options =>
         {
-            services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
+            options.Filters.Add<ApiExceptionFilterAttribute>();
+        });
+        #endregion
 
-            #region Controllers
-            services.AddControllers(options =>
+        #region Versions
+        services.AddApiVersioning(options =>
+        {
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        });
+        services.AddVersionedApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
+        });
+        #endregion
+
+
+
+        #region Swagger
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
             {
-                options.Filters.Add<ApiExceptionFilterAttribute>();
-            });
-            #endregion
-
-            #region Versions
-            services.AddApiVersioning(options => {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            });
-            services.AddVersionedApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-            #endregion
-
-            
-
-            #region Swagger
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo
+                Version = "v1.0",
+                Title = "HUTECH Classroom",
+                Description = "API to manage classroom",
+                TermsOfService = new Uri("https://example.com/terms"),
+                Contact = new OpenApiContact
                 {
-                    Version = "v1.0",
-                    Title = "HUTECH Classroom",
-                    Description = "API to manage classroom",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    { 
-                        Name = "Slimaeus",
-                        Url = new Uri("https://github.com/Slimaeus")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Example License",
-                        Url = new Uri("https://example.com/license")
-                    }
-                });
-                options.SwaggerDoc("v2", new OpenApiInfo
+                    Name = "Slimaeus",
+                    Url = new Uri("https://github.com/Slimaeus")
+                },
+                License = new OpenApiLicense
                 {
-                    Version = "v2.0",
-                    Title = "HUTECH Classroom",
-                    Description = "API to manage classroom",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Slimaeus",
-                        Url = new Uri("https://github.com/Slimaeus")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Example License",
-                        Url = new Uri("https://example.com/license")
-                    }
-                });
+                    Name = "Example License",
+                    Url = new Uri("https://example.com/license")
+                }
             });
-            #endregion
+            options.SwaggerDoc("v2", new OpenApiInfo
+            {
+                Version = "v2.0",
+                Title = "HUTECH Classroom",
+                Description = "API to manage classroom",
+                TermsOfService = new Uri("https://example.com/terms"),
+                Contact = new OpenApiContact
+                {
+                    Name = "Slimaeus",
+                    Url = new Uri("https://github.com/Slimaeus")
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "Example License",
+                    Url = new Uri("https://example.com/license")
+                }
+            });
+        });
+        #endregion
 
-            return services;
-        }
+        return services;
     }
 }

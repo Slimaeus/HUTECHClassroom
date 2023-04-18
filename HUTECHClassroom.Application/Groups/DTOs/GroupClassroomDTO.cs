@@ -1,12 +1,11 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
 
-namespace HUTECHClassroom.Application.Groups.DTOs
+namespace HUTECHClassroom.Application.Groups.DTOs;
+
+public record GroupClassroomDTO : BaseEntityDTO
 {
-    public record GroupClassroomDTO : BaseEntityDTO
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Room { get; set; }
-        public string Topic { get; set; }
-    }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public string Room { get; set; }
+    public string Topic { get; set; }
 }

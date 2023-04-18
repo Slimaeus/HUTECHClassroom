@@ -1,133 +1,130 @@
 ﻿
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
 using HUTECHClassroom.Application.Common.Exceptions;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using LinqKit;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
 
-namespace HUTECHClassroom.API.Filters
+namespace HUTECHClassroom.API.Filters;
+
+public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
-    public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+    private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
+    public ApiExceptionFilterAttribute()
     {
-        private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
-        public ApiExceptionFilterAttribute()
+        // Register known exception types and handlers.
+        _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
-            // Register known exception types and handlers.
-            _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
-            {
-                { typeof(InvalidOperationException), HandleInvalidOperationException },
-                { typeof(ValidationException), HandleValidationException },
-                { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
-                //{ typeof(ForbiddenAccessException), HandleForbiddenAccessException },
-            };
+            { typeof(InvalidOperationException), HandleInvalidOperationException },
+            { typeof(ValidationException), HandleValidationException },
+            { typeof(NotFoundException), HandleNotFoundException },
+            { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
+            //{ typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+        };
+    }
+
+    public override void OnException(ExceptionContext context)
+    {
+        HandleException(context);
+
+        base.OnException(context);
+    }
+
+    private void HandleException(ExceptionContext context)
+    {
+        Type type = context.Exception.GetType();
+        if (_exceptionHandlers.TryGetValue(type, out Action<ExceptionContext> value))
+        {
+            value.Invoke(context);
+            return;
         }
 
-        public override void OnException(ExceptionContext context)
+        if (!context.ModelState.IsValid)
         {
-            HandleException(context);
-
-            base.OnException(context);
+            HandleInvalidModelStateException(context);
+            return;
         }
+    }
+    private void HandleInvalidOperationException(ExceptionContext context)
+    {
+        var exception = (InvalidOperationException)context.Exception;
 
-        private void HandleException(ExceptionContext context)
+        // Log the exception details
+        Trace.TraceError($"An invalid operation exception occurred: {exception.Message}");
+
+        var details = new ProblemDetails
         {
-            Type type = context.Exception.GetType();
-            if (_exceptionHandlers.TryGetValue(type, out Action<ExceptionContext> value))
-            {
-                value.Invoke(context);
-                return;
-            }
+            Status = StatusCodes.Status400BadRequest,
+            Title = "Bad Request",
+            Detail = exception.Message,
+            Instance = context.HttpContext.Request.Path
+        };
 
-            if (!context.ModelState.IsValid)
-            {
-                HandleInvalidModelStateException(context);
-                return;
-            }
-        }
-        private void HandleInvalidOperationException(ExceptionContext context)
+        context.Result = new ObjectResult(details)
         {
-            var exception = (InvalidOperationException)context.Exception;
+            StatusCode = StatusCodes.Status400BadRequest
+        };
 
-            // Log the exception details
-            Trace.TraceError($"An invalid operation exception occurred: {exception.Message}");
+        context.ExceptionHandled = true;
+    }
 
-            var details = new ProblemDetails
-            {
-                Status = StatusCodes.Status400BadRequest,
-                Title = "Bad Request",
-                Detail = exception.Message,
-                Instance = context.HttpContext.Request.Path
-            };
+    private void HandleValidationException(ExceptionContext context)
+    {
+        var exception = (ValidationException)context.Exception;
 
-            context.Result = new ObjectResult(details)
-            {
-                StatusCode = StatusCodes.Status400BadRequest
-            };
+        var modelState = exception.Errors
+            .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+            .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
 
-            context.ExceptionHandled = true;
-        }
-
-        private void HandleValidationException(ExceptionContext context)
+        var details = new ValidationProblemDetails(modelState)
         {
-            var exception = (ValidationException)context.Exception;
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+        };
 
-            var modelState = exception.Errors
-                .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
-                .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
+        context.Result = new BadRequestObjectResult(details);
 
-            var details = new ValidationProblemDetails(modelState)
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-            };
-
-            context.Result = new BadRequestObjectResult(details);
-
-            context.ExceptionHandled = true;
-        }
-        private static void HandleInvalidModelStateException(ExceptionContext context)
+        context.ExceptionHandled = true;
+    }
+    private static void HandleInvalidModelStateException(ExceptionContext context)
+    {
+        var details = new ValidationProblemDetails(context.ModelState)
         {
-            var details = new ValidationProblemDetails(context.ModelState)
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-            };
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+        };
 
-            context.Result = new BadRequestObjectResult(details);
+        context.Result = new BadRequestObjectResult(details);
 
-            context.ExceptionHandled = true;
-        }
-        private void HandleNotFoundException(ExceptionContext context)
+        context.ExceptionHandled = true;
+    }
+    private void HandleNotFoundException(ExceptionContext context)
+    {
+        var exception = (NotFoundException)context.Exception;
+
+        var details = new ProblemDetails()
         {
-            var exception = (NotFoundException)context.Exception;
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+            Title = "The specified resource was not found.",
+            Detail = exception.Message
+        };
 
-            var details = new ProblemDetails()
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-                Title = "The specified resource was not found.",
-                Detail = exception.Message
-            };
+        context.Result = new NotFoundObjectResult(details);
 
-            context.Result = new NotFoundObjectResult(details);
-
-            context.ExceptionHandled = true;
-        }
-        private void HandleUnauthorizedAccessException(ExceptionContext context)
+        context.ExceptionHandled = true;
+    }
+    private void HandleUnauthorizedAccessException(ExceptionContext context)
+    {
+        var details = new ProblemDetails
         {
-            var details = new ProblemDetails
-            {
-                Status = StatusCodes.Status401Unauthorized,
-                Title = "Unauthorized",
-                Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
-            };
+            Status = StatusCodes.Status401Unauthorized,
+            Title = "Unauthorized",
+            Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
+        };
 
-            context.Result = new ObjectResult(details)
-            {
-                StatusCode = StatusCodes.Status401Unauthorized
-            };
+        context.Result = new ObjectResult(details)
+        {
+            StatusCode = StatusCodes.Status401Unauthorized
+        };
 
-            context.ExceptionHandled = true;
-        }
+        context.ExceptionHandled = true;
     }
 }

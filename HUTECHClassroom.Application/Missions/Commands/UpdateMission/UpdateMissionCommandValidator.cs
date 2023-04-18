@@ -2,14 +2,13 @@
 using HUTECHClassroom.Application.Common.Validators;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 
-namespace HUTECHClassroom.Application.Missions.Commands
+namespace HUTECHClassroom.Application.Missions.Commands;
+
+public class UpdateMissionCommandValidator : UpdateCommandValidator<UpdateMissionCommand>
 {
-    public class UpdateMissionCommandValidator : UpdateCommandValidator<UpdateMissionCommand>
+    public UpdateMissionCommandValidator()
     {
-        public UpdateMissionCommandValidator()
-        {
-            RuleFor(x => x.Title).MaximumLength(50);
-            RuleFor(x => x.Description).MaximumLength(100);
-        }
+        RuleFor(x => x.Title).MaximumLength(50);
+        RuleFor(x => x.Description).MaximumLength(100);
     }
 }

@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
 
-namespace HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser
+namespace HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser;
+
+public class RemoveMissionUserCommandValidator : AbstractValidator<RemoveMissionUserCommand>
 {
-    public class RemoveMissionUserCommandValidator : AbstractValidator<RemoveMissionUserCommand>
+    public RemoveMissionUserCommandValidator()
     {
-        public RemoveMissionUserCommandValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty().NotNull();
-            RuleFor(x => x.UserName).NotEmpty().NotNull();
-        }
+        RuleFor(x => x.Id).NotEmpty().NotNull();
+        RuleFor(x => x.UserName).NotEmpty().NotNull();
     }
 }

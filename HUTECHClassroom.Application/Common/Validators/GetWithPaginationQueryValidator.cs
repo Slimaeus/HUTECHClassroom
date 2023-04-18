@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
 using HUTECHClassroom.Application.Common.Requests;
 
-namespace HUTECHClassroom.Application.Common.Validators
+namespace HUTECHClassroom.Application.Common.Validators;
+
+public abstract class GetWithPaginationQueryValidator<TQuery, TDTO> : AbstractValidator<TQuery>
+    where TQuery : GetWithPaginationQuery<TDTO>
+    where TDTO : class
 {
-    public abstract class GetWithPaginationQueryValidator<TQuery, TDTO> : AbstractValidator<TQuery>
-        where TQuery : GetWithPaginationQuery<TDTO>
-        where TDTO : class
+    public GetWithPaginationQueryValidator()
     {
-        public GetWithPaginationQueryValidator()
-        {
-            RuleFor(x => x.Params).SetValidator(new PaginationParamsValidator());
-        }
+        RuleFor(x => x.Params).SetValidator(new PaginationParamsValidator());
     }
 }

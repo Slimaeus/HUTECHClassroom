@@ -1,32 +1,30 @@
 ﻿using AutoMapper;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.DTOs;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomUsersWithPagination;
 using HUTECHClassroom.Domain.Entities;
 using System.Linq.Expressions;
-using HUTECHClassroom.Application.Common.Models;
 
-namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroomUsersWithPagination
+namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroomUsersWithPagination;
+
+public record GetClassroomUsersWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<MemberDTO>(Params);
+public class GetClassroomUsersWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationUser, GetClassroomUsersWithPaginationQuery, MemberDTO>
 {
-    public record GetClassroomUsersWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<MemberDTO>(Params);
-    public class GetClassroomUsersWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationUser, GetClassroomUsersWithPaginationQuery, MemberDTO>
+    public GetClassroomUsersWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
-        public GetClassroomUsersWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
-        {
-        }
-        protected override Expression<Func<ApplicationUser, bool>> FilterPredicate(GetClassroomUsersWithPaginationQuery query)
-        {
-            return x => x.ClassroomUsers.Any(x => x.ClassroomId == query.Id);
-        }
-        protected override Expression<Func<ApplicationUser, bool>> SearchStringPredicate(string searchString)
-        {
-            var toLowerSearchString = searchString.ToLower();
-            return x => x.UserName.ToLower().Contains(toLowerSearchString) || x.Email.ToLower().Contains(toLowerSearchString);
-        }
-        protected override Expression<Func<ApplicationUser, object>> OrderByKeySelector()
-        {
-            return x => x.UserName;
-        }
+    }
+    protected override Expression<Func<ApplicationUser, bool>> FilterPredicate(GetClassroomUsersWithPaginationQuery query)
+    {
+        return x => x.ClassroomUsers.Any(x => x.ClassroomId == query.Id);
+    }
+    protected override Expression<Func<ApplicationUser, bool>> SearchStringPredicate(string searchString)
+    {
+        var toLowerSearchString = searchString.ToLower();
+        return x => x.UserName.ToLower().Contains(toLowerSearchString) || x.Email.ToLower().Contains(toLowerSearchString);
+    }
+    protected override Expression<Func<ApplicationUser, object>> OrderByKeySelector()
+    {
+        return x => x.UserName;
     }
 }

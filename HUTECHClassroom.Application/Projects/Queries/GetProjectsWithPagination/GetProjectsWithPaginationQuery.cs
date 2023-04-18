@@ -6,18 +6,17 @@ using HUTECHClassroom.Application.Projects.DTOs;
 using HUTECHClassroom.Domain.Entities;
 using System.Linq.Expressions;
 
-namespace HUTECHClassroom.Application.Projects.Queries.GetProjectsWithPagination
+namespace HUTECHClassroom.Application.Projects.Queries.GetProjectsWithPagination;
+
+public record GetProjectsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<ProjectDTO>(Params);
+public class GetProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Project, GetProjectsWithPaginationQuery, ProjectDTO>
 {
-    public record GetProjectsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<ProjectDTO>(Params);
-    public class GetProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Project, GetProjectsWithPaginationQuery, ProjectDTO>
+    public GetProjectsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+    protected override Expression<Func<Project, bool>> SearchStringPredicate(string searchString) =>
+        x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Description.ToLower().Contains(searchString.ToLower());
+    protected override Expression<Func<Project, object>> OrderByKeySelector()
     {
-        public GetProjectsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-        protected override Expression<Func<Project, bool>> SearchStringPredicate(string searchString) =>
-            x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Description.ToLower().Contains(searchString.ToLower());
-        protected override Expression<Func<Project, object>> OrderByKeySelector()
-        {
-            return x => x.CreateDate;
-        }
+        return x => x.CreateDate;
     }
 }
 

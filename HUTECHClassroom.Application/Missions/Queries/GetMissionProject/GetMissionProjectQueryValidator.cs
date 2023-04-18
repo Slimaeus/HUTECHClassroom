@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 
-namespace HUTECHClassroom.Application.Missions.Queries.GetMissionProject
+namespace HUTECHClassroom.Application.Missions.Queries.GetMissionProject;
+
+public class GetMissionProjectQueryValidator : AbstractValidator<GetMissionProjectQuery>
 {
-    public class GetMissionProjectQueryValidator : AbstractValidator<GetMissionProjectQuery>
+    public GetMissionProjectQueryValidator()
     {
-        public GetMissionProjectQueryValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty().NotNull();
-        }
+        RuleFor(x => x.Id).NotEmpty().NotNull();
     }
 }

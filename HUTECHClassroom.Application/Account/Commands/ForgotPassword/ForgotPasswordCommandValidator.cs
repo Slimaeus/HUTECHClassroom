@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
 
-namespace HUTECHClassroom.Application.Account.Commands.ForgotPassword
+namespace HUTECHClassroom.Application.Account.Commands.ForgotPassword;
+
+public class ForgotPasswordCommandValidator : AbstractValidator<ForgotPasswordCommand>
 {
-    public class ForgotPasswordCommandValidator : AbstractValidator<ForgotPasswordCommand>
+    public ForgotPasswordCommandValidator()
     {
-        public ForgotPasswordCommandValidator()
-        {
-            RuleFor(x => x.Email)
-                .EmailAddress().WithMessage("Email is not in the correct format.");
-        }
+        RuleFor(x => x.Email)
+            .EmailAddress().WithMessage("Email is not in the correct format.");
     }
 }
