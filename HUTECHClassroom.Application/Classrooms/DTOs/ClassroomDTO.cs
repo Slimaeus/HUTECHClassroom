@@ -7,5 +7,7 @@ namespace HUTECHClassroom.Application.Classrooms.DTOs
         public string Title { get; set; }
         public string Topic { get; set; }
         public string Description { get; set; }
+
+        public MemberDTO Lecturer { get; set; }
     }
 }

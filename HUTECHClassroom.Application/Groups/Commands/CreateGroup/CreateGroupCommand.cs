@@ -13,7 +13,7 @@ namespace HUTECHClassroom.Application.Groups.Commands.CreateGroup
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string LecturerName { get; set; }
+        public string LeaderName { get; set; }
     }
     public class CreateGroupCommandHandler : CreateCommandHandler<Group, CreateGroupCommand, GroupDTO>
     {
@@ -27,13 +27,13 @@ namespace HUTECHClassroom.Application.Groups.Commands.CreateGroup
         {
             var query = _userRepository
                 .SingleResultQuery()
-                .AndFilter(x => x.UserName == request.LecturerName);
+                .AndFilter(x => x.UserName == request.LeaderName);
 
-            var lecturer = await _userRepository.SingleOrDefaultAsync(query);
+            var leader = await _userRepository.SingleOrDefaultAsync(query);
 
-            if (lecturer == null) throw new NotFoundException(nameof(ApplicationUser), request.LecturerName);
+            if (leader == null) throw new NotFoundException(nameof(ApplicationUser), request.LeaderName);
 
-            entity.Leader = lecturer;
+            entity.Leader = leader;
         }
     }
 }
