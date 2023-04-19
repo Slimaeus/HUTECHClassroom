@@ -16,6 +16,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Mission> Missions { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<Group> Groups { get; set; }
+    public DbSet<Post> Posts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -29,5 +30,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         builder.ApplyConfiguration(new ProjectConfiguration());
         builder.ApplyConfiguration(new GroupConfiguration());
         builder.ApplyConfiguration(new GroupUserConfiguration());
+        builder.ApplyConfiguration(new PostConfiguration());
     }
 }

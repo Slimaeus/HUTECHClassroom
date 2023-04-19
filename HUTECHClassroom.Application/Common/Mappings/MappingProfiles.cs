@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HUTECHClassroom.Application.Account.DTOs;
 using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Domain.Entities;
 
@@ -8,8 +9,8 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        #region User
         CreateMap<ApplicationUser, MemberDTO>();
-        #endregion
+
+        CreateMap<Faculty, UserFacultyDTO>();
     }
 }

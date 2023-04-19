@@ -46,7 +46,7 @@ public class ApplicationDbContextInitializer
 
     public async Task TrySeedAsync()
     {
-        if (_context.Faculties.Any() || _context.Users.Any() || _context.Classrooms.Any() || _context.Missions.Any() || _context.Projects.Any() || _context.Groups.Any() || _context.Roles.Any()) return;
+        if (_context.Faculties.Any() || _context.Users.Any() || _context.Classrooms.Any() || _context.Posts.Any() || _context.Missions.Any() || _context.Projects.Any() || _context.Groups.Any() || _context.Roles.Any()) return;
 
         var faculties = new Faculty[]
         {
@@ -135,6 +135,26 @@ public class ApplicationDbContextInitializer
                 Faculty = faculties[0]
             }
         };
+
+        var posts = new Post[]
+        {
+            new Post
+            {
+                Content = "Hello world",
+                Link = "google.com",
+                User = users[0],
+                Classroom = classrooms[0]
+            },
+            new Post
+            {
+                Content = "Hello!",
+                Link = "yahoo.com",
+                User = users[1],
+                Classroom = classrooms[1]
+            }
+        };
+
+        await _context.AddRangeAsync(posts);
 
         var groups = new Group[]
         {

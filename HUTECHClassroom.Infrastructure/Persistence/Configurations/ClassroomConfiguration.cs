@@ -23,5 +23,8 @@ public class ClassroomConfiguration : IEntityTypeConfiguration<Classroom>
 
         builder.Property(x => x.LecturerId)
             .IsRequired();
+
+        builder.Property(x => x.FacultyId)
+            .IsRequired();
     }
 }

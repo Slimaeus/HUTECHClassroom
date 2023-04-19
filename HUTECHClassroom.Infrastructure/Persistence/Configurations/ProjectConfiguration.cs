@@ -14,5 +14,8 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
 
         builder.Property(x => x.Description)
             .HasMaxLength(100);
+
+        builder.Property(x => x.GroupId)
+            .IsRequired();
     }
 }

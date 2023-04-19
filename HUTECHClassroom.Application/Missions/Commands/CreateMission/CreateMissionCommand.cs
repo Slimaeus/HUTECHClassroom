@@ -17,7 +17,7 @@ public record CreateMissionCommand : CreateCommand<MissionDTO>
 }
 public class CreateMissionCommandHandler : CreateCommandHandler<Mission, CreateMissionCommand, MissionDTO>
 {
-    private IRepository<Project> _projectRepository;
+    private readonly IRepository<Project> _projectRepository;
 
     public CreateMissionCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

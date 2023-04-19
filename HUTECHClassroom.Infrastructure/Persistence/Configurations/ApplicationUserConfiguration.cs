@@ -8,8 +8,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
 {
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
-        builder.HasMany(x => x.GroupUsers)
-            .WithOne(x => x.User)
-            .HasForeignKey(x => x.UserId);
+        builder.Property(x => x.FacultyId)
+            .IsRequired();
     }
 }

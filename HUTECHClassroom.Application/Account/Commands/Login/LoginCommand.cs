@@ -2,6 +2,7 @@
 using HUTECHClassroom.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Account.Commands.Login;
 
@@ -16,7 +17,10 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, UserDTO>
     }
     public async Task<UserDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManger.FindByNameAsync(request.UserName);
+        var user = await _userManger
+            .Users
+            .Include(x => x.Faculty)
+            .SingleOrDefaultAsync(x => x.UserName == request.UserName);
 
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
 

@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
 using HUTECHClassroom.Application.Common.Validators;
-using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 
-namespace HUTECHClassroom.Application.Missions.Commands;
+namespace HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 
 public class UpdateMissionCommandValidator : UpdateCommandValidator<UpdateMissionCommand>
 {

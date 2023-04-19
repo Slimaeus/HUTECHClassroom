@@ -16,7 +16,7 @@ public record CreateProjectCommand : CreateCommand<ProjectDTO>
 }
 public class CreateProjectCommandHandler : CreateCommandHandler<Project, CreateProjectCommand, ProjectDTO>
 {
-    private IRepository<Group> _groupRepository;
+    private readonly IRepository<Group> _groupRepository;
 
     public CreateProjectCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
