@@ -15,6 +15,6 @@ public class Exercise : BaseEntity
     public Guid ClassroomId { get; set; }
     public Classroom Classroom { get; set; }
 
+    public virtual ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
     public virtual ICollection<ExerciseUser> ExerciseUsers { get; set; } = new HashSet<ExerciseUser>();
-
 }

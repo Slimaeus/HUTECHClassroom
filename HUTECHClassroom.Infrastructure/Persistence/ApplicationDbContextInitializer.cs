@@ -49,6 +49,8 @@ public class ApplicationDbContextInitializer
         if (_context.Faculties.Any()
             || _context.Users.Any()
             || _context.Classrooms.Any()
+            || _context.Exercises.Any()
+            || _context.Answers.Any()
             || _context.Posts.Any()
             || _context.Comments.Any()
             || _context.Missions.Any()
@@ -171,6 +173,28 @@ public class ApplicationDbContextInitializer
         };
 
         await _context.AddRangeAsync(exercises);
+
+        var answers = new Answer[]
+        {
+            new Answer
+            {
+                Description = "Sorry, I don't know T_T",
+                Link = "a.com",
+                Score = 0,
+                Exercise = exercises[0],
+                User = users[0]
+            },
+            new Answer
+            {
+                Description = "Sorry, I don't know, too T_T",
+                Link = "b.com",
+                Score = 0,
+                Exercise = exercises[0],
+                User = users[0]
+            }
+        };
+
+        await _context.AddRangeAsync(answers);
 
         var posts = new Post[]
         {

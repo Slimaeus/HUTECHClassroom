@@ -240,7 +240,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 4, 20, 13, 56, 24, 857, DateTimeKind.Utc).AddTicks(7143)),
+                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 4, 20, 16, 16, 1, 880, DateTimeKind.Utc).AddTicks(319)),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -309,6 +309,35 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         name: "FK_Posts_Classrooms_ClassroomId",
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    Score = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExerciseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Answers_Exercises_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -456,6 +485,16 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Answers_ExerciseId",
+                table: "Answers",
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_UserId",
+                table: "Answers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -576,6 +615,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Answers");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

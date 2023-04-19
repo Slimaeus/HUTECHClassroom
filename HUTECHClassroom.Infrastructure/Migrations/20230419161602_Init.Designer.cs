@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230419135624_Init")]
+    [Migration("20230419161602_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,6 +24,44 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Answer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Link")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<float>("Score")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("real")
+                        .HasDefaultValue(0f);
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Answers");
+                });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationRole", b =>
                 {
@@ -226,7 +264,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 4, 20, 13, 56, 24, 857, DateTimeKind.Utc).AddTicks(7143));
+                        .HasDefaultValue(new DateTime(2023, 4, 20, 16, 16, 1, 880, DateTimeKind.Utc).AddTicks(319));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -548,6 +586,25 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Answer", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Exercise", "Exercise")
+                        .WithMany("Answers")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("Answers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUser", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.Faculty", "Faculty")
@@ -797,6 +854,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUser", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("ClassroomUsers");
 
                     b.Navigation("ExerciseUsers");
@@ -821,6 +880,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Exercise", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("ExerciseUsers");
                 });
 
