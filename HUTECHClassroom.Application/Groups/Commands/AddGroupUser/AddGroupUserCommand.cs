@@ -29,12 +29,12 @@ public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, U
             .Include(i => i.Include(x => x.GroupUsers).ThenInclude(x => x.User))
             .AndFilter(x => x.Id == request.Id);
 
-        var mission = await _repository
+        var group = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (mission == null) throw new NotFoundException(nameof(Group), request.Id);
+        if (group == null) throw new NotFoundException(nameof(Group), request.Id);
 
-        if (mission.GroupUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
+        if (group.GroupUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
 
         var userQuery = _userRepository
             .SingleResultQuery()
@@ -45,11 +45,11 @@ public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, U
 
         if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
 
-        mission.GroupUsers.Add(new GroupUser { User = user });
+        group.GroupUsers.Add(new GroupUser { User = user });
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        _repository.RemoveTracking(mission);
+        _repository.RemoveTracking(group);
 
         return Unit.Value;
     }

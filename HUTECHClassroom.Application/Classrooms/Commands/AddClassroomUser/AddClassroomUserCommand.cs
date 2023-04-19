@@ -29,12 +29,12 @@ public class AddClassroomUserCommandHandler : IRequestHandler<AddClassroomUserCo
             .Include(i => i.Include(x => x.ClassroomUsers).ThenInclude(x => x.User))
             .AndFilter(x => x.Id == request.Id);
 
-        var mission = await _repository
+        var classroom = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (mission == null) throw new NotFoundException(nameof(Classroom), request.Id);
+        if (classroom == null) throw new NotFoundException(nameof(Classroom), request.Id);
 
-        if (mission.ClassroomUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
+        if (classroom.ClassroomUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
 
         var userQuery = _userRepository
             .SingleResultQuery()
@@ -45,11 +45,11 @@ public class AddClassroomUserCommandHandler : IRequestHandler<AddClassroomUserCo
 
         if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
 
-        mission.ClassroomUsers.Add(new ClassroomUser { User = user });
+        classroom.ClassroomUsers.Add(new ClassroomUser { User = user });
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        _repository.RemoveTracking(mission);
+        _repository.RemoveTracking(classroom);
 
         return Unit.Value;
     }

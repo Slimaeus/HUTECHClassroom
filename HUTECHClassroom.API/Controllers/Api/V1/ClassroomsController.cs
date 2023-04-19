@@ -6,6 +6,7 @@ using HUTECHClassroom.Application.Classrooms.Commands.UpdateClassroom;
 using HUTECHClassroom.Application.Classrooms.DTOs;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroom;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomGroupsWithPagination;
+using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomPostsWithPagination;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomsWithPagination;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomUsersWithPagination;
 using HUTECHClassroom.Application.Common.DTOs;
@@ -44,4 +45,7 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     [HttpGet("{id}/groups")]
     public async Task<ActionResult<IEnumerable<ClassroomGroupDTO>>> GetGroups(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomGroupsWithPaginationQuery(id, @params)));
+    [HttpGet("{id}/posts")]
+    public async Task<ActionResult<IEnumerable<ClassroomPostDTO>>> GetPosts(Guid id, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetClassroomPostsWithPaginationQuery(id, @params)));
 }

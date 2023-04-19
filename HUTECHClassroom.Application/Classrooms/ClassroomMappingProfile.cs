@@ -20,5 +20,6 @@ public class ClassroomMappingProfile : Profile
             .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email));
         CreateMap<Faculty, ClassroomFacultyDTO>();
         CreateMap<Group, ClassroomGroupDTO>();
+        CreateMap<Post, ClassroomPostDTO>();
     }
 }

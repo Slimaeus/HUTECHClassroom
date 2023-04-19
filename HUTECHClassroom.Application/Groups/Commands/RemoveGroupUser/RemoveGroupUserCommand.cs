@@ -27,20 +27,20 @@ public class RemoveGroupUserCommandHandler : IRequestHandler<RemoveGroupUserComm
             .Include(i => i.Include(x => x.GroupUsers).ThenInclude(x => x.User))
             .AndFilter(x => x.Id == request.Id);
 
-        var mission = await _repository
+        var group = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (mission == null) throw new NotFoundException(nameof(Group), request.Id);
+        if (group == null) throw new NotFoundException(nameof(Group), request.Id);
 
-        var user = mission.GroupUsers.SingleOrDefault(x => x.User.UserName == request.UserName);
+        var user = group.GroupUsers.SingleOrDefault(x => x.User.UserName == request.UserName);
 
         if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
 
-        mission.GroupUsers.Remove(user);
+        group.GroupUsers.Remove(user);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        _repository.RemoveTracking(mission);
+        _repository.RemoveTracking(group);
 
         return Unit.Value;
     }

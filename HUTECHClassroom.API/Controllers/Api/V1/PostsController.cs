@@ -4,6 +4,7 @@ using HUTECHClassroom.Application.Posts.Commands.DeletePost;
 using HUTECHClassroom.Application.Posts.Commands.UpdatePost;
 using HUTECHClassroom.Application.Posts.DTOs;
 using HUTECHClassroom.Application.Posts.Queries.GetPost;
+using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
 using HUTECHClassroom.Application.Posts.Queries.GetPostsWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,4 +28,7 @@ public class PostsController : BaseEntityApiController<PostDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<PostDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeletePostCommand(id));
+    [HttpGet("{id}/comments")]
+    public async Task<ActionResult<IEnumerable<PostCommentDTO>>> GetComments(Guid id, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetPostCommentsWithPaginationQuery(id, @params)));
 }

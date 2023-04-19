@@ -16,5 +16,6 @@ public class PostMappingProfile : Profile
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
         CreateMap<Classroom, PostClassroomDTO>();
+        CreateMap<Comment, PostCommentDTO>();
     }
 }
