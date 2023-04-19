@@ -144,6 +144,34 @@ public class ApplicationDbContextInitializer
             }
         };
 
+        var exercises = new Exercise[]
+        {
+            new Exercise
+            {
+                Title = "Solve the problem",
+                Instruction = "Suppose that L1 and L2 are lines in the plane, that the x-intercepts of L1 and L2 are 5\r\nand −1, respectively, and that the respective y-intercepts are 5 and 1. Then L1 and L2\r\nintersect at the point ( , ) .",
+                Link = "google.com",
+                TotalScore = 10,
+                Deadline = DateTime.UtcNow.AddDays(1),
+                Topic = "Mathemetics",
+                Criteria = "Good: 10, Bad: 5",
+                Classroom = classrooms[0],
+                ExerciseUsers = new ExerciseUser[]
+                {
+                    new ExerciseUser
+                    {
+                        User = users[0]
+                    },
+                    new ExerciseUser
+                    {
+                        User = users[1]
+                    }
+                }
+            }
+        };
+
+        await _context.AddRangeAsync(exercises);
+
         var posts = new Post[]
         {
             new Post

@@ -232,6 +232,32 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Exercises",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Instruction = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    TotalScore = table.Column<float>(type: "real", nullable: false),
+                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 4, 20, 13, 56, 24, 857, DateTimeKind.Utc).AddTicks(7143)),
+                    Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercises", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Exercises_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
                 {
@@ -283,6 +309,30 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         name: "FK_Posts_Classrooms_ClassroomId",
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExerciseUser",
+                columns: table => new
+                {
+                    ExerciseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseUser", x => new { x.UserId, x.ExerciseId });
+                    table.ForeignKey(
+                        name: "FK_ExerciseUser_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExerciseUser_Exercises_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -473,6 +523,16 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Exercises_ClassroomId",
+                table: "Exercises",
+                column: "ClassroomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExerciseUser_ExerciseId",
+                table: "ExerciseUser",
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Groups_ClassroomId",
                 table: "Groups",
                 column: "ClassroomId");
@@ -538,6 +598,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "ExerciseUser");
+
+            migrationBuilder.DropTable(
                 name: "GroupUser");
 
             migrationBuilder.DropTable(
@@ -548,6 +611,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "Exercises");
 
             migrationBuilder.DropTable(
                 name: "Missions");

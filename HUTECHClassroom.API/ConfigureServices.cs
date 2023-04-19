@@ -33,8 +33,6 @@ public static class ConfigureServices
         });
         #endregion
 
-
-
         #region Swagger
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>

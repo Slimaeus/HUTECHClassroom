@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230419053233_Init")]
+    [Migration("20230419135624_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -205,6 +205,70 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Exercise", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClassroomId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Criteria")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("Deadline")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValue(new DateTime(2023, 4, 20, 13, 56, 24, 857, DateTimeKind.Utc).AddTicks(7143));
+
+                    b.Property<string>("Instruction")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Link")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Topic")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<float>("TotalScore")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.ToTable("Exercises");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ExerciseUser", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "ExerciseId");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("ExerciseUser");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Faculty", b =>
@@ -552,6 +616,36 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Exercise", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
+                        .WithMany("Excercises")
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Classroom");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ExerciseUser", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Exercise", "Exercise")
+                        .WithMany("ExerciseUsers")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("ExerciseUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Group", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
@@ -705,6 +799,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 {
                     b.Navigation("ClassroomUsers");
 
+                    b.Navigation("ExerciseUsers");
+
                     b.Navigation("GroupUsers");
 
                     b.Navigation("Groups");
@@ -716,9 +812,16 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 {
                     b.Navigation("ClassroomUsers");
 
+                    b.Navigation("Excercises");
+
                     b.Navigation("Groups");
 
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Exercise", b =>
+                {
+                    b.Navigation("ExerciseUsers");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Faculty", b =>

@@ -17,4 +17,5 @@ public class Classroom : BaseEntity
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();
     public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
     public virtual ICollection<ClassroomUser> ClassroomUsers { get; set; } = new HashSet<ClassroomUser>();
+    public virtual ICollection<Exercise> Excercises { get; set; }
 }

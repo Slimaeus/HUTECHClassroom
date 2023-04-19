@@ -12,6 +12,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     }
 
     public DbSet<Classroom> Classrooms { get; set; }
+    public DbSet<Exercise> Exercises { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<Mission> Missions { get; set; }
     public DbSet<Project> Projects { get; set; }
@@ -26,6 +27,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
         builder.ApplyConfiguration(new ClassroomConfiguration());
         builder.ApplyConfiguration(new ClassroomUserConfiguration());
+        builder.ApplyConfiguration(new ExerciseConfiguration());
+        builder.ApplyConfiguration(new ExerciseUserConfiguration());
         builder.ApplyConfiguration(new FacultyConfiguration());
         builder.ApplyConfiguration(new MissionConfiguration());
         builder.ApplyConfiguration(new MissionUserConfiguration());
