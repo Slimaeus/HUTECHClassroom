@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
 using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +11,12 @@ public record LoginCommand(string UserName, string Password) : IRequest<UserDTO>
 public class LoginCommandHandler : IRequestHandler<LoginCommand, UserDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;
+    private readonly ITokenService _tokenService;
 
-    public LoginCommandHandler(UserManager<ApplicationUser> userManger)
+    public LoginCommandHandler(UserManager<ApplicationUser> userManger, ITokenService tokenService)
     {
         _userManger = userManger;
+        _tokenService = tokenService;
     }
     public async Task<UserDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
@@ -26,7 +29,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, UserDTO>
 
         var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
 
-        if (isSuccess) return UserDTO.Create(user);
+        if (isSuccess) return UserDTO.Create(user, _tokenService.CreateToken(user));
 
         throw new UnauthorizedAccessException(nameof(ApplicationUser));
     }

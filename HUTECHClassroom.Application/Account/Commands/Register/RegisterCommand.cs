@@ -3,6 +3,7 @@ using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Account.DTOs;
 using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -18,11 +19,13 @@ public record RegisterCommand : IRequest<UserDTO>
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;
+    private readonly ITokenService _tokenService;
     private readonly IRepository<Faculty> _facultyRepository;
 
-    public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork)
+    public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService)
     {
         _userManger = userManger;
+        _tokenService = tokenService;
         _facultyRepository = unitOfWork.Repository<Faculty>();
     }
     public async Task<UserDTO> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -45,7 +48,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDTO>
 
         var result = await _userManger.CreateAsync(user, request.Password);
 
-        if (result.Succeeded) return UserDTO.Create(user);
+        if (result.Succeeded) return UserDTO.Create(user, _tokenService.CreateToken(user));
 
         throw new InvalidOperationException("Failed to register");
     }

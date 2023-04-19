@@ -1,22 +1,25 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.ChangePassword;
 
-public record ChangePasswordCommand(string UserName, string Password, string NewPassword) : IRequest<Unit>;
+public record ChangePasswordCommand(string Password, string NewPassword) : IRequest<Unit>;
 public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IUserAccessor _userAccessor;
 
-    public ChangePasswordCommandHandler(UserManager<ApplicationUser> userManager)
+    public ChangePasswordCommandHandler(UserManager<ApplicationUser> userManager, IUserAccessor userAccessor)
     {
         _userManager = userManager;
+        _userAccessor = userAccessor;
     }
 
     public async Task<Unit> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByNameAsync(request.UserName);
+        var user = await _userManager.FindByNameAsync(_userAccessor.UserName);
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
         var result = await _userManager.ChangePasswordAsync(user, request.Password, request.NewPassword);

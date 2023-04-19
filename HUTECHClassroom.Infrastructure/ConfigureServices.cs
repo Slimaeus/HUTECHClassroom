@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkCore.UnitOfWork.Extensions;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Infrastructure.Persistence;
+using HUTECHClassroom.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -78,6 +79,9 @@ public static class ConfigureServices
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IUserAccessor, UserAccessor>();
 
         #endregion
 

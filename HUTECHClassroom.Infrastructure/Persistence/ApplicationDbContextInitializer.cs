@@ -71,14 +71,17 @@ public class ApplicationDbContextInitializer
         };
 
         var studentRole = new ApplicationRole("Student");
-        var roles = new ApplicationRole[6]
+        var lecturerRole = new ApplicationRole("Lecturer");
+        var deanRole = new ApplicationRole("Dean");
+        var trainingOfficeRole = new ApplicationRole("TrainingOffice");
+        var administratorRole = new ApplicationRole("Administrator");
+        var roles = new ApplicationRole[]
         {
-            new ApplicationRole("Administrator"),
-            new ApplicationRole("TrainingOffice"),
-            new ApplicationRole("Dean"),
-            new ApplicationRole("Lecturer"),
-            new ApplicationRole("Leader"),
-            studentRole
+            studentRole,
+            lecturerRole,
+            deanRole,
+            trainingOfficeRole,
+            administratorRole
         };
 
 
