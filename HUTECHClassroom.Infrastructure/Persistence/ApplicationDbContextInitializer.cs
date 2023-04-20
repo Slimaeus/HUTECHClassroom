@@ -84,14 +84,20 @@ public class ApplicationDbContextInitializer
             administratorRole
         };
 
-
         foreach (var role in roles)
         {
             await _roleManager.CreateAsync(role);
         }
 
+        var createMission = new Claim("mission", "create");
         var readMission = new Claim("mission", "read");
+        var updateMission = new Claim("mission", "update");
+        var deleteMission = new Claim("mission", "delete");
         await _roleManager.AddClaimAsync(studentRole, readMission);
+        await _roleManager.AddClaimAsync(lecturerRole, createMission);
+        await _roleManager.AddClaimAsync(lecturerRole, readMission);
+        await _roleManager.AddClaimAsync(lecturerRole, updateMission);
+        await _roleManager.AddClaimAsync(lecturerRole, deleteMission);
 
         var users = new ApplicationUser[]
         {
@@ -124,7 +130,8 @@ public class ApplicationDbContextInitializer
         foreach (var user in users)
         {
             await _userManager.CreateAsync(user, "P@ssw0rd").ConfigureAwait(false);
-            await _userManager.AddToRoleAsync(user, roles[5].Name);
+            await _userManager.AddToRoleAsync(user, roles[0].Name);
+            await _userManager.AddToRoleAsync(user, roles[1].Name);
         }
 
         var classrooms = new Classroom[]

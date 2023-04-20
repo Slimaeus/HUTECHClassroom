@@ -48,7 +48,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDTO>
 
         var result = await _userManger.CreateAsync(user, request.Password);
 
-        if (result.Succeeded) return UserDTO.Create(user, _tokenService.CreateToken(user));
+        if (result.Succeeded) return UserDTO.Create(user, await _tokenService.CreateToken(user));
 
         throw new InvalidOperationException("Failed to register");
     }

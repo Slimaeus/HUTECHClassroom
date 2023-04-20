@@ -33,6 +33,16 @@ public static class ConfigureServices
         });
         #endregion
 
+        #region Authorization
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("CreateMissionPolicy", policy =>
+            {
+                policy.RequireClaim("mission", "create");
+            });
+        });
+        #endregion
+
         #region Swagger
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
