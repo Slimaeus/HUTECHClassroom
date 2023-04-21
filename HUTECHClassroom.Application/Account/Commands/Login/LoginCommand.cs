@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Account.Commands.Login;
 
-public record LoginCommand(string UserName, string Password) : IRequest<UserDTO>;
-public class LoginCommandHandler : IRequestHandler<LoginCommand, UserDTO>
+public record LoginCommand(string UserName, string Password) : IRequest<AccountDTO>;
+public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;
     private readonly ITokenService _tokenService;
@@ -18,7 +18,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, UserDTO>
         _userManger = userManger;
         _tokenService = tokenService;
     }
-    public async Task<UserDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<AccountDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManger
             .Users
@@ -29,7 +29,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, UserDTO>
 
         var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
 
-        if (isSuccess) return UserDTO.Create(user, await _tokenService.CreateToken(user));
+        if (isSuccess) return AccountDTO.Create(user, await _tokenService.CreateToken(user));
 
         throw new UnauthorizedAccessException(nameof(ApplicationUser));
     }

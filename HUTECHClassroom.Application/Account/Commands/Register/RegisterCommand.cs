@@ -9,14 +9,14 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.Register;
 
-public record RegisterCommand : IRequest<UserDTO>
+public record RegisterCommand : IRequest<AccountDTO>
 {
     public string UserName { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
     public Guid FacultyId { get; set; }
 }
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDTO>
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;
     private readonly ITokenService _tokenService;
@@ -28,7 +28,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDTO>
         _tokenService = tokenService;
         _facultyRepository = unitOfWork.Repository<Faculty>();
     }
-    public async Task<UserDTO> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<AccountDTO> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         var user = new ApplicationUser
         {
@@ -48,7 +48,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDTO>
 
         var result = await _userManger.CreateAsync(user, request.Password);
 
-        if (result.Succeeded) return UserDTO.Create(user, await _tokenService.CreateToken(user));
+        if (result.Succeeded) return AccountDTO.Create(user, await _tokenService.CreateToken(user));
 
         throw new InvalidOperationException("Failed to register");
     }

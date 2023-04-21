@@ -13,11 +13,11 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class AccountController : BaseApiController
 {
     [HttpPost("login")]
-    public async Task<ActionResult<UserDTO>> Login(LoginCommand request)
+    public async Task<ActionResult<AccountDTO>> Login(LoginCommand request)
         => Ok(await Mediator.Send(request));
     // For test only
     [HttpPost("register")]
-    public async Task<ActionResult<UserDTO>> Register(RegisterCommand request)
+    public async Task<ActionResult<AccountDTO>> Register(RegisterCommand request)
         => Ok(await Mediator.Send(request));
     [Authorize]
     [HttpPatch("change-password")]
