@@ -3,6 +3,7 @@ using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Projects.Commands.AddMission;
 using HUTECHClassroom.Application.Projects.Commands.CreateProject;
 using HUTECHClassroom.Application.Projects.Commands.DeleteProject;
+using HUTECHClassroom.Application.Projects.Commands.DeleteRangeProject;
 using HUTECHClassroom.Application.Projects.Commands.RemoveMission;
 using HUTECHClassroom.Application.Projects.Commands.UpdateProject;
 using HUTECHClassroom.Application.Projects.DTOs;
@@ -32,6 +33,9 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<ProjectDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteProjectCommand(id));
+    [HttpDelete]
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangeProjectCommand(ids));
     [HttpGet("{id}/missions")]
     public async Task<ActionResult<IEnumerable<ProjectMissionDTO>>> GetMissions(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetProjectMissionsWithPaginationQuery(id, @params)));

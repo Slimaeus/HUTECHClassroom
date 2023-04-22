@@ -3,6 +3,7 @@ using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
 using HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
 using HUTECHClassroom.Application.Exercises.Commands.DeleteExercise;
+using HUTECHClassroom.Application.Exercises.Commands.DeleteRangeExercise;
 using HUTECHClassroom.Application.Exercises.Commands.RemoveExerciseUser;
 using HUTECHClassroom.Application.Exercises.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Exercises.DTOs;
@@ -31,6 +32,9 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<ExerciseDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteExerciseCommand(id));
+    [HttpDelete]
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangeExerciseCommand(ids));
     [HttpGet("{id}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetExerciseUsersWithPaginationQuery(id, @params)));

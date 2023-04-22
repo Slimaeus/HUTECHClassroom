@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Posts.Commands.CreatePost;
 using HUTECHClassroom.Application.Posts.Commands.DeletePost;
+using HUTECHClassroom.Application.Posts.Commands.DeleteRangePost;
 using HUTECHClassroom.Application.Posts.Commands.UpdatePost;
 using HUTECHClassroom.Application.Posts.DTOs;
 using HUTECHClassroom.Application.Posts.Queries.GetPost;
@@ -28,6 +29,9 @@ public class PostsController : BaseEntityApiController<PostDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<PostDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeletePostCommand(id));
+    [HttpDelete]
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangePostCommand(ids));
     [HttpGet("{id}/comments")]
     public async Task<ActionResult<IEnumerable<PostCommentDTO>>> GetComments(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetPostCommentsWithPaginationQuery(id, @params)));

@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Application.Classrooms.Commands.AddClassroomUser;
 using HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 using HUTECHClassroom.Application.Classrooms.Commands.DeleteClassroom;
+using HUTECHClassroom.Application.Classrooms.Commands.DeleteRangeClassroom;
 using HUTECHClassroom.Application.Classrooms.Commands.RemoveClassroomUser;
 using HUTECHClassroom.Application.Classrooms.Commands.UpdateClassroom;
 using HUTECHClassroom.Application.Classrooms.DTOs;
@@ -34,6 +35,9 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<ClassroomDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteClassroomCommand(id));
+    [HttpDelete]
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangeClassroomCommand(ids));
     [HttpGet("{id}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomUsersWithPaginationQuery(id, @params)));

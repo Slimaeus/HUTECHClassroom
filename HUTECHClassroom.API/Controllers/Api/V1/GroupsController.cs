@@ -3,6 +3,7 @@ using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
 using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.Commands.DeleteGroup;
+using HUTECHClassroom.Application.Groups.Commands.DeleteRangeGroup;
 using HUTECHClassroom.Application.Groups.Commands.RemoveGroupUser;
 using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
@@ -33,6 +34,9 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<GroupDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteGroupCommand(id));
+    [HttpDelete]
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangeGroupCommand(ids));
     [HttpGet("{id}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetGroupUsersWithPaginationQuery(id, @params)));

@@ -36,4 +36,10 @@ public class BaseEntityApiController<TEntityDTO> : BaseApiController
     protected async Task<ActionResult<TEntityDTO>> HandleDeleteCommand<TDeleteCommand>(TDeleteCommand command)
         where TDeleteCommand : DeleteCommand<TEntityDTO>
         => Ok(await Mediator.Send(command));
+    protected async Task<IActionResult> HandleDeleteRangeCommand<TDeleteRangeCommand>(TDeleteRangeCommand command)
+        where TDeleteRangeCommand : DeleteRangeCommand
+    {
+        await Mediator.Send(command);
+        return NoContent();
+    }
 }

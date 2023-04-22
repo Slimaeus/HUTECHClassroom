@@ -13,20 +13,20 @@ public class ResultsController : BaseApiController
         => Ok();
     [HttpGet("bad-request")]
     public IActionResult GetBadRequest()
-                => BadRequest();
+        => BadRequest();
     [HttpGet("no-content")]
     public IActionResult GetNoContent()
-                => NoContent();
+        => NoContent();
     [HttpGet("unauthorized")]
     public IActionResult GetUnauthorized()
-                => Unauthorized();
+        => Unauthorized();
     [HttpGet("conflict")]
     public IActionResult GetConflict()
-                => Conflict();
+        => Conflict();
     [HttpGet("forbid")]
     public IActionResult GetForbid()
-                => Forbid();
+        => Forbid();
     [HttpGet("InternalServerError")]
     public IActionResult GetInternalServerError()
-                => StatusCode(StatusCodes.Status500InternalServerError);
+        => StatusCode(StatusCodes.Status500InternalServerError);
 }

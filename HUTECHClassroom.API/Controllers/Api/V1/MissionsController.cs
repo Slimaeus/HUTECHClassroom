@@ -36,11 +36,8 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     public Task<ActionResult<MissionDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteMissionCommand(id));
     [HttpDelete]
-    public async Task<IActionResult> DeleteRange(IList<Guid> ids)
-    {
-        await Mediator.Send(new DeleteRangeMissionCommand(ids));
-        return NoContent();
-    }
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangeMissionCommand(ids));
     [HttpGet("{id}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(id, @params)));

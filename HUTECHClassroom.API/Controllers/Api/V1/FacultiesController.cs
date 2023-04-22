@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.DeleteFaculty;
+using HUTECHClassroom.Application.Faculties.Commands.DeleteRangeFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.UpdateFaculty;
 using HUTECHClassroom.Application.Faculties.DTOs;
 using HUTECHClassroom.Application.Faculties.Queries.GetFacultiesWithPagination;
@@ -27,4 +28,7 @@ public class FacultiesController : BaseEntityApiController<FacultyDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<FacultyDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteFacultyCommand(id));
+    [HttpDelete]
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangeFacultyCommand(ids));
 }

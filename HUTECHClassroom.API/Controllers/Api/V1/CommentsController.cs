@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Comments.Commands.CreateComment;
 using HUTECHClassroom.Application.Comments.Commands.DeleteComment;
+using HUTECHClassroom.Application.Comments.Commands.DeleteRangeComment;
 using HUTECHClassroom.Application.Comments.Commands.UpdateComment;
 using HUTECHClassroom.Application.Comments.DTOs;
 using HUTECHClassroom.Application.Comments.Queries.GetComment;
@@ -27,4 +28,7 @@ public class CommentsController : BaseEntityApiController<CommentDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<CommentDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteCommentCommand(id));
+    [HttpDelete]
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangeCommentCommand(ids));
 }

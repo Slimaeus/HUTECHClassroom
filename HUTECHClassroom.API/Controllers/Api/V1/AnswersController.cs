@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
 using HUTECHClassroom.Application.Answers.Commands.DeleteAnswer;
+using HUTECHClassroom.Application.Answers.Commands.DeleteRangeAnswer;
 using HUTECHClassroom.Application.Answers.Commands.UpdateAnswer;
 using HUTECHClassroom.Application.Answers.DTOs;
 using HUTECHClassroom.Application.Answers.Queries.GetAnswer;
@@ -27,4 +28,7 @@ public class AnswersController : BaseEntityApiController<AnswerDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<AnswerDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteAnswerCommand(id));
+    [HttpDelete]
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
+        => HandleDeleteRangeCommand(new DeleteRangeAnswerCommand(ids));
 }
