@@ -345,6 +345,49 @@ public class ApplicationDbContextInitializer
                 },
                 Project = projects[1]
             },
+            new Mission
+            {
+                Title = "Let's sing",
+                Description = "Sing 1 song",
+                MissionUsers = new MissionUser[]
+                {
+                    new MissionUser
+                    {
+                        User = users[0],
+                    }
+                },
+                Project = projects[1]
+            },
+            new Mission
+            {
+                Title = "Let's run",
+                Description = "Run away",
+                MissionUsers = new MissionUser[]
+                {
+                    new MissionUser
+                    {
+                        User = users[0],
+                    },
+                    new MissionUser
+                    {
+                        User = users[1],
+                    }
+                },
+                Project = projects[0]
+            },
+            new Mission
+            {
+                Title = "Let's think",
+                Description = "Think a while",
+                MissionUsers = new MissionUser[]
+                {
+                    new MissionUser
+                    {
+                        User = users[1],
+                    }
+                },
+                Project = projects[1]
+            }
         };
 
         await _context.AddRangeAsync(missions).ConfigureAwait(false);

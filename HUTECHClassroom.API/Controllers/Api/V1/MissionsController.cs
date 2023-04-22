@@ -3,6 +3,7 @@ using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
 using HUTECHClassroom.Application.Missions.Commands.DeleteMission;
+using HUTECHClassroom.Application.Missions.Commands.DeleteRangeMission;
 using HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
@@ -34,6 +35,12 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     [HttpDelete("{id}")]
     public Task<ActionResult<MissionDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteMissionCommand(id));
+    [HttpDelete]
+    public async Task<IActionResult> DeleteRange(IList<Guid> ids)
+    {
+        await Mediator.Send(new DeleteRangeMissionCommand(ids));
+        return NoContent();
+    }
     [HttpGet("{id}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(id, @params)));
