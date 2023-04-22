@@ -32,8 +32,19 @@ public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRe
         var query = (IMultipleResultQuery<TEntity>)_repository
             .MultipleResultQuery()
             .Page(request.Params.PageNumber, request.Params.PageSize)
-            .AndFilter(FilterPredicate(request))
-            .OrderBy(OrderByKeySelector());
+            .AndFilter(FilterPredicate(request));
+
+        if (!string.IsNullOrEmpty(request.Params.SortBy))
+        {
+            var sortByFields = request.Params.SortBy.Split(',');
+
+            foreach (var sortByField in sortByFields)
+            {
+                query = (IMultipleResultQuery<TEntity>)query.ThenBy(sortByField);
+            }
+        }
+        query = (IMultipleResultQuery<TEntity>)query
+                .OrderBy(OrderByKeySelector());
 
         if (!string.IsNullOrEmpty(request.Params.SearchString))
             query = (IMultipleResultQuery<TEntity>)query.AndFilter(SearchStringPredicate(request.Params.SearchString));
