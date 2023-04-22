@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.API", "HUTECHClassroom.API\HUTECHClassroom.API.csproj", "{1C641DC2-062B-4695-82BB-94D91AF933D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.API", "HUTECHClassroom.API\HUTECHClassroom.API.csproj", "{1C641DC2-062B-4695-82BB-94D91AF933D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Application", "HUTECHClassroom.Application\HUTECHClassroom.Application.csproj", "{CCF3EF2C-9C78-4458-8ACF-0900F1A5C287}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Application", "HUTECHClassroom.Application\HUTECHClassroom.Application.csproj", "{CCF3EF2C-9C78-4458-8ACF-0900F1A5C287}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Domain", "HUTECHClassroom.Domain\HUTECHClassroom.Domain.csproj", "{859E9EA2-CAAD-470B-BA71-747A0FD1A2AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Domain", "HUTECHClassroom.Domain\HUTECHClassroom.Domain.csproj", "{859E9EA2-CAAD-470B-BA71-747A0FD1A2AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Infrastructure", "HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj", "{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Infrastructure", "HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj", "{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Web", "HUTECHClassroom.Web\HUTECHClassroom.Web.csproj", "{B2B735DB-DB6F-47CB-98C0-149D4F9EF1CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2B735DB-DB6F-47CB-98C0-149D4F9EF1CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2B735DB-DB6F-47CB-98C0-149D4F9EF1CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2B735DB-DB6F-47CB-98C0-149D4F9EF1CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2B735DB-DB6F-47CB-98C0-149D4F9EF1CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

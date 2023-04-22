@@ -43,6 +43,7 @@ public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRe
                 query = (IMultipleResultQuery<TEntity>)query.ThenBy(sortByField);
             }
         }
+
         query = (IMultipleResultQuery<TEntity>)query
                 .OrderBy(OrderByKeySelector());
 

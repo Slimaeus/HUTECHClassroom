@@ -82,7 +82,6 @@ public static class ConfigureServices
 
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserAccessor, UserAccessor>();
-
         #endregion
 
         return services;
