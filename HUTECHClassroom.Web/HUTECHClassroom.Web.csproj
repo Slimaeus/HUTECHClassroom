@@ -21,4 +21,8 @@
     <ProjectReference Include="..\HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Data\" />
+  </ItemGroup>
+
 </Project>

@@ -39,6 +39,8 @@ public static class HostingExtensions
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
 
+        app.MapRazorPages();
+
         return app;
     }
 }
