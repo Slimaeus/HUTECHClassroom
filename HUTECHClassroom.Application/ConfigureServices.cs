@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using HUTECHClassroom.Application.Common.Behaviors;
-using MediatR;
+﻿using HUTECHClassroom.Application.Common.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

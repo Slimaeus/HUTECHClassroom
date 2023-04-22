@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Common.DTOs;
+﻿using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Groups;
 

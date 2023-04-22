@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroom;
+﻿namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroom;
 
 public class GetClassroomQueryValidator : AbstractValidator<GetClassroomQuery>
 {

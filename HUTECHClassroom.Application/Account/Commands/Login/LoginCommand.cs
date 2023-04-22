@@ -1,7 +1,5 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
-using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Infrastructure.Services;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +21,8 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
         var user = await _userManger
             .Users
             .Include(x => x.Faculty)
+            .Include(x => x.ApplicationUserRoles)
+            .ThenInclude(x => x.Role)
             .SingleOrDefaultAsync(x => x.UserName == request.UserName);
 
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));

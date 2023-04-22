@@ -1,10 +1,6 @@
-﻿using EntityFrameworkCore.Repository.Interfaces;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
-using HUTECHClassroom.Application.Account.DTOs;
+﻿using HUTECHClassroom.Application.Account.DTOs;
 using HUTECHClassroom.Application.Common.Exceptions;
-using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Infrastructure.Services;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.Register;

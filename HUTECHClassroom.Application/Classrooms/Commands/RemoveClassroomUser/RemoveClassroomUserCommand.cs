@@ -1,9 +1,5 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
-using EntityFrameworkCore.Repository.Interfaces;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
 using HUTECHClassroom.Application.Common.Exceptions;
-using HUTECHClassroom.Domain.Entities;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.RemoveClassroomUser;

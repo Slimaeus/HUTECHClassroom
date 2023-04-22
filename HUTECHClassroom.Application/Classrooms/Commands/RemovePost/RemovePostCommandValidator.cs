@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Classrooms.Commands.RemovePost;
+﻿namespace HUTECHClassroom.Application.Classrooms.Commands.RemovePost;
 
 public class RemovePostCommandValidator : AbstractValidator<RemovePostCommand>
 {

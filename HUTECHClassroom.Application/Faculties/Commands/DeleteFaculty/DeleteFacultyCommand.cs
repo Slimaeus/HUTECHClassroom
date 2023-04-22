@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
-using HUTECHClassroom.Application.Common.Requests;
+﻿using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Faculties.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Faculties.Commands.DeleteFaculty;
 

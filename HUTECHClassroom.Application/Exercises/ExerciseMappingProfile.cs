@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Common.DTOs;
+﻿using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
 using HUTECHClassroom.Application.Exercises.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Exercises.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Exercises;
 

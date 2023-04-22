@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using EntityFrameworkCore.Repository.Interfaces;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
-using HUTECHClassroom.Application.Classrooms.DTOs;
+﻿using HUTECHClassroom.Application.Classrooms.DTOs;
 using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 

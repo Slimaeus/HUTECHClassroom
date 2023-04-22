@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Projects.Commands.CreateProject;
+﻿using HUTECHClassroom.Application.Projects.Commands.CreateProject;
 using HUTECHClassroom.Application.Projects.Commands.UpdateProject;
 using HUTECHClassroom.Application.Projects.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Projects;
 

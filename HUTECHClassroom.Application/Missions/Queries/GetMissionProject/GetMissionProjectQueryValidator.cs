@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Missions.Queries.GetMissionProject;
+﻿namespace HUTECHClassroom.Application.Missions.Queries.GetMissionProject;
 
 public class GetMissionProjectQueryValidator : AbstractValidator<GetMissionProjectQuery>
 {

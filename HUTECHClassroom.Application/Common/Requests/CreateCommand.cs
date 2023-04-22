@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using EntityFrameworkCore.Repository.Extensions;
-using EntityFrameworkCore.Repository.Interfaces;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
+﻿using EntityFrameworkCore.Repository.Extensions;
 using HUTECHClassroom.Domain.Common;
-using MediatR;
 
 namespace HUTECHClassroom.Application.Common.Requests;
 

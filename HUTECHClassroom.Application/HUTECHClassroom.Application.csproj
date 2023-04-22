@@ -9,7 +9,6 @@
     <Folder Include="Account\Queries\" />
     <Folder Include="Common\Extensions\" />
     <Folder Include="Missions\Queries\GetMissionUsers\" />
-    <Folder Include="Roles\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,5 +21,14 @@
   <ItemGroup>
     <ProjectReference Include="..\HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<Using Include="FluentValidation" />
+		<Using Include="AutoMapper" />
+		<Using Include="MediatR" />
+		<Using Include="HUTECHClassroom.Domain.Entities" />
+		<Using Include="EntityFrameworkCore.Repository.Interfaces" />
+		<Using Include="EntityFrameworkCore.UnitOfWork.Interfaces" />
+	</ItemGroup>
 
 </Project>

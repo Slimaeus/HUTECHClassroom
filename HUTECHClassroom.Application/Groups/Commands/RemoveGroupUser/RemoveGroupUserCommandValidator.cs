@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupUser;
+﻿namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupUser;
 
 public class RemoveGroupUserCommandValidator : AbstractValidator<RemoveGroupUserCommand>
 {

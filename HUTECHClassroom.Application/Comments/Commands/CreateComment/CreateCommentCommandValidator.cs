@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Comments.Commands.CreateComment;
+﻿namespace HUTECHClassroom.Application.Comments.Commands.CreateComment;
 
 public class CreateCommentCommandValidator : AbstractValidator<CreateCommentCommand>
 {

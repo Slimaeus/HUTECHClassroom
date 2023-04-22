@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
+﻿namespace HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
 
 public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCommand>
 {

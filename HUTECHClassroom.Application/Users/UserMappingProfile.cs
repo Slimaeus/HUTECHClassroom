@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Users.DTOs;
-using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Application.Users.DTOs;
 
 namespace HUTECHClassroom.Application.Users;
 

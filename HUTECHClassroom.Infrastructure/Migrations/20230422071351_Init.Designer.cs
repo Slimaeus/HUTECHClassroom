@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230419161602_Init")]
+    [Migration("20230422071351_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -160,6 +160,21 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUserRole", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
                 {
                     b.Property<Guid>("Id")
@@ -264,7 +279,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 4, 20, 16, 16, 1, 880, DateTimeKind.Utc).AddTicks(319));
+                        .HasDefaultValue(new DateTime(2023, 4, 23, 7, 13, 51, 882, DateTimeKind.Utc).AddTicks(228));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -552,21 +567,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -614,6 +614,25 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Faculty");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUserRole", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationRole", "Role")
+                        .WithMany("ApplicationUserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("ApplicationUserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
@@ -828,21 +847,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", null)
@@ -852,9 +856,16 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationRole", b =>
+                {
+                    b.Navigation("ApplicationUserRoles");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("Answers");
+
+                    b.Navigation("ApplicationUserRoles");
 
                     b.Navigation("ClassroomUsers");
 

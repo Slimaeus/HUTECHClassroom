@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using EntityFrameworkCore.Repository.Interfaces;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
+﻿using AutoMapper.QueryableExtensions;
 using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Domain.Common;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Common.Requests;

@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Classrooms.Commands.AddPost;
+﻿namespace HUTECHClassroom.Application.Classrooms.Commands.AddPost;
 
 public class AddPostCommandValidator : AbstractValidator<AddPostCommand>
 {

@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
+﻿using HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
 using HUTECHClassroom.Application.Answers.Commands.UpdateAnswer;
 using HUTECHClassroom.Application.Answers.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Answers;
 

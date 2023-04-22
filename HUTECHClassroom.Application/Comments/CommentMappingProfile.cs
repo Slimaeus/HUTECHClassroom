@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Comments.Commands.CreateComment;
+﻿using HUTECHClassroom.Application.Comments.Commands.CreateComment;
 using HUTECHClassroom.Application.Comments.Commands.UpdateComment;
 using HUTECHClassroom.Application.Comments.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Comments;
 

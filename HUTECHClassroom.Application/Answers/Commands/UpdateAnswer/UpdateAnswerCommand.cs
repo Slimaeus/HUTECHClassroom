@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
-using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Application.Common.Requests;
 
 namespace HUTECHClassroom.Application.Answers.Commands.UpdateAnswer;
 

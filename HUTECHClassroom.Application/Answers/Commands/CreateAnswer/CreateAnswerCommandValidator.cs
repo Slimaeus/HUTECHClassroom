@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
+﻿namespace HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
 
 public class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerCommand>
 {

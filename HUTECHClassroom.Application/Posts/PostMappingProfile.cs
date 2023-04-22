@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Posts.Commands.CreatePost;
+﻿using HUTECHClassroom.Application.Posts.Commands.CreatePost;
 using HUTECHClassroom.Application.Posts.Commands.UpdatePost;
 using HUTECHClassroom.Application.Posts.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Posts;
 

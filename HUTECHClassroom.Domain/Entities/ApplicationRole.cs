@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HUTECHClassroom.Domain.Common;
+using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Domain.Entities;
 
-public class ApplicationRole : IdentityRole<Guid>
+public class ApplicationRole : IdentityRole<Guid>, IEntity
 {
     public ApplicationRole()
     {
@@ -11,4 +12,6 @@ public class ApplicationRole : IdentityRole<Guid>
     public ApplicationRole(string roleName) : base(roleName)
     {
     }
+
+    public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
 }

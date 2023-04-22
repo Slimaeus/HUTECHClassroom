@@ -13,4 +13,5 @@ public class ApplicationUser : IdentityUser<Guid>, IEntity
     public virtual ICollection<ClassroomUser> ClassroomUsers { get; set; } = new HashSet<ClassroomUser>();
     public virtual ICollection<GroupUser> GroupUsers { get; set; } = new HashSet<GroupUser>();
     public virtual ICollection<MissionUser> MissionUsers { get; set; } = new HashSet<MissionUser>();
+    public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
 }

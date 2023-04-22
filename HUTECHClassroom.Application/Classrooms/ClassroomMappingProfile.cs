@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
+﻿using HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 using HUTECHClassroom.Application.Classrooms.Commands.UpdateClassroom;
 using HUTECHClassroom.Application.Classrooms.DTOs;
 using HUTECHClassroom.Application.Common.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Classrooms;
 

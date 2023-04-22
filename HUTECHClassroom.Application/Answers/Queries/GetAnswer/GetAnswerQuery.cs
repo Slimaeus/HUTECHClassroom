@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
-using HUTECHClassroom.Application.Answers.DTOs;
+﻿using HUTECHClassroom.Application.Answers.DTOs;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Domain.Entities;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Answers.Queries.GetAnswer;

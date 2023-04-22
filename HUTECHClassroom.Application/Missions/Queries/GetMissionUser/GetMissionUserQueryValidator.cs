@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUser;
+﻿namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUser;
 
 public class GetMissionUserQueryValidator : AbstractValidator<GetMissionUserQuery>
 {

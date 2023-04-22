@@ -1,6 +1,4 @@
 ﻿using HUTECHClassroom.Application.Common.Exceptions;
-using HUTECHClassroom.Domain.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.ForgotPassword;

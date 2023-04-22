@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
+﻿namespace HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
 
 public class CreateFacultyCommandValidator : AbstractValidator<CreateFacultyCommand>
 {

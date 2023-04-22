@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using HUTECHClassroom.Application.Common.DTOs;
+﻿using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Validators;
 
 namespace HUTECHClassroom.Application.Groups.Queries.GetGroupUsersWithPagination;

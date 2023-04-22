@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Posts.Queries.GetPost;
+﻿namespace HUTECHClassroom.Application.Posts.Queries.GetPost;
 
 public class GetPostQueryValidator : AbstractValidator<GetPostQuery>
 {

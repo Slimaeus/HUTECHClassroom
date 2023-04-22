@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
+﻿namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
 
 public class AddGroupUserCommandValidator : AbstractValidator<AddGroupUserCommand>
 {

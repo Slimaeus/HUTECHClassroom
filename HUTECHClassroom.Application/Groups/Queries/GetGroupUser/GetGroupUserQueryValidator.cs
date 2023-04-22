@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Groups.Queries.GetGroupUser;
+﻿namespace HUTECHClassroom.Application.Groups.Queries.GetGroupUser;
 
 public class GetGroupUserQueryValidator : AbstractValidator<GetGroupUserQuery>
 {

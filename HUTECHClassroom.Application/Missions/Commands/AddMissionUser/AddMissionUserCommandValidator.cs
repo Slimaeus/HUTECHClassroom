@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
+﻿namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 
 public class AddMissionUserCommandValidator : AbstractValidator<AddMissionUserCommand>
 {

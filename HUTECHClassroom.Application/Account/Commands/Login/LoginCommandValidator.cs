@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Account.Commands.Login;
+﻿namespace HUTECHClassroom.Application.Account.Commands.Login;
 
 public class LoginCommandValidator : AbstractValidator<LoginCommand>
 {

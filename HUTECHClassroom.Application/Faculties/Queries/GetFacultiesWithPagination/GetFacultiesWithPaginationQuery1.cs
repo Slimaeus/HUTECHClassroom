@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using EntityFrameworkCore.UnitOfWork.Interfaces;
-using HUTECHClassroom.Application.Common.Models;
+﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Faculties.DTOs;
-using HUTECHClassroom.Domain.Entities;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Faculties.Queries.GetFacultiesWithPagination;

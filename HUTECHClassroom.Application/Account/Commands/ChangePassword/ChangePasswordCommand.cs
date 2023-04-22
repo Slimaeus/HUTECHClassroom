@@ -1,6 +1,4 @@
-﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Services;
-using MediatR;
+﻿using HUTECHClassroom.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.ChangePassword;

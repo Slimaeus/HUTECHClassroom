@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace HUTECHClassroom.Application.Comments.Queries.GetComment;
+﻿namespace HUTECHClassroom.Application.Comments.Queries.GetComment;
 
 public class GetCommentQueryValidator : AbstractValidator<GetCommentQuery>
 {

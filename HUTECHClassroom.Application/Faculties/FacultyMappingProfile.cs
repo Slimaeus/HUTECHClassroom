@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
+﻿using HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.UpdateFaculty;
 using HUTECHClassroom.Application.Faculties.DTOs;
-using HUTECHClassroom.Domain.Entities;
 
 namespace HUTECHClassroom.Application.Faculties;
 

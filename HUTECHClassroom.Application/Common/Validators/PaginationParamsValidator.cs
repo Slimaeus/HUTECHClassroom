@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using HUTECHClassroom.Application.Common.Models;
+﻿using HUTECHClassroom.Application.Common.Models;
 
 namespace HUTECHClassroom.Application.Common.Validators;
 
