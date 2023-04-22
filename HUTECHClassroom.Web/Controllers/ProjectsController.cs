@@ -1,90 +1,96 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class FacultiesController : Controller
+public class ProjectsController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public FacultiesController(ApplicationDbContext context)
+    public ProjectsController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // GET: Faculties
+    // GET: Projects
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Faculties.ToListAsync());
+        var applicationDbContext = _context.Projects.Include(p => p.Group);
+        return View(await applicationDbContext.ToListAsync());
     }
 
-    // GET: Faculties/Details/5
+    // GET: Projects/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || _context.Projects == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties
+        var project = await _context.Projects
+            .Include(p => p.Group)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (faculty == null)
+        if (project == null)
         {
             return NotFound();
         }
 
-        return View(faculty);
+        return View(project);
     }
 
-    // GET: Faculties/Create
+    // GET: Projects/Create
     public IActionResult Create()
     {
+        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
         return View();
     }
 
-    // POST: Faculties/Create
+    // POST: Projects/Create
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,Id,CreateDate")] Faculty faculty)
+    public async Task<IActionResult> Create([Bind("Name,Description,GroupId,Id,CreateDate")] Project project)
     {
         if (ModelState.IsValid)
         {
-            faculty.Id = Guid.NewGuid();
-            _context.Add(faculty);
+            project.Id = Guid.NewGuid();
+            _context.Add(project);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        return View(faculty);
+        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", project.GroupId);
+        return View(project);
     }
 
-    // GET: Faculties/Edit/5
+    // GET: Projects/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || _context.Projects == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties.FindAsync(id);
-        if (faculty == null)
+        var project = await _context.Projects.FindAsync(id);
+        if (project == null)
         {
             return NotFound();
         }
-        return View(faculty);
+        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", project.GroupId);
+        return View(project);
     }
 
-    // POST: Faculties/Edit/5
+    // POST: Projects/Edit/5
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id,CreateDate")] Faculty faculty)
+    public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,GroupId,Id,CreateDate")] Project project)
     {
-        if (id != faculty.Id)
+        if (id != project.Id)
         {
             return NotFound();
         }
@@ -93,12 +99,12 @@ public class FacultiesController : Controller
         {
             try
             {
-                _context.Update(faculty);
+                _context.Update(project);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FacultyExists(faculty.Id))
+                if (!ProjectExists(project.Id))
                 {
                     return NotFound();
                 }
@@ -109,48 +115,50 @@ public class FacultiesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(faculty);
+        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", project.GroupId);
+        return View(project);
     }
 
-    // GET: Faculties/Delete/5
+    // GET: Projects/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || _context.Projects == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties
+        var project = await _context.Projects
+            .Include(p => p.Group)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (faculty == null)
+        if (project == null)
         {
             return NotFound();
         }
 
-        return View(faculty);
+        return View(project);
     }
 
-    // POST: Faculties/Delete/5
+    // POST: Projects/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Faculties == null)
+        if (_context.Projects == null)
         {
-            return Problem("Entity set 'ApplicationDbContext.Faculties'  is null.");
+            return Problem("Entity set 'ApplicationDbContext.Projects'  is null.");
         }
-        var faculty = await _context.Faculties.FindAsync(id);
-        if (faculty != null)
+        var project = await _context.Projects.FindAsync(id);
+        if (project != null)
         {
-            _context.Faculties.Remove(faculty);
+            _context.Projects.Remove(project);
         }
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool FacultyExists(Guid id)
+    private bool ProjectExists(Guid id)
     {
-        return _context.Faculties.Any(e => e.Id == id);
+        return _context.Projects.Any(e => e.Id == id);
     }
 }

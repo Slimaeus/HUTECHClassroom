@@ -6,95 +6,95 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class PostsController : Controller
+public class GroupsController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public PostsController(ApplicationDbContext context)
+    public GroupsController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // GET: Posts
+    // GET: Groups
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Posts.Include(p => p.Classroom).Include(p => p.User);
+        var applicationDbContext = _context.Groups.Include(g => g.Classroom).Include(g => g.Leader);
         return View(await applicationDbContext.ToListAsync());
     }
 
-    // GET: Posts/Details/5
+    // GET: Groups/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || _context.Groups == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts
-            .Include(p => p.Classroom)
-            .Include(p => p.User)
+        var group = await _context.Groups
+            .Include(g => g.Classroom)
+            .Include(g => g.Leader)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (post == null)
+        if (group == null)
         {
             return NotFound();
         }
 
-        return View(post);
+        return View(group);
     }
 
-    // GET: Posts/Create
+    // GET: Groups/Create
     public IActionResult Create()
     {
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "Id");
         return View();
     }
 
-    // POST: Posts/Create
+    // POST: Groups/Create
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Content,Link,ClassroomId,UserId,Id,CreateDate")] Post post)
+    public async Task<IActionResult> Create([Bind("Name,Description,LeaderId,ClassroomId,Id,CreateDate")] Group group)
     {
         if (ModelState.IsValid)
         {
-            post.Id = Guid.NewGuid();
-            _context.Add(post);
+            group.Id = Guid.NewGuid();
+            _context.Add(group);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
-        return View(post);
+        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "Id", group.LeaderId);
+        return View(group);
     }
 
-    // GET: Posts/Edit/5
+    // GET: Groups/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || _context.Groups == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts.FindAsync(id);
-        if (post == null)
+        var group = await _context.Groups.FindAsync(id);
+        if (group == null)
         {
             return NotFound();
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
-        return View(post);
+        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "Id", group.LeaderId);
+        return View(group);
     }
 
-    // POST: Posts/Edit/5
+    // POST: Groups/Edit/5
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("Content,Link,ClassroomId,UserId,Id,CreateDate")] Post post)
+    public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,LeaderId,ClassroomId,Id,CreateDate")] Group group)
     {
-        if (id != post.Id)
+        if (id != group.Id)
         {
             return NotFound();
         }
@@ -103,12 +103,12 @@ public class PostsController : Controller
         {
             try
             {
-                _context.Update(post);
+                _context.Update(group);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PostExists(post.Id))
+                if (!GroupExists(group.Id))
                 {
                     return NotFound();
                 }
@@ -119,52 +119,52 @@ public class PostsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
-        return View(post);
+        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "Id", group.LeaderId);
+        return View(group);
     }
 
-    // GET: Posts/Delete/5
+    // GET: Groups/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || _context.Groups == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts
-            .Include(p => p.Classroom)
-            .Include(p => p.User)
+        var group = await _context.Groups
+            .Include(g => g.Classroom)
+            .Include(g => g.Leader)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (post == null)
+        if (group == null)
         {
             return NotFound();
         }
 
-        return View(post);
+        return View(group);
     }
 
-    // POST: Posts/Delete/5
+    // POST: Groups/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Posts == null)
+        if (_context.Groups == null)
         {
-            return Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
+            return Problem("Entity set 'ApplicationDbContext.Groups'  is null.");
         }
-        var post = await _context.Posts.FindAsync(id);
-        if (post != null)
+        var group = await _context.Groups.FindAsync(id);
+        if (group != null)
         {
-            _context.Posts.Remove(post);
+            _context.Groups.Remove(group);
         }
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool PostExists(Guid id)
+    private bool GroupExists(Guid id)
     {
-        return _context.Posts.Any(e => e.Id == id);
+        return _context.Groups.Any(e => e.Id == id);
     }
 }

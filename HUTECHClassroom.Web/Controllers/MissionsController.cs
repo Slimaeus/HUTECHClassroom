@@ -1,90 +1,96 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class FacultiesController : Controller
+public class MissionsController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public FacultiesController(ApplicationDbContext context)
+    public MissionsController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // GET: Faculties
+    // GET: Missions
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Faculties.ToListAsync());
+        var applicationDbContext = _context.Missions.Include(m => m.Project);
+        return View(await applicationDbContext.ToListAsync());
     }
 
-    // GET: Faculties/Details/5
+    // GET: Missions/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || _context.Missions == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties
+        var mission = await _context.Missions
+            .Include(m => m.Project)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (faculty == null)
+        if (mission == null)
         {
             return NotFound();
         }
 
-        return View(faculty);
+        return View(mission);
     }
 
-    // GET: Faculties/Create
+    // GET: Missions/Create
     public IActionResult Create()
     {
+        ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
         return View();
     }
 
-    // POST: Faculties/Create
+    // POST: Missions/Create
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,Id,CreateDate")] Faculty faculty)
+    public async Task<IActionResult> Create([Bind("Title,Description,IsDone,ProjectId,Id,CreateDate")] Mission mission)
     {
         if (ModelState.IsValid)
         {
-            faculty.Id = Guid.NewGuid();
-            _context.Add(faculty);
+            mission.Id = Guid.NewGuid();
+            _context.Add(mission);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        return View(faculty);
+        ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", mission.ProjectId);
+        return View(mission);
     }
 
-    // GET: Faculties/Edit/5
+    // GET: Missions/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || _context.Missions == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties.FindAsync(id);
-        if (faculty == null)
+        var mission = await _context.Missions.FindAsync(id);
+        if (mission == null)
         {
             return NotFound();
         }
-        return View(faculty);
+        ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", mission.ProjectId);
+        return View(mission);
     }
 
-    // POST: Faculties/Edit/5
+    // POST: Missions/Edit/5
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id,CreateDate")] Faculty faculty)
+    public async Task<IActionResult> Edit(Guid id, [Bind("Title,Description,IsDone,ProjectId,Id,CreateDate")] Mission mission)
     {
-        if (id != faculty.Id)
+        if (id != mission.Id)
         {
             return NotFound();
         }
@@ -93,12 +99,12 @@ public class FacultiesController : Controller
         {
             try
             {
-                _context.Update(faculty);
+                _context.Update(mission);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FacultyExists(faculty.Id))
+                if (!MissionExists(mission.Id))
                 {
                     return NotFound();
                 }
@@ -109,48 +115,50 @@ public class FacultiesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(faculty);
+        ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", mission.ProjectId);
+        return View(mission);
     }
 
-    // GET: Faculties/Delete/5
+    // GET: Missions/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || _context.Missions == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties
+        var mission = await _context.Missions
+            .Include(m => m.Project)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (faculty == null)
+        if (mission == null)
         {
             return NotFound();
         }
 
-        return View(faculty);
+        return View(mission);
     }
 
-    // POST: Faculties/Delete/5
+    // POST: Missions/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Faculties == null)
+        if (_context.Missions == null)
         {
-            return Problem("Entity set 'ApplicationDbContext.Faculties'  is null.");
+            return Problem("Entity set 'ApplicationDbContext.Missions'  is null.");
         }
-        var faculty = await _context.Faculties.FindAsync(id);
-        if (faculty != null)
+        var mission = await _context.Missions.FindAsync(id);
+        if (mission != null)
         {
-            _context.Faculties.Remove(faculty);
+            _context.Missions.Remove(mission);
         }
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool FacultyExists(Guid id)
+    private bool MissionExists(Guid id)
     {
-        return _context.Faculties.Any(e => e.Id == id);
+        return _context.Missions.Any(e => e.Id == id);
     }
 }

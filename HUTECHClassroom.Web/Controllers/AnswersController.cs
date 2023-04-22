@@ -6,95 +6,95 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class PostsController : Controller
+public class AnswersController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public PostsController(ApplicationDbContext context)
+    public AnswersController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // GET: Posts
+    // GET: Answers
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Posts.Include(p => p.Classroom).Include(p => p.User);
+        var applicationDbContext = _context.Answers.Include(a => a.Exercise).Include(a => a.User);
         return View(await applicationDbContext.ToListAsync());
     }
 
-    // GET: Posts/Details/5
+    // GET: Answers/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || _context.Answers == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts
-            .Include(p => p.Classroom)
-            .Include(p => p.User)
+        var answer = await _context.Answers
+            .Include(a => a.Exercise)
+            .Include(a => a.User)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (post == null)
+        if (answer == null)
         {
             return NotFound();
         }
 
-        return View(post);
+        return View(answer);
     }
 
-    // GET: Posts/Create
+    // GET: Answers/Create
     public IActionResult Create()
     {
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title");
+        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Instruction");
         ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
         return View();
     }
 
-    // POST: Posts/Create
+    // POST: Answers/Create
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Content,Link,ClassroomId,UserId,Id,CreateDate")] Post post)
+    public async Task<IActionResult> Create([Bind("Description,Link,Score,UserId,ExerciseId,Id,CreateDate")] Answer answer)
     {
         if (ModelState.IsValid)
         {
-            post.Id = Guid.NewGuid();
-            _context.Add(post);
+            answer.Id = Guid.NewGuid();
+            _context.Add(answer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
-        return View(post);
+        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Instruction", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", answer.UserId);
+        return View(answer);
     }
 
-    // GET: Posts/Edit/5
+    // GET: Answers/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || _context.Answers == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts.FindAsync(id);
-        if (post == null)
+        var answer = await _context.Answers.FindAsync(id);
+        if (answer == null)
         {
             return NotFound();
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
-        return View(post);
+        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Instruction", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", answer.UserId);
+        return View(answer);
     }
 
-    // POST: Posts/Edit/5
+    // POST: Answers/Edit/5
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("Content,Link,ClassroomId,UserId,Id,CreateDate")] Post post)
+    public async Task<IActionResult> Edit(Guid id, [Bind("Description,Link,Score,UserId,ExerciseId,Id,CreateDate")] Answer answer)
     {
-        if (id != post.Id)
+        if (id != answer.Id)
         {
             return NotFound();
         }
@@ -103,12 +103,12 @@ public class PostsController : Controller
         {
             try
             {
-                _context.Update(post);
+                _context.Update(answer);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PostExists(post.Id))
+                if (!AnswerExists(answer.Id))
                 {
                     return NotFound();
                 }
@@ -119,52 +119,52 @@ public class PostsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
-        return View(post);
+        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Instruction", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", answer.UserId);
+        return View(answer);
     }
 
-    // GET: Posts/Delete/5
+    // GET: Answers/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || _context.Answers == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts
-            .Include(p => p.Classroom)
-            .Include(p => p.User)
+        var answer = await _context.Answers
+            .Include(a => a.Exercise)
+            .Include(a => a.User)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (post == null)
+        if (answer == null)
         {
             return NotFound();
         }
 
-        return View(post);
+        return View(answer);
     }
 
-    // POST: Posts/Delete/5
+    // POST: Answers/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Posts == null)
+        if (_context.Answers == null)
         {
-            return Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
+            return Problem("Entity set 'ApplicationDbContext.Answers'  is null.");
         }
-        var post = await _context.Posts.FindAsync(id);
-        if (post != null)
+        var answer = await _context.Answers.FindAsync(id);
+        if (answer != null)
         {
-            _context.Posts.Remove(post);
+            _context.Answers.Remove(answer);
         }
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool PostExists(Guid id)
+    private bool AnswerExists(Guid id)
     {
-        return _context.Posts.Any(e => e.Id == id);
+        return _context.Answers.Any(e => e.Id == id);
     }
 }
