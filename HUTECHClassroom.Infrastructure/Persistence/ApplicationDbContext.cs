@@ -26,6 +26,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Group> Groups { get; set; }
     public DbSet<Post> Posts { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    //public DbSet<GroupRole> GroupRoles { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -46,5 +47,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         builder.ApplyConfiguration(new PostConfiguration());
         builder.ApplyConfiguration(new CommentConfiguration());
         builder.ApplyConfiguration(new ApplicationUserRoleConfiguration());
+        //builder.ApplyConfiguration(new GroupRoleConfiguration());
     }
 }

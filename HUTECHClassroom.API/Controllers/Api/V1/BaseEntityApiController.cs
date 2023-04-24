@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
+//[Authorize]
 public class BaseEntityApiController<TEntityDTO> : BaseApiController
     where TEntityDTO : class, IEntityDTO
 {

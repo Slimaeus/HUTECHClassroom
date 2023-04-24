@@ -29,7 +29,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 
         var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
 
-        if (isSuccess) return AccountDTO.Create(user, await _tokenService.CreateToken(user));
+        if (isSuccess) return AccountDTO.Create(user, _tokenService.CreateToken(user));
 
         throw new UnauthorizedAccessException(nameof(ApplicationUser));
     }

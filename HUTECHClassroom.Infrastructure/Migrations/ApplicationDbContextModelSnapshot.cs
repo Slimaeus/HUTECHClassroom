@@ -276,7 +276,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 4, 23, 7, 13, 51, 882, DateTimeKind.Utc).AddTicks(228));
+                        .HasDefaultValue(new DateTime(2023, 4, 25, 15, 37, 1, 85, DateTimeKind.Utc).AddTicks(6303));
 
                     b.Property<string>("Instruction")
                         .IsRequired()

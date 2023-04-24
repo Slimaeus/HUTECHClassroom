@@ -1,6 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,32 +14,18 @@ public class TokenService : ITokenService
     private readonly TimeSpan _tokenLifespan;
     private readonly SigningCredentials _signingCredentials;
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
 
-    public TokenService(IConfiguration configuration, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+    public TokenService(IConfiguration configuration, ApplicationDbContext context)
     {
         _tokenKey = configuration["TokenKey"];
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenKey));
         _signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
         _tokenLifespan = TimeSpan.FromMinutes(10);
         _context = context;
-        _userManager = userManager;
-        _roleManager = roleManager;
     }
 
-    public async Task<string> CreateToken(ApplicationUser user)
+    public string CreateToken(ApplicationUser user)
     {
-        var roleNames = await _userManager.GetRolesAsync(user);
-
-        var roles = _roleManager.Roles
-            .Where(role => roleNames.Contains(role.Name));
-
-        var roleClaims = _context.RoleClaims
-            .Where(claim => roles.Select(role => role.Id).Contains(claim.RoleId))
-            .Select(x => new Claim(x.ClaimType, x.ClaimValue))
-            .Distinct();
-
         var tokenClaims = new List<Claim>
         {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -48,7 +33,7 @@ public class TokenService : ITokenService
                 new Claim(ClaimTypes.Email, user.Email)
         };
 
-        tokenClaims.AddRange(roleClaims);
+        tokenClaims.AddRange(GetRoleClaims(user));
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
@@ -70,5 +55,24 @@ public class TokenService : ITokenService
         if (token == null)
             return DateTime.Now;
         return jwtToken.ValidTo.ToUniversalTime();
+    }
+
+    private IList<Claim> GetRoleClaims(ApplicationUser user)
+    {
+        var roles = _context.Roles
+            .Where(role => role.ApplicationUserRoles.Any(x => x.UserId == user.Id));
+
+        var roleClaims = _context.RoleClaims
+            .Where(claim => roles.Select(role => role.Id).Contains(claim.RoleId))
+            .Select(x => new Claim(x.ClaimType, x.ClaimValue))
+            .Distinct()
+            .ToList();
+
+        foreach (var role in roles)
+        {
+            roleClaims.Add(new Claim(ClaimTypes.Role, role.Name));
+        }
+
+        return roleClaims;
     }
 }

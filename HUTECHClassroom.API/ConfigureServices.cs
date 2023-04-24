@@ -36,17 +36,16 @@ public static class ConfigureServices
         #region Authorization
         services.AddAuthorization(options =>
         {
-            foreach (var entity in new string[] { "Mission", "Project", "Faculty" })
-            {
-                foreach (var action in new string[] { "Create", "Read", "Update", "Delete" })
-                {
-                    options.AddPolicy($"{action}{entity}Policy", policy =>
-                    {
-                        policy.RequireClaim(entity.ToLower(), action.ToLower());
-                    });
-                }
-            }
-
+            //options.AddPolicy("RequiredAdmin", policy =>
+            //{
+            //    policy.RequireRole("Administrator");
+            //});
+            //foreach (var entity in new string[] { "Mission", "Project", "Faculty", "Answer", "Classroom", "Comment" })
+            //    foreach (var action in new string[] { "Create", "Read", "Update", "Delete" })
+            //        options.AddPolicy($"{action}{entity}Policy", policy =>
+            //        {
+            //            policy.RequireClaim(entity.ToLower(), action.ToLower());
+            //        });
         });
         #endregion
 

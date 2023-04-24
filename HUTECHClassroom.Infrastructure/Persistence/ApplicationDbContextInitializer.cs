@@ -70,6 +70,19 @@ public class ApplicationDbContextInitializer
             }
         };
 
+        await _context.AddRangeAsync(faculties);
+
+        //var leader = new GroupRole("Leader");
+        //var member = new GroupRole("Member");
+
+        //var groupRoles = new GroupRole[]
+        //{
+        //    leader,
+        //    member
+        //};
+
+        //await _context.AddRangeAsync(groupRoles);
+
         var studentRole = new ApplicationRole("Student");
         var lecturerRole = new ApplicationRole("Lecturer");
         var deanRole = new ApplicationRole("Dean");
@@ -89,15 +102,43 @@ public class ApplicationDbContextInitializer
             await _roleManager.CreateAsync(role);
         }
 
-        var createMission = new Claim("mission", "create");
-        var readMission = new Claim("mission", "read");
-        var updateMission = new Claim("mission", "update");
-        var deleteMission = new Claim("mission", "delete");
-        await _roleManager.AddClaimAsync(studentRole, readMission);
-        await _roleManager.AddClaimAsync(lecturerRole, createMission);
-        await _roleManager.AddClaimAsync(lecturerRole, readMission);
-        await _roleManager.AddClaimAsync(lecturerRole, updateMission);
-        await _roleManager.AddClaimAsync(lecturerRole, deleteMission);
+        var createClaimValue = "create";
+        var readClaimValue = "read";
+        var updateClaimValue = "update";
+        var deleteClaimValue = "delete";
+
+        #region Mission
+        var missionClaimName = "mission";
+
+        var createMissionClaim = new Claim(missionClaimName, createClaimValue);
+        var readMissionClaim = new Claim(missionClaimName, readClaimValue);
+        var updateMissionClaim = new Claim(missionClaimName, updateClaimValue);
+        var deleteMissionClaim = new Claim(missionClaimName, deleteClaimValue);
+        #endregion
+
+        #region Project
+        var projectClaimName = "project";
+
+        var createProjectClaim = new Claim(projectClaimName, createClaimValue);
+        var readProjectClaim = new Claim(projectClaimName, readClaimValue);
+        var updateProjectClaim = new Claim(projectClaimName, updateClaimValue);
+        var deleteProjectClaim = new Claim(projectClaimName, deleteClaimValue);
+        #endregion
+
+
+
+        await _roleManager.AddClaimAsync(studentRole, readMissionClaim);
+        await _roleManager.AddClaimAsync(studentRole, readProjectClaim);
+
+        await _roleManager.AddClaimAsync(lecturerRole, createMissionClaim);
+        await _roleManager.AddClaimAsync(lecturerRole, readMissionClaim);
+        await _roleManager.AddClaimAsync(lecturerRole, updateMissionClaim);
+        await _roleManager.AddClaimAsync(lecturerRole, deleteMissionClaim);
+
+        await _roleManager.AddClaimAsync(lecturerRole, createProjectClaim);
+        await _roleManager.AddClaimAsync(lecturerRole, readProjectClaim);
+        await _roleManager.AddClaimAsync(lecturerRole, updateProjectClaim);
+        await _roleManager.AddClaimAsync(lecturerRole, deleteProjectClaim);
 
         var users = new ApplicationUser[]
         {
@@ -255,7 +296,8 @@ public class ApplicationDbContextInitializer
                 {
                     new GroupUser
                     {
-                        User = users[0]
+                        User = users[0],
+                        //GroupRole = leader
                     }
                 },
                 Classroom = classrooms[0]
@@ -269,11 +311,13 @@ public class ApplicationDbContextInitializer
                 {
                     new GroupUser
                     {
-                        User = users[0]
+                        User = users[0],
+                        //GroupRole = leader
                     },
                     new GroupUser
                     {
-                        User = users[1]
+                        User = users[1],
+                        //GroupRole = member
                     }
                 },
                 Classroom = classrooms[1]
