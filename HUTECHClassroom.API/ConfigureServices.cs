@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.API.Filters;
+﻿using HUTECHClassroom.API.Extensions;
+using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -36,6 +37,7 @@ public static class ConfigureServices
         #region Authorization
         services.AddAuthorization(options =>
         {
+            options.AddEntityPolicies();
             //options.AddPolicy("RequiredAdmin", policy =>
             //{
             //    policy.RequireRole("Administrator");

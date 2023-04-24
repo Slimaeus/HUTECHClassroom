@@ -31,4 +31,8 @@
     <ProjectReference Include="..\HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Using Static="true" Include="HUTECHClassroom.API.Extensions.Policies.PolicyConstants" />
+	</ItemGroup>
+
 </Project>
