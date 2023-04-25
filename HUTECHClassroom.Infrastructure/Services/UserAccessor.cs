@@ -13,7 +13,7 @@ public class UserAccessor : IUserAccessor
     {
         _httpContextAccessor = httpContextAccessor;
     }
-
+    public Guid Id => Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? Guid.Empty.ToString());
     public string UserName => _httpContextAccessor.HttpContext.User.Identity.Name;
     public IList<string> Roles => _httpContextAccessor.HttpContext.User.Claims
         .Where(x => x.Type == ClaimTypes.Role)

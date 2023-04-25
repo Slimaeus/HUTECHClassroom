@@ -20,7 +20,7 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 [ApiVersion("1.0")]
 public class MissionsController : BaseEntityApiController<MissionDTO>
 {
-    [Authorize(Policy = ReadMissionPolicy)]
+    //[Authorize(Policy = ReadMissionPolicy)]
     [HttpGet]
     public Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] PaginationParams @params)
         => HandlePaginationQuery(new GetMissionsWithPaginationQuery(@params));
