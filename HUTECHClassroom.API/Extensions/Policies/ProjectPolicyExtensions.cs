@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using HUTECHClassroom.Domain.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions.Policies;
 
@@ -8,19 +9,19 @@ public static class ProjectPolicyExtensions
     {
         options.AddPolicy(CreateProjectPolicy, policy =>
         {
-            policy.RequireClaim(ProjectClaimName, CreateAction);
+            policy.RequireClaim(ApplicationClaimTypes.Project, CreateAction);
         });
         options.AddPolicy(ReadProjectPolicy, policy =>
         {
-            policy.RequireClaim(ProjectClaimName, ReadAction);
+            policy.RequireClaim(ApplicationClaimTypes.Project, ReadAction);
         });
         options.AddPolicy(UpdateProjectPolicy, policy =>
         {
-            policy.RequireClaim(ProjectClaimName, UpdateAction);
+            policy.RequireClaim(ApplicationClaimTypes.Project, UpdateAction);
         });
         options.AddPolicy(DeleteProjectPolicy, policy =>
         {
-            policy.RequireClaim(ProjectClaimName, DeleteAction);
+            policy.RequireClaim(ApplicationClaimTypes.Project, DeleteAction);
         });
     }
 }

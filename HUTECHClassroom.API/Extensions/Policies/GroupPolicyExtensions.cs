@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using HUTECHClassroom.Domain.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions.Policies;
 
@@ -8,19 +9,19 @@ public static class GroupPolicyExtensions
     {
         options.AddPolicy(CreateGroupPolicy, policy =>
         {
-            policy.RequireClaim(GroupClaimName, CreateAction);
+            policy.RequireClaim(ApplicationClaimTypes.Group, CreateAction);
         });
         options.AddPolicy(ReadGroupPolicy, policy =>
         {
-            policy.RequireClaim(GroupClaimName, ReadAction);
+            policy.RequireClaim(ApplicationClaimTypes.Group, ReadAction);
         });
         options.AddPolicy(UpdateGroupPolicy, policy =>
         {
-            policy.RequireClaim(GroupClaimName, UpdateAction);
+            policy.RequireClaim(ApplicationClaimTypes.Group, UpdateAction);
         });
         options.AddPolicy(DeleteGroupPolicy, policy =>
         {
-            policy.RequireClaim(GroupClaimName, DeleteAction);
+            policy.RequireClaim(ApplicationClaimTypes.Group, DeleteAction);
         });
     }
 }

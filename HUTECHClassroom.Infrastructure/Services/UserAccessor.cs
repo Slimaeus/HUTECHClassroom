@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using HUTECHClassroom.Domain.Claims;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Immutable;
+using System.Security.Claims;
 
 namespace HUTECHClassroom.Infrastructure.Services;
 
@@ -12,5 +15,13 @@ public class UserAccessor : IUserAccessor
     }
 
     public string UserName => _httpContextAccessor.HttpContext.User.Identity.Name;
+    public IList<string> Roles => _httpContextAccessor.HttpContext.User.Claims
+        .Where(x => x.Type == ClaimTypes.Role)
+        .Select(x => x.Value)
+        .ToList();
+    public IDictionary<string, ImmutableArray<string>> EntityClaims => _httpContextAccessor.HttpContext.User.Claims
+        .Where(x => ApplicationClaimTypes.EntityClaimTypes.Contains(x.Type))
+        .GroupBy(x => x.Type)
+        .ToDictionary(g => g.Key, g => g.Select(x => x.Value).ToImmutableArray());
 }
 

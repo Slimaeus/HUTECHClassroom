@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using HUTECHClassroom.Domain.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions.Policies;
 
@@ -8,19 +9,19 @@ public static class MissionPolicyExtensions
     {
         options.AddPolicy(CreateMissionPolicy, policy =>
         {
-            policy.RequireClaim(MissionClaimName, CreateAction);
+            policy.RequireClaim(ApplicationClaimTypes.Mission, CreateAction);
         });
         options.AddPolicy(ReadMissionPolicy, policy =>
         {
-            policy.RequireClaim(MissionClaimName, ReadAction);
+            policy.RequireClaim(ApplicationClaimTypes.Mission, ReadAction);
         });
         options.AddPolicy(UpdateMissionPolicy, policy =>
         {
-            policy.RequireClaim(MissionClaimName, UpdateAction);
+            policy.RequireClaim(ApplicationClaimTypes.Mission, UpdateAction);
         });
         options.AddPolicy(DeleteMissionPolicy, policy =>
         {
-            policy.RequireClaim(MissionClaimName, DeleteAction);
+            policy.RequireClaim(ApplicationClaimTypes.Mission, DeleteAction);
         });
     }
 }

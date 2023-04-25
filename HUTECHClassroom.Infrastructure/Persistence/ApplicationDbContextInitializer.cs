@@ -171,8 +171,8 @@ public class ApplicationDbContextInitializer
         foreach (var user in users)
         {
             await _userManager.CreateAsync(user, "P@ssw0rd").ConfigureAwait(false);
-            await _userManager.AddToRoleAsync(user, roles[0].Name);
-            await _userManager.AddToRoleAsync(user, roles[1].Name);
+            await _userManager.AddToRoleAsync(user, studentRole.Name);
+            await _userManager.AddToRoleAsync(user, lecturerRole.Name);
         }
 
         var classrooms = new Classroom[]
