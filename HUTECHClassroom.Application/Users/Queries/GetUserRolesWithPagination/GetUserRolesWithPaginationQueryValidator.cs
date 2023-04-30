@@ -1,8 +1,7 @@
 ﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Validators;
 using HUTECHClassroom.Application.Roles.DTOs;
-using HUTECHClassroom.Application.Users.Queries.GetUserRolesWithPagination;
 
-namespace HUTECHClassroom.Application.Roles.Queries.GetRolesWithPagination;
+namespace HUTECHClassroom.Application.Users.Queries.GetUserRolesWithPagination;
 
 public class GetUserRolesWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserRolesWithPaginationQuery, RoleDTO, PaginationParams> { }

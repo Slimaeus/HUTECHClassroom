@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
+using HUTECHClassroom.Application.Exercises;
 using HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
 using HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
 using HUTECHClassroom.Application.Exercises.Commands.DeleteExercise;
@@ -18,8 +19,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class ExercisesController : BaseEntityApiController<ExerciseDTO>
 {
     [HttpGet]
-    public Task<ActionResult<IEnumerable<ExerciseDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery<GetExercisesWithPaginationQuery, PaginationParams>(new GetExercisesWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<ExerciseDTO>>> Get([FromQuery] ExercisePaginationParams @params)
+        => HandlePaginationQuery<GetExercisesWithPaginationQuery, ExercisePaginationParams>(new GetExercisesWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetExerciseDetails))]
     public Task<ActionResult<ExerciseDTO>> GetExerciseDetails(Guid id)
         => HandleGetQuery(new GetExerciseQuery(id));

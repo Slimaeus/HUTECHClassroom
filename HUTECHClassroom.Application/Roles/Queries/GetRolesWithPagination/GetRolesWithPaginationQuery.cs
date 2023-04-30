@@ -1,22 +1,18 @@
-﻿using HUTECHClassroom.Application.Common.Models;
+﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
+using HUTECHClassroom.Application.Common.Extensions;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Roles.DTOs;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Roles.Queries.GetRolesWithPagination;
 
-public record GetRolesWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<RoleDTO, PaginationParams>(Params);
-public class GetRolesWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationRole, GetRolesWithPaginationQuery, RoleDTO, PaginationParams>
+public record GetRolesWithPaginationQuery(RolePaginationParams Params) : GetWithPaginationQuery<RoleDTO, RolePaginationParams>(Params);
+public class GetRolesWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationRole, GetRolesWithPaginationQuery, RoleDTO, RolePaginationParams>
 {
-    public GetRolesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
-    {
-    }
+    public GetRolesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<ApplicationRole, bool>> SearchStringPredicate(string searchString)
-    {
-        return x => x.Name.ToLower().Contains(searchString.ToLower());
-    }
-    protected override Expression<Func<ApplicationRole, object>> OrderByKeySelector()
-    {
-        return x => x.Name;
-    }
+        => x => x.Name.ToLower().Contains(searchString.ToLower());
+    protected override Expression<Func<ApplicationRole, object>> OrderByKeySelector() => x => x.Name;
+    protected override IMultipleResultQuery<ApplicationRole> SortingQuery(IMultipleResultQuery<ApplicationRole> query, GetRolesWithPaginationQuery request)
+        => query.SortEntityQuery(request.Params.NameOrder, x => x.Name);
 }

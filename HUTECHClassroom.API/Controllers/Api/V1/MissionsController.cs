@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
+using HUTECHClassroom.Application.Missions;
 using HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
 using HUTECHClassroom.Application.Missions.Commands.DeleteMission;
@@ -22,8 +23,8 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
 {
     //[Authorize(Policy = ReadMissionPolicy)]
     [HttpGet]
-    public Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery<GetMissionsWithPaginationQuery, PaginationParams>(new GetMissionsWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] MissionPaginationParams @params)
+        => HandlePaginationQuery<GetMissionsWithPaginationQuery, MissionPaginationParams>(new GetMissionsWithPaginationQuery(@params));
     [Authorize(Policy = ReadMissionPolicy)]
     [HttpGet("{id}", Name = nameof(GetDetails))]
     public Task<ActionResult<MissionDTO>> GetDetails(Guid id)

@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Missions.DTOs;
+using HUTECHClassroom.Application.Projects;
 using HUTECHClassroom.Application.Projects.Commands.AddMission;
 using HUTECHClassroom.Application.Projects.Commands.CreateProject;
 using HUTECHClassroom.Application.Projects.Commands.DeleteProject;
@@ -19,8 +20,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class ProjectsController : BaseEntityApiController<ProjectDTO>
 {
     [HttpGet]
-    public Task<ActionResult<IEnumerable<ProjectDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery<GetProjectsWithPaginationQuery, PaginationParams>(new GetProjectsWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<ProjectDTO>>> Get([FromQuery] ProjectPaginationParams @params)
+        => HandlePaginationQuery<GetProjectsWithPaginationQuery, ProjectPaginationParams>(new GetProjectsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetProjectDetails))]
     public Task<ActionResult<ProjectDTO>> GetProjectDetails(Guid id)
         => HandleGetQuery(new GetProjectQuery(id));

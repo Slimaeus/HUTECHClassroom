@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
+using HUTECHClassroom.Application.Groups;
 using HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
 using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.Commands.DeleteGroup;
@@ -20,8 +21,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class GroupsController : BaseEntityApiController<GroupDTO>
 {
     [HttpGet]
-    public Task<ActionResult<IEnumerable<GroupDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery<GetGroupsWithPaginationQuery, PaginationParams>(new GetGroupsWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<GroupDTO>>> Get([FromQuery] GroupPaginationParams @params)
+        => HandlePaginationQuery<GetGroupsWithPaginationQuery, GroupPaginationParams>(new GetGroupsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetGroupDetails))]
     public Task<ActionResult<GroupDTO>> GetGroupDetails(Guid id)
         => HandleGetQuery(new GetGroupQuery(id));

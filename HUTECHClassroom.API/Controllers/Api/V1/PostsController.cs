@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Common.Models;
+﻿using HUTECHClassroom.Application.Comments;
+using HUTECHClassroom.Application.Posts;
 using HUTECHClassroom.Application.Posts.Commands.CreatePost;
 using HUTECHClassroom.Application.Posts.Commands.DeletePost;
 using HUTECHClassroom.Application.Posts.Commands.DeleteRangePost;
@@ -15,8 +16,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class PostsController : BaseEntityApiController<PostDTO>
 {
     [HttpGet]
-    public Task<ActionResult<IEnumerable<PostDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery<GetPostsWithPaginationQuery, PaginationParams>(new GetPostsWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<PostDTO>>> Get([FromQuery] PostPaginationParams @params)
+        => HandlePaginationQuery<GetPostsWithPaginationQuery, PostPaginationParams>(new GetPostsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetPostDetails))]
     public Task<ActionResult<PostDTO>> GetPostDetails(Guid id)
         => HandleGetQuery(new GetPostQuery(id));
@@ -33,6 +34,6 @@ public class PostsController : BaseEntityApiController<PostDTO>
     public Task<IActionResult> DeleteRange(IList<Guid> ids)
         => HandleDeleteRangeCommand(new DeleteRangePostCommand(ids));
     [HttpGet("{id}/comments")]
-    public async Task<ActionResult<IEnumerable<PostCommentDTO>>> GetComments(Guid id, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<PostCommentDTO>>> GetComments(Guid id, [FromQuery] CommentPaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetPostCommentsWithPaginationQuery(id, @params)));
 }

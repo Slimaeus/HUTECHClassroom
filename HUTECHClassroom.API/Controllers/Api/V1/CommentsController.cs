@@ -1,11 +1,11 @@
-﻿using HUTECHClassroom.Application.Comments.Commands.CreateComment;
+﻿using HUTECHClassroom.Application.Comments;
+using HUTECHClassroom.Application.Comments.Commands.CreateComment;
 using HUTECHClassroom.Application.Comments.Commands.DeleteComment;
 using HUTECHClassroom.Application.Comments.Commands.DeleteRangeComment;
 using HUTECHClassroom.Application.Comments.Commands.UpdateComment;
 using HUTECHClassroom.Application.Comments.DTOs;
 using HUTECHClassroom.Application.Comments.Queries.GetComment;
 using HUTECHClassroom.Application.Comments.Queries.GetCommentsWithPagination;
-using HUTECHClassroom.Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -14,8 +14,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class CommentsController : BaseEntityApiController<CommentDTO>
 {
     [HttpGet]
-    public Task<ActionResult<IEnumerable<CommentDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery<GetCommentsWithPaginationQuery, PaginationParams>(new GetCommentsWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<CommentDTO>>> Get([FromQuery] CommentPaginationParams @params)
+        => HandlePaginationQuery<GetCommentsWithPaginationQuery, CommentPaginationParams>(new GetCommentsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetCommentDetails))]
     public Task<ActionResult<CommentDTO>> GetCommentDetails(Guid id)
         => HandleGetQuery(new GetCommentQuery(id));

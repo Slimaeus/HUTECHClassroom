@@ -1,12 +1,13 @@
-﻿using HUTECHClassroom.Application.Common.Models;
+﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
+using HUTECHClassroom.Application.Common.Extensions;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Groups.DTOs;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
 
-public record GetGroupsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<GroupDTO, PaginationParams>(Params);
-public class GetGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Group, GetGroupsWithPaginationQuery, GroupDTO, PaginationParams>
+public record GetGroupsWithPaginationQuery(GroupPaginationParams Params) : GetWithPaginationQuery<GroupDTO, GroupPaginationParams>(Params);
+public class GetGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Group, GetGroupsWithPaginationQuery, GroupDTO, GroupPaginationParams>
 {
     public GetGroupsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
@@ -19,4 +20,7 @@ public class GetGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler
     {
         return x => x.CreateDate;
     }
+    protected override IMultipleResultQuery<Group> SortingQuery(IMultipleResultQuery<Group> query, GetGroupsWithPaginationQuery request)
+        => query.SortEntityQuery(request.Params.NameOrder, x => x.Name)
+                .SortEntityQuery(request.Params.DescriptionOrder, x => x.Description);
 }
