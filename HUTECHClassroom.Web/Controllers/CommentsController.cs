@@ -1,36 +1,28 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class CommentsController : Controller
+public class CommentsController : BaseEntityController<Comment>
 {
-    private readonly ApplicationDbContext _context;
-
-    public CommentsController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Comments
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Comments.Include(c => c.Post).Include(c => c.User);
+        var applicationDbContext = DbContext.Comments.Include(c => c.Post).Include(c => c.User);
         return View(await applicationDbContext.ToListAsync());
     }
 
     // GET: Comments/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Comments == null)
+        if (id == null || DbContext.Comments == null)
         {
             return NotFound();
         }
 
-        var comment = await _context.Comments
+        var comment = await DbContext.Comments
             .Include(c => c.Post)
             .Include(c => c.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -45,8 +37,8 @@ public class CommentsController : Controller
     // GET: Comments/Create
     public IActionResult Create()
     {
-        ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Content");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
+        ViewData["PostId"] = new SelectList(DbContext.Posts, "Id", "Content");
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName");
         return View();
     }
 
@@ -60,30 +52,30 @@ public class CommentsController : Controller
         if (ModelState.IsValid)
         {
             comment.Id = Guid.NewGuid();
-            _context.Add(comment);
-            await _context.SaveChangesAsync();
+            DbContext.Add(comment);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Content", comment.PostId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", comment.UserId);
+        ViewData["PostId"] = new SelectList(DbContext.Posts, "Id", "Content", comment.PostId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", comment.UserId);
         return View(comment);
     }
 
     // GET: Comments/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Comments == null)
+        if (id == null || DbContext.Comments == null)
         {
             return NotFound();
         }
 
-        var comment = await _context.Comments.FindAsync(id);
+        var comment = await DbContext.Comments.FindAsync(id);
         if (comment == null)
         {
             return NotFound();
         }
-        ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Content", comment.PostId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", comment.UserId);
+        ViewData["PostId"] = new SelectList(DbContext.Posts, "Id", "Content", comment.PostId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", comment.UserId);
         return View(comment);
     }
 
@@ -103,8 +95,8 @@ public class CommentsController : Controller
         {
             try
             {
-                _context.Update(comment);
-                await _context.SaveChangesAsync();
+                DbContext.Update(comment);
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -119,20 +111,20 @@ public class CommentsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Content", comment.PostId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", comment.UserId);
+        ViewData["PostId"] = new SelectList(DbContext.Posts, "Id", "Content", comment.PostId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", comment.UserId);
         return View(comment);
     }
 
     // GET: Comments/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Comments == null)
+        if (id == null || DbContext.Comments == null)
         {
             return NotFound();
         }
 
-        var comment = await _context.Comments
+        var comment = await DbContext.Comments
             .Include(c => c.Post)
             .Include(c => c.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -149,22 +141,22 @@ public class CommentsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Comments == null)
+        if (DbContext.Comments == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Comments'  is null.");
         }
-        var comment = await _context.Comments.FindAsync(id);
+        var comment = await DbContext.Comments.FindAsync(id);
         if (comment != null)
         {
-            _context.Comments.Remove(comment);
+            DbContext.Comments.Remove(comment);
         }
 
-        await _context.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool CommentExists(Guid id)
     {
-        return _context.Comments.Any(e => e.Id == id);
+        return DbContext.Comments.Any(e => e.Id == id);
     }
 }

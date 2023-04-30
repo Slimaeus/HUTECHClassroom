@@ -1,36 +1,28 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class PostsController : Controller
+public class PostsController : BaseEntityController<Post>
 {
-    private readonly ApplicationDbContext _context;
-
-    public PostsController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Posts
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Posts.Include(p => p.Classroom).Include(p => p.User);
+        var applicationDbContext = DbContext.Posts.Include(p => p.Classroom).Include(p => p.User);
         return View(await applicationDbContext.ToListAsync());
     }
 
     // GET: Posts/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || DbContext.Posts == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts
+        var post = await DbContext.Posts
             .Include(p => p.Classroom)
             .Include(p => p.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -45,8 +37,8 @@ public class PostsController : Controller
     // GET: Posts/Create
     public IActionResult Create()
     {
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title");
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName");
         return View();
     }
 
@@ -60,30 +52,30 @@ public class PostsController : Controller
         if (ModelState.IsValid)
         {
             post.Id = Guid.NewGuid();
-            _context.Add(post);
-            await _context.SaveChangesAsync();
+            DbContext.Add(post);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", post.UserId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", post.ClassroomId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", post.UserId);
         return View(post);
     }
 
     // GET: Posts/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || DbContext.Posts == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts.FindAsync(id);
+        var post = await DbContext.Posts.FindAsync(id);
         if (post == null)
         {
             return NotFound();
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", post.UserId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", post.ClassroomId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", post.UserId);
         return View(post);
     }
 
@@ -103,8 +95,8 @@ public class PostsController : Controller
         {
             try
             {
-                _context.Update(post);
-                await _context.SaveChangesAsync();
+                DbContext.Update(post);
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -119,20 +111,20 @@ public class PostsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", post.UserId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", post.ClassroomId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", post.UserId);
         return View(post);
     }
 
     // GET: Posts/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Posts == null)
+        if (id == null || DbContext.Posts == null)
         {
             return NotFound();
         }
 
-        var post = await _context.Posts
+        var post = await DbContext.Posts
             .Include(p => p.Classroom)
             .Include(p => p.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -149,22 +141,22 @@ public class PostsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Posts == null)
+        if (DbContext.Posts == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
         }
-        var post = await _context.Posts.FindAsync(id);
+        var post = await DbContext.Posts.FindAsync(id);
         if (post != null)
         {
-            _context.Posts.Remove(post);
+            DbContext.Posts.Remove(post);
         }
 
-        await _context.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool PostExists(Guid id)
     {
-        return _context.Posts.Any(e => e.Id == id);
+        return DbContext.Posts.Any(e => e.Id == id);
     }
 }

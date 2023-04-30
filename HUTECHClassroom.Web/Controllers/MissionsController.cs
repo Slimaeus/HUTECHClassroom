@@ -1,36 +1,28 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class MissionsController : Controller
+public class MissionsController : BaseEntityController<Mission>
 {
-    private readonly ApplicationDbContext _context;
-
-    public MissionsController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Missions
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Missions.Include(m => m.Project);
+        var applicationDbContext = DbContext.Missions.Include(m => m.Project);
         return View(await applicationDbContext.ToListAsync());
     }
 
     // GET: Missions/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Missions == null)
+        if (id == null || DbContext.Missions == null)
         {
             return NotFound();
         }
 
-        var mission = await _context.Missions
+        var mission = await DbContext.Missions
             .Include(m => m.Project)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (mission == null)
@@ -44,7 +36,7 @@ public class MissionsController : Controller
     // GET: Missions/Create
     public IActionResult Create()
     {
-        ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
+        ViewData["ProjectId"] = new SelectList(DbContext.Projects, "Id", "Name");
         return View();
     }
 
@@ -58,28 +50,28 @@ public class MissionsController : Controller
         if (ModelState.IsValid)
         {
             mission.Id = Guid.NewGuid();
-            _context.Add(mission);
-            await _context.SaveChangesAsync();
+            DbContext.Add(mission);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", mission.ProjectId);
+        ViewData["ProjectId"] = new SelectList(DbContext.Projects, "Id", "Name", mission.ProjectId);
         return View(mission);
     }
 
     // GET: Missions/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Missions == null)
+        if (id == null || DbContext.Missions == null)
         {
             return NotFound();
         }
 
-        var mission = await _context.Missions.FindAsync(id);
+        var mission = await DbContext.Missions.FindAsync(id);
         if (mission == null)
         {
             return NotFound();
         }
-        ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", mission.ProjectId);
+        ViewData["ProjectId"] = new SelectList(DbContext.Projects, "Id", "Name", mission.ProjectId);
         return View(mission);
     }
 
@@ -99,8 +91,8 @@ public class MissionsController : Controller
         {
             try
             {
-                _context.Update(mission);
-                await _context.SaveChangesAsync();
+                DbContext.Update(mission);
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -115,19 +107,19 @@ public class MissionsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", mission.ProjectId);
+        ViewData["ProjectId"] = new SelectList(DbContext.Projects, "Id", "Name", mission.ProjectId);
         return View(mission);
     }
 
     // GET: Missions/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Missions == null)
+        if (id == null || DbContext.Missions == null)
         {
             return NotFound();
         }
 
-        var mission = await _context.Missions
+        var mission = await DbContext.Missions
             .Include(m => m.Project)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (mission == null)
@@ -143,22 +135,22 @@ public class MissionsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Missions == null)
+        if (DbContext.Missions == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Missions'  is null.");
         }
-        var mission = await _context.Missions.FindAsync(id);
+        var mission = await DbContext.Missions.FindAsync(id);
         if (mission != null)
         {
-            _context.Missions.Remove(mission);
+            DbContext.Missions.Remove(mission);
         }
 
-        await _context.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool MissionExists(Guid id)
     {
-        return _context.Missions.Any(e => e.Id == id);
+        return DbContext.Missions.Any(e => e.Id == id);
     }
 }

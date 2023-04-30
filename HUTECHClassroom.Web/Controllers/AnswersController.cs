@@ -1,36 +1,28 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class AnswersController : Controller
+public class AnswersController : BaseEntityController<Answer>
 {
-    private readonly ApplicationDbContext _context;
-
-    public AnswersController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Answers
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Answers.Include(a => a.Exercise).Include(a => a.User);
+        var applicationDbContext = DbContext.Answers.Include(a => a.Exercise).Include(a => a.User);
         return View(await applicationDbContext.ToListAsync());
     }
 
     // GET: Answers/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Answers == null)
+        if (id == null || DbContext.Answers == null)
         {
             return NotFound();
         }
 
-        var answer = await _context.Answers
+        var answer = await DbContext.Answers
             .Include(a => a.Exercise)
             .Include(a => a.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -45,8 +37,8 @@ public class AnswersController : Controller
     // GET: Answers/Create
     public IActionResult Create()
     {
-        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Title");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
+        ViewData["ExerciseId"] = new SelectList(DbContext.Exercises, "Id", "Title");
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName");
         return View();
     }
 
@@ -60,30 +52,30 @@ public class AnswersController : Controller
         if (ModelState.IsValid)
         {
             answer.Id = Guid.NewGuid();
-            _context.Add(answer);
-            await _context.SaveChangesAsync();
+            DbContext.Add(answer);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Title", answer.ExerciseId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", answer.UserId);
+        ViewData["ExerciseId"] = new SelectList(DbContext.Exercises, "Id", "Title", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", answer.UserId);
         return View(answer);
     }
 
     // GET: Answers/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Answers == null)
+        if (id == null || DbContext.Answers == null)
         {
             return NotFound();
         }
 
-        var answer = await _context.Answers.FindAsync(id);
+        var answer = await DbContext.Answers.FindAsync(id);
         if (answer == null)
         {
             return NotFound();
         }
-        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Title", answer.ExerciseId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", answer.UserId);
+        ViewData["ExerciseId"] = new SelectList(DbContext.Exercises, "Id", "Title", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", answer.UserId);
         return View(answer);
     }
 
@@ -103,8 +95,8 @@ public class AnswersController : Controller
         {
             try
             {
-                _context.Update(answer);
-                await _context.SaveChangesAsync();
+                DbContext.Update(answer);
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -119,20 +111,20 @@ public class AnswersController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Title", answer.ExerciseId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", answer.UserId);
+        ViewData["ExerciseId"] = new SelectList(DbContext.Exercises, "Id", "Title", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(DbContext.Users, "Id", "UserName", answer.UserId);
         return View(answer);
     }
 
     // GET: Answers/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Answers == null)
+        if (id == null || DbContext.Answers == null)
         {
             return NotFound();
         }
 
-        var answer = await _context.Answers
+        var answer = await DbContext.Answers
             .Include(a => a.Exercise)
             .Include(a => a.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -149,22 +141,22 @@ public class AnswersController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Answers == null)
+        if (DbContext.Answers == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Answers'  is null.");
         }
-        var answer = await _context.Answers.FindAsync(id);
+        var answer = await DbContext.Answers.FindAsync(id);
         if (answer != null)
         {
-            _context.Answers.Remove(answer);
+            DbContext.Answers.Remove(answer);
         }
 
-        await _context.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool AnswerExists(Guid id)
     {
-        return _context.Answers.Any(e => e.Id == id);
+        return DbContext.Answers.Any(e => e.Id == id);
     }
 }

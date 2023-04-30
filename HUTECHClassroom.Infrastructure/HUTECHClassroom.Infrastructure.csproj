@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.101.0" />
     <PackageReference Include="EntityFrameworkCore.Data.Repository" Version="7.0.6" />
     <PackageReference Include="EntityFrameworkCore.Data.Repository.Abstractions" Version="7.0.6" />
     <PackageReference Include="EntityFrameworkCore.Data.UnitOfWork" Version="7.0.6" />

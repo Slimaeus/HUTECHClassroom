@@ -1,5 +1,7 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
+using HUTECHClassroom.Infrastructure.Services;
 
 namespace HUTECHClassroom.Web;
 
@@ -13,6 +15,7 @@ public static class ConfigureServices
 
         #region Services
         services.AddHttpContextAccessor();
+        services.AddScoped<IExcelServie, ExcelSerive>();
         #endregion
 
         services.AddRazorPages();

@@ -1,34 +1,26 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class FacultiesController : Controller
+public class FacultiesController : BaseEntityController<Faculty>
 {
-    private readonly ApplicationDbContext _context;
-
-    public FacultiesController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Faculties
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Faculties.ToListAsync());
+        return View(await DbContext.Faculties.ToListAsync());
     }
 
     // GET: Faculties/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || DbContext.Faculties == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties
+        var faculty = await DbContext.Faculties
             .FirstOrDefaultAsync(m => m.Id == id);
         if (faculty == null)
         {
@@ -54,8 +46,8 @@ public class FacultiesController : Controller
         if (ModelState.IsValid)
         {
             faculty.Id = Guid.NewGuid();
-            _context.Add(faculty);
-            await _context.SaveChangesAsync();
+            DbContext.Add(faculty);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         return View(faculty);
@@ -64,12 +56,12 @@ public class FacultiesController : Controller
     // GET: Faculties/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || DbContext.Faculties == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties.FindAsync(id);
+        var faculty = await DbContext.Faculties.FindAsync(id);
         if (faculty == null)
         {
             return NotFound();
@@ -93,8 +85,8 @@ public class FacultiesController : Controller
         {
             try
             {
-                _context.Update(faculty);
-                await _context.SaveChangesAsync();
+                DbContext.Update(faculty);
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -115,12 +107,12 @@ public class FacultiesController : Controller
     // GET: Faculties/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Faculties == null)
+        if (id == null || DbContext.Faculties == null)
         {
             return NotFound();
         }
 
-        var faculty = await _context.Faculties
+        var faculty = await DbContext.Faculties
             .FirstOrDefaultAsync(m => m.Id == id);
         if (faculty == null)
         {
@@ -135,22 +127,22 @@ public class FacultiesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Faculties == null)
+        if (DbContext.Faculties == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Faculties'  is null.");
         }
-        var faculty = await _context.Faculties.FindAsync(id);
+        var faculty = await DbContext.Faculties.FindAsync(id);
         if (faculty != null)
         {
-            _context.Faculties.Remove(faculty);
+            DbContext.Faculties.Remove(faculty);
         }
 
-        await _context.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool FacultyExists(Guid id)
     {
-        return _context.Faculties.Any(e => e.Id == id);
+        return DbContext.Faculties.Any(e => e.Id == id);
     }
 }

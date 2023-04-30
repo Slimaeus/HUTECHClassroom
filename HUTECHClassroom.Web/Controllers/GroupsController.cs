@@ -1,36 +1,28 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class GroupsController : Controller
+public class GroupsController : BaseEntityController<Group>
 {
-    private readonly ApplicationDbContext _context;
-
-    public GroupsController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Groups
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Groups.Include(g => g.Classroom).Include(g => g.Leader);
+        var applicationDbContext = DbContext.Groups.Include(g => g.Classroom).Include(g => g.Leader);
         return View(await applicationDbContext.ToListAsync());
     }
 
     // GET: Groups/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Groups == null)
+        if (id == null || DbContext.Groups == null)
         {
             return NotFound();
         }
 
-        var group = await _context.Groups
+        var group = await DbContext.Groups
             .Include(g => g.Classroom)
             .Include(g => g.Leader)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -45,8 +37,8 @@ public class GroupsController : Controller
     // GET: Groups/Create
     public IActionResult Create()
     {
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title");
-        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "UserName");
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title");
+        ViewData["LeaderId"] = new SelectList(DbContext.Users, "Id", "UserName");
         return View();
     }
 
@@ -60,30 +52,30 @@ public class GroupsController : Controller
         if (ModelState.IsValid)
         {
             group.Id = Guid.NewGuid();
-            _context.Add(group);
-            await _context.SaveChangesAsync();
+            DbContext.Add(group);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
-        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "UserName", group.LeaderId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", group.ClassroomId);
+        ViewData["LeaderId"] = new SelectList(DbContext.Users, "Id", "UserName", group.LeaderId);
         return View(group);
     }
 
     // GET: Groups/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Groups == null)
+        if (id == null || DbContext.Groups == null)
         {
             return NotFound();
         }
 
-        var group = await _context.Groups.FindAsync(id);
+        var group = await DbContext.Groups.FindAsync(id);
         if (group == null)
         {
             return NotFound();
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
-        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "UserName", group.LeaderId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", group.ClassroomId);
+        ViewData["LeaderId"] = new SelectList(DbContext.Users, "Id", "UserName", group.LeaderId);
         return View(group);
     }
 
@@ -103,8 +95,8 @@ public class GroupsController : Controller
         {
             try
             {
-                _context.Update(group);
-                await _context.SaveChangesAsync();
+                DbContext.Update(group);
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -119,20 +111,20 @@ public class GroupsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
-        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "UserName", group.LeaderId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", group.ClassroomId);
+        ViewData["LeaderId"] = new SelectList(DbContext.Users, "Id", "UserName", group.LeaderId);
         return View(group);
     }
 
     // GET: Groups/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Groups == null)
+        if (id == null || DbContext.Groups == null)
         {
             return NotFound();
         }
 
-        var group = await _context.Groups
+        var group = await DbContext.Groups
             .Include(g => g.Classroom)
             .Include(g => g.Leader)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -149,22 +141,22 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Groups == null)
+        if (DbContext.Groups == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Groups'  is null.");
         }
-        var group = await _context.Groups.FindAsync(id);
+        var group = await DbContext.Groups.FindAsync(id);
         if (group != null)
         {
-            _context.Groups.Remove(group);
+            DbContext.Groups.Remove(group);
         }
 
-        await _context.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool GroupExists(Guid id)
     {
-        return _context.Groups.Any(e => e.Id == id);
+        return DbContext.Groups.Any(e => e.Id == id);
     }
 }

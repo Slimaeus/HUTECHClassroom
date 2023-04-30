@@ -1,36 +1,28 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class ExercisesController : Controller
+public class ExercisesController : BaseEntityController<Exercise>
 {
-    private readonly ApplicationDbContext _context;
-
-    public ExercisesController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Exercises
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Exercises.Include(e => e.Classroom);
+        var applicationDbContext = DbContext.Exercises.Include(e => e.Classroom);
         return View(await applicationDbContext.ToListAsync());
     }
 
     // GET: Exercises/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Exercises == null)
+        if (id == null || DbContext.Exercises == null)
         {
             return NotFound();
         }
 
-        var exercise = await _context.Exercises
+        var exercise = await DbContext.Exercises
             .Include(e => e.Classroom)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (exercise == null)
@@ -44,7 +36,7 @@ public class ExercisesController : Controller
     // GET: Exercises/Create
     public IActionResult Create()
     {
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title");
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title");
         return View();
     }
 
@@ -58,28 +50,28 @@ public class ExercisesController : Controller
         if (ModelState.IsValid)
         {
             exercise.Id = Guid.NewGuid();
-            _context.Add(exercise);
-            await _context.SaveChangesAsync();
+            DbContext.Add(exercise);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", exercise.ClassroomId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", exercise.ClassroomId);
         return View(exercise);
     }
 
     // GET: Exercises/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Exercises == null)
+        if (id == null || DbContext.Exercises == null)
         {
             return NotFound();
         }
 
-        var exercise = await _context.Exercises.FindAsync(id);
+        var exercise = await DbContext.Exercises.FindAsync(id);
         if (exercise == null)
         {
             return NotFound();
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", exercise.ClassroomId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", exercise.ClassroomId);
         return View(exercise);
     }
 
@@ -99,8 +91,8 @@ public class ExercisesController : Controller
         {
             try
             {
-                _context.Update(exercise);
-                await _context.SaveChangesAsync();
+                DbContext.Update(exercise);
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -115,19 +107,19 @@ public class ExercisesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", exercise.ClassroomId);
+        ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title", exercise.ClassroomId);
         return View(exercise);
     }
 
     // GET: Exercises/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Exercises == null)
+        if (id == null || DbContext.Exercises == null)
         {
             return NotFound();
         }
 
-        var exercise = await _context.Exercises
+        var exercise = await DbContext.Exercises
             .Include(e => e.Classroom)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (exercise == null)
@@ -143,22 +135,22 @@ public class ExercisesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Exercises == null)
+        if (DbContext.Exercises == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Exercises'  is null.");
         }
-        var exercise = await _context.Exercises.FindAsync(id);
+        var exercise = await DbContext.Exercises.FindAsync(id);
         if (exercise != null)
         {
-            _context.Exercises.Remove(exercise);
+            DbContext.Exercises.Remove(exercise);
         }
 
-        await _context.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool ExerciseExists(Guid id)
     {
-        return _context.Exercises.Any(e => e.Id == id);
+        return DbContext.Exercises.Any(e => e.Id == id);
     }
 }

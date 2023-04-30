@@ -1,36 +1,28 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class ClassroomsController : Controller
+public class ClassroomsController : BaseEntityController<Classroom>
 {
-    private readonly ApplicationDbContext _context;
-
-    public ClassroomsController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Classrooms
     public async Task<IActionResult> Index()
     {
-        var applicationDbContext = _context.Classrooms.Include(c => c.Faculty).Include(c => c.Lecturer);
+        var applicationDbContext = DbContext.Classrooms.Include(c => c.Faculty).Include(c => c.Lecturer);
         return View(await applicationDbContext.ToListAsync());
     }
 
     // GET: Classrooms/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || _context.Classrooms == null)
+        if (id == null || DbContext.Classrooms == null)
         {
             return NotFound();
         }
 
-        var classroom = await _context.Classrooms
+        var classroom = await DbContext.Classrooms
             .Include(c => c.Faculty)
             .Include(c => c.Lecturer)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -45,8 +37,8 @@ public class ClassroomsController : Controller
     // GET: Classrooms/Create
     public IActionResult Create()
     {
-        ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Name");
-        ViewData["LecturerId"] = new SelectList(_context.Users, "Id", "UserName");
+        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name");
+        ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName");
         return View();
     }
 
@@ -60,30 +52,30 @@ public class ClassroomsController : Controller
         if (ModelState.IsValid)
         {
             classroom.Id = Guid.NewGuid();
-            _context.Add(classroom);
-            await _context.SaveChangesAsync();
+            DbContext.Add(classroom);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Name", classroom.FacultyId);
-        ViewData["LecturerId"] = new SelectList(_context.Users, "Id", "UserName", classroom.LecturerId);
+        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
+        ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
         return View(classroom);
     }
 
     // GET: Classrooms/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || _context.Classrooms == null)
+        if (id == null || DbContext.Classrooms == null)
         {
             return NotFound();
         }
 
-        var classroom = await _context.Classrooms.FindAsync(id);
+        var classroom = await DbContext.Classrooms.FindAsync(id);
         if (classroom == null)
         {
             return NotFound();
         }
-        ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Name", classroom.FacultyId);
-        ViewData["LecturerId"] = new SelectList(_context.Users, "Id", "UserName", classroom.LecturerId);
+        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
+        ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
         return View(classroom);
     }
 
@@ -103,8 +95,8 @@ public class ClassroomsController : Controller
         {
             try
             {
-                _context.Update(classroom);
-                await _context.SaveChangesAsync();
+                DbContext.Update(classroom);
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -119,20 +111,20 @@ public class ClassroomsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Name", classroom.FacultyId);
-        ViewData["LecturerId"] = new SelectList(_context.Users, "Id", "UserName", classroom.LecturerId);
+        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
+        ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
         return View(classroom);
     }
 
     // GET: Classrooms/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || _context.Classrooms == null)
+        if (id == null || DbContext.Classrooms == null)
         {
             return NotFound();
         }
 
-        var classroom = await _context.Classrooms
+        var classroom = await DbContext.Classrooms
             .Include(c => c.Faculty)
             .Include(c => c.Lecturer)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -149,22 +141,22 @@ public class ClassroomsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (_context.Classrooms == null)
+        if (DbContext.Classrooms == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Classrooms'  is null.");
         }
-        var classroom = await _context.Classrooms.FindAsync(id);
+        var classroom = await DbContext.Classrooms.FindAsync(id);
         if (classroom != null)
         {
-            _context.Classrooms.Remove(classroom);
+            DbContext.Classrooms.Remove(classroom);
         }
 
-        await _context.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool ClassroomExists(Guid id)
     {
-        return _context.Classrooms.Any(e => e.Id == id);
+        return DbContext.Classrooms.Any(e => e.Id == id);
     }
 }
