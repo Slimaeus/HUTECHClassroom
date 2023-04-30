@@ -1,11 +1,11 @@
-﻿using HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
+﻿using HUTECHClassroom.Application.Answers;
+using HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
 using HUTECHClassroom.Application.Answers.Commands.DeleteAnswer;
 using HUTECHClassroom.Application.Answers.Commands.DeleteRangeAnswer;
 using HUTECHClassroom.Application.Answers.Commands.UpdateAnswer;
 using HUTECHClassroom.Application.Answers.DTOs;
 using HUTECHClassroom.Application.Answers.Queries.GetAnswer;
 using HUTECHClassroom.Application.Answers.Queries.GetAnswersWithPagination;
-using HUTECHClassroom.Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -14,8 +14,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class AnswersController : BaseEntityApiController<AnswerDTO>
 {
     [HttpGet]
-    public Task<ActionResult<IEnumerable<AnswerDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery<GetAnswersWithPaginationQuery, PaginationParams>(new GetAnswersWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<AnswerDTO>>> Get([FromQuery] AnswerPaginationParams @params)
+        => HandlePaginationQuery<GetAnswersWithPaginationQuery, AnswerPaginationParams>(new GetAnswersWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetAnswerDetails))]
     public Task<ActionResult<AnswerDTO>> GetAnswerDetails(Guid id)
         => HandleGetQuery(new GetAnswerQuery(id));

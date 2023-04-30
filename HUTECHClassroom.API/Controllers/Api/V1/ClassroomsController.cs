@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Classrooms.Commands.AddClassroomUser;
+﻿using HUTECHClassroom.Application.Classrooms;
+using HUTECHClassroom.Application.Classrooms.Commands.AddClassroomUser;
 using HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 using HUTECHClassroom.Application.Classrooms.Commands.DeleteClassroom;
 using HUTECHClassroom.Application.Classrooms.Commands.DeleteRangeClassroom;
@@ -21,8 +22,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
 {
     [HttpGet]
-    public Task<ActionResult<IEnumerable<ClassroomDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery<GetClassroomsWithPaginationQuery, PaginationParams>(new GetClassroomsWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<ClassroomDTO>>> Get([FromQuery] ClassroomPaginationParams @params)
+        => HandlePaginationQuery<GetClassroomsWithPaginationQuery, ClassroomPaginationParams>(new GetClassroomsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetClassroomDetails))]
     public Task<ActionResult<ClassroomDTO>> GetClassroomDetails(Guid id)
         => HandleGetQuery(new GetClassroomQuery(id));

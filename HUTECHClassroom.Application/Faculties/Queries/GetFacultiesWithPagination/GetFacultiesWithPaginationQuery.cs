@@ -10,16 +10,12 @@ public record GetFacultiesWithPaginationQuery(FacultyPaginationParams Params) : 
 public class GetFacultiesWithPaginationQueryHandler : GetWithPaginationQueryHandler<Faculty, GetFacultiesWithPaginationQuery, FacultyDTO, FacultyPaginationParams>
 {
     public GetFacultiesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    protected override Expression<Func<Faculty, bool>> SearchStringPredicate(string searchString) =>
-        x => x.Name.ToLower().Contains(searchString.ToLower());
+    protected override Expression<Func<Faculty, bool>> SearchStringPredicate(string searchString)
+        => x => x.Name.ToLower().Contains(searchString.ToLower());
+
     protected override Expression<Func<Faculty, object>> OrderByKeySelector()
-    {
-        return x => x.CreateDate;
-    }
+        => x => x.CreateDate;
     protected override IMultipleResultQuery<Faculty> SortingQuery(IMultipleResultQuery<Faculty> query, GetFacultiesWithPaginationQuery request)
-    {
-        query = request.Params.NameOrder.SortEntityQuery(query, x => x.Name);
-        return query;
-    }
+        => query.SortEntityQuery(request.Params.NameOrder, x => x.Name);
 }
 

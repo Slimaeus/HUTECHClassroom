@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
+﻿using HUTECHClassroom.Application.Faculties;
+using HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.DeleteFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.DeleteRangeFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.UpdateFaculty;
