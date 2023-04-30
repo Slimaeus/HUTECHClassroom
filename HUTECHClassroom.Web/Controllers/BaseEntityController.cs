@@ -58,6 +58,6 @@ public class BaseEntityController<T> : Controller
         var propertyNames = propertyInfos.Where(x => x.Name != "Id" && x.Name != "CreateDate").Select(x => x.Name);
         var excelData = ExcelService.ExportToExcel(data, propertyNames);
 
-        return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "data.xlsx");
+        return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{type.Name}Sample.xlsx");
     }
 }
