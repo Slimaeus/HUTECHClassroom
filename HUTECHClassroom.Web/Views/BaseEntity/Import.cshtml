@@ -1,15 +1,24 @@
-﻿@*
+﻿@using HUTECHClassroom.Web.ViewModels;
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
-@model IFormFile
-
+@model ImportEntitiesFromExcelViewModel
+<h1>Data column's names</h1>
+<ul>
+    @foreach (var name in Model.PropertyNames)
+    {
+        <li>@name</li>
+    }
+</ul>
+<a asp-action="Export" class="btn btn-success btn-block">Export sample Data</a>
 <form asp-action="Import" method="post" enctype="multipart/form-data">
     @ViewBag.Error
     <div class="form-group">
         <label for="excelFile">Select an Excel file to import:</label>
-        <input type="file" name="excelFile" class="form-control-file" />
+        <input asp-for="File" type="file" class="form-control-file" />
+        <input type="hidden" asp-for="PropertyNames" />
     </div>
     <button type="submit" class="btn btn-primary">Import</button>
 </form>

@@ -168,4 +168,36 @@ public class ExcelSerive : IExcelServie
         return objects;
 
     }
+    public byte[] ExportToExcel<T>(IEnumerable<T> data, IEnumerable<string> propertyNames)
+    {
+        using var workbook = new XLWorkbook();
+        var worksheet = workbook.Worksheets.Add("Sheet1");
+
+        // Write the property names to the first row of the worksheet
+        for (int i = 0; i < propertyNames.Count(); i++)
+        {
+            worksheet.Cell(1, i + 1).Value = propertyNames.ElementAt(i);
+        }
+
+        // Write the data to the worksheet
+        for (int i = 0; i < data.Count(); i++)
+        {
+            var obj = data.ElementAt(i);
+
+            for (int j = 0; j < propertyNames.Count(); j++)
+            {
+                var propertyName = propertyNames.ElementAt(j);
+                var propertyValue = obj.GetType().GetProperty(propertyName).GetValue(obj, null)?.ToString();
+
+                worksheet.Cell(i + 2, j + 1).Value = propertyValue;
+            }
+        }
+
+        // Convert the workbook to a byte array
+        using (var stream = new MemoryStream())
+        {
+            workbook.SaveAs(stream);
+            return stream.ToArray();
+        }
+    }
 }
