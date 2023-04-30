@@ -46,7 +46,7 @@ public class CommentsController : Controller
     public IActionResult Create()
     {
         ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Content");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
         return View();
     }
 
@@ -65,7 +65,7 @@ public class CommentsController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Content", comment.PostId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", comment.UserId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", comment.UserId);
         return View(comment);
     }
 
@@ -83,7 +83,7 @@ public class CommentsController : Controller
             return NotFound();
         }
         ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Content", comment.PostId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", comment.UserId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", comment.UserId);
         return View(comment);
     }
 
@@ -120,7 +120,7 @@ public class CommentsController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Content", comment.PostId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", comment.UserId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", comment.UserId);
         return View(comment);
     }
 

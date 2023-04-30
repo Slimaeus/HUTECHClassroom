@@ -45,8 +45,8 @@ public class AnswersController : Controller
     // GET: Answers/Create
     public IActionResult Create()
     {
-        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Instruction");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Title");
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
         return View();
     }
 
@@ -64,8 +64,8 @@ public class AnswersController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Instruction", answer.ExerciseId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", answer.UserId);
+        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Title", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", answer.UserId);
         return View(answer);
     }
 
@@ -82,8 +82,8 @@ public class AnswersController : Controller
         {
             return NotFound();
         }
-        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Instruction", answer.ExerciseId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", answer.UserId);
+        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Title", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", answer.UserId);
         return View(answer);
     }
 
@@ -119,8 +119,8 @@ public class AnswersController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Instruction", answer.ExerciseId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", answer.UserId);
+        ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Title", answer.ExerciseId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", answer.UserId);
         return View(answer);
     }
 

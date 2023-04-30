@@ -46,7 +46,7 @@ public class GroupsController : Controller
     public IActionResult Create()
     {
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title");
-        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "UserName");
         return View();
     }
 
@@ -65,7 +65,7 @@ public class GroupsController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
-        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "Id", group.LeaderId);
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "UserName", group.LeaderId);
         return View(group);
     }
 
@@ -83,7 +83,7 @@ public class GroupsController : Controller
             return NotFound();
         }
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
-        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "Id", group.LeaderId);
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "UserName", group.LeaderId);
         return View(group);
     }
 
@@ -120,7 +120,7 @@ public class GroupsController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", group.ClassroomId);
-        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "Id", group.LeaderId);
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "UserName", group.LeaderId);
         return View(group);
     }
 

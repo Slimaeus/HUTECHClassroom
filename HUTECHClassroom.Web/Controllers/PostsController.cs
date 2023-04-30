@@ -46,7 +46,7 @@ public class PostsController : Controller
     public IActionResult Create()
     {
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
         return View();
     }
 
@@ -65,7 +65,7 @@ public class PostsController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", post.UserId);
         return View(post);
     }
 
@@ -83,7 +83,7 @@ public class PostsController : Controller
             return NotFound();
         }
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", post.UserId);
         return View(post);
     }
 
@@ -120,7 +120,7 @@ public class PostsController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Title", post.ClassroomId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", post.UserId);
         return View(post);
     }
 
