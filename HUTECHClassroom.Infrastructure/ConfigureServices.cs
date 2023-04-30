@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCore.UnitOfWork.Extensions;
 using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using HUTECHClassroom.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

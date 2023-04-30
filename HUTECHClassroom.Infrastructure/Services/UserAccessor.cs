@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Claims;
+using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Immutable;
 using System.Security.Claims;

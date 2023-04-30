@@ -1,7 +1,7 @@
 ﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Roles.DTOs;
-using HUTECHClassroom.Infrastructure.Services;
+using HUTECHClassroom.Domain.Interfaces;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserRolesWithPagination;

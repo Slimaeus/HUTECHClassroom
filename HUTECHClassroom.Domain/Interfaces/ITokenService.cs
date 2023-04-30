@@ -1,6 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 
-namespace HUTECHClassroom.Infrastructure.Services;
+namespace HUTECHClassroom.Domain.Interfaces;
 public interface ITokenService
 {
     string CreateToken(ApplicationUser user);

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace HUTECHClassroom.Infrastructure.Services;
+namespace HUTECHClassroom.Domain.Interfaces;
 
 public interface IUserAccessor
 {

@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

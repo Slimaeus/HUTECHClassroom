@@ -1,6 +1,6 @@
 ﻿using HUTECHClassroom.Application.Users.DTOs;
 using HUTECHClassroom.Application.Users.Queries.GetUser;
-using HUTECHClassroom.Infrastructure.Services;
+using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Immutable;

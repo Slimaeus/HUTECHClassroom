@@ -1,5 +1,5 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
-using HUTECHClassroom.Infrastructure.Services;
+using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

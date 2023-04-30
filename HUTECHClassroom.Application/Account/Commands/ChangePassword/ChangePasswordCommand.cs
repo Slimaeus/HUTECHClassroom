@@ -1,4 +1,4 @@
-﻿using HUTECHClassroom.Infrastructure.Services;
+﻿using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.ChangePassword;

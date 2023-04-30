@@ -1,7 +1,7 @@
 ﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Missions.DTOs;
-using HUTECHClassroom.Infrastructure.Services;
+using HUTECHClassroom.Domain.Interfaces;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Missions.Queries.GetMissionsWithPagination;

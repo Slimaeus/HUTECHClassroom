@@ -1,6 +1,6 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
 using HUTECHClassroom.Application.Common.Exceptions;
-using HUTECHClassroom.Infrastructure.Services;
+using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.Register;
