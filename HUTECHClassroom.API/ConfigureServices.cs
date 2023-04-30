@@ -4,6 +4,7 @@ using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace HUTECHClassroom.API;
 
@@ -17,6 +18,9 @@ public static class ConfigureServices
         services.AddControllers(options =>
         {
             options.Filters.Add<ApiExceptionFilterAttribute>();
+        }).AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
         #endregion
 
@@ -38,23 +42,14 @@ public static class ConfigureServices
         services.AddAuthorization(options =>
         {
             options.AddEntityPolicies();
-            //options.AddPolicy("RequiredAdmin", policy =>
-            //{
-            //    policy.RequireRole("Administrator");
-            //});
-            //foreach (var entity in new string[] { "Mission", "Project", "Faculty", "Answer", "Classroom", "Comment" })
-            //    foreach (var action in new string[] { "Create", "Read", "Update", "Delete" })
-            //        options.AddPolicy($"{action}{entity}Policy", policy =>
-            //        {
-            //            policy.RequireClaim(entity.ToLower(), action.ToLower());
-            //        });
         });
         #endregion
 
         #region Swagger
-        services.AddEndpointsApiExplorer();
+
         services.AddSwaggerGen(options =>
         {
+            options.SchemaFilter<EnumSchemaFilter>();
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1.0",
@@ -116,6 +111,7 @@ public static class ConfigureServices
         #endregion
 
         #region Services
+        services.AddEndpointsApiExplorer();
         services.AddHttpContextAccessor();
         #endregion
 
