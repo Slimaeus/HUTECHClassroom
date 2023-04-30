@@ -20,7 +20,7 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<ProjectDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetProjectsWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetProjectsWithPaginationQuery, PaginationParams>(new GetProjectsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetProjectDetails))]
     public Task<ActionResult<ProjectDTO>> GetProjectDetails(Guid id)
         => HandleGetQuery(new GetProjectQuery(id));

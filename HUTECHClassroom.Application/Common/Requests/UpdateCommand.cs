@@ -22,14 +22,16 @@ public abstract class UpdateCommandHandler<TEntity, TCommand> : IRequestHandler<
     public async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken)
     {
         var query = _repository.SingleResultQuery()
-            .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
-            .AndFilter(m => m.Id == request.Id);
+                               .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
+                               .AndFilter(m => m.Id == request.Id);
 
-        var entity = await _repository.FirstOrDefaultAsync(query, cancellationToken) ?? throw new NotFoundException(nameof(TEntity), request.Id);
+        var entity = await _repository.FirstOrDefaultAsync(query, cancellationToken)
+                     ?? throw new NotFoundException(nameof(TEntity), request.Id);
 
         _mapper.Map(request, entity);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken)
+                         .ConfigureAwait(false);
 
         return Unit.Value;
     }

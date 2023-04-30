@@ -10,14 +10,16 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Common.Requests;
 
-public record GetWithPaginationQuery<TDTO>(
-        PaginationParams Params = default
+public record GetWithPaginationQuery<TDTO, TPaginationParams>(
+        TPaginationParams Params = default
     ) : IRequest<IPagedList<TDTO>>
-        where TDTO : class;
-public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, IPagedList<TDTO>>
+        where TDTO : class
+        where TPaginationParams : PaginationParams;
+public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO, TPaginationParams> : IRequestHandler<TQuery, IPagedList<TDTO>>
     where TEntity : class, IEntity
-    where TQuery : GetWithPaginationQuery<TDTO>
+    where TQuery : GetWithPaginationQuery<TDTO, TPaginationParams>
     where TDTO : class
+    where TPaginationParams : PaginationParams
 {
     private readonly IRepository<TEntity> _repository;
     private readonly IMapper _mapper;
@@ -34,15 +36,7 @@ public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRe
             .Page(request.Params.PageNumber, request.Params.PageSize)
             .AndFilter(FilterPredicate(request));
 
-        if (!string.IsNullOrEmpty(request.Params.SortBy))
-        {
-            var sortByFields = request.Params.SortBy.Split(',');
-
-            foreach (var sortByField in sortByFields)
-            {
-                query = (IMultipleResultQuery<TEntity>)query.ThenBy(sortByField);
-            }
-        }
+        query = SortingQuery(query, request);
 
         query = (IMultipleResultQuery<TEntity>)query
                 .OrderBy(OrderByKeySelector());
@@ -56,14 +50,20 @@ public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO> : IRe
             .AsSplitQuery()
             .ToListAsync(cancellationToken)
             .Then<List<TDTO>, IList<TDTO>>(result => result, cancellationToken)
-            .ToPagedListAsync(query.Paging.PageIndex, query.Paging.PageSize, query.Paging.TotalCount, cancellationToken);
+            .ToPagedListAsync(query.Paging.PageIndex,
+                              query.Paging.PageSize,
+                              query.Paging.TotalCount,
+                              cancellationToken);
 
         if (pagedList.Count <= 0) throw new NotFoundException(nameof(TEntity), "Id");
 
         return pagedList;
     }
-    protected virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString) => x => true;
-    protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query) => x => true;
+    protected virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString)
+        => x => true;
+    protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
+        => x => true;
     protected virtual Expression<Func<TEntity, object>> OrderByKeySelector()
         => x => x.Id;
+    protected virtual IMultipleResultQuery<TEntity> SortingQuery(IMultipleResultQuery<TEntity> query, TQuery request) => query;
 }

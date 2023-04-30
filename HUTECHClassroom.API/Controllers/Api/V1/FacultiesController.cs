@@ -1,5 +1,4 @@
-﻿using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
+﻿using HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.DeleteFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.DeleteRangeFaculty;
 using HUTECHClassroom.Application.Faculties.Commands.UpdateFaculty;
@@ -14,8 +13,8 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class FacultiesController : BaseEntityApiController<FacultyDTO>
 {
     [HttpGet]
-    public Task<ActionResult<IEnumerable<FacultyDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetFacultiesWithPaginationQuery(@params));
+    public Task<ActionResult<IEnumerable<FacultyDTO>>> Get([FromQuery] FacultyPaginationParams @params)
+        => HandlePaginationQuery<GetFacultiesWithPaginationQuery, FacultyPaginationParams>(new GetFacultiesWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetFacultyDetails))]
     public Task<ActionResult<FacultyDTO>> GetFacultyDetails(Guid id)
         => HandleGetQuery(new GetFacultyQuery(id));

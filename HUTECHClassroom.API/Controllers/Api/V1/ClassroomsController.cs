@@ -22,7 +22,7 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<ClassroomDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetClassroomsWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetClassroomsWithPaginationQuery, PaginationParams>(new GetClassroomsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetClassroomDetails))]
     public Task<ActionResult<ClassroomDTO>> GetClassroomDetails(Guid id)
         => HandleGetQuery(new GetClassroomQuery(id));

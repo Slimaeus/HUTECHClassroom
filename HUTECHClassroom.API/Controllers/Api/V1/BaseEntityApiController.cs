@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +9,9 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public class BaseEntityApiController<TEntityDTO> : BaseApiController
     where TEntityDTO : class, IEntityDTO
 {
-    protected async Task<ActionResult<IEnumerable<TEntityDTO>>> HandlePaginationQuery<TPaginationQuery>(TPaginationQuery query)
-        where TPaginationQuery : GetWithPaginationQuery<TEntityDTO>
+    protected async Task<ActionResult<IEnumerable<TEntityDTO>>> HandlePaginationQuery<TPaginationQuery, TPaginationParams>(TPaginationQuery query)
+        where TPaginationQuery : GetWithPaginationQuery<TEntityDTO, TPaginationParams>
+        where TPaginationParams : PaginationParams
         => HandlePagedList(await Mediator.Send(query));
 
     protected async Task<ActionResult<TEntityDTO>> HandleGetQuery<TGetQuery>(TGetQuery query)

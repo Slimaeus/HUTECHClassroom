@@ -21,7 +21,7 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<GroupDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetGroupsWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetGroupsWithPaginationQuery, PaginationParams>(new GetGroupsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetGroupDetails))]
     public Task<ActionResult<GroupDTO>> GetGroupDetails(Guid id)
         => HandleGetQuery(new GetGroupQuery(id));

@@ -5,8 +5,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Posts.Queries.GetPostsWithPagination;
 
-public record GetPostsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<PostDTO>(Params);
-public class GetPostsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Post, GetPostsWithPaginationQuery, PostDTO>
+public record GetPostsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<PostDTO, PaginationParams>(Params);
+public class GetPostsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Post, GetPostsWithPaginationQuery, PostDTO, PaginationParams>
 {
     public GetPostsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Post, bool>> SearchStringPredicate(string searchString) =>

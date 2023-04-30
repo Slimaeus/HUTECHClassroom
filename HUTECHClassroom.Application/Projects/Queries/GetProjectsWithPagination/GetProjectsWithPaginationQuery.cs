@@ -5,8 +5,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Projects.Queries.GetProjectsWithPagination;
 
-public record GetProjectsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<ProjectDTO>(Params);
-public class GetProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Project, GetProjectsWithPaginationQuery, ProjectDTO>
+public record GetProjectsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<ProjectDTO, PaginationParams>(Params);
+public class GetProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Project, GetProjectsWithPaginationQuery, ProjectDTO, PaginationParams>
 {
     public GetProjectsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Project, bool>> SearchStringPredicate(string searchString) =>

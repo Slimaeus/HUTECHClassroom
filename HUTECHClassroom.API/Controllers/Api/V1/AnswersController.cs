@@ -15,7 +15,7 @@ public class AnswersController : BaseEntityApiController<AnswerDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<AnswerDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetAnswersWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetAnswersWithPaginationQuery, PaginationParams>(new GetAnswersWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetAnswerDetails))]
     public Task<ActionResult<AnswerDTO>> GetAnswerDetails(Guid id)
         => HandleGetQuery(new GetAnswerQuery(id));

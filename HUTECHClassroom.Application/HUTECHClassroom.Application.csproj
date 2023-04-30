@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Account\Queries\" />
-    <Folder Include="Common\Extensions\" />
     <Folder Include="Missions\Queries\GetMissionUsers\" />
   </ItemGroup>
 

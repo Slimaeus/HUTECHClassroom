@@ -16,7 +16,7 @@ public class PostsController : BaseEntityApiController<PostDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<PostDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetPostsWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetPostsWithPaginationQuery, PaginationParams>(new GetPostsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetPostDetails))]
     public Task<ActionResult<PostDTO>> GetPostDetails(Guid id)
         => HandleGetQuery(new GetPostQuery(id));

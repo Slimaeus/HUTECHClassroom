@@ -5,8 +5,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Comments.Queries.GetCommentsWithPagination;
 
-public record GetCommentsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<CommentDTO>(Params);
-public class GetCommentsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Comment, GetCommentsWithPaginationQuery, CommentDTO>
+public record GetCommentsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<CommentDTO, PaginationParams>(Params);
+public class GetCommentsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Comment, GetCommentsWithPaginationQuery, CommentDTO, PaginationParams>
 {
     public GetCommentsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Comment, bool>> SearchStringPredicate(string searchString) =>

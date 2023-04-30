@@ -6,8 +6,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserRolesWithPagination;
 
-public record GetUserRolesWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<RoleDTO>(Params);
-public class GetUserRolesWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationRole, GetUserRolesWithPaginationQuery, RoleDTO>
+public record GetUserRolesWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<RoleDTO, PaginationParams>(Params);
+public class GetUserRolesWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationRole, GetUserRolesWithPaginationQuery, RoleDTO, PaginationParams>
 {
     private readonly IUserAccessor _userAccessor;
 

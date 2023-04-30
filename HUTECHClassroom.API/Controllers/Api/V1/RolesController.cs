@@ -12,5 +12,5 @@ public class RolesController : BaseEntityApiController<RoleDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<RoleDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetUserRolesWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetUserRolesWithPaginationQuery, PaginationParams>(new GetUserRolesWithPaginationQuery(@params));
 }

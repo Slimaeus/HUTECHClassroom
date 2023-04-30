@@ -15,7 +15,7 @@ public class CommentsController : BaseEntityApiController<CommentDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<CommentDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetCommentsWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetCommentsWithPaginationQuery, PaginationParams>(new GetCommentsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetCommentDetails))]
     public Task<ActionResult<CommentDTO>> GetCommentDetails(Guid id)
         => HandleGetQuery(new GetCommentQuery(id));

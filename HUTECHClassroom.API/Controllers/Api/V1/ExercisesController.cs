@@ -19,7 +19,7 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<ExerciseDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetExercisesWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetExercisesWithPaginationQuery, PaginationParams>(new GetExercisesWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetExerciseDetails))]
     public Task<ActionResult<ExerciseDTO>> GetExerciseDetails(Guid id)
         => HandleGetQuery(new GetExerciseQuery(id));

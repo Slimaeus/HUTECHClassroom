@@ -23,7 +23,7 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     //[Authorize(Policy = ReadMissionPolicy)]
     [HttpGet]
     public Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] PaginationParams @params)
-        => HandlePaginationQuery(new GetMissionsWithPaginationQuery(@params));
+        => HandlePaginationQuery<GetMissionsWithPaginationQuery, PaginationParams>(new GetMissionsWithPaginationQuery(@params));
     [Authorize(Policy = ReadMissionPolicy)]
     [HttpGet("{id}", Name = nameof(GetDetails))]
     public Task<ActionResult<MissionDTO>> GetDetails(Guid id)
