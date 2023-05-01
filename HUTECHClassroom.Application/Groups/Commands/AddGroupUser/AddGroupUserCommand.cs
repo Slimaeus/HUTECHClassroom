@@ -10,12 +10,14 @@ public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, U
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Group> _repository;
     private readonly IRepository<ApplicationUser> _userRepository;
+    private readonly IRepository<GroupRole> _groupRoleRepository;
 
     public AddGroupUserCommandHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
         _repository = unitOfWork.Repository<Group>();
         _userRepository = _unitOfWork.Repository<ApplicationUser>();
+        _groupRoleRepository = _unitOfWork.Repository<GroupRole>();
     }
     public async Task<Unit> Handle(AddGroupUserCommand request, CancellationToken cancellationToken)
     {
@@ -41,7 +43,11 @@ public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, U
 
         if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
 
-        group.GroupUsers.Add(new GroupUser { User = user });
+        group.GroupUsers.Add(new GroupUser
+        {
+            User = user,
+            GroupRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == "Member"), cancellationToken)
+        });
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 

@@ -5,7 +5,7 @@ namespace HUTECHClassroom.Infrastructure.Services;
 
 public class ExcelSerive : IExcelServie
 {
-    public List<T> ReadExcelFileWithoutColumnNames<T>(Stream stream, string? sheetName) where T : class, new()
+    public List<T> ReadExcelFileWithoutColumnNames<T>(Stream stream, string sheetName) where T : class, new()
     {
         var workbook = new XLWorkbook(stream);
         var worksheet = sheetName != null ? workbook.Worksheet(sheetName) : workbook.Worksheet(1);
@@ -36,7 +36,7 @@ public class ExcelSerive : IExcelServie
                         // Set the value of the target property
                         properties[i].SetValue(obj, convertedValue);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         isRowValid = false;
                     }
@@ -54,7 +54,7 @@ public class ExcelSerive : IExcelServie
 
         return objects;
     }
-    public List<T> ReadExcelFileIgnoreColumnNames<T>(Stream stream, string? sheetName) where T : class, new()
+    public List<T> ReadExcelFileIgnoreColumnNames<T>(Stream stream, string sheetName) where T : class, new()
     {
         var workbook = new XLWorkbook(stream);
         var worksheet = sheetName != null ? workbook.Worksheet(sheetName) : workbook.Worksheet(1);
@@ -85,7 +85,7 @@ public class ExcelSerive : IExcelServie
                         // Set the value of the target property
                         properties[i].SetValue(obj, convertedValue);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         isRowValid = false;
                     }
@@ -103,7 +103,7 @@ public class ExcelSerive : IExcelServie
 
         return objects;
     }
-    public List<T> ReadExcelFileWithColumnNames<T>(Stream stream, string? sheetName) where T : class, new()
+    public List<T> ReadExcelFileWithColumnNames<T>(Stream stream, string sheetName) where T : class, new()
     {
         var workbook = new XLWorkbook(stream);
         var worksheet = sheetName != null ? workbook.Worksheet(sheetName) : workbook.Worksheet(1);
@@ -149,7 +149,7 @@ public class ExcelSerive : IExcelServie
                         // Set the value of the target property
                         properties[i].SetValue(obj, convertedValue);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         isRowValid = false;
                     }

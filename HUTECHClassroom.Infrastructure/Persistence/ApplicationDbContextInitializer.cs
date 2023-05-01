@@ -72,16 +72,16 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(faculties);
 
-        //var leader = new GroupRole("Leader");
-        //var member = new GroupRole("Member");
+        var leader = new GroupRole("Leader");
+        var member = new GroupRole("Member");
 
-        //var groupRoles = new GroupRole[]
-        //{
-        //    leader,
-        //    member
-        //};
+        var groupRoles = new GroupRole[]
+        {
+            leader,
+            member
+        };
 
-        //await _context.AddRangeAsync(groupRoles);
+        await _context.AddRangeAsync(groupRoles);
 
         var studentRole = new ApplicationRole("Student");
         var lecturerRole = new ApplicationRole("Lecturer");
@@ -297,7 +297,7 @@ public class ApplicationDbContextInitializer
                     new GroupUser
                     {
                         User = users[0],
-                        //GroupRole = leader
+                        GroupRole = leader
                     }
                 },
                 Classroom = classrooms[0]
@@ -312,12 +312,12 @@ public class ApplicationDbContextInitializer
                     new GroupUser
                     {
                         User = users[0],
-                        //GroupRole = leader
+                        GroupRole = leader
                     },
                     new GroupUser
                     {
                         User = users[1],
-                        //GroupRole = member
+                        GroupRole = member
                     }
                 },
                 Classroom = classrooms[1]

@@ -13,9 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     IdentityRoleClaim<Guid>,
     IdentityUserToken<Guid>>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<Classroom> Classrooms { get; set; }
     public DbSet<Exercise> Exercises { get; set; }
@@ -26,27 +24,27 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Group> Groups { get; set; }
     public DbSet<Post> Posts { get; set; }
     public DbSet<Comment> Comments { get; set; }
-    //public DbSet<GroupRole> GroupRoles { get; set; }
+    public DbSet<GroupRole> GroupRoles { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-        builder.ApplyConfiguration(new ClassroomConfiguration());
-        builder.ApplyConfiguration(new ClassroomUserConfiguration());
-        builder.ApplyConfiguration(new ExerciseConfiguration());
-        builder.ApplyConfiguration(new ExerciseUserConfiguration());
-        builder.ApplyConfiguration(new AnswerConfiguration());
-        builder.ApplyConfiguration(new FacultyConfiguration());
-        builder.ApplyConfiguration(new MissionConfiguration());
-        builder.ApplyConfiguration(new MissionUserConfiguration());
-        builder.ApplyConfiguration(new ProjectConfiguration());
-        builder.ApplyConfiguration(new GroupConfiguration());
-        builder.ApplyConfiguration(new GroupUserConfiguration());
-        builder.ApplyConfiguration(new PostConfiguration());
-        builder.ApplyConfiguration(new CommentConfiguration());
-        builder.ApplyConfiguration(new ApplicationUserRoleConfiguration());
-        //builder.ApplyConfiguration(new GroupRoleConfiguration());
+        builder.ApplyConfiguration(new ClassroomConfiguration())
+               .ApplyConfiguration(new ClassroomUserConfiguration())
+               .ApplyConfiguration(new ExerciseConfiguration())
+               .ApplyConfiguration(new ExerciseUserConfiguration())
+               .ApplyConfiguration(new AnswerConfiguration())
+               .ApplyConfiguration(new FacultyConfiguration())
+               .ApplyConfiguration(new MissionConfiguration())
+               .ApplyConfiguration(new MissionUserConfiguration())
+               .ApplyConfiguration(new ProjectConfiguration())
+               .ApplyConfiguration(new GroupConfiguration())
+               .ApplyConfiguration(new GroupUserConfiguration())
+               .ApplyConfiguration(new PostConfiguration())
+               .ApplyConfiguration(new CommentConfiguration())
+               .ApplyConfiguration(new ApplicationUserRoleConfiguration())
+               .ApplyConfiguration(new GroupRoleConfiguration());
     }
 }

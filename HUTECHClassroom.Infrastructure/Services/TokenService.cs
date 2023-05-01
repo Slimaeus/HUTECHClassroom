@@ -65,7 +65,7 @@ public class TokenService : ITokenService
 
         var roleClaims = _context.RoleClaims
             .Where(claim => roles.Select(role => role.Id).Contains(claim.RoleId))
-            .Select(x => new Claim(x.ClaimType, x.ClaimValue))
+            .Select(x => x.ToClaim())
             .Distinct()
             .ToList();
 

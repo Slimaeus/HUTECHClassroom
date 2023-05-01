@@ -276,7 +276,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 4, 25, 15, 37, 1, 85, DateTimeKind.Utc).AddTicks(6303));
+                        .HasDefaultValue(new DateTime(2023, 5, 2, 9, 12, 1, 110, DateTimeKind.Utc).AddTicks(9533));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -373,6 +373,26 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.GroupRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GroupRoles");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.GroupUser", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -381,9 +401,14 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("GroupRoleId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("UserId", "GroupId");
 
                     b.HasIndex("GroupId");
+
+                    b.HasIndex("GroupRoleId");
 
                     b.ToTable("GroupUser");
                 });
@@ -509,6 +534,10 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
 
@@ -517,6 +546,10 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRoleClaim<Guid>");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -581,6 +614,18 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.GroupRoleClaim", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>");
+
+                    b.Property<Guid>("GroupRoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("GroupRoleId");
+
+                    b.HasDiscriminator().HasValue("GroupRoleClaim");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Answer", b =>
@@ -746,6 +791,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HUTECHClassroom.Domain.Entities.GroupRole", "GroupRole")
+                        .WithMany("GroupUsers")
+                        .HasForeignKey("GroupRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
                         .WithMany("GroupUsers")
                         .HasForeignKey("UserId")
@@ -753,6 +804,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Group");
+
+                    b.Navigation("GroupRole");
 
                     b.Navigation("User");
                 });
@@ -853,6 +906,17 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.GroupRoleClaim", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.GroupRole", "GroupRole")
+                        .WithMany("GroupRoleClaims")
+                        .HasForeignKey("GroupRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GroupRole");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationRole", b =>
                 {
                     b.Navigation("ApplicationUserRoles");
@@ -905,6 +969,13 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Navigation("GroupUsers");
 
                     b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.GroupRole", b =>
+                {
+                    b.Navigation("GroupRoleClaims");
+
+                    b.Navigation("GroupUsers");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Mission", b =>
