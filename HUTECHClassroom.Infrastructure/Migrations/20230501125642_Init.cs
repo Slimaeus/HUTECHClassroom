@@ -94,8 +94,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false),
                     ClaimType = table.Column<string>(type: "text", nullable: true),
                     ClaimValue = table.Column<string>(type: "text", nullable: true),
-                    Discriminator = table.Column<string>(type: "text", nullable: false),
-                    GroupRoleId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Discriminator = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,8 +106,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_GroupRoles_GroupRoleId",
-                        column: x => x.GroupRoleId,
+                        name: "FK_AspNetRoleClaims_GroupRoles_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "GroupRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -262,7 +261,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 2, 9, 12, 1, 110, DateTimeKind.Utc).AddTicks(9533)),
+                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 2, 12, 56, 42, 413, DateTimeKind.Utc).AddTicks(1286)),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -522,11 +521,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "IX_Answers_UserId",
                 table: "Answers",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_GroupRoleId",
-                table: "AspNetRoleClaims",
-                column: "GroupRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -4,7 +4,6 @@ namespace HUTECHClassroom.Domain.Entities;
 
 public class GroupRoleClaim : IdentityRoleClaim<Guid>
 {
-    public Guid GroupRoleId { get; set; }
-    public GroupRole GroupRole { get; set; }
+    public GroupRole Role { get; set; }
 
 }

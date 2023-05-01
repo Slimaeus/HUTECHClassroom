@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230501091201_Init")]
+    [Migration("20230501125642_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -279,7 +279,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 2, 9, 12, 1, 110, DateTimeKind.Utc).AddTicks(9533));
+                        .HasDefaultValue(new DateTime(2023, 5, 2, 12, 56, 42, 413, DateTimeKind.Utc).AddTicks(1286));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -623,11 +623,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>");
 
-                    b.Property<Guid>("GroupRoleId")
-                        .HasColumnType("uuid");
-
-                    b.HasIndex("GroupRoleId");
-
                     b.HasDiscriminator().HasValue("GroupRoleClaim");
                 });
 
@@ -911,13 +906,13 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.GroupRoleClaim", b =>
                 {
-                    b.HasOne("HUTECHClassroom.Domain.Entities.GroupRole", "GroupRole")
+                    b.HasOne("HUTECHClassroom.Domain.Entities.GroupRole", "Role")
                         .WithMany("GroupRoleClaims")
-                        .HasForeignKey("GroupRoleId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("GroupRole");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationRole", b =>
