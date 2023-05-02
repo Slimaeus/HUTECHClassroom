@@ -8,6 +8,7 @@ public class Classroom : BaseEntity
     public string Topic { get; set; }
     public string Room { get; set; }
     public string Description { get; set; }
+    //public Semester Semester { get; set; } = Semester.Semester1;
 
     public Guid LecturerId { get; set; }
     public virtual ApplicationUser Lecturer { get; set; }

@@ -8,8 +8,10 @@ public class GroupRoleClaimConfiguration : IEntityTypeConfiguration<GroupRoleCla
 {
     public void Configure(EntityTypeBuilder<GroupRoleClaim> builder)
     {
-        builder.HasOne(x => x.Role)
+        builder.ToTable(nameof(GroupRoleClaim) + "s");
+
+        builder.HasOne(x => x.GroupRole)
             .WithMany(x => x.GroupRoleClaims)
-            .HasForeignKey(x => x.RoleId);
+            .HasForeignKey(x => x.GroupRoleId);
     }
 }

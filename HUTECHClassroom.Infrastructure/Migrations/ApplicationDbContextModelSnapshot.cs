@@ -276,7 +276,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 2, 12, 56, 42, 413, DateTimeKind.Utc).AddTicks(1286));
+                        .HasDefaultValue(new DateTime(2023, 5, 2, 13, 31, 29, 792, DateTimeKind.Utc).AddTicks(7700));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -534,10 +534,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
 
@@ -547,9 +543,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.ToTable("AspNetRoleClaims", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRoleClaim<Guid>");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -620,7 +614,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>");
 
-                    b.HasDiscriminator().HasValue("GroupRoleClaim");
+                    b.Property<Guid>("GroupRoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("GroupRoleId");
+
+                    b.ToTable("GroupRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Answer", b =>
@@ -903,13 +902,19 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.GroupRoleClaim", b =>
                 {
-                    b.HasOne("HUTECHClassroom.Domain.Entities.GroupRole", "Role")
+                    b.HasOne("HUTECHClassroom.Domain.Entities.GroupRole", "GroupRole")
                         .WithMany("GroupRoleClaims")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("GroupRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Role");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", null)
+                        .WithOne()
+                        .HasForeignKey("HUTECHClassroom.Domain.Entities.GroupRoleClaim", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GroupRole");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationRole", b =>
