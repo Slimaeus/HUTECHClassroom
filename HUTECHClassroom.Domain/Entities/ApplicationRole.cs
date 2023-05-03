@@ -13,5 +13,5 @@ public class ApplicationRole : IdentityRole<Guid>, IEntity
     {
     }
 
-    public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
+    public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; } = new HashSet<ApplicationUserRole>();
 }

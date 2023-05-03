@@ -2,7 +2,7 @@
 
 public abstract class BaseEntity<TKey> : IEntity<TKey>, IAuditableEntity
 {
-    public TKey Id { get; set; }
+    public TKey Id { get; set; } = default!;
     public DateTime CreateDate { get; init; }
 }
 
