@@ -15,7 +15,7 @@ public class ClassroomMappingProfile : Profile
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
         CreateMap<ClassroomUser, MemberDTO>()
-            .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email));
+            .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName));
         CreateMap<Exercise, ClassroomExerciseDTO>();
         CreateMap<Faculty, ClassroomFacultyDTO>();
         CreateMap<Group, ClassroomGroupDTO>();

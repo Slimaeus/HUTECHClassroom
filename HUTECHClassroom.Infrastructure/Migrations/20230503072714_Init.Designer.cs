@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230501133129_Init")]
+    [Migration("20230503072714_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -113,6 +113,14 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<Guid>("FacultyId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -195,6 +203,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Room")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -204,6 +213,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("Topic")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
@@ -279,7 +289,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 2, 13, 31, 29, 792, DateTimeKind.Utc).AddTicks(7700));
+                        .HasDefaultValue(new DateTime(2023, 5, 4, 7, 27, 14, 441, DateTimeKind.Utc).AddTicks(8358));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -296,6 +306,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("Topic")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 

@@ -1,3 +1,3 @@
 ﻿namespace HUTECHClassroom.Application.Common.DTOs;
 
-public record MemberDTO(string UserName, string Email);
+public record MemberDTO(string UserName, string Email, string FirstName, string LastName);

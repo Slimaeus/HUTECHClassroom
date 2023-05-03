@@ -7,6 +7,8 @@ public record AccountDTO : IEntityDTO
     public Guid Id { get; set; }
     public string UserName { get; set; }
     public string Email { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
     public UserFacultyDTO Faculty { get; set; }
     public IEnumerable<string> Roles { get; set; }
     public string Token { get; set; }
@@ -17,6 +19,8 @@ public record AccountDTO : IEntityDTO
             Id = user.Id,
             Email = user.Email,
             UserName = user.UserName,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
             Token = token,
             Faculty = new UserFacultyDTO { Id = user.Faculty.Id, Name = user.Faculty.Name },
             Roles = user.ApplicationUserRoles.Select(x => x.Role.Name)

@@ -5,6 +5,10 @@ namespace HUTECHClassroom.Domain.Entities;
 
 public class ApplicationUser : IdentityUser<Guid>, IEntity
 {
+    [PersonalData]
+    public string FirstName { get; set; } = string.Empty;
+    [PersonalData]
+    public string LastName { get; set; } = string.Empty;
     public Guid FacultyId { get; set; }
     public virtual Faculty Faculty { get; set; } = default!;
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();

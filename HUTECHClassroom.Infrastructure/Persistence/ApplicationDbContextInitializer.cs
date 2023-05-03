@@ -145,24 +145,32 @@ public class ApplicationDbContextInitializer
             new ApplicationUser
             {
                 UserName = "2080600914",
+                FirstName = "Nguyễn Hồng",
+                LastName = "Thái",
                 Email = "thai@gmail.com",
                 Faculty = faculties[0]
             },
             new ApplicationUser
             {
                 UserName = "2080600803",
+                FirstName = "Trương Thục",
+                LastName = "Vân",
                 Email = "mei@gmail.com",
                 Faculty = faculties[0]
             },
             new ApplicationUser
             {
                 UserName = "lecturer1",
+                FirstName = "Lecturer",
+                LastName = "1",
                 Email = "lecturer1@gmail.com",
                 Faculty = faculties[0]
             },
             new ApplicationUser
             {
                 UserName = "lecturer2",
+                FirstName = "Lecturer",
+                LastName = "2",
                 Email = "lecturer2@gmail.com",
                 Faculty = faculties[0]
             }

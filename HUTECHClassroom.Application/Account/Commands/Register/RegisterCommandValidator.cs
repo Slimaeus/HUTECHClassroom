@@ -15,6 +15,12 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .MinimumLength(3).WithMessage("UserName must be at least 3 characters long.")
             .MustAsync(IsUniqueUserName).WithMessage("The specified UserName is already in use.");
 
+        RuleFor(x => x.FirstName)
+            .NotEmpty().WithMessage("FirstName is required.");
+
+        RuleFor(x => x.LastName)
+            .NotEmpty().WithMessage("LastName is required.");
+
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Email is not in the correct format.")

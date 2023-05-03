@@ -10,5 +10,11 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
     {
         builder.Property(x => x.FacultyId)
             .IsRequired();
+
+        builder.Property(x => x.FirstName)
+            .IsRequired();
+
+        builder.Property(x => x.LastName)
+            .IsRequired();
     }
 }
