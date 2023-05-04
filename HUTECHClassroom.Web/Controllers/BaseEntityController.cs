@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using HUTECHClassroom.Web.ViewModels;
+using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
@@ -55,7 +56,19 @@ public class BaseEntityController<T> : Controller
         PropertyInfo[] propertyInfos = type.GetProperties();
 
         var data = new List<T>();
-        var propertyNames = propertyInfos.Where(x => x.Name != "Id" && x.Name != "CreateDate").Select(x => x.Name);
+        var propertyNames = propertyInfos
+            .Where(x => x.Name != "Id"
+            && x.Name != "CreateDate"
+            && x.CanRead
+            && (x.PropertyType.IsPrimitive
+                || x.PropertyType.IsEnum
+                || x.PropertyType.Equals(typeof(DateTime))
+                || x.PropertyType.Equals(typeof(Guid))
+                || x.PropertyType.Equals(typeof(string))
+            ))
+            .Select(x => x.Name);
+        propertyNames.ForEach(Console.WriteLine);
+
         var excelData = ExcelService.ExportToExcel(data, propertyNames);
 
         return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{type.Name}Sample.xlsx");
