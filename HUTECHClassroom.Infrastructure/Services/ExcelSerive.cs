@@ -1,5 +1,7 @@
 ﻿using ClosedXML.Excel;
 using HUTECHClassroom.Domain.Interfaces;
+using Serilog;
+using System.ComponentModel;
 
 namespace HUTECHClassroom.Infrastructure.Services;
 
@@ -31,13 +33,15 @@ public class ExcelSerive : IExcelServie
                     try
                     {
                         // Convert the cell value to the target property type
-                        var convertedValue = Convert.ChangeType(cellValue, properties[i].PropertyType);
+                        var convertedValue = TypeDescriptor.GetConverter(properties[i].PropertyType).ConvertFromInvariantString(cellValue);
+                        //var convertedValue = Convert.ChangeType(cellValue, property.PropertyType);
 
                         // Set the value of the target property
                         properties[i].SetValue(obj, convertedValue);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Log.Error(ex, "This is Excel Service error");
                         isRowValid = false;
                     }
                 }
@@ -80,13 +84,15 @@ public class ExcelSerive : IExcelServie
                     try
                     {
                         // Convert the cell value to the target property type
-                        var convertedValue = Convert.ChangeType(cellValue, properties[i].PropertyType);
+                        var convertedValue = TypeDescriptor.GetConverter(property.PropertyType).ConvertFromInvariantString(cellValue);
+                        //var convertedValue = Convert.ChangeType(cellValue, property.PropertyType);
 
                         // Set the value of the target property
-                        properties[i].SetValue(obj, convertedValue);
+                        property.SetValue(obj, convertedValue);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Log.Error(ex, "This is Excel Service error");
                         isRowValid = false;
                     }
                 }
@@ -144,20 +150,17 @@ public class ExcelSerive : IExcelServie
                     try
                     {
                         // Convert the cell value to the target property type
-                        var convertedValue = Convert.ChangeType(cellValue, properties[i].PropertyType);
+                        var convertedValue = TypeDescriptor.GetConverter(property.PropertyType).ConvertFromInvariantString(cellValue);
+                        //var convertedValue = Convert.ChangeType(cellValue, property.PropertyType);
 
                         // Set the value of the target property
-                        properties[i].SetValue(obj, convertedValue);
+                        property.SetValue(obj, convertedValue);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Log.Error(ex, "This is Excel Service error");
                         isRowValid = false;
                     }
-                }
-                else
-                {
-                    isRowValid = false;
-                    break;
                 }
             }
 

@@ -1,7 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using HUTECHClassroom.Web.ViewModels;
-using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
@@ -67,7 +66,6 @@ public class BaseEntityController<T> : Controller
                 || x.PropertyType.Equals(typeof(string))
             ))
             .Select(x => x.Name);
-        propertyNames.ForEach(Console.WriteLine);
 
         var excelData = ExcelService.ExportToExcel(data, propertyNames);
 

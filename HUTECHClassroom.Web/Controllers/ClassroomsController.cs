@@ -1,4 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Web.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +9,12 @@ namespace HUTECHClassroom.Web.Controllers;
 
 public class ClassroomsController : BaseEntityController<Classroom>
 {
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public ClassroomsController(UserManager<ApplicationUser> userManager)
+    {
+        _userManager = userManager;
+    }
     // GET: Classrooms
     public async Task<IActionResult> Index()
     {
@@ -32,6 +40,51 @@ public class ClassroomsController : BaseEntityController<Classroom>
         }
 
         return View(classroom);
+    }
+
+    // GET: Classrooms/Add-User
+    public IActionResult AddUser()
+    {
+        return View();
+    }
+
+    // POST: Classrooms/Add-User
+    [HttpPost]
+    public async Task<IActionResult> AddUser(ImportUsersToClassroomViewModel viewModel)
+    {
+        if (viewModel.File == null || viewModel.File.Length == 0)
+        {
+            ViewBag.Error = "Please select a file to upload.";
+            return View(viewModel);
+        }
+
+        if (!Path.GetExtension(viewModel.File.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+        {
+            ViewBag.Error = "Please select an Excel file (.xlsx).";
+            return View(viewModel);
+        }
+
+        var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
+        Console.WriteLine(users.Count);
+        users.ForEach(x => Console.WriteLine(x.UserName + " " + x.Email + " " + x.FirstName + " " + x.LastName + " " + x.FacultyId));
+        // Do something with the imported people data, such as saving to a database
+        var results = new List<IdentityResult>();
+        foreach (var user in users)
+        {
+            var newUser = new ApplicationUser
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                FacultyId = user.FacultyId
+            };
+            results.Add(await _userManager.CreateAsync(newUser, user.UserName));
+        }
+
+
+        ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
+        return RedirectToAction("Index");
     }
 
     // GET: Classrooms/Create
