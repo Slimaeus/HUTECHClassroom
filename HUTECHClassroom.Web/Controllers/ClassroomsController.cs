@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace HUTECHClassroom.Web.Controllers;
 
@@ -43,9 +44,13 @@ public class ClassroomsController : BaseEntityController<Classroom>
     }
 
     // GET: Classrooms/Add-User
-    public IActionResult AddUser()
+    public IActionResult AddUser(Guid? classroomId)
     {
-        return View();
+        if (classroomId == null)
+            return View("Index");
+        var viewModel = new ImportUsersToClassroomViewModel();
+        viewModel.ClassroomId = classroomId.Value;
+        return View(viewModel);
     }
 
     // POST: Classrooms/Add-User
@@ -65,23 +70,21 @@ public class ClassroomsController : BaseEntityController<Classroom>
         }
 
         var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
-        Console.WriteLine(users.Count);
-        users.ForEach(x => Console.WriteLine(x.UserName + " " + x.Email + " " + x.FirstName + " " + x.LastName + " " + x.FacultyId));
         // Do something with the imported people data, such as saving to a database
         var results = new List<IdentityResult>();
         foreach (var user in users)
         {
-            var newUser = new ApplicationUser
-            {
-                UserName = user.UserName,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                FacultyId = user.FacultyId
-            };
-            results.Add(await _userManager.CreateAsync(newUser, user.UserName));
+            results.Add(await _userManager.CreateAsync(user, user.UserName));
         }
 
+        var classroom = await DbContext.Classrooms.FindAsync(viewModel.ClassroomId);
+
+        classroom.ClassroomUsers.AddRange(users.Select(user => new ClassroomUser
+        {
+            User = user
+        }));
+
+        await DbContext.SaveChangesAsync();
 
         ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
         return RedirectToAction("Index");

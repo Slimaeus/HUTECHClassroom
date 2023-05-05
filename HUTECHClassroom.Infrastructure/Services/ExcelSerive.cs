@@ -84,11 +84,11 @@ public class ExcelSerive : IExcelServie
                     try
                     {
                         // Convert the cell value to the target property type
-                        var convertedValue = TypeDescriptor.GetConverter(property.PropertyType).ConvertFromInvariantString(cellValue);
+                        var convertedValue = TypeDescriptor.GetConverter(properties[i].PropertyType).ConvertFromInvariantString(cellValue);
                         //var convertedValue = Convert.ChangeType(cellValue, property.PropertyType);
 
                         // Set the value of the target property
-                        property.SetValue(obj, convertedValue);
+                        properties[i].SetValue(obj, convertedValue);
                     }
                     catch (Exception ex)
                     {
