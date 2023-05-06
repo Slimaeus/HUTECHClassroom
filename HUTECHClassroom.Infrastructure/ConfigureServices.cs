@@ -51,7 +51,7 @@ public static class ConfigureServices
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 8;
 
-                options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = false;
 
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
