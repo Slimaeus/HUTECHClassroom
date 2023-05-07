@@ -44,18 +44,30 @@ public class ClassroomsController : BaseEntityController<Classroom>
     }
 
     // GET: Classrooms/Add-User
-    public IActionResult AddUser(Guid? classroomId)
+    public async Task<IActionResult> AddUsers(Guid? id)
     {
-        if (classroomId == null)
+        if (id == null)
             return View("Index");
-        var viewModel = new ImportUsersToClassroomViewModel();
-        viewModel.ClassroomId = classroomId.Value;
+        if (id == null || DbContext.Classrooms == null)
+        {
+            return NotFound();
+        }
+        var classroom = await DbContext.Classrooms.FindAsync(id);
+        if (classroom == null)
+        {
+            return NotFound();
+        }
+        var viewModel = new ImportUsersToClassroomViewModel
+        {
+            ClassroomId = classroom.Id,
+            ClassroomTitle = classroom.Title
+        };
         return View(viewModel);
     }
 
     // POST: Classrooms/Add-User
     [HttpPost]
-    public async Task<IActionResult> AddUser(ImportUsersToClassroomViewModel viewModel)
+    public async Task<IActionResult> AddUsers(ImportUsersToClassroomViewModel viewModel)
     {
         if (viewModel.File == null || viewModel.File.Length == 0)
         {
@@ -77,12 +89,18 @@ public class ClassroomsController : BaseEntityController<Classroom>
             results.Add(await _userManager.CreateAsync(user, user.UserName));
         }
 
-        var classroom = await DbContext.Classrooms.FindAsync(viewModel.ClassroomId);
+        var classroom = await DbContext.Classrooms
+            .Include(c => c.ClassroomUsers)
+            .SingleOrDefaultAsync(c => c.Id == viewModel.ClassroomId);
 
-        classroom.ClassroomUsers.AddRange(users.Select(user => new ClassroomUser
+        if (classroom == null)
         {
-            User = user
-        }));
+            return NotFound();
+        }
+
+        classroom.ClassroomUsers.AddRange(
+            users.Select(user => new ClassroomUser { User = user })
+        );
 
         await DbContext.SaveChangesAsync();
 
