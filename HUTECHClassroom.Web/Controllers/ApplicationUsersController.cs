@@ -38,8 +38,16 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         {
             return NotFound();
         }
-
-        return View(applicationUser);
+        var viewModel = new UserViewModel
+        {
+            Id = applicationUser.Id,
+            UserName = applicationUser.UserName,
+            Email = applicationUser.Email,
+            FirstName = applicationUser.FirstName,
+            LastName = applicationUser.LastName,
+            FacultyName = applicationUser.Faculty?.Name ?? string.Empty
+        };
+        return View(viewModel);
     }
 
     public IActionResult ImportUsers()
@@ -62,7 +70,7 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
             return View(viewModel);
         }
 
-        var userViewModels = ExcelService.ReadExcelFileWithColumnNames<UserViewModel>(viewModel.File.OpenReadStream(), null);
+        var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
         // Map userViewModels to users
         var users = userViewModels.Select(x => new ApplicationUser
         {
@@ -86,7 +94,8 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
     // GET: ApplicationUsers/Create
     public IActionResult Create()
     {
-        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name");
+        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name")
+            .Append(new SelectListItem("None", Guid.Empty.ToString()));
         return View();
     }
 
@@ -105,12 +114,12 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
                 Email = viewModel.Email,
                 FirstName = viewModel.FirstName,
                 LastName = viewModel.LastName,
-                FacultyId = viewModel.FacultyId
+                FacultyId = viewModel.FacultyId != Guid.Empty ? viewModel.FacultyId : null
             };
             await _userManager.CreateAsync(applicationUser, applicationUser.UserName);
             return RedirectToAction(nameof(Index));
         }
-        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", viewModel.FacultyId);
+        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", viewModel.FacultyId).Append(new SelectListItem("None", Guid.Empty.ToString()));
         return View(viewModel);
     }
 
@@ -127,8 +136,17 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         {
             return NotFound();
         }
-        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", applicationUser.FacultyId);
-        return View(applicationUser);
+        var viewModel = new EditUserViewModel
+        {
+            Id = applicationUser.Id,
+            UserName = applicationUser.UserName,
+            Email = applicationUser.Email,
+            FirstName = applicationUser.FirstName,
+            LastName = applicationUser.LastName,
+            FacultyId = applicationUser.FacultyId ?? Guid.Empty
+        };
+        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", viewModel.FacultyId).Append(new SelectListItem("None", Guid.Empty.ToString()));
+        return View(viewModel);
     }
 
     // POST: ApplicationUsers/Edit/5
@@ -136,15 +154,23 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,LastName,FacultyId,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+    public async Task<IActionResult> Edit(Guid id, EditUserViewModel viewModel)
     {
-        if (id != applicationUser.Id)
+        if (id != viewModel.Id)
         {
             return NotFound();
         }
 
         if (ModelState.IsValid)
         {
+            var applicationUser = await DbContext.Users.FindAsync(viewModel.Id);
+            applicationUser.Id = viewModel.Id;
+            applicationUser.UserName = viewModel.UserName;
+            applicationUser.Email = viewModel.Email;
+            applicationUser.FirstName = viewModel.FirstName;
+            applicationUser.LastName = viewModel.LastName;
+            applicationUser.FacultyId = viewModel.FacultyId != Guid.Empty ? viewModel.FacultyId : null;
+
             try
             {
                 DbContext.Update(applicationUser);
@@ -163,8 +189,8 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", applicationUser.FacultyId);
-        return View(applicationUser);
+        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", viewModel.FacultyId).Append(new SelectListItem("None", Guid.Empty.ToString()));
+        return View(viewModel);
     }
 
     // GET: ApplicationUsers/Delete/5
@@ -182,8 +208,16 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         {
             return NotFound();
         }
-
-        return View(applicationUser);
+        var viewModel = new UserViewModel
+        {
+            Id = applicationUser.Id,
+            UserName = applicationUser.UserName,
+            Email = applicationUser.Email,
+            FirstName = applicationUser.FirstName,
+            LastName = applicationUser.LastName,
+            FacultyName = applicationUser.Faculty?.Name ?? string.Empty
+        };
+        return View(viewModel);
     }
 
     // POST: ApplicationUsers/Delete/5
