@@ -70,7 +70,7 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
             Email = "users@gmail.com",
             FirstName = x.FirstName,
             LastName = x.LastName,
-            FacultyId = x.FacultyId
+            FacultyId = x.FacultyId != Guid.Empty ? x.FacultyId : null
         }).ToList();
         // Do something with the imported people data, such as saving to a database
         foreach (var user in users)

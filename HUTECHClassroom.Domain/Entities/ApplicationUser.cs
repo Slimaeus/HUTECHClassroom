@@ -9,8 +9,8 @@ public class ApplicationUser : IdentityUser<Guid>, IEntity
     public string FirstName { get; set; } = string.Empty;
     [PersonalData]
     public string LastName { get; set; } = string.Empty;
-    public Guid FacultyId { get; set; }
-    public virtual Faculty Faculty { get; set; } = default!;
+    public Guid? FacultyId { get; set; }
+    public virtual Faculty? Faculty { get; set; }
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();
     public virtual ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
     public virtual ICollection<ExerciseUser> ExerciseUsers { get; set; } = new HashSet<ExerciseUser>();

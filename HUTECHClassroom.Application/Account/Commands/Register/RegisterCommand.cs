@@ -36,15 +36,19 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
             LastName = request.LastName
         };
 
-        var facultyQuery = _facultyRepository
-            .SingleResultQuery()
-            .AndFilter(x => x.Id == request.FacultyId);
+        if (request.FacultyId != Guid.Empty)
+        {
+            var facultyQuery = _facultyRepository
+                .SingleResultQuery()
+                .AndFilter(x => x.Id == request.FacultyId);
 
-        var faculty = await _facultyRepository.SingleOrDefaultAsync(facultyQuery);
+            var faculty = await _facultyRepository.SingleOrDefaultAsync(facultyQuery, cancellationToken);
 
-        if (faculty == null) throw new NotFoundException(nameof(Faculty), request.FacultyId);
+            if (faculty == null) throw new NotFoundException(nameof(Faculty), request.FacultyId);
 
-        user.Faculty = faculty;
+            user.Faculty = faculty;
+        }
+
 
         var result = await _userManger.CreateAsync(user, request.Password);
 

@@ -9,7 +9,7 @@ public record AccountDTO : IEntityDTO
     public string Email { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public UserFacultyDTO Faculty { get; set; }
+    public UserFacultyDTO? Faculty { get; set; }
     public IEnumerable<string> Roles { get; set; }
     public string Token { get; set; }
 
@@ -22,7 +22,7 @@ public record AccountDTO : IEntityDTO
             FirstName = user.FirstName,
             LastName = user.LastName,
             Token = token,
-            Faculty = new UserFacultyDTO { Id = user.Faculty.Id, Name = user.Faculty.Name },
+            Faculty = user.Faculty != null ? new UserFacultyDTO { Id = user.Faculty.Id, Name = user.Faculty.Name } : null,
             Roles = user.ApplicationUserRoles.Select(x => x.Role.Name)
         };
 }

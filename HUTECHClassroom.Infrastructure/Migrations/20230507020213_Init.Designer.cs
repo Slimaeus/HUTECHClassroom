@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230503072714_Init")]
+    [Migration("20230507020213_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -110,7 +110,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("FacultyId")
+                    b.Property<Guid?>("FacultyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("FirstName")
@@ -276,7 +276,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ClassroomId")
+                    b.Property<Guid?>("ClassroomId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreateDate")
@@ -286,10 +287,10 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<DateTime>("Deadline")
+                    b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 4, 7, 27, 14, 441, DateTimeKind.Utc).AddTicks(8358));
+                        .HasDefaultValue(new DateTime(2023, 5, 8, 2, 2, 13, 30, DateTimeKind.Utc).AddTicks(5915));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -306,7 +307,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("Topic")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
@@ -360,7 +360,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ClassroomId")
+                    b.Property<Guid?>("ClassroomId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreateDate")
@@ -370,7 +371,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<Guid>("LeaderId")
+                    b.Property<Guid?>("LeaderId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -415,7 +417,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("GroupRoleId")
+                    b.Property<Guid?>("GroupRoleId")
                         .HasColumnType("uuid");
 
                     b.HasKey("UserId", "GroupId");
@@ -443,7 +445,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("ProjectId")
+                    b.Property<Guid?>("ProjectId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Title")
@@ -479,7 +482,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ClassroomId")
+                    b.Property<Guid?>("ClassroomId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
@@ -519,7 +523,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<Guid>("GroupId")
+                    b.Property<Guid?>("GroupId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -659,9 +664,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.Faculty", "Faculty")
                         .WithMany("Users")
-                        .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FacultyId");
 
                     b.Navigation("Faculty");
                 });
@@ -801,9 +804,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.GroupRole", "GroupRole")
                         .WithMany("GroupUsers")
-                        .HasForeignKey("GroupRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GroupRoleId");
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
                         .WithMany("GroupUsers")
