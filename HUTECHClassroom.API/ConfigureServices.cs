@@ -112,7 +112,6 @@ public static class ConfigureServices
 
         #region Services
         services.AddEndpointsApiExplorer();
-        services.AddHttpContextAccessor();
         #endregion
 
         return services;

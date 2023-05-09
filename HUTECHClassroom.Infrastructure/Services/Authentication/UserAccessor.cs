@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Immutable;
 using System.Security.Claims;
 
-namespace HUTECHClassroom.Infrastructure.Services;
+namespace HUTECHClassroom.Infrastructure.Services.Authentication;
 
 public class UserAccessor : IUserAccessor
 {

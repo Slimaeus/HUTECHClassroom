@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace HUTECHClassroom.Infrastructure.Services;
+namespace HUTECHClassroom.Infrastructure.Services.Authentication;
 
 public class TokenService : ITokenService
 {

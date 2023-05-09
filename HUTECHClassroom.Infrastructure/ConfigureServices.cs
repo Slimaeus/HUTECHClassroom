@@ -2,7 +2,8 @@
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
-using HUTECHClassroom.Infrastructure.Services;
+using HUTECHClassroom.Infrastructure.Services.Authentication;
+using HUTECHClassroom.Infrastructure.Services.Excel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -83,6 +84,11 @@ public static class ConfigureServices
 
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserAccessor, UserAccessor>();
+        #endregion
+
+        #region Services
+        services.AddHttpContextAccessor();
+        services.AddScoped<IExcelServie, ExcelSerive>();
         #endregion
 
         return services;

@@ -3,7 +3,7 @@ using HUTECHClassroom.Domain.Interfaces;
 using Serilog;
 using System.ComponentModel;
 
-namespace HUTECHClassroom.Infrastructure.Services;
+namespace HUTECHClassroom.Infrastructure.Services.Excel;
 
 public class ExcelSerive : IExcelServie
 {
