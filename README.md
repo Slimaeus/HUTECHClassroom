@@ -25,6 +25,37 @@ Build and run the project or `dotnet restore`.
 
 This API allows you to manage student data. You can create, read, update, and delete student records using the endpoints provided.
 
+## Secrets
+appsettings.json
+```json
+{
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information",
+        "Microsoft.AspNetCore.Authentication": "Debug",
+        "System": "Warning"
+      }
+    }
+  },
+  "EmailService": {
+    "Gmail": {
+      "Host": "smtp.gmail.com",
+      "Port": 587,
+      "UserName": "example@gmail.com",
+      "Password": "yoursecret"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=Host;Port=5432;User Id=UserId;Password=Password;Database=hutechclassroom;"
+  },
+  "TokenKey": "TokenKey"
+}
+```
+
 ## Endpoints
 
 #### Mission

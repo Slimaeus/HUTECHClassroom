@@ -3,6 +3,7 @@ using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using HUTECHClassroom.Infrastructure.Services.Authentication;
+using HUTECHClassroom.Infrastructure.Services.Email;
 using HUTECHClassroom.Infrastructure.Services.Excel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -88,6 +89,7 @@ public static class ConfigureServices
 
         #region Services
         services.AddHttpContextAccessor();
+        services.Configure<GmailSMTPSettings>(configuration.GetSection("EmailService:Gmail"));
         services.AddScoped<IExcelServie, ExcelSerive>();
         #endregion
 
