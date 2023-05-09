@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HUTECHClassroom.Domain.Entities.ApplicationUser>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@model IPagedList<HUTECHClassroom.Domain.Entities.ApplicationUser>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,26 +8,31 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="row justify-content-end">
+    <div class="col">
+        <a asp-action="Create">Create New</a>
+    </div>
+    <div class="col-md-3">
+        <a asp-action="Import" class="btn btn-success btn-block">Import</a>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.First().FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.First().LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Faculty)
+                @Html.DisplayNameFor(model => model.First().Faculty)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.First().UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.First().Email)
             </th>
             <th></th>
         </tr>
@@ -57,3 +64,8 @@
 }
     </tbody>
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }), new X.PagedList.Web.Common.PagedListRenderOptions {
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" },
+    Display = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded
+})

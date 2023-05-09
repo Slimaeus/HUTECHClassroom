@@ -2,16 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
 public class ProjectsController : BaseEntityController<Project>
 {
-    // GET: Projects
-    public async Task<IActionResult> Index()
+    public IActionResult Index(int? page, int? size)
     {
-        var applicationDbContext = DbContext.Projects.Include(p => p.Group);
-        return View(await applicationDbContext.ToListAsync());
+        int pageIndex = page ?? 1;
+        int pageSize = size ?? 5;
+        return View(DbContext.Projects
+            .OrderByDescending(x => x.CreateDate)
+            .ToPagedList(pageIndex, pageSize));
     }
 
     // GET: Projects/Details/5

@@ -5,15 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
+using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
 public class ClassroomsController : BaseEntityController<Classroom>
 {
-    public async Task<IActionResult> Index()
+    public IActionResult Index(int? page, int? size)
     {
-        var applicationDbContext = DbContext.Classrooms.Include(c => c.Faculty).Include(c => c.Lecturer);
-        return View(await applicationDbContext.ToListAsync());
+        int pageIndex = page ?? 1;
+        int pageSize = size ?? 5;
+        return View(DbContext.Classrooms
+            .OrderByDescending(x => x.CreateDate)
+            .ToPagedList(pageIndex, pageSize));
     }
 
     public async Task<IActionResult> Details(Guid? id)

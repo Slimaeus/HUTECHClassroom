@@ -5,19 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
+using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
 public class GroupsController : BaseEntityController<Group>
 {
-    // GET: Groups
-    public async Task<IActionResult> Index()
+    public IActionResult Index(int? page, int? size)
     {
-        var applicationDbContext = DbContext.Groups.Include(g => g.Classroom).Include(g => g.Leader);
-        return View(await applicationDbContext.ToListAsync());
+        int pageIndex = page ?? 1;
+        int pageSize = size ?? 5;
+        return View(DbContext.Groups
+            .OrderByDescending(x => x.CreateDate)
+            .ToPagedList(pageIndex, pageSize));
     }
 
-    // GET: Groups/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null || DbContext.Groups == null)
@@ -101,7 +103,6 @@ public class GroupsController : BaseEntityController<Group>
         return RedirectToAction("Index");
     }
 
-    // GET: Groups/Create
     public IActionResult Create()
     {
         ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title");
@@ -109,9 +110,6 @@ public class GroupsController : BaseEntityController<Group>
         return View();
     }
 
-    // POST: Groups/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Description,LeaderId,ClassroomId,Id,CreateDate")] Group group)
@@ -128,7 +126,6 @@ public class GroupsController : BaseEntityController<Group>
         return View(group);
     }
 
-    // GET: Groups/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Groups == null)
@@ -146,9 +143,6 @@ public class GroupsController : BaseEntityController<Group>
         return View(group);
     }
 
-    // POST: Groups/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,LeaderId,ClassroomId,Id,CreateDate")] Group group)
@@ -183,7 +177,6 @@ public class GroupsController : BaseEntityController<Group>
         return View(group);
     }
 
-    // GET: Groups/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Groups == null)
@@ -203,7 +196,6 @@ public class GroupsController : BaseEntityController<Group>
         return View(group);
     }
 
-    // POST: Groups/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

@@ -2,19 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
 public class CommentsController : BaseEntityController<Comment>
 {
-    // GET: Comments
-    public async Task<IActionResult> Index()
+    public IActionResult Index(int? page, int? size)
     {
-        var applicationDbContext = DbContext.Comments.Include(c => c.Post).Include(c => c.User);
-        return View(await applicationDbContext.ToListAsync());
+        int pageIndex = page ?? 1;
+        int pageSize = size ?? 5;
+        return View(DbContext.Comments
+            .OrderByDescending(x => x.CreateDate)
+            .ToPagedList(pageIndex, pageSize));
     }
 
-    // GET: Comments/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null || DbContext.Comments == null)
@@ -34,7 +36,6 @@ public class CommentsController : BaseEntityController<Comment>
         return View(comment);
     }
 
-    // GET: Comments/Create
     public IActionResult Create()
     {
         ViewData["PostId"] = new SelectList(DbContext.Posts, "Id", "Content");
@@ -42,9 +43,6 @@ public class CommentsController : BaseEntityController<Comment>
         return View();
     }
 
-    // POST: Comments/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Content,PostId,UserId,Id,CreateDate")] Comment comment)
@@ -61,7 +59,6 @@ public class CommentsController : BaseEntityController<Comment>
         return View(comment);
     }
 
-    // GET: Comments/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Comments == null)
@@ -79,9 +76,6 @@ public class CommentsController : BaseEntityController<Comment>
         return View(comment);
     }
 
-    // POST: Comments/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("Content,PostId,UserId,Id,CreateDate")] Comment comment)
@@ -116,7 +110,6 @@ public class CommentsController : BaseEntityController<Comment>
         return View(comment);
     }
 
-    // GET: Comments/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Comments == null)
@@ -136,7 +129,6 @@ public class CommentsController : BaseEntityController<Comment>
         return View(comment);
     }
 
-    // POST: Comments/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

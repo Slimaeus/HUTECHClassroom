@@ -5,16 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
+using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
 public class MissionsController : BaseEntityController<Mission>
 {
-    // GET: Missions
-    public async Task<IActionResult> Index()
+    public IActionResult Index(int? page, int? size)
     {
-        var applicationDbContext = DbContext.Missions.Include(m => m.Project);
-        return View(await applicationDbContext.ToListAsync());
+        int pageIndex = page ?? 1;
+        int pageSize = size ?? 5;
+        return View(DbContext.Missions
+            .OrderByDescending(x => x.CreateDate)
+            .ToPagedList(pageIndex, pageSize));
     }
 
     // GET: Missions/Details/5

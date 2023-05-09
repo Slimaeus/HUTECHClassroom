@@ -53,7 +53,7 @@ public static class ConfigureServices
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 8;
 
-                options.User.RequireUniqueEmail = false;
+                options.User.RequireUniqueEmail = true;
 
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
@@ -90,6 +90,7 @@ public static class ConfigureServices
         #region Services
         services.AddHttpContextAccessor();
         services.Configure<GmailSMTPSettings>(configuration.GetSection("EmailService:Gmail"));
+        services.AddScoped<IEmailService, GmailSMTPService>();
         services.AddScoped<IExcelServie, ExcelSerive>();
         #endregion
 

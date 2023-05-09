@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using HUTECHClassroom.Domain.Interfaces;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
 
 namespace HUTECHClassroom.Infrastructure.Services.Email;
 
-public class GmailSMTPService
+public class GmailSMTPService : IEmailService
 {
     private readonly string _smtpHost;
     private readonly int _smtpPort;

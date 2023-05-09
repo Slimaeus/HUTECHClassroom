@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HUTECHClassroom.Domain.Entities.Exercise>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@model IPagedList<HUTECHClassroom.Domain.Entities.Exercise>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,31 +20,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.First().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Instruction)
+                @Html.DisplayNameFor(model => model.First().Instruction)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Link)
+                @Html.DisplayNameFor(model => model.First().Link)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalScore)
+                @Html.DisplayNameFor(model => model.First().TotalScore)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Deadline)
+                @Html.DisplayNameFor(model => model.First().Deadline)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Topic)
+                @Html.DisplayNameFor(model => model.First().Topic)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Criteria)
+                @Html.DisplayNameFor(model => model.First().Criteria)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Classroom)
+                @Html.DisplayNameFor(model => model.First().Classroom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
+                @Html.DisplayNameFor(model => model.First().CreateDate)
             </th>
             <th></th>
         </tr>
@@ -87,3 +89,8 @@
 }
     </tbody>
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }), new X.PagedList.Web.Common.PagedListRenderOptions {
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" },
+    Display = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded
+})

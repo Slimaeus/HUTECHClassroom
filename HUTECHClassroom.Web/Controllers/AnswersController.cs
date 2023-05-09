@@ -2,19 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
 public class AnswersController : BaseEntityController<Answer>
 {
-    // GET: Answers
-    public async Task<IActionResult> Index()
+    public IActionResult Index(int? page, int? size)
     {
-        var applicationDbContext = DbContext.Answers.Include(a => a.Exercise).Include(a => a.User);
-        return View(await applicationDbContext.ToListAsync());
+        int pageIndex = page ?? 1;
+        int pageSize = size ?? 5;
+        return View(DbContext.Answers
+            .OrderByDescending(x => x.CreateDate)
+            .ToPagedList(pageIndex, pageSize));
     }
 
-    // GET: Answers/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null || DbContext.Answers == null)
@@ -34,7 +36,6 @@ public class AnswersController : BaseEntityController<Answer>
         return View(answer);
     }
 
-    // GET: Answers/Create
     public IActionResult Create()
     {
         ViewData["ExerciseId"] = new SelectList(DbContext.Exercises, "Id", "Title");
@@ -42,9 +43,6 @@ public class AnswersController : BaseEntityController<Answer>
         return View();
     }
 
-    // POST: Answers/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Description,Link,Score,UserId,ExerciseId,Id,CreateDate")] Answer answer)
@@ -61,7 +59,6 @@ public class AnswersController : BaseEntityController<Answer>
         return View(answer);
     }
 
-    // GET: Answers/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Answers == null)
@@ -79,9 +76,6 @@ public class AnswersController : BaseEntityController<Answer>
         return View(answer);
     }
 
-    // POST: Answers/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("Description,Link,Score,UserId,ExerciseId,Id,CreateDate")] Answer answer)
@@ -136,7 +130,6 @@ public class AnswersController : BaseEntityController<Answer>
         return View(answer);
     }
 
-    // POST: Answers/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

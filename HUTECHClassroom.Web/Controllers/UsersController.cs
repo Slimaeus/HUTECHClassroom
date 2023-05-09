@@ -5,25 +5,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class ApplicationUsersController : BaseEntityController<ApplicationUser>
+public class UsersController : BaseEntityController<ApplicationUser>
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public ApplicationUsersController(UserManager<ApplicationUser> userManager)
+    public UsersController(UserManager<ApplicationUser> userManager)
     {
         _userManager = userManager;
     }
-    // GET: ApplicationUsers
-    public async Task<IActionResult> Index()
+    public IActionResult Index(int? page, int? size)
     {
-        var applicationDbContext = DbContext.Users.Include(a => a.Faculty);
-        return View(await applicationDbContext.ToListAsync());
+        int pageIndex = page ?? 1;
+        int pageSize = size ?? 5;
+        return View(DbContext.Users
+            .OrderBy(x => x.UserName)
+            .ToPagedList(pageIndex, pageSize));
     }
 
-    // GET: ApplicationUsers/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null || DbContext.Users == null)
@@ -75,7 +77,7 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         var users = userViewModels.Select(x => new ApplicationUser
         {
             UserName = x.UserName,
-            Email = "users@gmail.com",
+            Email = x.Email ?? $"user{x.UserName}@gmail.com",
             FirstName = x.FirstName,
             LastName = x.LastName,
             FacultyId = x.FacultyId != Guid.Empty ? x.FacultyId : null
@@ -99,9 +101,6 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         return View();
     }
 
-    // POST: ApplicationUsers/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateUserViewModel viewModel)
@@ -123,7 +122,6 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         return View(viewModel);
     }
 
-    // GET: ApplicationUsers/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Users == null)
@@ -149,9 +147,6 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         return View(viewModel);
     }
 
-    // POST: ApplicationUsers/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, EditUserViewModel viewModel)
@@ -193,7 +188,6 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         return View(viewModel);
     }
 
-    // GET: ApplicationUsers/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Users == null)
@@ -220,7 +214,6 @@ public class ApplicationUsersController : BaseEntityController<ApplicationUser>
         return View(viewModel);
     }
 
-    // POST: ApplicationUsers/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

@@ -24,6 +24,7 @@ public class BaseEntityController<T> : Controller
         return View("~/Views/BaseEntity/Import.cshtml", viewModel);
     }
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ImportAsync(ImportEntitiesFromExcelViewModel viewModel)
     {
         if (viewModel.File == null || viewModel.File.Length == 0)

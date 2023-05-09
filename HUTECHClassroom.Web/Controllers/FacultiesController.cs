@@ -1,15 +1,20 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
 public class FacultiesController : BaseEntityController<Faculty>
 {
     // GET: Faculties
-    public async Task<IActionResult> Index()
+    public IActionResult Index(int? page, int? size)
     {
-        return View(await DbContext.Faculties.ToListAsync());
+        int pageIndex = page ?? 1;
+        int pageSize = size ?? 5;
+        return View(DbContext.Faculties
+            .OrderByDescending(x => x.CreateDate)
+            .ToPagedList(pageIndex, pageSize));
     }
 
     // GET: Faculties/Details/5

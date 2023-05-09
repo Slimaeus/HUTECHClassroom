@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HUTECHClassroom.Domain.Entities.Classroom>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@model IPagedList<HUTECHClassroom.Domain.Entities.Classroom>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,25 +20,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.First().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Topic)
+                @Html.DisplayNameFor(model => model.First().Topic)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Room)
+                @Html.DisplayNameFor(model => model.First().Room)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.First().Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lecturer)
+                @Html.DisplayNameFor(model => model.First().Lecturer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Faculty)
+                @Html.DisplayNameFor(model => model.First().Faculty)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
+                @Html.DisplayNameFor(model => model.First().CreateDate)
             </th>
             <th></th>
         </tr>
@@ -75,3 +77,8 @@
 }
     </tbody>
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }), new X.PagedList.Web.Common.PagedListRenderOptions {
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" },
+    Display = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded
+})
