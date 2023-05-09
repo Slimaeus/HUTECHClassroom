@@ -1,7 +1,10 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Web.ViewModels.Groups;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace HUTECHClassroom.Web.Controllers;
 
@@ -32,6 +35,70 @@ public class GroupsController : BaseEntityController<Group>
         }
 
         return View(group);
+    }
+
+    public async Task<IActionResult> ImportGroupUsers(Guid? id)
+    {
+        if (id == null)
+            return View("Index");
+        if (id == null || DbContext.Groups == null)
+        {
+            return NotFound();
+        }
+        var group = await DbContext.Groups.FindAsync(id);
+        if (group == null)
+        {
+            return NotFound();
+        }
+        var viewModel = new ImportUsersToGroupViewModel
+        {
+            GroupId = group.Id,
+            GroupName = group.Name
+        };
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ImportGroupUsers(ImportUsersToGroupViewModel viewModel)
+    {
+        if (viewModel.File == null || viewModel.File.Length == 0)
+        {
+            ViewBag.Error = "Please select a file to upload.";
+            return View(viewModel);
+        }
+
+        if (!Path.GetExtension(viewModel.File.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+        {
+            ViewBag.Error = "Please select an Excel file (.xlsx).";
+            return View(viewModel);
+        }
+
+        var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
+        // Do something with the imported people data, such as saving to a database
+        var results = new List<IdentityResult>();
+        foreach (var user in users)
+        {
+            results.Add(await UserManager.CreateAsync(user, user.UserName));
+        }
+
+        var group = await DbContext.Groups
+            .Include(c => c.GroupUsers)
+            .SingleOrDefaultAsync(c => c.Id == viewModel.GroupId);
+
+        if (group == null)
+        {
+            return NotFound();
+        }
+
+        group.GroupUsers.AddRange(
+            users.Select(user => new GroupUser { User = user })
+        );
+
+        await DbContext.SaveChangesAsync();
+
+        ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
+        return RedirectToAction("Index");
     }
 
     // GET: Groups/Create

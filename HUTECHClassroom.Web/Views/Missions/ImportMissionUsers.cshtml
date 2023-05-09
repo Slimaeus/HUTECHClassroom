@@ -1,0 +1,26 @@
+﻿@using HUTECHClassroom.Web.ViewModels.Missions;
+@model ImportUsersToMissionViewModel
+<h1>Add Users</h1>
+
+<div>
+    <h4>Add Users to Mission</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MissionTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MissionTitle)
+        </dd>
+    </dl>
+    <form asp-action="ImportMissionUsers" method="post" enctype="multipart/form-data">
+        @ViewBag.Error
+        <div class="form-group">
+            <label for="excelFile">Select an Excel file to import:</label>
+            <input asp-for="File" type="file" class="form-control-file" />
+            <input type="hidden" asp-for="MissionId" />
+            <input type="hidden" asp-for="MissionTitle" />
+        </div>
+        <button type="submit" class="btn btn-primary">Import</button>
+    </form>
+</div>

@@ -1,5 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Web.ViewModels;
+using HUTECHClassroom.Web.ViewModels.Classrooms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,20 +10,12 @@ namespace HUTECHClassroom.Web.Controllers;
 
 public class ClassroomsController : BaseEntityController<Classroom>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-
-    public ClassroomsController(UserManager<ApplicationUser> userManager)
-    {
-        _userManager = userManager;
-    }
-    // GET: Classrooms
     public async Task<IActionResult> Index()
     {
         var applicationDbContext = DbContext.Classrooms.Include(c => c.Faculty).Include(c => c.Lecturer);
         return View(await applicationDbContext.ToListAsync());
     }
 
-    // GET: Classrooms/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null || DbContext.Classrooms == null)
@@ -43,8 +35,7 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return View(classroom);
     }
 
-    // GET: Classrooms/Add-User
-    public async Task<IActionResult> AddUsers(Guid? id)
+    public async Task<IActionResult> ImportClassroomUsers(Guid? id)
     {
         if (id == null)
             return View("Index");
@@ -65,9 +56,9 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return View(viewModel);
     }
 
-    // POST: Classrooms/Add-User
     [HttpPost]
-    public async Task<IActionResult> AddUsers(ImportUsersToClassroomViewModel viewModel)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ImportClassroomUsers(ImportUsersToClassroomViewModel viewModel)
     {
         if (viewModel.File == null || viewModel.File.Length == 0)
         {
@@ -86,7 +77,7 @@ public class ClassroomsController : BaseEntityController<Classroom>
         var results = new List<IdentityResult>();
         foreach (var user in users)
         {
-            results.Add(await _userManager.CreateAsync(user, user.UserName));
+            results.Add(await UserManager.CreateAsync(user, user.UserName));
         }
 
         var classroom = await DbContext.Classrooms
@@ -108,7 +99,6 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return RedirectToAction("Index");
     }
 
-    // GET: Classrooms/Create
     public IActionResult Create()
     {
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name");
@@ -116,9 +106,6 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return View();
     }
 
-    // POST: Classrooms/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Title,Topic,Room,Description,LecturerId,FacultyId,Id,CreateDate")] Classroom classroom)
@@ -135,7 +122,6 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return View(classroom);
     }
 
-    // GET: Classrooms/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Classrooms == null)
@@ -153,9 +139,6 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return View(classroom);
     }
 
-    // POST: Classrooms/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("Title,Topic,Room,Description,LecturerId,FacultyId,Id,CreateDate")] Classroom classroom)
@@ -190,7 +173,6 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return View(classroom);
     }
 
-    // GET: Classrooms/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Classrooms == null)
@@ -210,7 +192,6 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return View(classroom);
     }
 
-    // POST: Classrooms/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

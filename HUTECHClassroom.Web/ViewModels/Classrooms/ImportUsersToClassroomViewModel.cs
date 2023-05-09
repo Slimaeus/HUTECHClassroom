@@ -1,4 +1,4 @@
-﻿namespace HUTECHClassroom.Web.ViewModels;
+﻿namespace HUTECHClassroom.Web.ViewModels.Classrooms;
 
 public class ImportUsersToClassroomViewModel
 {

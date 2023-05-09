@@ -1,20 +1,21 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Web.ViewModels.Exercises;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace HUTECHClassroom.Web.Controllers;
 
 public class ExercisesController : BaseEntityController<Exercise>
 {
-    // GET: Exercises
     public async Task<IActionResult> Index()
     {
         var applicationDbContext = DbContext.Exercises.Include(e => e.Classroom);
         return View(await applicationDbContext.ToListAsync());
     }
 
-    // GET: Exercises/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null || DbContext.Exercises == null)
@@ -33,16 +34,75 @@ public class ExercisesController : BaseEntityController<Exercise>
         return View(exercise);
     }
 
-    // GET: Exercises/Create
+    public async Task<IActionResult> ImportExerciseUsers(Guid? id)
+    {
+        if (id == null)
+            return View("Index");
+        if (id == null || DbContext.Exercises == null)
+        {
+            return NotFound();
+        }
+        var exercise = await DbContext.Exercises.FindAsync(id);
+        if (exercise == null)
+        {
+            return NotFound();
+        }
+        var viewModel = new ImportUsersToExerciseViewModel
+        {
+            ExerciseId = exercise.Id,
+            ExerciseTitle = exercise.Title
+        };
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ImportExerciseUsers(ImportUsersToExerciseViewModel viewModel)
+    {
+        if (viewModel.File == null || viewModel.File.Length == 0)
+        {
+            ViewBag.Error = "Please select a file to upload.";
+            return View(viewModel);
+        }
+
+        if (!Path.GetExtension(viewModel.File.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+        {
+            ViewBag.Error = "Please select an Excel file (.xlsx).";
+            return View(viewModel);
+        }
+
+        var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
+        var results = new List<IdentityResult>();
+        foreach (var user in users)
+        {
+            results.Add(await UserManager.CreateAsync(user, user.UserName));
+        }
+
+        var exercise = await DbContext.Exercises
+            .Include(c => c.ExerciseUsers)
+            .SingleOrDefaultAsync(c => c.Id == viewModel.ExerciseId);
+
+        if (exercise == null)
+        {
+            return NotFound();
+        }
+
+        exercise.ExerciseUsers.AddRange(
+            users.Select(user => new ExerciseUser { User = user })
+        );
+
+        await DbContext.SaveChangesAsync();
+
+        ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Create()
     {
         ViewData["ClassroomId"] = new SelectList(DbContext.Classrooms, "Id", "Title");
         return View();
     }
 
-    // POST: Exercises/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Title,Instruction,Link,TotalScore,Deadline,Topic,Criteria,ClassroomId,Id,CreateDate")] Exercise exercise)
@@ -58,7 +118,6 @@ public class ExercisesController : BaseEntityController<Exercise>
         return View(exercise);
     }
 
-    // GET: Exercises/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Exercises == null)
@@ -75,9 +134,6 @@ public class ExercisesController : BaseEntityController<Exercise>
         return View(exercise);
     }
 
-    // POST: Exercises/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("Title,Instruction,Link,TotalScore,Deadline,Topic,Criteria,ClassroomId,Id,CreateDate")] Exercise exercise)
@@ -111,7 +167,6 @@ public class ExercisesController : BaseEntityController<Exercise>
         return View(exercise);
     }
 
-    // GET: Exercises/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Exercises == null)
@@ -130,7 +185,6 @@ public class ExercisesController : BaseEntityController<Exercise>
         return View(exercise);
     }
 
-    // POST: Exercises/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

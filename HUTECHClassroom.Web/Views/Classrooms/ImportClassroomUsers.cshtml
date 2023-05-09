@@ -1,9 +1,4 @@
-﻿@using HUTECHClassroom.Web.ViewModels;
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using HUTECHClassroom.Web.ViewModels.Classrooms;
 @model ImportUsersToClassroomViewModel
 <h1>Add Users</h1>
 
@@ -18,7 +13,7 @@
             @Html.DisplayFor(model => model.ClassroomTitle)
         </dd>
     </dl>
-    <form asp-action="AddUsers" method="post" enctype="multipart/form-data">
+    <form asp-action="ImportClassroomUsers" method="post" enctype="multipart/form-data">
         @ViewBag.Error
         <div class="form-group">
             <label for="excelFile">Select an Excel file to import:</label>

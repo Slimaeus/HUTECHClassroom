@@ -1,6 +1,8 @@
-﻿using HUTECHClassroom.Domain.Interfaces;
+﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using HUTECHClassroom.Web.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
@@ -10,6 +12,7 @@ public class BaseEntityController<T> : Controller
     where T : class, new()
 {
     protected ApplicationDbContext DbContext => HttpContext.RequestServices.GetService<ApplicationDbContext>();
+    protected UserManager<ApplicationUser> UserManager => HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
     protected IExcelServie ExcelService => HttpContext.RequestServices.GetService<IExcelServie>();
     public IActionResult Import()
     {

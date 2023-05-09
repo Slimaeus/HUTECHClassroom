@@ -1,0 +1,26 @@
+﻿@using HUTECHClassroom.Web.ViewModels.Exercises;
+@model ImportUsersToExerciseViewModel
+<h1>Add Users</h1>
+
+<div>
+    <h4>Add Users to Exercise</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ExerciseTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExerciseTitle)
+        </dd>
+    </dl>
+    <form asp-action="ImportExerciseUsers" method="post" enctype="multipart/form-data">
+        @ViewBag.Error
+        <div class="form-group">
+            <label for="excelFile">Select an Excel file to import:</label>
+            <input asp-for="File" type="file" class="form-control-file" />
+            <input type="hidden" asp-for="ExerciseId" />
+            <input type="hidden" asp-for="ExerciseTitle" />
+        </div>
+        <button type="submit" class="btn btn-primary">Import</button>
+    </form>
+</div>

@@ -1,7 +1,10 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Web.ViewModels.Missions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace HUTECHClassroom.Web.Controllers;
 
@@ -31,6 +34,70 @@ public class MissionsController : BaseEntityController<Mission>
         }
 
         return View(mission);
+    }
+
+    public async Task<IActionResult> ImportMissionUsers(Guid? id)
+    {
+        if (id == null)
+            return View("Index");
+        if (id == null || DbContext.Missions == null)
+        {
+            return NotFound();
+        }
+        var mission = await DbContext.Missions.FindAsync(id);
+        if (mission == null)
+        {
+            return NotFound();
+        }
+        var viewModel = new ImportUsersToMissionViewModel
+        {
+            MissionId = mission.Id,
+            MissionTitle = mission.Title
+        };
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ImportMissionUsers(ImportUsersToMissionViewModel viewModel)
+    {
+        if (viewModel.File == null || viewModel.File.Length == 0)
+        {
+            ViewBag.Error = "Please select a file to upload.";
+            return View(viewModel);
+        }
+
+        if (!Path.GetExtension(viewModel.File.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+        {
+            ViewBag.Error = "Please select an Excel file (.xlsx).";
+            return View(viewModel);
+        }
+
+        var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
+        // Do something with the imported people data, such as saving to a database
+        var results = new List<IdentityResult>();
+        foreach (var user in users)
+        {
+            results.Add(await UserManager.CreateAsync(user, user.UserName));
+        }
+
+        var mission = await DbContext.Missions
+            .Include(c => c.MissionUsers)
+            .SingleOrDefaultAsync(c => c.Id == viewModel.MissionId);
+
+        if (mission == null)
+        {
+            return NotFound();
+        }
+
+        mission.MissionUsers.AddRange(
+            users.Select(user => new MissionUser { User = user })
+        );
+
+        await DbContext.SaveChangesAsync();
+
+        ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
+        return RedirectToAction("Index");
     }
 
     // GET: Missions/Create
