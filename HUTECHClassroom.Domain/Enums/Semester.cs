@@ -2,6 +2,7 @@
 
 public enum Semester
 {
-    Semester1,
-    Semester2
+    I,
+    II,
+    III
 }

@@ -1,6 +1,8 @@
-﻿using HUTECHClassroom.API.Extensions;
+﻿using HUTECHClassroom.API.Authorization;
+using HUTECHClassroom.API.Extensions;
 using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
@@ -42,7 +44,13 @@ public static class ConfigureServices
         services.AddAuthorization(options =>
         {
             options.AddEntityPolicies();
+            options.AddPolicy("GroupRolePolicy", policy =>
+            {
+                policy.AddRequirements(new GroupRoleRequirement("Leader"));
+            });
         });
+
+        services.AddScoped<IAuthorizationHandler, GroupRoleAuthorizationHandler>();
         #endregion
 
         #region Swagger

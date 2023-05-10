@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Domain.Entities;
 
-public class Major : BaseEntity
+public class Major : BaseEntity<string>
 {
     public string Title { get; set; } = string.Empty;
     public int TotalCredits { get; set; }

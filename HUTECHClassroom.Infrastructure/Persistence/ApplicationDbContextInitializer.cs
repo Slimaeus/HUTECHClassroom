@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -182,7 +183,40 @@ public class ApplicationDbContextInitializer
             await _userManager.AddToRoleAsync(user, studentRole.Name);
             await _userManager.AddToRoleAsync(user, lecturerRole.Name);
         }
+        /*
+        var majors = new Major[]
+        {
+            new Major
+            {
+                Id = "TH",
+                Title = "Information Technology",
+                TotalCredits = 152,
+                NonComulativeCredits = 10
+            },
+            new Major
+            {
+                Id = "MK",
+                Title = "Maketing",
+                TotalCredits = 150,
+                NonComulativeCredits = 10
+            }
+        };
 
+        await _context.AddRangeAsync(majors);
+
+        var subjects = new Subject[]
+        {
+            new Subject
+            {
+                Id = "CMP101",
+                Title = "Subject CMP101",
+                TotalCredits = 3,
+                Major = majors[0]
+            }
+        };
+
+        await _context.AddRangeAsync(subjects);
+        */
         var classrooms = new Classroom[]
         {
             new Classroom
@@ -192,7 +226,11 @@ public class ApplicationDbContextInitializer
                 Topic = "Mathemetics",
                 Room = "101",
                 Lecturer = users[2],
-                Faculty = faculties[0]
+                Faculty = faculties[0],
+                StudyGroup = "1",
+                SchoolYear = "2022",
+                Semester = Semester.I,
+                //Subject = subjects[0]
             },
             new Classroom
             {
@@ -201,9 +239,14 @@ public class ApplicationDbContextInitializer
                 Topic = "English",
                 Room = "102",
                 Lecturer = users[3],
-                Faculty = faculties[0]
+                Faculty = faculties[0],
+                StudyGroup = "2",
+                SchoolYear = "2021",
+                Semester = Semester.II
             }
         };
+
+        await _context.AddRangeAsync(classrooms);
 
         var exercises = new Exercise[]
         {
