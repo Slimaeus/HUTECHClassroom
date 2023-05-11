@@ -1,6 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -8,12 +8,12 @@ namespace HUTECHClassroom.API.Authorization;
 
 public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequirement>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ApplicationDbContext _dbContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public GroupRoleAuthorizationHandler(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+    public GroupRoleAuthorizationHandler(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
     {
-        _userManager = userManager;
+        _dbContext = dbContext;
         _httpContextAccessor = httpContextAccessor;
     }
 
@@ -23,13 +23,13 @@ public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequi
 
         if (userId != null)
         {
-            var user = await _userManager.Users
+            var user = await _dbContext.Users
                 .Include(x => x.GroupUsers)
                 .ThenInclude(x => x.Group)
+                .Include(x => x.GroupUsers)
+                .ThenInclude(x => x.GroupRole)
                 .SingleOrDefaultAsync(x => x.Id.ToString() == userId);
             var groupId = GetGroupIdFromRoute();
-
-            Console.WriteLine(groupId);
 
             if (groupId != null && user != null && IsUserInGroupWithRole(user, groupId.Value, requirement.RoleName))
             {
@@ -38,9 +38,11 @@ public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequi
         }
     }
 
-    private bool IsUserInGroupWithRole(ApplicationUser user, Guid groupId, string roleName)
+    private static bool IsUserInGroupWithRole(ApplicationUser user, Guid groupId, string roleName)
     {
-        var groupUser = user.GroupUsers.FirstOrDefault(gu => (gu.GroupId == groupId && gu.GroupRole?.Name == roleName) || (gu.GroupId == groupId && gu.Group.LeaderId == user.Id));
+        Console.WriteLine(user.Id);
+        Console.WriteLine(roleName);
+        var groupUser = user.GroupUsers.FirstOrDefault(gu => (gu.UserId == user.Id && gu.GroupId == groupId && gu.GroupRole?.Name == roleName));
         return groupUser != null;
     }
 

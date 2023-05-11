@@ -9,5 +9,7 @@ public static class AuthorizationOptionsExtensions
     {
         options.AddMissionPolicies();
         options.AddProjectPolicies();
+        options.AddGroupPolicies();
+        options.AddGroupRolePolicies();
     }
 }

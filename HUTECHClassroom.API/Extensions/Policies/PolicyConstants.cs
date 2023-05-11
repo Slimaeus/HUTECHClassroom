@@ -31,3 +31,8 @@ public static partial class PolicyConstants
     public const string UpdateGroupPolicy = "UpdateGroupPolicy";
     public const string DeleteGroupPolicy = "DeleteGroupPolicy";
 }
+
+public static partial class PolicyConstants
+{
+    public const string RequireLeaderGroupRolePolicy = "RequireLeaderGroupRolePolicy";
+}

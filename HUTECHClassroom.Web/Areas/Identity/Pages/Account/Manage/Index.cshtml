@@ -16,6 +16,14 @@
                 <label asp-for="Username" class="form-label"></label>
             </div>
             <div class="form-floating mb-3">
+                <input asp-for="Input.FirstName" class="form-control" placeholder="Please choose your first name." />
+                <label asp-for="Input.FirstName" class="form-label"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" placeholder="Please choose your last name." />
+                <label asp-for="Input.LastName" class="form-label"></label>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>

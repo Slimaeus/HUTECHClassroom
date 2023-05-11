@@ -24,7 +24,7 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<GroupDTO>>> Get([FromQuery] GroupPaginationParams @params)
         => HandlePaginationQuery<GetGroupsWithPaginationQuery, GroupPaginationParams>(new GetGroupsWithPaginationQuery(@params));
-    [Authorize(Policy = "GroupRolePolicy")]
+    [Authorize(Policy = RequireLeaderGroupRolePolicy)]
     [HttpGet("{groupId}", Name = nameof(GetGroupDetails))]
     public Task<ActionResult<GroupDTO>> GetGroupDetails(Guid groupId)
         => HandleGetQuery(new GetGroupQuery(groupId));

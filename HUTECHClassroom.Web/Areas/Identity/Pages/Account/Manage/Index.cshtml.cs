@@ -53,6 +53,18 @@ public class IndexModel : PageModel
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
         [Phone]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
@@ -62,12 +74,16 @@ public class IndexModel : PageModel
     {
         var userName = await _userManager.GetUserNameAsync(user);
         var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+        var firstName = user.FirstName;
+        var lastName = user.LastName;
 
         Username = userName;
 
         Input = new InputModel
         {
-            PhoneNumber = phoneNumber
+            PhoneNumber = phoneNumber,
+            FirstName = firstName,
+            LastName = lastName
         };
     }
 
@@ -106,7 +122,12 @@ public class IndexModel : PageModel
                 StatusMessage = "Unexpected error when trying to set phone number.";
                 return RedirectToPage();
             }
+
         }
+
+        user.FirstName = Input.FirstName;
+        user.LastName = Input.LastName;
+        await _userManager.UpdateAsync(user);
 
         await _signInManager.RefreshSignInAsync(user);
         StatusMessage = "Your profile has been updated";
