@@ -30,6 +30,8 @@ public class MissionsController : BaseEntityController<Mission>
 
         var mission = await DbContext.Missions
             .Include(m => m.Project)
+            .Include(m => m.MissionUsers)
+            .ThenInclude(m => m.User)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (mission == null)
         {

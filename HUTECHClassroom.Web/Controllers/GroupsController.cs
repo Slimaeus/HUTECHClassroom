@@ -30,6 +30,8 @@ public class GroupsController : BaseEntityController<Group>
         var group = await DbContext.Groups
             .Include(g => g.Classroom)
             .Include(g => g.Leader)
+            .Include(g => g.GroupUsers)
+            .ThenInclude(g => g.User)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (group == null)
         {

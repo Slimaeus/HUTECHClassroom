@@ -31,9 +31,11 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [HttpPost]
     public Task<ActionResult<GroupDTO>> Post(CreateGroupCommand command)
         => HandleCreateCommand(command, nameof(GetGroupDetails));
+    [Authorize(Policy = RequireLeaderGroupRolePolicy)]
     [HttpPut("{groupId}")]
     public Task<IActionResult> Put(Guid groupId, UpdateGroupCommand request)
         => HandleUpdateCommand(groupId, request);
+    [Authorize(Policy = RequireLeaderGroupRolePolicy)]
     [HttpDelete("{groupId}")]
     public Task<ActionResult<GroupDTO>> Delete(Guid groupId)
         => HandleDeleteCommand(new DeleteGroupCommand(groupId));

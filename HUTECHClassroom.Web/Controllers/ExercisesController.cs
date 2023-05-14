@@ -29,6 +29,8 @@ public class ExercisesController : BaseEntityController<Exercise>
 
         var exercise = await DbContext.Exercises
             .Include(e => e.Classroom)
+            .Include(e => e.ExerciseUsers)
+            .ThenInclude(e => e.User)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (exercise == null)
         {

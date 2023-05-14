@@ -30,12 +30,14 @@ public class ClassroomsController : BaseEntityController<Classroom>
         var classroom = await DbContext.Classrooms
             .Include(c => c.Faculty)
             .Include(c => c.Lecturer)
+            .Include(c => c.ClassroomUsers)
+            .ThenInclude(c => c.User)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (classroom == null)
         {
             return NotFound();
         }
-
+        ViewBag.Users = classroom.ClassroomUsers;
         return View(classroom);
     }
 

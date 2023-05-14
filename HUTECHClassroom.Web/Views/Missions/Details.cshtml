@@ -41,6 +41,32 @@
             @Html.DisplayFor(model => model.CreateDate)
         </dd>
     </dl>
+    <h5>@Html.DisplayNameFor(model => model.MissionUsers)</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MissionUsers.First().User.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MissionUsers.First().User.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MissionUsers.First().User.LastName)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MissionUsers)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User.FirstName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User.LastName)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

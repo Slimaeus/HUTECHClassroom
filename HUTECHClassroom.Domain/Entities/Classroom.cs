@@ -1,5 +1,4 @@
 ﻿using HUTECHClassroom.Domain.Common;
-using HUTECHClassroom.Domain.Enums;
 
 namespace HUTECHClassroom.Domain.Entities;
 
@@ -9,11 +8,11 @@ public class Classroom : BaseEntity
     public string Topic { get; set; } = string.Empty;
     public string Room { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string? Class { get; set; }
-    public Semester Semester { get; set; } = Semester.I;
-    public string SchoolYear { get; set; } = string.Empty;
-    public string? StudyGroup { get; set; }
-    public string? PracticalStudyGroup { get; set; }
+    //public string? Class { get; set; }
+    //public Semester Semester { get; set; } = Semester.I;
+    //public string SchoolYear { get; set; } = string.Empty;
+    //public string? StudyGroup { get; set; }
+    //public string? PracticalStudyGroup { get; set; }
 
     public Guid LecturerId { get; set; }
     public virtual ApplicationUser? Lecturer { get; set; }
