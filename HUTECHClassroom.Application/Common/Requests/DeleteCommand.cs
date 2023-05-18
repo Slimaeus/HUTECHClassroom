@@ -8,7 +8,7 @@ namespace HUTECHClassroom.Application.Common.Requests;
 public record DeleteCommand<TKey, TDTO>(TKey Id) : IRequest<TDTO> where TDTO : class;
 public abstract class DeleteCommandHandler<TKey, TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
     where TEntity : class, IEntity<TKey>
-    where TCommand : DeleteCommand<TDTO>
+    where TCommand : DeleteCommand<TKey, TDTO>
     where TDTO : class
 {
     private readonly IUnitOfWork _unitOfWork;

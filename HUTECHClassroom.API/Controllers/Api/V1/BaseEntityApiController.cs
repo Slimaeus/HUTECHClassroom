@@ -7,7 +7,7 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 //[Authorize]
 public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
-    where TEntityDTO : class, IEntityDTO
+    where TEntityDTO : class, IEntityDTO<TKey>
 {
     protected async Task<ActionResult<IEnumerable<TEntityDTO>>> HandlePaginationQuery<TPaginationQuery, TPaginationParams>(TPaginationQuery query)
         where TPaginationQuery : GetWithPaginationQuery<TEntityDTO, TPaginationParams>
@@ -25,10 +25,10 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
         return CreatedAtRoute(routeName, new { id = dto.Id }, dto);
     }
 
-    protected async Task<IActionResult> HandleUpdateCommand<TUpdateCommand>(Guid id, TUpdateCommand command)
-        where TUpdateCommand : UpdateCommand
+    protected async Task<IActionResult> HandleUpdateCommand<TUpdateCommand>(TKey id, TUpdateCommand command)
+        where TUpdateCommand : UpdateCommand<TKey>
     {
-        if (id != command.Id)
+        if (!id.Equals(command.Id))
         {
             ModelState.AddModelError("Id", "Ids are not the same");
             return ValidationProblem();
@@ -37,7 +37,7 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
         return NoContent();
     }
     protected async Task<ActionResult<TEntityDTO>> HandleDeleteCommand<TDeleteCommand>(TDeleteCommand command)
-        where TDeleteCommand : DeleteCommand<TEntityDTO>
+        where TDeleteCommand : DeleteCommand<TKey, TEntityDTO>
         => Ok(await Mediator.Send(command));
     protected async Task<IActionResult> HandleDeleteRangeCommand<TDeleteRangeCommand>(TDeleteRangeCommand command)
         where TDeleteRangeCommand : DeleteRangeCommand<TKey>

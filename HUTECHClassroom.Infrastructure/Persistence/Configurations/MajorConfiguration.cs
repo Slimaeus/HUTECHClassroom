@@ -10,5 +10,11 @@ public class MajorConfiguration : IEntityTypeConfiguration<Major>
     {
         builder.Property(x => x.Title)
             .IsRequired();
+
+        builder.Property(x => x.TotalCredits)
+            .HasDefaultValue(0);
+
+        builder.Property(x => x.NonComulativeCredits)
+            .HasDefaultValue(0);
     }
 }
