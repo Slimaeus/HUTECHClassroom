@@ -19,8 +19,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Exercise> Exercises { get; set; }
     public DbSet<Answer> Answers { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
-    //public DbSet<Major> Majors { get; set; }
-    //public DbSet<Subject> Subjects { get; set; }
+    public DbSet<Major> Majors { get; set; }
+    public DbSet<Subject> Subjects { get; set; }
     public DbSet<Mission> Missions { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<Group> Groups { get; set; }
@@ -39,8 +39,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                .ApplyConfiguration(new ExerciseUserConfiguration())
                .ApplyConfiguration(new AnswerConfiguration())
                .ApplyConfiguration(new FacultyConfiguration())
-               //.ApplyConfiguration(new MajorConfiguration())
-               //.ApplyConfiguration(new SubjectConfiguration())
+               .ApplyConfiguration(new MajorConfiguration())
+               .ApplyConfiguration(new SubjectConfiguration())
                .ApplyConfiguration(new MissionConfiguration())
                .ApplyConfiguration(new MissionUserConfiguration())
                .ApplyConfiguration(new ProjectConfiguration())

@@ -54,6 +54,21 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Majors",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    TotalCredits = table.Column<int>(type: "integer", nullable: false),
+                    NonComulativeCredits = table.Column<int>(type: "integer", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Majors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -104,6 +119,26 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         name: "FK_AspNetUsers_Faculties_FacultyId",
                         column: x => x.FacultyId,
                         principalTable: "Faculties",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subjects",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    TotalCredits = table.Column<int>(type: "integer", nullable: false),
+                    MajorId = table.Column<string>(type: "text", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subjects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subjects_Majors_MajorId",
+                        column: x => x.MajorId,
+                        principalTable: "Majors",
                         principalColumn: "Id");
                 });
 
@@ -225,8 +260,14 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Room = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Class = table.Column<string>(type: "text", nullable: true),
+                    Semester = table.Column<int>(type: "integer", nullable: false),
+                    SchoolYear = table.Column<string>(type: "text", nullable: false),
+                    StudyGroup = table.Column<string>(type: "text", nullable: true),
+                    PracticalStudyGroup = table.Column<string>(type: "text", nullable: true),
                     LecturerId = table.Column<Guid>(type: "uuid", nullable: false),
                     FacultyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SubjectId = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -244,6 +285,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         principalTable: "Faculties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Classrooms_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -279,7 +325,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValue: new DateTime(2023, 5, 8, 2, 2, 13, 30, DateTimeKind.Utc).AddTicks(5915)),
+                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValue: new DateTime(2023, 5, 19, 12, 18, 39, 954, DateTimeKind.Utc).AddTicks(457)),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -592,6 +638,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 column: "LecturerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Classrooms_SubjectId",
+                table: "Classrooms",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClassroomUser_ClassroomId",
                 table: "ClassroomUser",
                 column: "ClassroomId");
@@ -665,6 +716,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "IX_Projects_GroupId",
                 table: "Projects",
                 column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subjects_MajorId",
+                table: "Subjects",
+                column: "MajorId");
         }
 
         /// <inheritdoc />
@@ -734,7 +790,13 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Subjects");
+
+            migrationBuilder.DropTable(
                 name: "Faculties");
+
+            migrationBuilder.DropTable(
+                name: "Majors");
         }
     }
 }

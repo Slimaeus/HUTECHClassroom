@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -182,7 +183,7 @@ public class ApplicationDbContextInitializer
             await _userManager.AddToRoleAsync(user, studentRole.Name);
             await _userManager.AddToRoleAsync(user, lecturerRole.Name);
         }
-        /*
+
         var majors = new Major[]
         {
             new Major
@@ -215,7 +216,7 @@ public class ApplicationDbContextInitializer
         };
 
         await _context.AddRangeAsync(subjects);
-        */
+
         var classrooms = new Classroom[]
         {
             new Classroom
@@ -226,10 +227,10 @@ public class ApplicationDbContextInitializer
                 Room = "101",
                 Lecturer = users[2],
                 Faculty = faculties[0],
-                //StudyGroup = "1",
-                //SchoolYear = "2022",
-                //Semester = Semester.I,
-                //Subject = subjects[0]
+                StudyGroup = "1",
+                SchoolYear = "2022",
+                Semester = Semester.I,
+                Subject = subjects[0]
             },
             new Classroom
             {
@@ -239,9 +240,9 @@ public class ApplicationDbContextInitializer
                 Room = "102",
                 Lecturer = users[3],
                 Faculty = faculties[0],
-                //StudyGroup = "2",
-                //SchoolYear = "2021",
-                //Semester = Semester.II
+                StudyGroup = "2",
+                SchoolYear = "2021",
+                Semester = Semester.II
             }
         };
 

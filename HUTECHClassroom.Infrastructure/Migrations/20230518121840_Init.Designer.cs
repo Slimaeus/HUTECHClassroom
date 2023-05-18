@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230507020213_Init")]
+    [Migration("20230518121840_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -189,6 +189,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Class")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -202,10 +205,26 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<Guid>("LecturerId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("PracticalStudyGroup")
+                        .HasColumnType("text");
+
                     b.Property<string>("Room")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<string>("SchoolYear")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Semester")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StudyGroup")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -222,6 +241,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasIndex("FacultyId");
 
                     b.HasIndex("LecturerId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Classrooms");
                 });
@@ -290,7 +311,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 8, 2, 2, 13, 30, DateTimeKind.Utc).AddTicks(5915));
+                        .HasDefaultValue(new DateTime(2023, 5, 19, 12, 18, 39, 954, DateTimeKind.Utc).AddTicks(457));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -429,6 +450,29 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("GroupUser");
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Major", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("NonComulativeCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TotalCredits")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Majors");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Mission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -537,6 +581,31 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasIndex("GroupId");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Subject", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MajorId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TotalCredits")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MajorId");
+
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -702,9 +771,15 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Subject", "Subject")
+                        .WithMany("Classrooms")
+                        .HasForeignKey("SubjectId");
+
                     b.Navigation("Faculty");
 
                     b.Navigation("Lecturer");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ClassroomUser", b =>
@@ -879,6 +954,15 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Navigation("Group");
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Subject", b =>
+                {
+                    b.HasOne("HUTECHClassroom.Domain.Entities.Major", "Major")
+                        .WithMany("Subjects")
+                        .HasForeignKey("MajorId");
+
+                    b.Navigation("Major");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationRole", null)
@@ -993,6 +1077,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Navigation("GroupUsers");
                 });
 
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Major", b =>
+                {
+                    b.Navigation("Subjects");
+                });
+
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Mission", b =>
                 {
                     b.Navigation("MissionUsers");
@@ -1001,6 +1090,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Project", b =>
                 {
                     b.Navigation("Missions");
+                });
+
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Subject", b =>
+                {
+                    b.Navigation("Classrooms");
                 });
 #pragma warning restore 612, 618
         }
