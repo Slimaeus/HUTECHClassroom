@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Common.Requests;
 
-public record DeleteCommand<TDTO>(Guid Id) : IRequest<TDTO> where TDTO : class;
-public abstract class DeleteCommandHandler<TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
-    where TEntity : class, IEntity
+public record DeleteCommand<TKey, TDTO>(TKey Id) : IRequest<TDTO> where TDTO : class;
+public abstract class DeleteCommandHandler<TKey, TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
+    where TEntity : class, IEntity<TKey>
     where TCommand : DeleteCommand<TDTO>
     where TDTO : class
 {
@@ -24,15 +24,25 @@ public abstract class DeleteCommandHandler<TEntity, TCommand, TDTO> : IRequestHa
     public async Task<TDTO> Handle(TCommand request, CancellationToken cancellationToken)
     {
         var query = _repository.SingleResultQuery()
-            .AndFilter(m => m.Id == request.Id);
+            .AndFilter(m => m.Id.Equals(request.Id));
 
         var dto = await _repository
             .ToQueryable(query)
             .ProjectTo<TDTO>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync(cancellationToken) ?? throw new NotFoundException(nameof(TEntity), request.Id);
 
-        await _repository.RemoveAsync(x => x.Id == request.Id, cancellationToken).ConfigureAwait(false);
+        await _repository.RemoveAsync(x => x.Id.Equals(request.Id), cancellationToken).ConfigureAwait(false);
 
         return dto;
+    }
+}
+public record DeleteCommand<TDTO>(Guid Id) : DeleteCommand<Guid, TDTO>(Id) where TDTO : class;
+public abstract class DeleteCommandHandler<TEntity, TCommand, TDTO> : DeleteCommandHandler<Guid, TEntity, TCommand, TDTO>
+    where TEntity : class, IEntity<Guid>
+    where TCommand : DeleteCommand<TDTO>
+    where TDTO : class
+{
+    protected DeleteCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    {
     }
 }

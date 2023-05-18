@@ -2,10 +2,10 @@
 
 namespace HUTECHClassroom.Application.Common.Requests;
 
-public record DeleteRangeCommand(IList<Guid> Ids) : IRequest<Unit>;
-public class DeleteRangeCommandHandler<TEntity, TCommand> : IRequestHandler<TCommand, Unit>
-    where TEntity : class, IEntity
-    where TCommand : DeleteRangeCommand
+public record DeleteRangeCommand<TKey>(IList<TKey> Ids) : IRequest<Unit>;
+public class DeleteRangeCommandHandler<TKey, TEntity, TCommand> : IRequestHandler<TCommand, Unit>
+    where TEntity : class, IEntity<TKey>
+    where TCommand : DeleteRangeCommand<TKey>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<TEntity> _repository;
@@ -31,5 +31,15 @@ public class DeleteRangeCommandHandler<TEntity, TCommand> : IRequestHandler<TCom
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         return Unit.Value;
+    }
+}
+public record DeleteRangeCommand(IList<Guid> Ids) : DeleteRangeCommand<Guid>(Ids);
+
+public class DeleteRangeCommandHandler<TEntity, TCommand> : DeleteRangeCommandHandler<Guid, TEntity, TCommand>
+    where TEntity : class, IEntity<Guid>
+    where TCommand : DeleteRangeCommand
+{
+    public DeleteRangeCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    {
     }
 }

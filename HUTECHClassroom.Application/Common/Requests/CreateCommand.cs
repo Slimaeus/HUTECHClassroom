@@ -4,8 +4,8 @@ using HUTECHClassroom.Domain.Common;
 namespace HUTECHClassroom.Application.Common.Requests;
 
 public record CreateCommand<TDTO> : IRequest<TDTO> where TDTO : class;
-public abstract class CreateCommandHandler<TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
-    where TEntity : class, IEntity
+public abstract class CreateCommandHandler<TKey, TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
+    where TEntity : class, IEntity<TKey>
     where TCommand : CreateCommand<TDTO>
     where TDTO : class
 {
@@ -37,4 +37,14 @@ public abstract class CreateCommandHandler<TEntity, TCommand, TDTO> : IRequestHa
     }
 
     protected virtual Task ValidateAdditionalField(TCommand request, TEntity entity) => Task.CompletedTask;
+}
+
+public abstract class CreateCommandHandler<TEntity, TCommand, TDTO> : CreateCommandHandler<Guid, TEntity, TCommand, TDTO>
+    where TEntity : class, IEntity<Guid>
+    where TCommand : CreateCommand<TDTO>
+    where TDTO : class
+{
+    protected CreateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    {
+    }
 }

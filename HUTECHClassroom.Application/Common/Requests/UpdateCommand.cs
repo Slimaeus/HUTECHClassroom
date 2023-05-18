@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Common.Requests;
 
-public record UpdateCommand(Guid Id) : IRequest<Unit>;
-public abstract class UpdateCommandHandler<TEntity, TCommand> : IRequestHandler<TCommand, Unit>
-    where TEntity : class, IEntity
-    where TCommand : UpdateCommand
+public record UpdateCommand<TKey>(TKey Id) : IRequest<Unit>;
+public abstract class UpdateCommandHandler<TKey, TEntity, TCommand> : IRequestHandler<TCommand, Unit>
+    where TEntity : class, IEntity<TKey>
+    where TCommand : UpdateCommand<TKey>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<TEntity> _repository;
@@ -23,7 +23,7 @@ public abstract class UpdateCommandHandler<TEntity, TCommand> : IRequestHandler<
     {
         var query = _repository.SingleResultQuery()
                                .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
-                               .AndFilter(m => m.Id == request.Id);
+                               .AndFilter(m => m.Id.Equals(request.Id));
 
         var entity = await _repository.FirstOrDefaultAsync(query, cancellationToken)
                      ?? throw new NotFoundException(nameof(TEntity), request.Id);
@@ -34,5 +34,14 @@ public abstract class UpdateCommandHandler<TEntity, TCommand> : IRequestHandler<
                          .ConfigureAwait(false);
 
         return Unit.Value;
+    }
+}
+public record UpdateCommand(Guid Id) : UpdateCommand<Guid>(Id);
+public abstract class UpdateCommandHandler<TEntity, TCommand> : UpdateCommandHandler<Guid, TEntity, TCommand>
+    where TEntity : class, IEntity<Guid>
+    where TCommand : UpdateCommand<Guid>
+{
+    protected UpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    {
     }
 }

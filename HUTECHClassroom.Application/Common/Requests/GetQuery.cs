@@ -7,8 +7,8 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Common.Requests;
 
 public record GetQuery<TDTO> : IRequest<TDTO> where TDTO : class;
-public abstract class GetQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<TQuery, TDTO>
-    where TEntity : class, IEntity
+public abstract class GetQueryHandler<TKey, TEntity, TQuery, TDTO> : IRequestHandler<TQuery, TDTO>
+    where TEntity : class, IEntity<TKey>
     where TQuery : GetQuery<TDTO>
     where TDTO : class
 {
@@ -37,4 +37,13 @@ public abstract class GetQueryHandler<TEntity, TQuery, TDTO> : IRequestHandler<T
     public virtual object GetNotFoundKey(TQuery query) => string.Empty;
     public virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
         => x => true;
+}
+public abstract class GetQueryHandler<TEntity, TQuery, TDTO> : GetQueryHandler<Guid, TEntity, TQuery, TDTO>
+    where TEntity : class, IEntity<Guid>
+    where TQuery : GetQuery<TDTO>
+    where TDTO : class
+{
+    protected GetQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    {
+    }
 }

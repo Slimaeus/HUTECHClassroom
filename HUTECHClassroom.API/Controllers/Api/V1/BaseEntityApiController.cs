@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 //[Authorize]
-public class BaseEntityApiController<TEntityDTO> : BaseApiController
+public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
     where TEntityDTO : class, IEntityDTO
 {
     protected async Task<ActionResult<IEnumerable<TEntityDTO>>> HandlePaginationQuery<TPaginationQuery, TPaginationParams>(TPaginationQuery query)
@@ -40,9 +40,13 @@ public class BaseEntityApiController<TEntityDTO> : BaseApiController
         where TDeleteCommand : DeleteCommand<TEntityDTO>
         => Ok(await Mediator.Send(command));
     protected async Task<IActionResult> HandleDeleteRangeCommand<TDeleteRangeCommand>(TDeleteRangeCommand command)
-        where TDeleteRangeCommand : DeleteRangeCommand
+        where TDeleteRangeCommand : DeleteRangeCommand<TKey>
     {
         await Mediator.Send(command);
         return NoContent();
     }
 }
+
+public class BaseEntityApiController<TEntityDTO> : BaseEntityApiController<Guid, TEntityDTO>
+    where TEntityDTO : class, IEntityDTO
+{ }
