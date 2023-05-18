@@ -2,12 +2,14 @@
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using HUTECHClassroom.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace HUTECHClassroom.Web.Controllers;
 
+[Authorize]
 public class BaseEntityController<T> : Controller
     where T : class, new()
 {

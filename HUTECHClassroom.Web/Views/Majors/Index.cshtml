@@ -1,0 +1,60 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@model IPagedList<HUTECHClassroom.Domain.Entities.Major>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TotalCredits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().NonComulativeCredits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().CreateDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCredits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NonComulativeCredits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }), new X.PagedList.Web.Common.PagedListRenderOptions {
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" },
+    Display = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded
+})
