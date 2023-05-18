@@ -11,16 +11,19 @@ public record CreateClassroomCommand : CreateCommand<ClassroomDTO>
     public string Topic { get; set; }
     public Guid FacultyId { get; set; }
     public string LecturerName { get; set; }
+    public string SubjectId { get; set; }
 }
 public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, CreateClassroomCommand, ClassroomDTO>
 {
     private readonly IRepository<ApplicationUser> _userRepository;
     private readonly IRepository<Faculty> _facultyRepository;
+    private readonly IRepository<Subject> _subjectRepository;
 
     public CreateClassroomCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
         _userRepository = unitOfWork.Repository<ApplicationUser>();
         _facultyRepository = unitOfWork.Repository<Faculty>();
+        _subjectRepository = unitOfWork.Repository<Subject>();
     }
     protected override async Task ValidateAdditionalField(CreateClassroomCommand request, Classroom entity)
     {
@@ -34,6 +37,8 @@ public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, Cre
 
         entity.Lecturer = lecturer;
 
+        if (request.FacultyId == Guid.Empty) return;
+
         var facultyQuery = _facultyRepository
             .SingleResultQuery()
             .AndFilter(x => x.Id == request.FacultyId);
@@ -43,5 +48,17 @@ public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, Cre
         if (faculty == null) throw new NotFoundException(nameof(Faculty), request.FacultyId);
 
         entity.Faculty = faculty;
+
+        if (request.SubjectId == null || request.SubjectId == string.Empty) return;
+
+        var subjectQuery = _subjectRepository
+            .SingleResultQuery()
+            .AndFilter(x => x.Id == request.SubjectId);
+
+        var subject = await _subjectRepository.SingleOrDefaultAsync(subjectQuery);
+
+        if (subject == null) throw new NotFoundException(nameof(Faculty), request.FacultyId);
+
+        entity.Subject = subject;
     }
 }

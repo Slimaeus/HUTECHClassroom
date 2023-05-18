@@ -1,6 +1,8 @@
-﻿namespace HUTECHClassroom.Application.Classrooms.DTOs;
+﻿using HUTECHClassroom.Application.Common.DTOs;
 
-public class ClassroomExerciseDTO
+namespace HUTECHClassroom.Application.Classrooms.DTOs;
+
+public record ClassroomExerciseDTO : BaseEntityDTO
 {
     public string Title { get; set; }
     public string Instruction { get; set; }

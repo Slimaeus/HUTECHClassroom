@@ -9,6 +9,7 @@ public record ClassroomDTO : BaseEntityDTO
     public string Room { get; set; }
     public string Topic { get; set; }
     public ClassroomFacultyDTO Faculty { get; set; }
+    public ClassroomSubjectDTO Subject { get; set; }
 
 
     public MemberDTO Lecturer { get; set; }

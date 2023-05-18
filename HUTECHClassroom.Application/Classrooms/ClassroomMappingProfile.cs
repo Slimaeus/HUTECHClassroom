@@ -20,5 +20,7 @@ public class ClassroomMappingProfile : Profile
         CreateMap<Faculty, ClassroomFacultyDTO>();
         CreateMap<Group, ClassroomGroupDTO>();
         CreateMap<Post, ClassroomPostDTO>();
+        CreateMap<Subject, ClassroomSubjectDTO>();
+        CreateMap<Major, ClassroomSubjectMajorDTO>();
     }
 }
