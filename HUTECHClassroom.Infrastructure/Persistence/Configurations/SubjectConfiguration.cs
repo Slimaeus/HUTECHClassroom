@@ -10,5 +10,8 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
     {
         builder.Property(x => x.Title)
             .IsRequired();
+
+        builder.Property(x => x.TotalCredits)
+            .HasDefaultValue(0);
     }
 }
