@@ -68,6 +68,10 @@ public class ApplicationDbContextInitializer
             new Faculty
             {
                 Name = "Marketing"
+            },
+            new Faculty
+            {
+                Name = "Study of Language"
             }
         };
 
@@ -188,14 +192,14 @@ public class ApplicationDbContextInitializer
         {
             new Major
             {
-                Id = "TH",
+                Code = "TH",
                 Title = "Information Technology",
                 TotalCredits = 152,
                 NonComulativeCredits = 10
             },
             new Major
             {
-                Id = "MK",
+                Code = "MK",
                 Title = "Maketing",
                 TotalCredits = 150,
                 NonComulativeCredits = 10
@@ -208,7 +212,7 @@ public class ApplicationDbContextInitializer
         {
             new Subject
             {
-                Id = "CMP101",
+                Code = "CMP101",
                 Title = "Subject CMP101",
                 TotalCredits = 3,
                 Major = majors[0]
@@ -225,12 +229,14 @@ public class ApplicationDbContextInitializer
                 Description = "A subject",
                 Topic = "Mathemetics",
                 Room = "101",
-                Lecturer = users[2],
-                Faculty = faculties[0],
+                Class = "20DTHD1",
                 StudyGroup = "1",
                 SchoolYear = "2022",
                 Semester = Semester.I,
-                Subject = subjects[0]
+                Type = ClassroomType.TheoryRoom,
+                Lecturer = users[2],
+                Subject = subjects[0],
+                Faculty = faculties[0]
             },
             new Classroom
             {
@@ -238,11 +244,13 @@ public class ApplicationDbContextInitializer
                 Description = "A subject",
                 Topic = "English",
                 Room = "102",
-                Lecturer = users[3],
-                Faculty = faculties[0],
+                Class = "20DTHD3",
                 StudyGroup = "2",
                 SchoolYear = "2021",
-                Semester = Semester.II
+                Semester = Semester.II,
+                Type = ClassroomType.TheoryRoom,
+                Lecturer = users[3],
+                Faculty = faculties[0],
             }
         };
 

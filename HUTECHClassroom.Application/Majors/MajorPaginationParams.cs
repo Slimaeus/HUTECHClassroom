@@ -5,6 +5,7 @@ namespace HUTECHClassroom.Application.Majors;
 
 public record MajorPaginationParams(int? PageNumber, int? PageSize, string SearchString) : PaginationParams(PageNumber, PageSize, SearchString)
 {
+    public SortingOrder CodeOrder { get; set; }
     public SortingOrder TitleOrder { get; set; }
     public SortingOrder TotalCreditsOrder { get; set; }
     public SortingOrder NonComulativeCreditsOrder { get; set; }

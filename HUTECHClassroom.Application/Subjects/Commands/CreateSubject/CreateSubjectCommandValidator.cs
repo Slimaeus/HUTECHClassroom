@@ -4,7 +4,7 @@ public class CreateSubjectCommandValidator : AbstractValidator<CreateSubjectComm
 {
     public CreateSubjectCommandValidator()
     {
-        RuleFor(x => x.Id).NotEmpty().NotNull().MaximumLength(50);
+        RuleFor(x => x.Code).NotEmpty().NotNull().MaximumLength(50);
         RuleFor(x => x.Title).NotEmpty().MaximumLength(50);
         RuleFor(x => x.TotalCredits).GreaterThanOrEqualTo(0);
     }

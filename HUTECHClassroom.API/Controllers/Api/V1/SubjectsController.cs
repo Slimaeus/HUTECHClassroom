@@ -10,24 +10,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
-public class SubjectsController : BaseEntityApiController<string, SubjectDTO>
+public class SubjectsController : BaseEntityApiController<SubjectDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<SubjectDTO>>> Get([FromQuery] SubjectPaginationParams @params)
         => HandlePaginationQuery<GetSubjectsWithPaginationQuery, SubjectPaginationParams>(new GetSubjectsWithPaginationQuery(@params));
     [HttpGet("{id}", Name = nameof(GetSubjectDetails))]
-    public Task<ActionResult<SubjectDTO>> GetSubjectDetails(string id)
+    public Task<ActionResult<SubjectDTO>> GetSubjectDetails(Guid id)
         => HandleGetQuery(new GetSubjectQuery(id));
     [HttpPost]
     public Task<ActionResult<SubjectDTO>> Post(CreateSubjectCommand command)
         => HandleCreateCommand(command, nameof(GetSubjectDetails));
     [HttpPut("{id}")]
-    public Task<IActionResult> Put(string id, UpdateSubjectCommand request)
+    public Task<IActionResult> Put(Guid id, UpdateSubjectCommand request)
         => HandleUpdateCommand(id, request);
     [HttpDelete("{id}")]
-    public Task<ActionResult<SubjectDTO>> Delete(string id)
+    public Task<ActionResult<SubjectDTO>> Delete(Guid id)
         => HandleDeleteCommand(new DeleteSubjectCommand(id));
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<string> ids)
+    public Task<IActionResult> DeleteRange(IList<Guid> ids)
         => HandleDeleteRangeCommand(new DeleteRangeSubjectCommand(ids));
 }

@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Application.Classrooms.DTOs;
 using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
+using HUTECHClassroom.Domain.Enums;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 
@@ -9,9 +10,16 @@ public record CreateClassroomCommand : CreateCommand<ClassroomDTO>
     public string Title { get; set; }
     public string Description { get; set; }
     public string Topic { get; set; }
+    public string Room { get; set; }
+    public string Class { get; set; }
+    public string SchoolYear { get; set; }
+    public string StudyGroup { get; set; }
+    public string PracticalStudyGroup { get; set; }
+    public Semester Semester { get; set; } = Semester.I;
+    public ClassroomType Type { get; set; } = ClassroomType.TheoryRoom;
     public Guid FacultyId { get; set; }
     public string LecturerName { get; set; }
-    public string SubjectId { get; set; }
+    public Guid SubjectId { get; set; }
 }
 public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, CreateClassroomCommand, ClassroomDTO>
 {
@@ -49,7 +57,7 @@ public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, Cre
 
         entity.Faculty = faculty;
 
-        if (request.SubjectId == null || request.SubjectId == string.Empty) return;
+        if (request.SubjectId == Guid.Empty) return;
 
         var subjectQuery = _subjectRepository
             .SingleResultQuery()

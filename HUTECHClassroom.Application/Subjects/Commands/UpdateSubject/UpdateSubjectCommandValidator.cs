@@ -2,10 +2,11 @@
 
 namespace HUTECHClassroom.Application.Subjects.Commands.UpdateSubject;
 
-public class UpdateSubjectCommandValidator : UpdateCommandValidator<string, UpdateSubjectCommand>
+public class UpdateSubjectCommandValidator : UpdateCommandValidator<UpdateSubjectCommand>
 {
     public UpdateSubjectCommandValidator()
     {
+        RuleFor(x => x.Code).NotEmpty().NotNull().MaximumLength(50);
         RuleFor(x => x.Title).MaximumLength(50);
         RuleFor(x => x.TotalCredits).GreaterThanOrEqualTo(0);
     }

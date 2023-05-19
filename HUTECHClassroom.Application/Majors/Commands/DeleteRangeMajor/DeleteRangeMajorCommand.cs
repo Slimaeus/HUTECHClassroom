@@ -2,8 +2,8 @@
 
 namespace HUTECHClassroom.Application.Majors.Commands.DeleteRangeMajor;
 
-public record DeleteRangeMajorCommand(IList<string> Ids) : DeleteRangeCommand<string>(Ids);
-public class DeleteRangeMajorCommandHandler : DeleteRangeCommandHandler<string, Major, DeleteRangeMajorCommand>
+public record DeleteRangeMajorCommand(IList<Guid> Ids) : DeleteRangeCommand(Ids);
+public class DeleteRangeMajorCommandHandler : DeleteRangeCommandHandler<Major, DeleteRangeMajorCommand>
 {
     public DeleteRangeMajorCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

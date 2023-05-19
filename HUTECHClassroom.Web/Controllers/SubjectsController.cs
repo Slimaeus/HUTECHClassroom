@@ -1,76 +1,82 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-public class MajorsController : BaseEntityController<Major>
+public class SubjectsController : BaseEntityController<Subject>
 {
     public IActionResult Index(int? page, int? size)
     {
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
-        return View(DbContext.Majors
+        return View(DbContext.Subjects
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }
 
     public async Task<IActionResult> Details(Guid? id)
     {
-        if (id == null || DbContext.Majors == null)
+        if (id == null || DbContext.Subjects == null)
         {
             return NotFound();
         }
 
-        var major = await DbContext.Majors
+        var subject = await DbContext.Subjects
+            .Include(s => s.Major)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (major == null)
+        if (subject == null)
         {
             return NotFound();
         }
 
-        return View(major);
+        return View(subject);
     }
 
     public IActionResult Create()
     {
+        ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code");
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Title,TotalCredits,NonComulativeCredits,Id,CreateDate")] Major major)
+    public async Task<IActionResult> Create([Bind("Code,Title,TotalCredits,MajorId,Id,CreateDate")] Subject subject)
     {
         if (ModelState.IsValid)
         {
-            DbContext.Add(major);
+            subject.Id = Guid.NewGuid();
+            DbContext.Add(subject);
             await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        return View(major);
+        ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code", subject.MajorId);
+        return View(subject);
     }
 
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null || DbContext.Majors == null)
+        if (id == null || DbContext.Subjects == null)
         {
             return NotFound();
         }
 
-        var major = await DbContext.Majors.FindAsync(id);
-        if (major == null)
+        var subject = await DbContext.Subjects.FindAsync(id);
+        if (subject == null)
         {
             return NotFound();
         }
-        return View(major);
+        ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code", subject.MajorId);
+        return View(subject);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid? id, [Bind("Code,Title,TotalCredits,NonComulativeCredits,Id,CreateDate")] Major major)
+    public async Task<IActionResult> Edit(Guid id, [Bind("Code,Title,TotalCredits,MajorId,Id,CreateDate")] Subject subject)
     {
-        if (id != major.Id)
+        if (id != subject.Id)
         {
             return NotFound();
         }
@@ -79,12 +85,12 @@ public class MajorsController : BaseEntityController<Major>
         {
             try
             {
-                DbContext.Update(major);
+                DbContext.Update(subject);
                 await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MajorExists(major.Id))
+                if (!SubjectExists(subject.Id))
                 {
                     return NotFound();
                 }
@@ -95,46 +101,48 @@ public class MajorsController : BaseEntityController<Major>
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(major);
+        ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code", subject.MajorId);
+        return View(subject);
     }
 
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null || DbContext.Majors == null)
+        if (id == null || DbContext.Subjects == null)
         {
             return NotFound();
         }
 
-        var major = await DbContext.Majors
+        var subject = await DbContext.Subjects
+            .Include(s => s.Major)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (major == null)
+        if (subject == null)
         {
             return NotFound();
         }
 
-        return View(major);
+        return View(subject);
     }
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid? id)
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (DbContext.Majors == null)
+        if (DbContext.Subjects == null)
         {
-            return Problem("Entity set 'ApplicationDbDbContext.Majors'  is null.");
+            return Problem("Entity set 'ApplicationDbContext.Subjects'  is null.");
         }
-        var major = await DbContext.Majors.FindAsync(id);
-        if (major != null)
+        var subject = await DbContext.Subjects.FindAsync(id);
+        if (subject != null)
         {
-            DbContext.Majors.Remove(major);
+            DbContext.Subjects.Remove(subject);
         }
 
         await DbContext.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool MajorExists(Guid? id)
+    private bool SubjectExists(Guid id)
     {
-        return DbContext.Majors.Any(e => e.Id == id);
+        return DbContext.Subjects.Any(e => e.Id == id);
     }
 }

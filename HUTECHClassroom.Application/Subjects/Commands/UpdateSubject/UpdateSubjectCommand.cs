@@ -2,12 +2,13 @@
 
 namespace HUTECHClassroom.Application.Subjects.Commands.UpdateSubject;
 
-public record UpdateSubjectCommand(string Id) : UpdateCommand<string>(Id)
+public record UpdateSubjectCommand(Guid Id) : UpdateCommand(Id)
 {
-    public string Title { get; set; } = string.Empty;
+    public string Code { get; set; }
+    public string Title { get; set; }
     public int TotalCredits { get; set; }
 }
-public class UpdateSubjectCommandHandler : UpdateCommandHandler<string, Subject, UpdateSubjectCommand>
+public class UpdateSubjectCommandHandler : UpdateCommandHandler<Subject, UpdateSubjectCommand>
 {
     public UpdateSubjectCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

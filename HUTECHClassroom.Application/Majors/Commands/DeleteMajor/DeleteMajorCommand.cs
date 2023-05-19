@@ -3,8 +3,8 @@ using HUTECHClassroom.Application.Majors.DTOs;
 
 namespace HUTECHClassroom.Application.Majors.Commands.DeleteMajor;
 
-public record DeleteMajorCommand(string Id) : DeleteCommand<string, MajorDTO>(Id);
-public class DeleteMajorCommandHandler : DeleteCommandHandler<string, Major, DeleteMajorCommand, MajorDTO>
+public record DeleteMajorCommand(Guid Id) : DeleteCommand<MajorDTO>(Id);
+public class DeleteMajorCommandHandler : DeleteCommandHandler<Major, DeleteMajorCommand, MajorDTO>
 {
     public DeleteMajorCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

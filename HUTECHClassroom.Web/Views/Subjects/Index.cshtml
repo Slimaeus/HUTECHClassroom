@@ -1,6 +1,6 @@
 ﻿@using X.PagedList;
 @using X.PagedList.Mvc.Core;
-@model IPagedList<HUTECHClassroom.Domain.Entities.Major>
+@model IPagedList<HUTECHClassroom.Domain.Entities.Subject>
 
 @{
     ViewData["Title"] = "Index";
@@ -24,7 +24,7 @@
                 @Html.DisplayNameFor(model => model.First().TotalCredits)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().NonComulativeCredits)
+                @Html.DisplayNameFor(model => model.First().Major)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().CreateDate)
@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.TotalCredits)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NonComulativeCredits)
+                @Html.DisplayFor(modelItem => item.Major.Code)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)

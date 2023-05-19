@@ -1,4 +1,4 @@
-﻿@model HUTECHClassroom.Domain.Entities.Major
+﻿@model HUTECHClassroom.Domain.Entities.Subject
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>Major</h4>
+<h4>Subject</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,19 +23,8 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalCredits" class="control-label"></label>
-                <input asp-for="TotalCredits" class="form-control" />
-                <span asp-validation-for="TotalCredits" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NonComulativeCredits" class="control-label"></label>
-                <input asp-for="NonComulativeCredits" class="form-control" />
-                <span asp-validation-for="NonComulativeCredits" class="text-danger"></span>
+                <label asp-for="MajorId" class="control-label"></label>
+                <select asp-for="MajorId" class ="form-control" asp-items="ViewBag.MajorId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

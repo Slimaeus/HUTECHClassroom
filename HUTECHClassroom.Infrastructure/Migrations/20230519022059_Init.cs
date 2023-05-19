@@ -57,10 +57,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "Majors",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    TotalCredits = table.Column<int>(type: "integer", nullable: false),
-                    NonComulativeCredits = table.Column<int>(type: "integer", nullable: false),
+                    TotalCredits = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    NonComulativeCredits = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -126,10 +127,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "Subjects",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    TotalCredits = table.Column<int>(type: "integer", nullable: false),
-                    MajorId = table.Column<string>(type: "text", nullable: true),
+                    TotalCredits = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    MajorId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -258,16 +260,17 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    Room = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Room = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Class = table.Column<string>(type: "text", nullable: true),
-                    Semester = table.Column<int>(type: "integer", nullable: false),
                     SchoolYear = table.Column<string>(type: "text", nullable: false),
                     StudyGroup = table.Column<string>(type: "text", nullable: true),
                     PracticalStudyGroup = table.Column<string>(type: "text", nullable: true),
+                    Semester = table.Column<int>(type: "integer", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
                     LecturerId = table.Column<Guid>(type: "uuid", nullable: false),
                     FacultyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SubjectId = table.Column<string>(type: "text", nullable: true),
+                    SubjectId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -325,7 +328,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValue: new DateTime(2023, 5, 19, 12, 18, 39, 954, DateTimeKind.Utc).AddTicks(457)),
+                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValue: new DateTime(2023, 5, 20, 2, 20, 58, 948, DateTimeKind.Utc).AddTicks(8548)),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),

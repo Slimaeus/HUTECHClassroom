@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
+using HUTECHClassroom.Domain.Enums;
 
 namespace HUTECHClassroom.Application.Classrooms.DTOs;
 
@@ -8,6 +9,13 @@ public record ClassroomDTO : BaseEntityDTO
     public string Description { get; set; }
     public string Room { get; set; }
     public string Topic { get; set; }
+    public string Class { get; set; }
+    public string SchoolYear { get; set; }
+    public string StudyGroup { get; set; }
+    public string PracticalStudyGroup { get; set; }
+    public Semester Semester { get; set; }
+    public ClassroomType Type { get; set; }
+
     public ClassroomFacultyDTO Faculty { get; set; }
     public ClassroomSubjectDTO Subject { get; set; }
 

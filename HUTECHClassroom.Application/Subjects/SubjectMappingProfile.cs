@@ -12,5 +12,7 @@ public class SubjectMappingProfile : Profile
         CreateMap<CreateSubjectCommand, Subject>();
         CreateMap<UpdateSubjectCommand, Subject>()
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
+
+        CreateMap<Major, SubjectMajorDTO>();
     }
 }

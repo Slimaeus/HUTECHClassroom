@@ -4,8 +4,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Subjects.Queries.GetSubject;
 
-public record GetSubjectQuery(string Id) : GetQuery<SubjectDTO>;
-public class GetSubjectQueryHandler : GetQueryHandler<string, Subject, GetSubjectQuery, SubjectDTO>
+public record GetSubjectQuery(Guid Id) : GetQuery<SubjectDTO>;
+public class GetSubjectQueryHandler : GetQueryHandler<Subject, GetSubjectQuery, SubjectDTO>
 {
     public GetSubjectQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     public override Expression<Func<Subject, bool>> FilterPredicate(GetSubjectQuery query)
