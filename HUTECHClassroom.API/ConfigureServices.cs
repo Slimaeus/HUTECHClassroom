@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.API.Authorization;
 using HUTECHClassroom.API.Extensions;
 using HUTECHClassroom.API.Filters;
+using HUTECHClassroom.API.SignalR;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -122,6 +123,21 @@ public static class ConfigureServices
         services.AddEndpointsApiExplorer();
         #endregion
 
+        #region SignalR
+        services.AddSignalR(options =>
+        {
+            options.EnableDetailedErrors = true;
+        });
+        #endregion
+
         return services;
+    }
+
+    public static WebApplication UseWebApi(this WebApplication app)
+    {
+        #region SignalR
+        app.MapHub<CommentHub>("hubs/comments");
+        #endregion
+        return app;
     }
 }

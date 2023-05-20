@@ -25,6 +25,8 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
             .ThenInclude(x => x.Role)
             .SingleOrDefaultAsync(x => x.UserName == request.UserName);
 
+        //await _userManger.GetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken");
+
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
         var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);

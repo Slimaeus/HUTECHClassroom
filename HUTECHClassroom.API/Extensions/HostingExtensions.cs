@@ -16,6 +16,7 @@ public static class HostingExtensions
     }
     public static async Task<WebApplication> ConfigurePipelineAsync(this WebApplication app)
     {
+
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
@@ -33,9 +34,13 @@ public static class HostingExtensions
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
+
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.UseWebApi();
 
         return app;
     }
