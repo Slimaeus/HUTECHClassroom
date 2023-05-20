@@ -130,6 +130,16 @@ public static class ConfigureServices
         });
         #endregion
 
+        #region Cors
+        services.AddCors(opt =>
+        {
+            opt.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins("*");
+            });
+        });
+        #endregion
+
         return services;
     }
 
@@ -137,6 +147,10 @@ public static class ConfigureServices
     {
         #region SignalR
         app.MapHub<CommentHub>("hubs/comments");
+        #endregion
+
+        #region Cors
+        app.UseCors();
         #endregion
         return app;
     }

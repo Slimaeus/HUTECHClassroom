@@ -3,7 +3,6 @@ using HUTECHClassroom.Application.Comments.Commands.CreateComment;
 using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using Serilog;
 
 namespace HUTECHClassroom.API.SignalR;
 
@@ -26,7 +25,6 @@ public class CommentHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        Log.Information("Someone connected");
         var httpContext = Context.GetHttpContext();
         var postId = httpContext.Request.Query["postId"];
         var isParsePageNumberSuccess = int.TryParse(httpContext.Request.Query["pageNumber"], out int pageNumber);
