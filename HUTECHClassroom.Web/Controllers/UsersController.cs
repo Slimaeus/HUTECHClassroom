@@ -23,6 +23,8 @@ public class UsersController : BaseEntityController<ApplicationUser>
         int pageSize = size ?? 5;
         return View(DbContext.Users
             .Include(a => a.Faculty)
+            .Include(a => a.ApplicationUserRoles)
+            .ThenInclude(a => a.Role)
             .OrderBy(x => x.UserName)
             .ToPagedList(pageIndex, pageSize));
     }
@@ -36,6 +38,8 @@ public class UsersController : BaseEntityController<ApplicationUser>
 
         var applicationUser = await DbContext.Users
             .Include(a => a.Faculty)
+            .Include(a => a.ApplicationUserRoles)
+            .ThenInclude(a => a.Role)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (applicationUser == null)
         {
@@ -99,6 +103,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
     {
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name")
             .Append(new SelectListItem("None", Guid.Empty.ToString()));
+        ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
         return View();
     }
 
@@ -117,9 +122,11 @@ public class UsersController : BaseEntityController<ApplicationUser>
                 FacultyId = viewModel.FacultyId != Guid.Empty ? viewModel.FacultyId : null
             };
             await _userManager.CreateAsync(applicationUser, applicationUser.UserName);
+            await _userManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
             return RedirectToAction(nameof(Index));
         }
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", viewModel.FacultyId).Append(new SelectListItem("None", Guid.Empty.ToString()));
+        ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name", viewModel.RoleName);
         return View(viewModel);
     }
 
@@ -145,6 +152,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
             FacultyId = applicationUser.FacultyId ?? Guid.Empty
         };
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", viewModel.FacultyId).Append(new SelectListItem("None", Guid.Empty.ToString()));
+        ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
         return View(viewModel);
     }
 
@@ -170,6 +178,10 @@ public class UsersController : BaseEntityController<ApplicationUser>
             try
             {
                 DbContext.Update(applicationUser);
+                if (!await _userManager.IsInRoleAsync(applicationUser, viewModel.RoleName))
+                {
+                    await _userManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
+                }
                 await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -186,6 +198,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
             return RedirectToAction(nameof(Index));
         }
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", viewModel.FacultyId).Append(new SelectListItem("None", Guid.Empty.ToString()));
+        ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name", viewModel.RoleName);
         return View(viewModel);
     }
 

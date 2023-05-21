@@ -24,6 +24,17 @@ public class ApplicationDbContextInitializer
     {
         try
         {
+            if (_context.Faculties.Any()
+            || _context.Users.Any()
+            || _context.Classrooms.Any()
+            || _context.Exercises.Any()
+            || _context.Answers.Any()
+            || _context.Posts.Any()
+            || _context.Comments.Any()
+            || _context.Missions.Any()
+            || _context.Projects.Any()
+            || _context.Groups.Any()
+            || _context.Roles.Any()) return;
             await _context.Database.MigrateAsync();
 
         }
