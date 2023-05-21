@@ -8,8 +8,8 @@ public class Answer : BaseEntity
     public string? Link { get; set; }
     public float Score { get; set; }
 
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
     public virtual ApplicationUser? User { get; set; }
-    public Guid ExerciseId { get; set; }
+    public Guid? ExerciseId { get; set; }
     public Exercise? Exercise { get; set; }
 }

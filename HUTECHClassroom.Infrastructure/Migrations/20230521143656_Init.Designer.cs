@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230521134423_Init")]
+    [Migration("20230521143656_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -39,7 +39,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<Guid>("ExerciseId")
+                    b.Property<Guid?>("ExerciseId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Link")
@@ -51,7 +52,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("real")
                         .HasDefaultValue(0f);
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -199,10 +201,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<Guid>("FacultyId")
+                    b.Property<Guid?>("FacultyId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("LecturerId")
+                    b.Property<Guid?>("LecturerId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("PracticalStudyGroup")
@@ -279,10 +283,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("PostId")
+                    b.Property<Guid?>("PostId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -314,7 +320,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 22, 13, 44, 22, 921, DateTimeKind.Utc).AddTicks(5646));
+                        .HasDefaultValue(new DateTime(2023, 5, 22, 14, 36, 56, 274, DateTimeKind.Utc).AddTicks(3254));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -557,7 +563,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");

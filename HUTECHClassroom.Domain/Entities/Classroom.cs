@@ -16,9 +16,9 @@ public class Classroom : BaseEntity
     public Semester Semester { get; set; } = Semester.I;
     public ClassroomType Type { get; set; } = ClassroomType.TheoryRoom;
 
-    public Guid LecturerId { get; set; }
+    public Guid? LecturerId { get; set; }
     public virtual ApplicationUser? Lecturer { get; set; }
-    public Guid FacultyId { get; set; }
+    public Guid? FacultyId { get; set; }
     public virtual Faculty? Faculty { get; set; }
     public Guid? SubjectId { get; set; }
     public virtual Subject? Subject { get; set; }
