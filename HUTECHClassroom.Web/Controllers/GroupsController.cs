@@ -16,6 +16,8 @@ public class GroupsController : BaseEntityController<Group>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Groups
+            .Include(g => g.Classroom)
+            .Include(g => g.Leader)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }

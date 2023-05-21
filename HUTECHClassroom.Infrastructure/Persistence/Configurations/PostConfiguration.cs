@@ -20,5 +20,9 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
 
         builder.Property(x => x.ClassroomId)
             .IsRequired();
+
+        builder.HasMany(x => x.Comments)
+            .WithOne(x => x.Post)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

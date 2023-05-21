@@ -13,6 +13,8 @@ public class PostsController : BaseEntityController<Post>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Posts
+            .Include(p => p.Classroom)
+            .Include(p => p.User)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }

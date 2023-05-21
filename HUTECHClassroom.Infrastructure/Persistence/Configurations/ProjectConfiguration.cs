@@ -17,5 +17,9 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
 
         builder.Property(x => x.GroupId)
             .IsRequired();
+
+        builder.HasMany(x => x.Missions)
+            .WithOne(x => x.Project)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

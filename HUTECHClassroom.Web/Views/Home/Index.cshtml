@@ -1,8 +1,143 @@
-﻿@{
+﻿@using HUTECHClassroom.Domain.Entities;
+@using HUTECHClassroom.Infrastructure.Persistence;
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext dbContext;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>HUTECH Classroom Admin website.</p>
+        @if (SignInManager.IsSignedIn(User))
+        {
+        <div class="row row-cols-1 row-cols-md-4 g-4" role="group" aria-label="Entities">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Answers</h5>
+                        <p class="card-text">@dbContext.Answers.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Answers" asp-action="Index">Answers</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Answers" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Classrooms</h5>
+                        <p class="card-text">@dbContext.Classrooms.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Classrooms" asp-action="Index">Classrooms</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Classrooms" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Comments</h5>
+                        <p class="card-text">@dbContext.Comments.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Comments" asp-action="Index">Comments</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Comments" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Exercises</h5>
+                        <p class="card-text">@dbContext.Exercises.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Exercises" asp-action="Index">Exercises</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Exercises" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Faculties</h5>
+                        <p class="card-text">@dbContext.Faculties.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Faculties" asp-action="Index">Faculties</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Faculties" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Groups</h5>
+                        <p class="card-text">@dbContext.Groups.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Groups" asp-action="Index">Groups</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Groups" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Majors</h5>
+                        <p class="card-text">@dbContext.Majors.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Majors" asp-action="Index">Majors</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Majors" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Missions</h5>
+                        <p class="card-text">@dbContext.Missions.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Missions" asp-action="Index">Missions</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Missions" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Posts</h5>
+                        <p class="card-text">@dbContext.Posts.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Posts" asp-action="Index">Posts</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Posts" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Projects</h5>
+                        <p class="card-text">@dbContext.Projects.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Projects" asp-action="Index">Projects</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Projects" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Subjects</h5>
+                        <p class="card-text">@dbContext.Subjects.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Subjects</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Subjects" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Users</h5>
+                        <p class="card-text">@dbContext.Users.Count() rows.</p>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                        <a class="btn btn-success" asp-area="" asp-controller="Users" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            </div>
+        }
 </div>
+
+

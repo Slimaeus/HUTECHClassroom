@@ -20,5 +20,9 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
 
         builder.Property(x => x.ClassroomId)
             .IsRequired();
+
+        builder.HasMany(x => x.Projects)
+            .WithOne(x => x.Group)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

@@ -16,6 +16,8 @@ public class ClassroomsController : BaseEntityController<Classroom>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Classrooms
+            .Include(c => c.Faculty)
+            .Include(c => c.Lecturer)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }

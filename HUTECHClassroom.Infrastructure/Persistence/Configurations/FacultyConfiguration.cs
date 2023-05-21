@@ -11,5 +11,13 @@ public class FacultyConfiguration : IEntityTypeConfiguration<Faculty>
         builder.Property(x => x.Name)
             .HasMaxLength(50)
             .IsRequired();
+
+        builder.HasMany(x => x.Users)
+            .WithOne(x => x.Faculty)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasMany(x => x.Classrooms)
+            .WithOne(x => x.Faculty)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

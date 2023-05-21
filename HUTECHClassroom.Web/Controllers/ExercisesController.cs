@@ -16,6 +16,7 @@ public class ExercisesController : BaseEntityController<Exercise>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Exercises
+            .Include(e => e.Classroom)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }

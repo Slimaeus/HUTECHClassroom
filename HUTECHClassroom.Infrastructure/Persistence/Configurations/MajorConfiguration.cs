@@ -16,5 +16,12 @@ public class MajorConfiguration : IEntityTypeConfiguration<Major>
 
         builder.Property(x => x.NonComulativeCredits)
             .HasDefaultValue(0);
+
+        builder.HasIndex(x => x.Code)
+            .IsUnique();
+
+        builder.HasMany(x => x.Subjects)
+            .WithOne(x => x.Major)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

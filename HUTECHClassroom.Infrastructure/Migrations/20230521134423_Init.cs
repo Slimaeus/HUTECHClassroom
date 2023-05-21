@@ -32,7 +32,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,7 +62,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     TotalCredits = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     NonComulativeCredits = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,7 +120,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         name: "FK_AspNetUsers_Faculties_FacultyId",
                         column: x => x.FacultyId,
                         principalTable: "Faculties",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -132,7 +133,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     TotalCredits = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     MajorId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -141,7 +142,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         name: "FK_Subjects_Majors_MajorId",
                         column: x => x.MajorId,
                         principalTable: "Majors",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -271,7 +273,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     LecturerId = table.Column<Guid>(type: "uuid", nullable: false),
                     FacultyId = table.Column<Guid>(type: "uuid", nullable: false),
                     SubjectId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -287,12 +289,13 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.FacultyId,
                         principalTable: "Faculties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Classrooms_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -328,11 +331,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValue: new DateTime(2023, 5, 20, 2, 20, 58, 948, DateTimeKind.Utc).AddTicks(8548)),
+                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2023, 5, 22, 13, 44, 22, 921, DateTimeKind.Utc).AddTicks(5646)),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -342,7 +345,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -354,7 +357,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     LeaderId = table.Column<Guid>(type: "uuid", nullable: false),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -370,7 +373,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -382,7 +385,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -398,7 +401,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -411,7 +414,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Score = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ExerciseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -427,7 +430,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.ExerciseId,
                         principalTable: "Exercises",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -492,7 +495,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     GroupId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -502,7 +505,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -513,7 +516,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Content = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -529,7 +532,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -541,7 +544,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     IsDone = table.Column<bool>(type: "boolean", nullable: false),
                     ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -551,7 +554,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -696,6 +699,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 column: "GroupRoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Majors_Code",
+                table: "Majors",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Missions_ProjectId",
                 table: "Missions",
                 column: "ProjectId");
@@ -719,6 +728,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "IX_Projects_GroupId",
                 table: "Projects",
                 column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subjects_Code",
+                table: "Subjects",
+                column: "Code",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subjects_MajorId",

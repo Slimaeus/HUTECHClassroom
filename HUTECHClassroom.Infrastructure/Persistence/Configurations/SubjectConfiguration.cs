@@ -13,5 +13,12 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
 
         builder.Property(x => x.TotalCredits)
             .HasDefaultValue(0);
+
+        builder.HasIndex(x => x.Code)
+            .IsUnique();
+
+        builder.HasMany(x => x.Classrooms)
+            .WithOne(x => x.Subject)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

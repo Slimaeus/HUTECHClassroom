@@ -13,6 +13,8 @@ public class CommentsController : BaseEntityController<Comment>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Comments
+            .Include(c => c.Post)
+            .Include(c => c.User)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }

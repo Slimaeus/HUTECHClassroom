@@ -22,6 +22,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Users
+            .Include(a => a.Faculty)
             .OrderBy(x => x.UserName)
             .ToPagedList(pageIndex, pageSize));
     }

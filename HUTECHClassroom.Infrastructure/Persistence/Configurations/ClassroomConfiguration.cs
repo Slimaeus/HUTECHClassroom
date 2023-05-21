@@ -26,5 +26,17 @@ public class ClassroomConfiguration : IEntityTypeConfiguration<Classroom>
 
         builder.Property(x => x.FacultyId)
             .IsRequired();
+
+        builder.HasMany(x => x.Groups)
+            .WithOne(x => x.Classroom)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasMany(x => x.Excercises)
+            .WithOne(x => x.Classroom)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasMany(x => x.Posts)
+            .WithOne(x => x.Classroom)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

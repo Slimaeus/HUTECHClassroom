@@ -13,6 +13,8 @@ public class AnswersController : BaseEntityController<Answer>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Answers
+            .Include(x => x.User)
+            .Include(x => x.Exercise)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }

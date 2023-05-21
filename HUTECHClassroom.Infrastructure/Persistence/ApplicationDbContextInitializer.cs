@@ -145,6 +145,14 @@ public class ApplicationDbContextInitializer
         await _roleManager.AddClaimAsync(lecturerRole, updateProjectClaim);
         await _roleManager.AddClaimAsync(lecturerRole, deleteProjectClaim);
 
+        var admin = new ApplicationUser
+        {
+            UserName = "admin",
+            FirstName = "admin",
+            LastName = "admin",
+            Email = "admin@gmail.com",
+        };
+
         var users = new ApplicationUser[]
         {
             new ApplicationUser
@@ -178,8 +186,10 @@ public class ApplicationDbContextInitializer
                 LastName = "2",
                 Email = "lecturer2@gmail.com",
                 Faculty = faculties[0]
-            }
+            },
+            admin
         };
+
 
         foreach (var user in users)
         {
@@ -187,6 +197,8 @@ public class ApplicationDbContextInitializer
             await _userManager.AddToRoleAsync(user, studentRole.Name);
             await _userManager.AddToRoleAsync(user, lecturerRole.Name);
         }
+
+        await _userManager.AddToRoleAsync(admin, administratorRole.Name);
 
         var majors = new Major[]
         {

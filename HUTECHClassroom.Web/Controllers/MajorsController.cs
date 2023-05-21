@@ -40,10 +40,15 @@ public class MajorsController : BaseEntityController<Major>
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Title,TotalCredits,NonComulativeCredits,Id,CreateDate")] Major major)
+    public async Task<IActionResult> Create([Bind("Code,Title,TotalCredits,NonComulativeCredits,Id,CreateDate")] Major major)
     {
         if (ModelState.IsValid)
         {
+            if (await DbContext.Majors.AnyAsync(x => x.Code.ToUpper().Equals(major.Code.ToUpper())))
+            {
+                ModelState.AddModelError("Code", "Code taken");
+                return View(major);
+            }
             DbContext.Add(major);
             await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -77,6 +82,11 @@ public class MajorsController : BaseEntityController<Major>
 
         if (ModelState.IsValid)
         {
+            if (await DbContext.Majors.AnyAsync(x => x.Code.ToUpper().Equals(major.Code.ToUpper())))
+            {
+                ModelState.AddModelError("Code", "Code taken");
+                return View(major);
+            }
             try
             {
                 DbContext.Update(major);

@@ -13,6 +13,7 @@ public class SubjectsController : BaseEntityController<Subject>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Subjects
+            .Include(x => x.Major)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }
@@ -47,7 +48,11 @@ public class SubjectsController : BaseEntityController<Subject>
     {
         if (ModelState.IsValid)
         {
-            subject.Id = Guid.NewGuid();
+            if (await DbContext.Majors.AnyAsync(x => x.Code.ToUpper().Equals(subject.Code.ToUpper())))
+            {
+                ModelState.AddModelError("Code", "Code taken");
+                return View(subject);
+            }
             DbContext.Add(subject);
             await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -83,6 +88,11 @@ public class SubjectsController : BaseEntityController<Subject>
 
         if (ModelState.IsValid)
         {
+            if (await DbContext.Majors.AnyAsync(x => x.Code.ToUpper().Equals(subject.Code.ToUpper())))
+            {
+                ModelState.AddModelError("Code", "Code taken");
+                return View(subject);
+            }
             try
             {
                 DbContext.Update(subject);

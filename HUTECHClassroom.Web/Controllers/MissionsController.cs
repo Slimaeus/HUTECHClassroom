@@ -16,6 +16,7 @@ public class MissionsController : BaseEntityController<Mission>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Missions
+            .Include(m => m.Project)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }

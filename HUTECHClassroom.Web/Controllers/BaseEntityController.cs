@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Administrator")]
 public class BaseEntityController<T> : Controller
     where T : class, new()
 {

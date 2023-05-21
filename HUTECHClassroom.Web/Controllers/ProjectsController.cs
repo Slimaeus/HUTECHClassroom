@@ -13,6 +13,7 @@ public class ProjectsController : BaseEntityController<Project>
         int pageIndex = page ?? 1;
         int pageSize = size ?? 5;
         return View(DbContext.Projects
+            .Include(p => p.Group)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }

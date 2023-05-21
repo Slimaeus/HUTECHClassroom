@@ -23,6 +23,7 @@ public static class ConfigureServices
         #region DbContext
         services.AddDbContext<DbContext, ApplicationDbContext>(options =>
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if (env == "Development")
             {
