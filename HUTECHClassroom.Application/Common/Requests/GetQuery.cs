@@ -1,6 +1,5 @@
 ﻿using AutoMapper.QueryableExtensions;
 using HUTECHClassroom.Application.Common.Exceptions;
-using HUTECHClassroom.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -8,7 +7,7 @@ namespace HUTECHClassroom.Application.Common.Requests;
 
 public record GetQuery<TDTO> : IRequest<TDTO> where TDTO : class;
 public abstract class GetQueryHandler<TKey, TEntity, TQuery, TDTO> : IRequestHandler<TQuery, TDTO>
-    where TEntity : class, IEntity<TKey>
+    where TEntity : class
     where TQuery : GetQuery<TDTO>
     where TDTO : class
 {
@@ -39,7 +38,7 @@ public abstract class GetQueryHandler<TKey, TEntity, TQuery, TDTO> : IRequestHan
         => x => true;
 }
 public abstract class GetQueryHandler<TEntity, TQuery, TDTO> : GetQueryHandler<Guid, TEntity, TQuery, TDTO>
-    where TEntity : class, IEntity<Guid>
+    where TEntity : class
     where TQuery : GetQuery<TDTO>
     where TDTO : class
 {

@@ -15,12 +15,6 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
         builder.Property(x => x.Link)
             .HasMaxLength(200);
 
-        builder.Property(x => x.UserId)
-            .IsRequired();
-
-        builder.Property(x => x.ClassroomId)
-            .IsRequired();
-
         builder.HasMany(x => x.Comments)
             .WithOne(x => x.Post)
             .OnDelete(DeleteBehavior.SetNull);

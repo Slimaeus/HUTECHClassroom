@@ -21,12 +21,6 @@ public class ClassroomConfiguration : IEntityTypeConfiguration<Classroom>
         builder.Property(x => x.Topic)
             .HasMaxLength(20);
 
-        builder.Property(x => x.LecturerId)
-            .IsRequired();
-
-        builder.Property(x => x.FacultyId)
-            .IsRequired();
-
         builder.HasMany(x => x.Groups)
             .WithOne(x => x.Classroom)
             .OnDelete(DeleteBehavior.SetNull);

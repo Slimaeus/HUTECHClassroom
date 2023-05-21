@@ -11,12 +11,6 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
         builder.Property(x => x.Content)
             .HasMaxLength(500)
             .IsRequired();
-
-        builder.Property(x => x.UserId)
-            .IsRequired();
-
-        builder.Property(x => x.PostId)
-            .IsRequired();
     }
 }
 

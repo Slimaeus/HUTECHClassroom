@@ -1,17 +1,17 @@
-using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Requests;
+using HUTECHClassroom.Application.Groups.DTOs;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Groups.Queries.GetGroupUser;
 
-public record GetGroupUserQuery(Guid Id, string UserName) : GetQuery<MemberDTO>;
-public class GetGroupUserQueryHandler : GetQueryHandler<ApplicationUser, GetGroupUserQuery, MemberDTO>
+public record GetGroupUserQuery(Guid Id, string UserName) : GetQuery<GroupUserDTO>;
+public class GetGroupUserQueryHandler : GetQueryHandler<GroupUser, GetGroupUserQuery, GroupUserDTO>
 {
     public GetGroupUserQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
-    public override Expression<Func<ApplicationUser, bool>> FilterPredicate(GetGroupUserQuery query)
+    public override Expression<Func<GroupUser, bool>> FilterPredicate(GetGroupUserQuery query)
     {
-        return x => x.UserName == query.UserName && x.GroupUsers.Any(x => x.GroupId == query.Id);
+        return x => x.User.UserName == query.UserName && x.GroupId == query.Id;
     }
     public override object GetNotFoundKey(GetGroupUserQuery query)
     {

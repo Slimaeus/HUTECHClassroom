@@ -31,9 +31,6 @@ public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
         builder.Property(x => x.Criteria)
             .HasMaxLength(200);
 
-        builder.Property(x => x.ClassroomId)
-            .IsRequired();
-
         builder.HasMany(x => x.Answers)
             .WithOne(x => x.Exercise)
             .OnDelete(DeleteBehavior.SetNull);

@@ -15,12 +15,6 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
         builder.Property(x => x.Description)
             .HasMaxLength(100);
 
-        builder.Property(x => x.LeaderId)
-            .IsRequired();
-
-        builder.Property(x => x.ClassroomId)
-            .IsRequired();
-
         builder.HasMany(x => x.Projects)
             .WithOne(x => x.Group)
             .OnDelete(DeleteBehavior.SetNull);

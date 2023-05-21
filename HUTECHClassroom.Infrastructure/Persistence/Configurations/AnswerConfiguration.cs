@@ -18,11 +18,5 @@ public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
         builder.Property(x => x.Score)
             .HasDefaultValue(0)
             .IsRequired();
-
-        builder.Property(x => x.UserId)
-            .IsRequired();
-
-        builder.Property(x => x.ExerciseId)
-            .IsRequired();
     }
 }

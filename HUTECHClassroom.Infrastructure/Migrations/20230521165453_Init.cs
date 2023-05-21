@@ -270,8 +270,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     PracticalStudyGroup = table.Column<string>(type: "text", nullable: true),
                     Semester = table.Column<int>(type: "integer", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
-                    LecturerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    FacultyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LecturerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    FacultyId = table.Column<Guid>(type: "uuid", nullable: true),
                     SubjectId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -283,7 +283,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.LecturerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Classrooms_Faculties_FacultyId",
                         column: x => x.FacultyId,
@@ -331,10 +331,10 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2023, 5, 22, 14, 36, 56, 274, DateTimeKind.Utc).AddTicks(3254)),
+                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2023, 5, 22, 16, 54, 53, 601, DateTimeKind.Utc).AddTicks(5169)),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -355,8 +355,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    LeaderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LeaderId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -367,7 +367,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.LeaderId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Groups_Classrooms_ClassroomId",
                         column: x => x.ClassroomId,
@@ -383,8 +383,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Content = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -395,7 +395,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Posts_Classrooms_ClassroomId",
                         column: x => x.ClassroomId,
@@ -412,8 +412,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     Score = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ExerciseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ExerciseId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -424,7 +424,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Answers_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
@@ -494,7 +494,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -514,8 +514,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Content = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -526,7 +526,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
@@ -543,7 +543,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     IsDone = table.Column<bool>(type: "boolean", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>

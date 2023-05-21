@@ -4,7 +4,6 @@ using EntityFrameworkCore.Repository.Collections;
 using EntityFrameworkCore.Repository.Extensions;
 using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -16,7 +15,7 @@ public record GetWithPaginationQuery<TDTO, TPaginationParams>(
         where TDTO : class
         where TPaginationParams : PaginationParams;
 public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO, TPaginationParams> : IRequestHandler<TQuery, IPagedList<TDTO>>
-    where TEntity : class, IEntity<TKey>
+    where TEntity : class
     where TQuery : GetWithPaginationQuery<TDTO, TPaginationParams>
     where TDTO : class
     where TPaginationParams : PaginationParams
@@ -64,11 +63,11 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
     protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
         => x => true;
     protected virtual Expression<Func<TEntity, object>> OrderByKeySelector()
-        => x => x.Id;
+        => x => x.GetHashCode();
     protected virtual IMultipleResultQuery<TEntity> SortingQuery(IMultipleResultQuery<TEntity> query, TQuery request) => query;
 }
 public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO, TPaginationParams> : GetWithPaginationQueryHandler<Guid, TEntity, TQuery, TDTO, TPaginationParams>
-    where TEntity : class, IEntity<Guid>
+    where TEntity : class
     where TQuery : GetWithPaginationQuery<TDTO, TPaginationParams>
     where TDTO : class
     where TPaginationParams : PaginationParams

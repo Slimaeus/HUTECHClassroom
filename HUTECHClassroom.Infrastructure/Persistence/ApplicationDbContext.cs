@@ -49,6 +49,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                .ApplyConfiguration(new PostConfiguration())
                .ApplyConfiguration(new CommentConfiguration())
                .ApplyConfiguration(new ApplicationUserRoleConfiguration())
+               .ApplyConfiguration(new ApplicationUserConfiguration())
                .ApplyConfiguration(new GroupRoleConfiguration())
                .ApplyConfiguration(new GroupRoleClaimConfiguration());
     }

@@ -14,8 +14,5 @@ public class MissionConfiguration : IEntityTypeConfiguration<Mission>
 
         builder.Property(x => x.Description)
             .HasMaxLength(100);
-
-        builder.Property(x => x.ProjectId)
-            .IsRequired();
     }
 }

@@ -37,7 +37,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.Property<Guid?>("ExerciseId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Link")
@@ -50,7 +49,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasDefaultValue(0f);
 
                     b.Property<Guid?>("UserId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -199,11 +197,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<Guid?>("FacultyId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("LecturerId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("PracticalStudyGroup")
@@ -281,11 +277,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("PostId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("UserId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -304,7 +298,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("ClassroomId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreateDate")
@@ -317,7 +310,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 22, 14, 36, 56, 274, DateTimeKind.Utc).AddTicks(3254));
+                        .HasDefaultValue(new DateTime(2023, 5, 22, 16, 54, 53, 601, DateTimeKind.Utc).AddTicks(5169));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -388,7 +381,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("ClassroomId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreateDate")
@@ -399,7 +391,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<Guid?>("LeaderId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -508,7 +499,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<Guid?>("ProjectId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Title")
@@ -545,7 +535,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("ClassroomId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
@@ -561,7 +550,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.Property<Guid?>("UserId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -587,7 +575,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<Guid?>("GroupId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -744,14 +731,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasOne("HUTECHClassroom.Domain.Entities.Exercise", "Exercise")
                         .WithMany("Answers")
                         .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
                         .WithMany("Answers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Exercise");
 
@@ -792,14 +777,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasOne("HUTECHClassroom.Domain.Entities.Faculty", "Faculty")
                         .WithMany("Classrooms")
                         .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "Lecturer")
                         .WithMany("Classrooms")
                         .HasForeignKey("LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.Subject", "Subject")
                         .WithMany("Classrooms")
@@ -837,14 +820,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasOne("HUTECHClassroom.Domain.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Post");
 
@@ -856,8 +837,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
                         .WithMany("Excercises")
                         .HasForeignKey("ClassroomId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Classroom");
                 });
@@ -886,14 +866,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
                         .WithMany("Groups")
                         .HasForeignKey("ClassroomId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "Leader")
                         .WithMany("Groups")
                         .HasForeignKey("LeaderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Classroom");
 
@@ -930,8 +908,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasOne("HUTECHClassroom.Domain.Entities.Project", "Project")
                         .WithMany("Missions")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Project");
                 });
@@ -960,14 +937,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
                         .WithMany("Posts")
                         .HasForeignKey("ClassroomId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Classroom");
 
@@ -979,8 +954,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.HasOne("HUTECHClassroom.Domain.Entities.Group", "Group")
                         .WithMany("Projects")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Group");
                 });
