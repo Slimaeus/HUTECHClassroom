@@ -42,6 +42,11 @@
                 <select asp-for="FacultyId" class="form-control" asp-items="ViewBag.FacultyId"></select>
                 <span asp-validation-for="FacultyId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="SubjectId" class="control-label"></label>
+                <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.SubjectId"></select>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="CreateDate" />
             <div class="form-group">

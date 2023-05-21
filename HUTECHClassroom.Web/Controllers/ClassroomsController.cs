@@ -18,6 +18,7 @@ public class ClassroomsController : BaseEntityController<Classroom>
         return View(DbContext.Classrooms
             .Include(c => c.Faculty)
             .Include(c => c.Lecturer)
+            .Include(c => c.Subject)
             .OrderByDescending(x => x.CreateDate)
             .ToPagedList(pageIndex, pageSize));
     }
@@ -32,6 +33,7 @@ public class ClassroomsController : BaseEntityController<Classroom>
         var classroom = await DbContext.Classrooms
             .Include(c => c.Faculty)
             .Include(c => c.Lecturer)
+            .Include(c => c.Subject)
             .Include(c => c.ClassroomUsers)
             .ThenInclude(c => c.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -111,12 +113,13 @@ public class ClassroomsController : BaseEntityController<Classroom>
     {
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name");
         ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName");
+        ViewData["SubjectId"] = new SelectList(DbContext.Subjects, "Id", "Title");
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Title,Topic,Room,Description,LecturerId,FacultyId,Id,CreateDate")] Classroom classroom)
+    public async Task<IActionResult> Create([Bind("Title,Topic,Room,Description,LecturerId,FacultyId,SubjectId,Id,CreateDate")] Classroom classroom)
     {
         if (ModelState.IsValid)
         {
@@ -127,6 +130,7 @@ public class ClassroomsController : BaseEntityController<Classroom>
         }
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
         ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
+        ViewData["SubjectId"] = new SelectList(DbContext.Subjects, "Id", "Title", classroom.SubjectId);
         return View(classroom);
     }
 
@@ -144,12 +148,13 @@ public class ClassroomsController : BaseEntityController<Classroom>
         }
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
         ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
+        ViewData["SubjectId"] = new SelectList(DbContext.Subjects, "Id", "Title", classroom.SubjectId);
         return View(classroom);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("Title,Topic,Room,Description,LecturerId,FacultyId,Id,CreateDate")] Classroom classroom)
+    public async Task<IActionResult> Edit(Guid id, [Bind("Title,Topic,Room,Description,LecturerId,FacultyId,SubjectId,Id,CreateDate")] Classroom classroom)
     {
         if (id != classroom.Id)
         {
@@ -178,6 +183,7 @@ public class ClassroomsController : BaseEntityController<Classroom>
         }
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
         ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
+        ViewData["SubjectId"] = new SelectList(DbContext.Subjects, "Id", "Title", classroom.SubjectId);
         return View(classroom);
     }
 
@@ -191,6 +197,7 @@ public class ClassroomsController : BaseEntityController<Classroom>
         var classroom = await DbContext.Classrooms
             .Include(c => c.Faculty)
             .Include(c => c.Lecturer)
+            .Include(c => c.Subject)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (classroom == null)
         {
