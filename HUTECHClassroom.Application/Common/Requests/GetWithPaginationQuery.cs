@@ -31,7 +31,7 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
     {
         var query = (IMultipleResultQuery<TEntity>)_repository
             .MultipleResultQuery()
-            .Page(request.Params.PageNumber, request.Params.PageSize)
+            .Page(request.Params.PageNumber ?? 1, request.Params.PageSize ?? 10)
             .AndFilter(FilterPredicate(request));
 
         query = SortingQuery(query, request);
