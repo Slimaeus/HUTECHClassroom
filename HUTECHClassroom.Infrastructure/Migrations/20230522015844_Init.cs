@@ -261,7 +261,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Room = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Class = table.Column<string>(type: "text", nullable: true),
@@ -331,7 +331,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2023, 5, 22, 16, 54, 53, 601, DateTimeKind.Utc).AddTicks(5169)),
+                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2023, 5, 23, 1, 58, 44, 348, DateTimeKind.Utc).AddTicks(1859)),
                     Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: true),

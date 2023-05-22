@@ -21,7 +21,8 @@ public static class ConfigureServices
         services.AddControllers(options =>
         {
             options.Filters.Add<ApiExceptionFilterAttribute>();
-        }).AddJsonOptions(options =>
+        })
+            .AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
@@ -135,7 +136,10 @@ public static class ConfigureServices
         {
             opt.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("*");
+                policy
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowAnyOrigin();
             });
         });
         #endregion

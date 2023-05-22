@@ -6,7 +6,7 @@ namespace HUTECHClassroom.Domain.Entities;
 public class Classroom : BaseEntity
 {
     public string Title { get; set; } = string.Empty;
-    public string Topic { get; set; } = string.Empty;
+    public string? Topic { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string Room { get; set; } = string.Empty;
     public string? Class { get; set; }

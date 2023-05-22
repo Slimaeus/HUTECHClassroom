@@ -26,7 +26,7 @@ public class ResultsController : BaseApiController
     [HttpGet("forbid")]
     public IActionResult GetForbid()
         => Forbid();
-    [HttpGet("InternalServerError")]
+    [HttpGet("internal-server-error")]
     public IActionResult GetInternalServerError()
         => StatusCode(StatusCodes.Status500InternalServerError);
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230521165453_Init")]
+    [Migration("20230522015844_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -232,7 +232,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("Topic")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
@@ -313,7 +312,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 22, 16, 54, 53, 601, DateTimeKind.Utc).AddTicks(5169));
+                        .HasDefaultValue(new DateTime(2023, 5, 23, 1, 58, 44, 348, DateTimeKind.Utc).AddTicks(1859));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
