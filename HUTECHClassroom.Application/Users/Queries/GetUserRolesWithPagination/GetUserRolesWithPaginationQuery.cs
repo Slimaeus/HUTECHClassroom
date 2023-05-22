@@ -16,5 +16,5 @@ public class GetUserRolesWithPaginationQueryHandler : GetWithPaginationQueryHand
         _userAccessor = userAccessor;
     }
     protected override Expression<Func<ApplicationRole, bool>> FilterPredicate(GetUserRolesWithPaginationQuery query)
-        => x => x.ApplicationUserRoles.Any(y => y.User.UserName == _userAccessor.UserName);
+        => x => x.ApplicationUserRoles.Any(y => y.UserId == _userAccessor.Id);
 }

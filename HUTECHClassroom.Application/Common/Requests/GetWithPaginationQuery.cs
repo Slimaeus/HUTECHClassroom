@@ -63,7 +63,7 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
     protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
         => x => true;
     protected virtual Expression<Func<TEntity, object>> OrderByKeySelector()
-        => x => x.GetHashCode();
+        => x => true;
     protected virtual IMultipleResultQuery<TEntity> SortingQuery(IMultipleResultQuery<TEntity> query, TQuery request) => query;
 }
 public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO, TPaginationParams> : GetWithPaginationQueryHandler<Guid, TEntity, TQuery, TDTO, TPaginationParams>

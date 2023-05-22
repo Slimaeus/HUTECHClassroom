@@ -248,7 +248,14 @@ public class ApplicationDbContextInitializer
                 Type = ClassroomType.TheoryRoom,
                 Lecturer = users[2],
                 Subject = subjects[0],
-                Faculty = faculties[0]
+                Faculty = faculties[0],
+                ClassroomUsers = new ClassroomUser[]
+                {
+                    new ClassroomUser
+                    {
+                        User = users[0]
+                    }
+                }
             },
             new Classroom
             {
@@ -263,6 +270,17 @@ public class ApplicationDbContextInitializer
                 Type = ClassroomType.TheoryRoom,
                 Lecturer = users[3],
                 Faculty = faculties[0],
+                ClassroomUsers = new ClassroomUser[]
+                {
+                    new ClassroomUser
+                    {
+                        User = users[0]
+                    },
+                    new ClassroomUser
+                    {
+                        User = users[1]
+                    }
+                }
             }
         };
 
