@@ -9,6 +9,7 @@ using HUTECHClassroom.Application.Posts.DTOs;
 using HUTECHClassroom.Application.Projects.DTOs;
 using HUTECHClassroom.Application.Roles.DTOs;
 using HUTECHClassroom.Application.Users.DTOs;
+using HUTECHClassroom.Application.Users.Queries.GetCurrentUser;
 using HUTECHClassroom.Application.Users.Queries.GetUser;
 using HUTECHClassroom.Application.Users.Queries.GetUserAnswersWithPagination;
 using HUTECHClassroom.Application.Users.Queries.GetUserClassroomsWithPagination;
@@ -36,11 +37,6 @@ public class UsersController : BaseEntityApiController<UserDTO>
     {
         _userAccessor = userAccessor;
     }
-    [HttpGet("get-roles")]
-    public ActionResult<IList<string>> GetRoles()
-    {
-        return Ok(_userAccessor.Roles);
-    }
     [HttpGet("get-entity-claims")]
     public ActionResult<IDictionary<string, ImmutableArray<string>>> GetEntityClaims()
     {
@@ -50,6 +46,9 @@ public class UsersController : BaseEntityApiController<UserDTO>
     [HttpGet("{userName}")]
     public Task<ActionResult<UserDTO>> GetUserDetails(string userName)
         => HandleGetQuery(new GetUserQuery(userName));
+    [HttpGet("@me")]
+    public Task<ActionResult<UserDTO>> GetCurrentUserDetails()
+        => HandleGetQuery(new GetCurrentUserQuery());
     [HttpGet("@me/classrooms")]
     public async Task<ActionResult<IEnumerable<ClassroomDTO>>> GetClassrooms([FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetUserClassroomsWithPaginationQuery(@params)));
