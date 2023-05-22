@@ -2,7 +2,6 @@
 using EntityFrameworkCore.QueryBuilder.Interfaces;
 using EntityFrameworkCore.Repository.Collections;
 using EntityFrameworkCore.Repository.Extensions;
-using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -53,8 +52,6 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
                               query.Paging.PageSize,
                               query.Paging.TotalCount,
                               cancellationToken);
-
-        if (pagedList.Count <= 0) throw new NotFoundException(nameof(TEntity), "Id");
 
         return pagedList;
     }
