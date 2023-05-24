@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Comments;
+using HUTECHClassroom.Application.Comments.DTOs;
 using HUTECHClassroom.Application.Posts;
 using HUTECHClassroom.Application.Posts.Commands.CreatePost;
 using HUTECHClassroom.Application.Posts.Commands.DeletePost;
@@ -34,6 +35,6 @@ public class PostsController : BaseEntityApiController<PostDTO>
     public Task<IActionResult> DeleteRange(IList<Guid> ids)
         => HandleDeleteRangeCommand(new DeleteRangePostCommand(ids));
     [HttpGet("{id}/comments")]
-    public async Task<ActionResult<IEnumerable<PostCommentDTO>>> GetComments(Guid id, [FromQuery] CommentPaginationParams @params)
+    public async Task<ActionResult<IEnumerable<CommentDTO>>> GetComments(Guid id, [FromQuery] CommentPaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetPostCommentsWithPaginationQuery(id, @params)));
 }

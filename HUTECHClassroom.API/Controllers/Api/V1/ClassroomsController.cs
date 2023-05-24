@@ -14,6 +14,9 @@ using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomsWithPagination
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomUsersWithPagination;
 using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
+using HUTECHClassroom.Application.Exercises.DTOs;
+using HUTECHClassroom.Application.Groups.DTOs;
+using HUTECHClassroom.Application.Posts.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -49,12 +52,12 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     public async Task<IActionResult> RemoveMember(Guid id, string userName)
         => Ok(await Mediator.Send(new RemoveClassroomUserCommand(id, userName)));
     [HttpGet("{id}/exercises")]
-    public async Task<ActionResult<IEnumerable<ClassroomExerciseDTO>>> GetExercises(Guid id, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetExercises(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomExercisesWithPaginationQuery(id, @params)));
     [HttpGet("{id}/groups")]
-    public async Task<ActionResult<IEnumerable<ClassroomGroupDTO>>> GetGroups(Guid id, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<GroupDTO>>> GetGroups(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomGroupsWithPaginationQuery(id, @params)));
     [HttpGet("{id}/posts")]
-    public async Task<ActionResult<IEnumerable<ClassroomPostDTO>>> GetPosts(Guid id, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<PostDTO>>> GetPosts(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomPostsWithPaginationQuery(id, @params)));
 }

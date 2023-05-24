@@ -38,7 +38,7 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
     public Task<IActionResult> DeleteRange(IList<Guid> ids)
         => HandleDeleteRangeCommand(new DeleteRangeProjectCommand(ids));
     [HttpGet("{id}/missions")]
-    public async Task<ActionResult<IEnumerable<ProjectMissionDTO>>> GetMissions(Guid id, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetProjectMissionsWithPaginationQuery(id, @params)));
     // Same as Get Mission
     [HttpGet("{id}/missions/{missionId}")]

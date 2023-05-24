@@ -15,6 +15,7 @@ using HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupUser;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupUsersWithPagination;
+using HUTECHClassroom.Application.Projects.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,7 +59,7 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     public async Task<IActionResult> RemoveMember(Guid groupId, string userName)
         => Ok(await Mediator.Send(new RemoveGroupUserCommand(groupId, userName)));
     [HttpGet("{groupId}/projects")]
-    public async Task<ActionResult<IEnumerable<GroupProjectDTO>>> GetProjects(Guid groupId, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<ProjectDTO>>> GetProjects(Guid groupId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetGroupProjectsWithPaginationQuery(groupId, @params)));
     [HttpPost("{groupId}/add-leader/{userName}")]
     public async Task<IActionResult> AddLeader(Guid groupId, string userName)
