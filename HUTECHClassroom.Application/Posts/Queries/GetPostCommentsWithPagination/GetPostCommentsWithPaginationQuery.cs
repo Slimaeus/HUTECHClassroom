@@ -1,14 +1,14 @@
 ﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
 using HUTECHClassroom.Application.Comments;
+using HUTECHClassroom.Application.Comments.DTOs;
 using HUTECHClassroom.Application.Common.Extensions;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Application.Posts.DTOs;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
 
-public record GetPostCommentsWithPaginationQuery(Guid Id, CommentPaginationParams Params) : GetWithPaginationQuery<PostCommentDTO, CommentPaginationParams>(Params);
-public class GetPostCommentsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Comment, GetPostCommentsWithPaginationQuery, PostCommentDTO, CommentPaginationParams>
+public record GetPostCommentsWithPaginationQuery(Guid Id, CommentPaginationParams Params) : GetWithPaginationQuery<CommentDTO, CommentPaginationParams>(Params);
+public class GetPostCommentsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Comment, GetPostCommentsWithPaginationQuery, CommentDTO, CommentPaginationParams>
 {
     public GetPostCommentsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Comment, bool>> SearchStringPredicate(string searchString)

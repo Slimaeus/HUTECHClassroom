@@ -1,10 +1,10 @@
-﻿using HUTECHClassroom.Application.Classrooms.DTOs;
-using HUTECHClassroom.Application.Common.Models;
+﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Validators;
+using HUTECHClassroom.Application.Groups.DTOs;
 
 namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroomGroupsWithPagination;
 
-public class GetClassroomGroupsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetClassroomGroupsWithPaginationQuery, ClassroomGroupDTO, PaginationParams>
+public class GetClassroomGroupsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetClassroomGroupsWithPaginationQuery, GroupDTO, PaginationParams>
 {
     public GetClassroomGroupsWithPaginationQueryValidator()
     {

@@ -1,12 +1,12 @@
-﻿using HUTECHClassroom.Application.Classrooms.DTOs;
-using HUTECHClassroom.Application.Common.Models;
+﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
+using HUTECHClassroom.Application.Posts.DTOs;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroomPostsWithPagination;
 
-public record GetClassroomPostsWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<ClassroomPostDTO, PaginationParams>(Params);
-public class GetClassroomPostsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Post, GetClassroomPostsWithPaginationQuery, ClassroomPostDTO, PaginationParams>
+public record GetClassroomPostsWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<PostDTO, PaginationParams>(Params);
+public class GetClassroomPostsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Post, GetClassroomPostsWithPaginationQuery, PostDTO, PaginationParams>
 {
     public GetClassroomPostsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

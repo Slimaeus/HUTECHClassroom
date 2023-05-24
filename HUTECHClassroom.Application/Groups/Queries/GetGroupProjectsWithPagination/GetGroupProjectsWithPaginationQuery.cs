@@ -1,12 +1,12 @@
 ﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Application.Groups.DTOs;
+using HUTECHClassroom.Application.Projects.DTOs;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination;
 
-public record GetGroupProjectsWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<GroupProjectDTO, PaginationParams>(Params);
-public class GetGroupProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Project, GetGroupProjectsWithPaginationQuery, GroupProjectDTO, PaginationParams>
+public record GetGroupProjectsWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<ProjectDTO, PaginationParams>(Params);
+public class GetGroupProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Project, GetGroupProjectsWithPaginationQuery, ProjectDTO, PaginationParams>
 {
     public GetGroupProjectsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
