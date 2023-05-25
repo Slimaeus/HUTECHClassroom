@@ -33,6 +33,15 @@ public class CommentHub : Hub
         if (!isParsePageSizeSuccess) pageSize = 5;
         await Groups.AddToGroupAsync(Context.ConnectionId, postId);
         var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId), new CommentPaginationParams(pageNumber, pageSize)));
-        await Clients.Caller.SendAsync("LoadComments", result);
+        await Clients.Caller.SendAsync("LoadComments", result.Items, new
+        {
+            pageIndex = result.PageIndex,
+            pageSize = result.PageSize,
+            count = result.Count,
+            totalCount = result.TotalCount,
+            totalPages = result.TotalPages,
+            hasPreviousPage = result.HasPreviousPage,
+            hasNextPage = result.HasNextPage
+        });
     }
 }

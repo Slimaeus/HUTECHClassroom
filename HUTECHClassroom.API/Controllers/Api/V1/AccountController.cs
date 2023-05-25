@@ -29,9 +29,6 @@ public class AccountController : BaseApiController
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordCommand request)
     {
-        //await Mediator.Send(request);
-        //return NoContent(); --> Use this when finish
-
         var token = await Mediator.Send(request);
         return Ok(token);
     }
