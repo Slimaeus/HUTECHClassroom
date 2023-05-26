@@ -11,6 +11,7 @@ public class UpdateClassroomCommandValidator : UpdateCommandValidator<UpdateClas
         RuleFor(x => x.Description).MaximumLength(ClassroomConstants.DESCRIPTION_MAX_LENGTH);
         RuleFor(x => x.Topic).MaximumLength(ClassroomConstants.TOPIC_MAX_LENGTH);
         RuleFor(x => x.Room).MaximumLength(ClassroomConstants.ROOM_MAX_LENGTH);
+        RuleFor(x => x.StudyPeriod).MaximumLength(ClassroomConstants.STUDY_PERIOD_MAX_LENGTH);
         RuleFor(x => x.SchoolYear).MaximumLength(ClassroomConstants.SCHOOL_YEAR_MAX_LENGTH);
         RuleFor(x => x.Topic).MaximumLength(ClassroomConstants.TOPIC_MAX_LENGTH);
         RuleFor(x => x.StudyGroup).MaximumLength(ClassroomConstants.STUDY_GROUP_MAX_LENGTH);

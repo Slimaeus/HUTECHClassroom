@@ -9,6 +9,7 @@ public class Classroom : BaseEntity
     public string? Topic { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string Room { get; set; } = string.Empty;
+    public string? StudyPeriod { get; set; }
     public string? Class { get; set; }
     public string SchoolYear { get; set; } = string.Empty;
     public string? StudyGroup { get; set; }

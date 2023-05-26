@@ -9,4 +9,11 @@ public record ClassroomPaginationParams(int? PageNumber, int? PageSize, string S
     public SortingOrder DescriptionOrder { get; set; }
     public SortingOrder RoomOrder { get; set; }
     public SortingOrder TopicOrder { get; set; }
+    public SortingOrder StudyPeriodOrder { get; set; }
+    public SortingOrder ClassOrder { get; set; }
+    public SortingOrder SchoolYearOrder { get; set; }
+    public SortingOrder StudyGroupOrder { get; set; }
+    public SortingOrder PracticalStudyGroupOrder { get; set; }
+    public SortingOrder SemesterOrder { get; set; }
+    public SortingOrder TypeOrder { get; set; }
 }

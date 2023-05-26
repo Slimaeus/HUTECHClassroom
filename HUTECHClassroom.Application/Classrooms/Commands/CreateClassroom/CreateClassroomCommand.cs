@@ -11,6 +11,7 @@ public record CreateClassroomCommand : CreateCommand<ClassroomDTO>
     public string Description { get; set; }
     public string Topic { get; set; }
     public string Room { get; set; }
+    public string StudyPeriod { get; set; }
     public string Class { get; set; }
     public string SchoolYear { get; set; }
     public string StudyGroup { get; set; }

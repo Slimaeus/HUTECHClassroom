@@ -223,6 +223,10 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<string>("StudyPeriod")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
+
                     b.Property<Guid?>("SubjectId")
                         .HasColumnType("uuid");
 
@@ -312,7 +316,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 27, 13, 17, 16, 745, DateTimeKind.Utc).AddTicks(7856));
+                        .HasDefaultValue(new DateTime(2023, 5, 27, 16, 2, 24, 471, DateTimeKind.Utc).AddTicks(4897));
 
                     b.Property<string>("Instruction")
                         .IsRequired()

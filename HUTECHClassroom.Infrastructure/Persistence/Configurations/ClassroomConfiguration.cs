@@ -19,6 +19,9 @@ public class ClassroomConfiguration : IEntityTypeConfiguration<Classroom>
         builder.Property(x => x.Room)
             .HasMaxLength(ClassroomConstants.ROOM_MAX_LENGTH);
 
+        builder.Property(x => x.StudyPeriod)
+            .HasMaxLength(ClassroomConstants.STUDY_PERIOD_MAX_LENGTH);
+
         builder.Property(x => x.Topic)
             .HasMaxLength(ClassroomConstants.TOPIC_MAX_LENGTH);
 

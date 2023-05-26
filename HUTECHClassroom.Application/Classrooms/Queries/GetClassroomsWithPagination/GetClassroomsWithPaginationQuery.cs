@@ -22,5 +22,13 @@ public class GetClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHan
         => query.SortEntityQuery(request.Params.TitleOrder, x => x.Title)
                 .SortEntityQuery(request.Params.DescriptionOrder, x => x.Description)
                 .SortEntityQuery(request.Params.RoomOrder, x => x.Room)
-                .SortEntityQuery(request.Params.TopicOrder, x => x.Topic);
+                .SortEntityQuery(request.Params.TopicOrder, x => x.Topic)
+                .SortEntityQuery(request.Params.StudyPeriodOrder, x => x.StudyPeriod)
+                .SortEntityQuery(request.Params.ClassOrder, x => x.Class)
+                .SortEntityQuery(request.Params.SchoolYearOrder, x => x.SchoolYear)
+                .SortEntityQuery(request.Params.StudyGroupOrder, x => x.StudyGroup)
+                .SortEntityQuery(request.Params.PracticalStudyGroupOrder, x => x.PracticalStudyGroup)
+                .SortEntityQuery(request.Params.SemesterOrder, x => x.Semester)
+                .SortEntityQuery(request.Params.TypeOrder, x => x.Type)
+        ;
 }

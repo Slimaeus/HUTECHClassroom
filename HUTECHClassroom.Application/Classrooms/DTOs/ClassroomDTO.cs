@@ -8,6 +8,7 @@ public record ClassroomDTO : BaseEntityDTO
     public string Title { get; set; }
     public string Description { get; set; }
     public string Room { get; set; }
+    public string StudyPeriod { get; set; }
     public string Topic { get; set; }
     public string Class { get; set; }
     public string SchoolYear { get; set; }
