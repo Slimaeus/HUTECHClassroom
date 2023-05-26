@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,13 +10,17 @@ public class MajorConfiguration : IEntityTypeConfiguration<Major>
     public void Configure(EntityTypeBuilder<Major> builder)
     {
         builder.Property(x => x.Title)
+            .HasMaxLength(MajorConstants.TITLE_MAX_LENGTH)
             .IsRequired();
 
         builder.Property(x => x.TotalCredits)
-            .HasDefaultValue(0);
+            .HasDefaultValue(MajorConstants.TOTAL_CREDITS_DEFAULT_VALUE);
 
         builder.Property(x => x.NonComulativeCredits)
-            .HasDefaultValue(0);
+            .HasDefaultValue(MajorConstants.NON_COMULATIVE_CREDITS_DEFAULT_VALUE);
+
+        builder.Property(x => x.Code)
+            .HasMaxLength(MajorConstants.CODE_MAX_VALUE);
 
         builder.HasIndex(x => x.Code)
             .IsUnique();

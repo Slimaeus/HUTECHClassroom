@@ -1,19 +1,21 @@
-﻿namespace HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
+﻿using HUTECHClassroom.Domain.Constants;
+
+namespace HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
 
 public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCommand>
 {
     public CreateExerciseCommandValidator()
     {
         RuleFor(x => x.Title)
-            .MaximumLength(50)
+            .MaximumLength(ExerciseConstants.TITLE_MAX_LENGTH)
             .NotEmpty().NotNull();
 
         RuleFor(x => x.Instruction)
-            .MaximumLength(500)
+            .MaximumLength(ExerciseConstants.INSTRUCTION_MAX_LENGTH)
             .NotEmpty().NotNull();
 
         RuleFor(x => x.Link)
-            .MaximumLength(200);
+            .MaximumLength(CommonConstants.LINK_MAX_LENGTH);
 
         RuleFor(x => x.TotalScore)
             .NotEmpty().NotNull();
@@ -21,10 +23,10 @@ public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCo
         RuleFor(x => x.Deadline);
 
         RuleFor(x => x.Topic)
-            .MaximumLength(20);
+            .MaximumLength(ExerciseConstants.TOPIC_MAX_LENGTH);
 
         RuleFor(x => x.Criteria)
-            .MaximumLength(200);
+            .MaximumLength(ExerciseConstants.CRITERIA_MAX_LENGTH);
 
         RuleFor(x => x.ClassroomId).NotEmpty().NotNull();
     }

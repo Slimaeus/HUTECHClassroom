@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,11 +10,11 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
     public void Configure(EntityTypeBuilder<Project> builder)
     {
         builder.Property(x => x.Name)
-            .HasMaxLength(50)
+            .HasMaxLength(ProjectConstants.NAME_MAX_LENGTH)
             .IsRequired();
 
         builder.Property(x => x.Description)
-            .HasMaxLength(100);
+            .HasMaxLength(ProjectConstants.DESCRIPTION_MAX_LENGTH);
 
         builder.HasMany(x => x.Missions)
             .WithOne(x => x.Project)

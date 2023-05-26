@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,17 +10,26 @@ public class ClassroomConfiguration : IEntityTypeConfiguration<Classroom>
     public void Configure(EntityTypeBuilder<Classroom> builder)
     {
         builder.Property(x => x.Title)
-            .HasMaxLength(50)
+            .HasMaxLength(ClassroomConstants.TITLE_MAX_LENGTH)
             .IsRequired();
 
         builder.Property(x => x.Description)
-            .HasMaxLength(100);
+            .HasMaxLength(ClassroomConstants.DESCRIPTION_MAX_LENGTH);
 
         builder.Property(x => x.Room)
-            .HasMaxLength(50);
+            .HasMaxLength(ClassroomConstants.ROOM_MAX_LENGTH);
 
         builder.Property(x => x.Topic)
-            .HasMaxLength(20);
+            .HasMaxLength(ClassroomConstants.TOPIC_MAX_LENGTH);
+
+        builder.Property(x => x.SchoolYear)
+            .HasMaxLength(ClassroomConstants.SCHOOL_YEAR_MAX_LENGTH);
+
+        builder.Property(x => x.StudyGroup)
+            .HasMaxLength(ClassroomConstants.STUDY_GROUP_MAX_LENGTH);
+
+        builder.Property(x => x.PracticalStudyGroup)
+            .HasMaxLength(ClassroomConstants.PRACTIAL_STUDY_GROUP_MAX_LENGTH);
 
         builder.HasMany(x => x.Groups)
             .WithOne(x => x.Classroom)

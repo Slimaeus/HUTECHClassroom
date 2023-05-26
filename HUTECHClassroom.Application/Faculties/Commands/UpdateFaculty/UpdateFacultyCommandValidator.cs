@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.Validators;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Faculties.Commands.UpdateFaculty;
 
@@ -6,6 +7,6 @@ public class UpdateFacultyCommandValidator : UpdateCommandValidator<UpdateFacult
 {
     public UpdateFacultyCommandValidator()
     {
-        RuleFor(x => x.Name).MaximumLength(50);
+        RuleFor(x => x.Name).MaximumLength(FacultyConstants.NAME_MAX_LENGTH);
     }
 }

@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,10 +10,10 @@ public class MissionConfiguration : IEntityTypeConfiguration<Mission>
     public void Configure(EntityTypeBuilder<Mission> builder)
     {
         builder.Property(x => x.Title)
-            .HasMaxLength(50)
+            .HasMaxLength(MissionConstants.TITLE_MAX_LENGTH)
             .IsRequired();
 
         builder.Property(x => x.Description)
-            .HasMaxLength(100);
+            .HasMaxLength(MissionConstants.DESCRIPTION_MAX_LENGTH);
     }
 }

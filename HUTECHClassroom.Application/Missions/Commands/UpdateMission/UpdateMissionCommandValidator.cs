@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.Validators;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 
@@ -6,7 +7,7 @@ public class UpdateMissionCommandValidator : UpdateCommandValidator<UpdateMissio
 {
     public UpdateMissionCommandValidator()
     {
-        RuleFor(x => x.Title).MaximumLength(50);
-        RuleFor(x => x.Description).MaximumLength(100);
+        RuleFor(x => x.Title).MaximumLength(MissionConstants.TITLE_MAX_LENGTH);
+        RuleFor(x => x.Description).MaximumLength(MissionConstants.DESCRIPTION_MAX_LENGTH);
     }
 }

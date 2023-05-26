@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.Validators;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Comments.Commands.UpdateComment;
 
@@ -6,6 +7,6 @@ public class UpdateCommentCommandValidator : UpdateCommandValidator<UpdateCommen
 {
     public UpdateCommentCommandValidator()
     {
-        RuleFor(x => x.Content).NotEmpty().MaximumLength(500);
+        RuleFor(x => x.Content).MaximumLength(CommentConstants.CONTENT_MAX_LENGTH);
     }
 }

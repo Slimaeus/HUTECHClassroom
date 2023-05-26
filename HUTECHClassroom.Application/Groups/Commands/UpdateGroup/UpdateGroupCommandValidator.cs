@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.Validators;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 
@@ -6,7 +7,7 @@ public class UpdateGroupCommandValidator : UpdateCommandValidator<UpdateGroupCom
 {
     public UpdateGroupCommandValidator()
     {
-        RuleFor(x => x.Name).MaximumLength(50);
-        RuleFor(x => x.Description).MaximumLength(100);
+        RuleFor(x => x.Name).MaximumLength(GroupConstants.NAME_MAX_LENGTH);
+        RuleFor(x => x.Description).MaximumLength(GroupConstants.DESCRIPTION_MAX_LENGTH);
     }
 }

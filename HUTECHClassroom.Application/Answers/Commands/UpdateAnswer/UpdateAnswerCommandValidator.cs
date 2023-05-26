@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.Validators;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Answers.Commands.UpdateAnswer;
 
@@ -7,10 +8,10 @@ public class UpdateAnswerCommandValidator : UpdateCommandValidator<UpdateAnswerC
     public UpdateAnswerCommandValidator()
     {
         RuleFor(x => x.Description)
-            .MaximumLength(500);
+            .MaximumLength(AnswerConstants.DESCRIPTION_MAX_LENGTH);
 
         RuleFor(x => x.Link)
-            .MaximumLength(200);
+            .MaximumLength(CommonConstants.LINK_MAX_LENGTH);
 
         RuleFor(x => x.Score);
     }

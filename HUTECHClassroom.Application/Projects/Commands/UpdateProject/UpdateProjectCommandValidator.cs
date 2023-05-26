@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.Validators;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Projects.Commands.UpdateProject;
 
@@ -6,7 +7,7 @@ public class UpdateProjectCommandValidator : UpdateCommandValidator<UpdateProjec
 {
     public UpdateProjectCommandValidator()
     {
-        RuleFor(x => x.Name).MaximumLength(50);
-        RuleFor(x => x.Description).MaximumLength(100);
+        RuleFor(x => x.Name).MaximumLength(ProjectConstants.NAME_MAX_LENGTH);
+        RuleFor(x => x.Description).MaximumLength(ProjectConstants.DESCRIPTION_MAX_LENGTH);
     }
 }

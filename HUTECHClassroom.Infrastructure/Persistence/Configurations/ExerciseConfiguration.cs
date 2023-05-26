@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,27 +10,28 @@ public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
     public void Configure(EntityTypeBuilder<Exercise> builder)
     {
         builder.Property(x => x.Title)
-            .HasMaxLength(50)
+            .HasMaxLength(ExerciseConstants.TITLE_MAX_LENGTH)
             .IsRequired();
 
         builder.Property(x => x.Instruction)
-            .HasMaxLength(500)
+            .HasMaxLength(ExerciseConstants.INSTRUCTION_MAX_LENGTH)
             .IsRequired();
 
         builder.Property(x => x.Link)
-            .HasMaxLength(200);
+            .HasMaxLength(CommonConstants.LINK_MAX_LENGTH);
 
         builder.Property(x => x.TotalScore)
+            .HasDefaultValue(ExerciseConstants.TOTAL_SCORE_DEFAULT_VALUE)
             .IsRequired();
 
         builder.Property(x => x.Deadline)
             .HasDefaultValue(DateTime.UtcNow.AddDays(1));
 
         builder.Property(x => x.Topic)
-            .HasMaxLength(20);
+            .HasMaxLength(ExerciseConstants.TOPIC_MAX_LENGTH);
 
         builder.Property(x => x.Criteria)
-            .HasMaxLength(200);
+            .HasMaxLength(ExerciseConstants.CRITERIA_MAX_LENGTH);
 
         builder.HasMany(x => x.Answers)
             .WithOne(x => x.Exercise)

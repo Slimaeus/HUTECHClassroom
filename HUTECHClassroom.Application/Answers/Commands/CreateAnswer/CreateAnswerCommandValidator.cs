@@ -1,15 +1,17 @@
-﻿namespace HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
+﻿using HUTECHClassroom.Domain.Constants;
+
+namespace HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
 
 public class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerCommand>
 {
     public CreateAnswerCommandValidator()
     {
         RuleFor(x => x.Description)
-            .MaximumLength(500)
+            .MaximumLength(AnswerConstants.DESCRIPTION_MAX_LENGTH)
             .NotEmpty().NotNull();
 
         RuleFor(x => x.Link)
-            .MaximumLength(200);
+            .MaximumLength(CommonConstants.LINK_MAX_LENGTH);
 
         RuleFor(x => x.Score)
             .NotEmpty().NotNull();
