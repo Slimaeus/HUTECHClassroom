@@ -17,7 +17,8 @@ public class GetClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHan
         var toLowerSearchString = searchString.ToLower();
         return x => x.Title.ToLower().Contains(toLowerSearchString) || x.Description.ToLower().Contains(toLowerSearchString);
     }
-    protected override Expression<Func<Classroom, object>> OrderByKeySelector() => x => x.CreateDate;
+    protected override IQuery<Classroom> Order(IMultipleResultQuery<Classroom> query) => query.OrderByDescending(x => x.CreateDate);
+
     protected override IMultipleResultQuery<Classroom> SortingQuery(IMultipleResultQuery<Classroom> query, GetClassroomsWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.TitleOrder, x => x.Title)
                 .SortEntityQuery(request.Params.DescriptionOrder, x => x.Description)

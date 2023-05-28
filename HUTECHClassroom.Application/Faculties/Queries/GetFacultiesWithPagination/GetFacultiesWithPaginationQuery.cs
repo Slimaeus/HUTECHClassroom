@@ -13,8 +13,8 @@ public class GetFacultiesWithPaginationQueryHandler : GetWithPaginationQueryHand
     protected override Expression<Func<Faculty, bool>> SearchStringPredicate(string searchString)
         => x => x.Name.ToLower().Contains(searchString.ToLower());
 
-    protected override Expression<Func<Faculty, object>> OrderByKeySelector()
-        => x => x.CreateDate;
+    protected override IQuery<Faculty> Order(IMultipleResultQuery<Faculty> query) => query.OrderByDescending(x => x.CreateDate);
+
     protected override IMultipleResultQuery<Faculty> SortingQuery(IMultipleResultQuery<Faculty> query, GetFacultiesWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.NameOrder, x => x.Name);
 }

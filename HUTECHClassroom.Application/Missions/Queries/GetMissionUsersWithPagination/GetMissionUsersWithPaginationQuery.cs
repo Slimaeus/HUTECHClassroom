@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Common.DTOs;
+﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
+using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using System.Linq.Expressions;
@@ -20,8 +21,6 @@ public class GetMissionUsersWithPaginationQueryHandler : GetWithPaginationQueryH
         var toLowerSearchString = searchString.ToLower();
         return x => x.UserName.ToLower().Contains(toLowerSearchString) || x.Email.ToLower().Contains(toLowerSearchString);
     }
-    protected override Expression<Func<ApplicationUser, object>> OrderByKeySelector()
-    {
-        return x => x.UserName;
-    }
+    protected override IQuery<ApplicationUser> Order(IMultipleResultQuery<ApplicationUser> query) => query.OrderBy(x => x.UserName);
+
 }

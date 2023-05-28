@@ -17,7 +17,7 @@ public class GetExercisesWithPaginationQueryHandler : GetWithPaginationQueryHand
                 || x.Instruction.ToLower().Equals(searchString.ToLower())
                 || x.Link.ToLower().Equals(searchString.ToLower())
                 || x.Topic.ToLower().Equals(searchString.ToLower());
-    protected override Expression<Func<Exercise, object>> OrderByKeySelector() => x => x.CreateDate;
+    protected override IQuery<Exercise> Order(IMultipleResultQuery<Exercise> query) => query.OrderByDescending(x => x.CreateDate);
     protected override IMultipleResultQuery<Exercise> SortingQuery(IMultipleResultQuery<Exercise> query, GetExercisesWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.TitleOrder, x => x.Title)
                 .SortEntityQuery(request.Params.InstructionOrder, x => x.Instruction)

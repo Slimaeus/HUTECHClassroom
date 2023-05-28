@@ -12,7 +12,7 @@ public class GetRolesWithPaginationQueryHandler : GetWithPaginationQueryHandler<
     public GetRolesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<ApplicationRole, bool>> SearchStringPredicate(string searchString)
         => x => x.Name.ToLower().Contains(searchString.ToLower());
-    protected override Expression<Func<ApplicationRole, object>> OrderByKeySelector() => x => x.Name;
+    protected override IQuery<ApplicationRole> Order(IMultipleResultQuery<ApplicationRole> query) => query.OrderByDescending(x => x.Name);
     protected override IMultipleResultQuery<ApplicationRole> SortingQuery(IMultipleResultQuery<ApplicationRole> query, GetRolesWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.NameOrder, x => x.Name);
 }

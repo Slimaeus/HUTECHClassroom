@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Common.Models;
+﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Missions.DTOs;
 using System.Linq.Expressions;
@@ -15,10 +16,8 @@ public class GetProjectMissionsWithPaginationQueryHandler : GetWithPaginationQue
     {
         return x => x.ProjectId == query.Id;
     }
-    protected override Expression<Func<Mission, object>> OrderByKeySelector()
-    {
-        return x => x.CreateDate;
-    }
+    protected override IQuery<Mission> Order(IMultipleResultQuery<Mission> query) => query.OrderByDescending(x => x.CreateDate);
+
     protected override Expression<Func<Mission, bool>> SearchStringPredicate(string searchString)
     {
         var toLowerSearchString = searchString.ToLower();

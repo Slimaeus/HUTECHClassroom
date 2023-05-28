@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
 using HUTECHClassroom.Application.Common.Exceptions;
+using HUTECHClassroom.Application.Common.Extensions;
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
@@ -43,7 +44,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
                 .AndFilter(x => x.Id == request.FacultyId);
 
             var faculty = await _facultyRepository.SingleOrDefaultAsync(facultyQuery, cancellationToken);
-
+            // TODO: Return Bad Request
             if (faculty == null) throw new NotFoundException(nameof(Faculty), request.FacultyId);
 
             user.Faculty = faculty;
@@ -52,7 +53,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
 
         var result = await _userManger.CreateAsync(user, request.Password);
 
-        if (result.Succeeded) return AccountDTO.Create(user, _tokenService.CreateToken(user));
+        if (result.Succeeded) return user.ToAccountDTO(_tokenService.CreateToken(user));
 
         throw new InvalidOperationException("Failed to register");
     }

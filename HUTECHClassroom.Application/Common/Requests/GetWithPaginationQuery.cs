@@ -36,11 +36,16 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
 
         query = SortingQuery(query, request);
 
-        query = (IMultipleResultQuery<TEntity>)query
-                .OrderBy(OrderByKeySelector());
+        query = (IMultipleResultQuery<TEntity>)Order(query);
 
-        if (!string.IsNullOrEmpty(request.Params.SearchString))
-            query = (IMultipleResultQuery<TEntity>)query.AndFilter(SearchStringPredicate(request.Params.SearchString));
+        //query = (IMultipleResultQuery<TEntity>)query
+        //        .OrderBy(OrderByKeySelector());
+
+        if (string.IsNullOrEmpty(request.Params.SearchString) is false)
+        {
+            query = (IMultipleResultQuery<TEntity>)query
+                .AndFilter(SearchStringPredicate(request.Params.SearchString));
+        }
 
         var pagedList = await _repository
             .ToQueryable(query)
@@ -59,8 +64,8 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
         => x => true;
     protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
         => x => true;
-    protected virtual Expression<Func<TEntity, object>> OrderByKeySelector()
-        => x => true;
+
+    protected virtual IQuery<TEntity> Order(IMultipleResultQuery<TEntity> query) => query;
     protected virtual IMultipleResultQuery<TEntity> SortingQuery(IMultipleResultQuery<TEntity> query, TQuery request) => query;
 }
 public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO, TPaginationParams> : GetWithPaginationQueryHandler<Guid, TEntity, TQuery, TDTO, TPaginationParams>

@@ -12,17 +12,4 @@ public record AccountDTO : IEntityDTO
     public UserFacultyDTO Faculty { get; set; }
     public IEnumerable<string> Roles { get; set; }
     public string Token { get; set; }
-
-    public static AccountDTO Create(ApplicationUser user, string token = default)
-        => new AccountDTO
-        {
-            Id = user.Id,
-            Email = user.Email,
-            UserName = user.UserName,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Token = token,
-            Faculty = user.Faculty != null ? new UserFacultyDTO { Id = user.Faculty.Id, Name = user.Faculty.Name } : null,
-            Roles = user.ApplicationUserRoles.Select(x => x.Role.Name)
-        };
 }

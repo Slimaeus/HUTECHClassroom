@@ -12,7 +12,7 @@ public class GetCommentsWithPaginationQueryHandler : GetWithPaginationQueryHandl
     public GetCommentsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Comment, bool>> SearchStringPredicate(string searchString)
         => x => x.Content.ToLower().Contains(searchString.ToLower());
-    protected override Expression<Func<Comment, object>> OrderByKeySelector() => x => x.CreateDate;
+    protected override IQuery<Comment> Order(IMultipleResultQuery<Comment> query) => query.OrderByDescending(x => x.CreateDate);
     protected override IMultipleResultQuery<Comment> SortingQuery(IMultipleResultQuery<Comment> query, GetCommentsWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.ContentOrder, x => x.Content);
 }

@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
+using HUTECHClassroom.Application.Common.Extensions;
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 
         var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
 
-        if (isSuccess) return AccountDTO.Create(user, _tokenService.CreateToken(user));
+        if (isSuccess) return user.ToAccountDTO(_tokenService.CreateToken(user));
 
         throw new UnauthorizedAccessException(nameof(ApplicationUser));
     }

@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Common.Models;
+﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Exercises.DTOs;
 using System.Linq.Expressions;
@@ -22,8 +23,6 @@ public class GetClassroomExercisesWithPaginationQueryHandler : GetWithPagination
         || x.Instruction.ToLower().Contains(toLowerSearchString)
         || x.Topic.ToLower().Contains(toLowerSearchString);
     }
-    protected override Expression<Func<Exercise, object>> OrderByKeySelector()
-    {
-        return x => x.CreateDate;
-    }
+    protected override IQuery<Exercise> Order(IMultipleResultQuery<Exercise> query) => query.OrderByDescending(x => x.CreateDate);
+
 }
