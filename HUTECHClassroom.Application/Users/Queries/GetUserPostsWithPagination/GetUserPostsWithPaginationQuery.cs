@@ -16,7 +16,7 @@ public class GetUserPostsWithPaginationQueryHandler : GetWithPaginationQueryHand
     {
         _userAccessor = userAccessor;
     }
-    protected override IQuery<Post> Order(IMultipleResultQuery<Post> query) => query.OrderBy(x => x.CreateDate);
+    protected override IQuery<Post> Order(IMultipleResultQuery<Post> query) => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Post, bool>> FilterPredicate(GetUserPostsWithPaginationQuery query)
         => x => x.UserId == _userAccessor.Id;
 }

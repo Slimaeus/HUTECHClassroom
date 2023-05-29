@@ -16,7 +16,7 @@ public class GetUserRolesWithPaginationQueryHandler : GetWithPaginationQueryHand
     {
         _userAccessor = userAccessor;
     }
-    protected override IQuery<ApplicationRole> Order(IMultipleResultQuery<ApplicationRole> query) => query.OrderBy(x => x.Name);
+    protected override IQuery<ApplicationRole> Order(IMultipleResultQuery<ApplicationRole> query) => query.OrderByDescending(x => x.Name);
     protected override Expression<Func<ApplicationRole, bool>> FilterPredicate(GetUserRolesWithPaginationQuery query)
         => x => x.ApplicationUserRoles.Any(y => y.UserId == _userAccessor.Id);
 }

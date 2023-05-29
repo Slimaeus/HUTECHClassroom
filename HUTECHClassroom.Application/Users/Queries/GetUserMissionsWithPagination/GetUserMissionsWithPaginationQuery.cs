@@ -16,7 +16,7 @@ public class GetUserMissionsWithPaginationQueryHandler : GetWithPaginationQueryH
     {
         _userAccessor = userAccessor;
     }
-    protected override IQuery<Mission> Order(IMultipleResultQuery<Mission> query) => query.OrderBy(x => x.CreateDate);
+    protected override IQuery<Mission> Order(IMultipleResultQuery<Mission> query) => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Mission, bool>> FilterPredicate(GetUserMissionsWithPaginationQuery query)
         => x => x.MissionUsers.Any(y => y.UserId == _userAccessor.Id);
 }

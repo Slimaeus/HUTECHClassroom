@@ -16,7 +16,7 @@ public class GetUserCommentsWithPaginationQueryHandler : GetWithPaginationQueryH
     {
         _userAccessor = userAccessor;
     }
-    protected override IQuery<Comment> Order(IMultipleResultQuery<Comment> query) => query.OrderBy(x => x.CreateDate);
+    protected override IQuery<Comment> Order(IMultipleResultQuery<Comment> query) => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Comment, bool>> FilterPredicate(GetUserCommentsWithPaginationQuery query)
         => x => x.UserId == _userAccessor.Id;
 }

@@ -21,6 +21,6 @@ public class GetClassroomGroupsWithPaginationQueryHandler : GetWithPaginationQue
         var toLowerSearchString = searchString.ToLower();
         return x => x.Name.ToLower().Contains(toLowerSearchString) || x.Description.ToLower().Contains(toLowerSearchString);
     }
-    protected override IQuery<Group> Order(IMultipleResultQuery<Group> query) => query.OrderBy(x => x.CreateDate);
+    protected override IQuery<Group> Order(IMultipleResultQuery<Group> query) => query.OrderByDescending(x => x.CreateDate);
 
 }

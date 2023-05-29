@@ -16,7 +16,7 @@ public class GetUserAnswersWithPaginationQueryHandler : GetWithPaginationQueryHa
     {
         _userAccessor = userAccessor;
     }
-    protected override IQuery<Answer> Order(IMultipleResultQuery<Answer> query) => query.OrderBy(x => x.CreateDate);
+    protected override IQuery<Answer> Order(IMultipleResultQuery<Answer> query) => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Answer, bool>> FilterPredicate(GetUserAnswersWithPaginationQuery query)
         => x => x.UserId == _userAccessor.Id;
 }

@@ -16,7 +16,7 @@ public class GetUserProjectsWithPaginationQueryHandler : GetWithPaginationQueryH
     {
         _userAccessor = userAccessor;
     }
-    protected override IQuery<Project> Order(IMultipleResultQuery<Project> query) => query.OrderBy(x => x.CreateDate);
+    protected override IQuery<Project> Order(IMultipleResultQuery<Project> query) => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Project, bool>> FilterPredicate(GetUserProjectsWithPaginationQuery query)
         => x => x.Group.GroupUsers.Any(y => y.UserId == _userAccessor.Id) || x.Group.LeaderId == _userAccessor.Id;
 }

@@ -12,7 +12,7 @@ public class GetProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandl
     public GetProjectsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Project, bool>> SearchStringPredicate(string searchString)
         => x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Description.ToLower().Contains(searchString.ToLower());
-    protected override IQuery<Project> Order(IMultipleResultQuery<Project> query) => query.OrderBy(x => x.CreateDate);
+    protected override IQuery<Project> Order(IMultipleResultQuery<Project> query) => query.OrderByDescending(x => x.CreateDate);
     protected override IMultipleResultQuery<Project> SortingQuery(IMultipleResultQuery<Project> query, GetProjectsWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.NameOrder, x => x.Name)
                 .SortEntityQuery(request.Params.DescriptionOrder, x => x.Description);

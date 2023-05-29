@@ -16,7 +16,7 @@ public class GetProjectMissionsWithPaginationQueryHandler : GetWithPaginationQue
     {
         return x => x.ProjectId == query.Id;
     }
-    protected override IQuery<Mission> Order(IMultipleResultQuery<Mission> query) => query.OrderBy(x => x.CreateDate);
+    protected override IQuery<Mission> Order(IMultipleResultQuery<Mission> query) => query.OrderByDescending(x => x.CreateDate);
 
     protected override Expression<Func<Mission, bool>> SearchStringPredicate(string searchString)
     {
