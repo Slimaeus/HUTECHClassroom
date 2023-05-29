@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 
-public record AddMissionUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record AddMissionUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class AddMissionUserCommandHandler : IRequestHandler<AddMissionUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -30,16 +30,16 @@ public class AddMissionUserCommandHandler : IRequestHandler<AddMissionUserComman
 
         if (mission == null) throw new NotFoundException(nameof(Mission), request.Id);
 
-        if (mission.MissionUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
+        if (mission.MissionUsers.Any(x => x.UserId == request.UserId)) throw new InvalidOperationException($"{request.UserId} already exists");
 
         var userQuery = _userRepository
             .SingleResultQuery()
-            .AndFilter(x => x.UserName == request.UserName);
+            .AndFilter(x => x.Id == request.UserId);
 
         var user = await _userRepository
             .SingleOrDefaultAsync(userQuery, cancellationToken);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         mission.MissionUsers.Add(new MissionUser { User = user });
 

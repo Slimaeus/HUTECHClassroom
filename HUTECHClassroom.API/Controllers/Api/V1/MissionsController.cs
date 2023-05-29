@@ -49,13 +49,13 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(id, @params)));
     //[Authorize(Policy = UpdateMissionPolicy)]
-    [HttpPost("{id}/members/{userName}")]
-    public async Task<IActionResult> AddMember(Guid id, string userName)
-        => Ok(await Mediator.Send(new AddMissionUserCommand(id, userName)));
+    [HttpPost("{id}/members/{userId}")]
+    public async Task<IActionResult> AddMember(Guid id, Guid userId)
+        => Ok(await Mediator.Send(new AddMissionUserCommand(id, userId)));
     //[Authorize(Policy = UpdateMissionPolicy)]
-    [HttpDelete("{id}/members/{userName}")]
-    public async Task<IActionResult> RemoveMember(Guid id, string userName)
-        => Ok(await Mediator.Send(new RemoveMissionUserCommand(id, userName)));
+    [HttpDelete("{id}/members/{userId}")]
+    public async Task<IActionResult> RemoveMember(Guid id, Guid userId)
+        => Ok(await Mediator.Send(new RemoveMissionUserCommand(id, userId)));
     //[Authorize(Policy = ReadMissionPolicy)]
     [HttpGet("{id}/project")]
     public async Task<ActionResult<ProjectDTO>> GetProject(Guid id)

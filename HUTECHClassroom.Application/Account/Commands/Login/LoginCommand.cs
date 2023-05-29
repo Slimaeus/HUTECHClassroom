@@ -1,5 +1,4 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
-using HUTECHClassroom.Application.Common.Extensions;
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,20 +10,26 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;
     private readonly ITokenService _tokenService;
+    private readonly IMapper _mapper;
+    private readonly IRepository<ApplicationUser> _userRepository;
 
-    public LoginCommandHandler(UserManager<ApplicationUser> userManger, ITokenService tokenService)
+    public LoginCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper)
     {
         _userManger = userManger;
         _tokenService = tokenService;
+        _mapper = mapper;
+        _userRepository = unitOfWork.Repository<ApplicationUser>();
     }
     public async Task<AccountDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManger
-            .Users
-            .Include(x => x.Faculty)
-            .Include(x => x.ApplicationUserRoles)
-            .ThenInclude(x => x.Role)
-            .SingleOrDefaultAsync(x => x.UserName == request.UserName);
+        var query = _userRepository
+            .SingleResultQuery()
+            .Include(i => i.Include(x => x.Faculty))
+            .Include(i => i.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.Role))
+            .AndFilter(x => x.UserName == request.UserName);
+
+        var user = await _userRepository
+            .SingleOrDefaultAsync(query, cancellationToken);
 
         //await _userManger.GetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken");
 
@@ -32,7 +37,11 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 
         var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
 
-        if (isSuccess) return user.ToAccountDTO(_tokenService.CreateToken(user));
+        var accountDTO = _mapper.Map<AccountDTO>(user);
+
+        accountDTO.Token = _tokenService.CreateToken(user);
+
+        if (isSuccess) return accountDTO;
 
         throw new UnauthorizedAccessException(nameof(ApplicationUser));
     }

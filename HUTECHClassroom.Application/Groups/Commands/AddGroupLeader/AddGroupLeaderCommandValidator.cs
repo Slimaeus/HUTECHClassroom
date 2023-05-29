@@ -4,6 +4,6 @@ internal class AddGroupLeaderCommandValidator : AbstractValidator<AddGroupLeader
     public AddGroupLeaderCommandValidator()
     {
         RuleFor(x => x.Id).NotNull().NotEmpty();
-        RuleFor(x => x.UserName).NotNull().NotEmpty();
+        RuleFor(x => x.UserId).NotNull().NotEmpty();
     }
 }

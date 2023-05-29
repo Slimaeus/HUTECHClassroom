@@ -5,6 +5,6 @@ public class AddClassroomUserCommandValidator : AbstractValidator<AddClassroomUs
     public AddClassroomUserCommandValidator()
     {
         RuleFor(x => x.Id).NotEmpty().NotNull();
-        RuleFor(x => x.UserName).NotEmpty().NotNull();
+        RuleFor(x => x.UserId).NotEmpty().NotNull();
     }
 }

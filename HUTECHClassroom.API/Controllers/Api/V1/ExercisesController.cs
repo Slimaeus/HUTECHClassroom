@@ -39,10 +39,10 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
     [HttpGet("{id}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetExerciseUsersWithPaginationQuery(id, @params)));
-    [HttpPost("{id}/members/{userName}")]
-    public async Task<IActionResult> AddMember(Guid id, string userName)
-        => Ok(await Mediator.Send(new AddExerciseUserCommand(id, userName)));
-    [HttpDelete("{id}/members/{userName}")]
-    public async Task<IActionResult> RemoveMember(Guid id, string userName)
-        => Ok(await Mediator.Send(new RemoveExerciseUserCommand(id, userName)));
+    [HttpPost("{id}/members/{userId}")]
+    public async Task<IActionResult> AddMember(Guid id, Guid userId)
+        => Ok(await Mediator.Send(new AddExerciseUserCommand(id, userId)));
+    [HttpDelete("{id}/members/{userId}")]
+    public async Task<IActionResult> RemoveMember(Guid id, Guid userId)
+        => Ok(await Mediator.Send(new RemoveExerciseUserCommand(id, userId)));
 }

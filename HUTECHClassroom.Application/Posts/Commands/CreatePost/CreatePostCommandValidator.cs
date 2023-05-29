@@ -9,7 +9,7 @@ public class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
         RuleFor(x => x.Content).NotNull().NotEmpty().MaximumLength(PostConstants.CONTENT_MAX_LENGTH);
         RuleFor(x => x.Link).MaximumLength(CommonConstants.LINK_MAX_LENGTH);
 
-        RuleFor(x => x.UserName).NotEmpty().NotNull();
+        RuleFor(x => x.UserId).NotEmpty().NotNull();
         RuleFor(x => x.ClassroomId).NotEmpty().NotNull();
     }
 }

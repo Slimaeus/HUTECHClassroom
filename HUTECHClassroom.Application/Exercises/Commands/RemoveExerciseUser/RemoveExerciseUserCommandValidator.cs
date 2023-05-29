@@ -5,6 +5,6 @@ public class RemoveExerciseUserCommandValidator : AbstractValidator<RemoveExerci
     public RemoveExerciseUserCommandValidator()
     {
         RuleFor(x => x.Id).NotEmpty().NotNull();
-        RuleFor(x => x.UserName).NotEmpty().NotNull();
+        RuleFor(x => x.UserId).NotEmpty().NotNull();
     }
 }

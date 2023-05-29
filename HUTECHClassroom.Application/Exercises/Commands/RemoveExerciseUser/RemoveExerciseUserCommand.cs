@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.RemoveExerciseUser;
 
-public record RemoveExerciseUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record RemoveExerciseUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class RemoveExerciseUserCommandHandler : IRequestHandler<RemoveExerciseUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -28,9 +28,9 @@ public class RemoveExerciseUserCommandHandler : IRequestHandler<RemoveExerciseUs
 
         if (exercise == null) throw new NotFoundException(nameof(Exercise), request.Id);
 
-        var user = exercise.ExerciseUsers.SingleOrDefault(x => x.User.UserName == request.UserName);
+        var user = exercise.ExerciseUsers.SingleOrDefault(x => x.UserId == request.UserId);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         exercise.ExerciseUsers.Remove(user);
 

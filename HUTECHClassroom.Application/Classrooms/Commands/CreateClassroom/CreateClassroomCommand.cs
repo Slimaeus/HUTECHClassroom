@@ -19,7 +19,7 @@ public record CreateClassroomCommand : CreateCommand<ClassroomDTO>
     public Semester Semester { get; set; } = Semester.I;
     public ClassroomType Type { get; set; } = ClassroomType.TheoryRoom;
     public Guid FacultyId { get; set; }
-    public string LecturerName { get; set; }
+    public Guid LecturerId { get; set; }
     public Guid SubjectId { get; set; }
 }
 public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, CreateClassroomCommand, ClassroomDTO>
@@ -38,11 +38,11 @@ public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, Cre
     {
         var userQuery = _userRepository
             .SingleResultQuery()
-            .AndFilter(x => x.UserName == request.LecturerName);
+            .AndFilter(x => x.Id == request.LecturerId);
 
         var lecturer = await _userRepository.SingleOrDefaultAsync(userQuery);
 
-        if (lecturer == null) throw new NotFoundException(nameof(ApplicationUser), request.LecturerName);
+        if (lecturer == null) throw new NotFoundException(nameof(ApplicationUser), request.LecturerId);
 
         entity.Lecturer = lecturer;
 

@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.AddGroupLeader;
-public record AddGroupLeaderCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record AddGroupLeaderCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -33,12 +33,12 @@ public class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderComman
 
         var userQuery = _userRepository
             .SingleResultQuery()
-            .AndFilter(x => x.UserName == request.UserName);
+            .AndFilter(x => x.Id == request.UserId);
 
         var user = await _userRepository
             .SingleOrDefaultAsync(userQuery, cancellationToken);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         var leaderRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == "Leader"), cancellationToken);
         var memberRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == "Member"), cancellationToken);

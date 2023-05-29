@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
 
-public record AddExerciseUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record AddExerciseUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class AddExerciseUserCommandHandler : IRequestHandler<AddExerciseUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -30,16 +30,16 @@ public class AddExerciseUserCommandHandler : IRequestHandler<AddExerciseUserComm
 
         if (exercise == null) throw new NotFoundException(nameof(Exercise), request.Id);
 
-        if (exercise.ExerciseUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
+        if (exercise.ExerciseUsers.Any(x => x.UserId == request.UserId)) throw new InvalidOperationException($"{request.UserId} already exists");
 
         var userQuery = _userRepository
             .SingleResultQuery()
-            .AndFilter(x => x.UserName == request.UserName);
+            .AndFilter(x => x.Id == request.UserId);
 
         var user = await _userRepository
             .SingleOrDefaultAsync(userQuery, cancellationToken);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         exercise.ExerciseUsers.Add(new ExerciseUser { User = user });
 

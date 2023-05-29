@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupUser;
 
-public record RemoveGroupUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record RemoveGroupUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class RemoveGroupUserCommandHandler : IRequestHandler<RemoveGroupUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -28,9 +28,9 @@ public class RemoveGroupUserCommandHandler : IRequestHandler<RemoveGroupUserComm
 
         if (group == null) throw new NotFoundException(nameof(Group), request.Id);
 
-        var user = group.GroupUsers.SingleOrDefault(x => x.User.UserName == request.UserName);
+        var user = group.GroupUsers.SingleOrDefault(x => x.UserId == request.UserId);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         group.GroupUsers.Remove(user);
 

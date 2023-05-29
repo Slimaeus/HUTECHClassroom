@@ -9,7 +9,6 @@ using HUTECHClassroom.Application.Projects.Commands.RemoveMission;
 using HUTECHClassroom.Application.Projects.Commands.UpdateProject;
 using HUTECHClassroom.Application.Projects.DTOs;
 using HUTECHClassroom.Application.Projects.Queries.GetProject;
-using HUTECHClassroom.Application.Projects.Queries.GetProjectMission;
 using HUTECHClassroom.Application.Projects.Queries.GetProjectMissionsWithPagination;
 using HUTECHClassroom.Application.Projects.Queries.GetProjectsWithPagination;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +39,6 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
     [HttpGet("{id}/missions")]
     public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(Guid id, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetProjectMissionsWithPaginationQuery(id, @params)));
-    // Same as Get Mission
-    [HttpGet("{id}/missions/{missionId}")]
-    public async Task<ActionResult<MissionDTO>> GetMission(Guid id, Guid missionId)
-        => Ok(await Mediator.Send(new GetProjectMissionQuery(id, missionId)));
     [HttpPost("{id}/missions/{missionId}")]
     public async Task<ActionResult<MissionDTO>> AddMission(Guid id, Guid missionId)
         => Ok(await Mediator.Send(new AddMissionCommand(id, missionId)));

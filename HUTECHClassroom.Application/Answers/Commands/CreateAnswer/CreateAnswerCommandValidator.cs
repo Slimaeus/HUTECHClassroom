@@ -16,7 +16,8 @@ public class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerComman
         RuleFor(x => x.Score)
             .NotEmpty().NotNull();
 
-        RuleFor(x => x.UserName).NotEmpty().NotNull();
+        RuleFor(x => x.UserId).NotEmpty().NotNull();
         RuleFor(x => x.ExerciseId).NotEmpty().NotNull();
+
     }
 }

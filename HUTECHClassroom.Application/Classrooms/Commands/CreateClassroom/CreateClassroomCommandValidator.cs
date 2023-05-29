@@ -18,6 +18,6 @@ public class CreateClassroomCommandValidator : AbstractValidator<CreateClassroom
         RuleFor(x => x.Semester).IsInEnum();
         RuleFor(x => x.Type).IsInEnum();
 
-        RuleFor(x => x.LecturerName).NotEmpty().NotNull();
+        RuleFor(x => x.LecturerId).NotEmpty().NotNull();
     }
 }

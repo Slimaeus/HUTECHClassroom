@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.AddClassroomUser;
 
-public record AddClassroomUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record AddClassroomUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class AddClassroomUserCommandHandler : IRequestHandler<AddClassroomUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -30,16 +30,16 @@ public class AddClassroomUserCommandHandler : IRequestHandler<AddClassroomUserCo
 
         if (classroom == null) throw new NotFoundException(nameof(Classroom), request.Id);
 
-        if (classroom.ClassroomUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
+        if (classroom.ClassroomUsers.Any(x => x.UserId == request.UserId)) throw new InvalidOperationException($"User {request.UserId} already exists");
 
         var userQuery = _userRepository
             .SingleResultQuery()
-            .AndFilter(x => x.UserName == request.UserName);
+            .AndFilter(x => x.Id == request.UserId);
 
         var user = await _userRepository
             .SingleOrDefaultAsync(userQuery, cancellationToken);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         classroom.ClassroomUsers.Add(new ClassroomUser { User = user });
 

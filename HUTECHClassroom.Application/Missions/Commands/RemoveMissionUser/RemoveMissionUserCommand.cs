@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser;
 
-public record RemoveMissionUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record RemoveMissionUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class RemoveMissionUserCommandHandler : IRequestHandler<RemoveMissionUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -28,9 +28,9 @@ public class RemoveMissionUserCommandHandler : IRequestHandler<RemoveMissionUser
 
         if (mission == null) throw new NotFoundException(nameof(Mission), request.Id);
 
-        var user = mission.MissionUsers.SingleOrDefault(x => x.User.UserName == request.UserName);
+        var user = mission.MissionUsers.SingleOrDefault(x => x.UserId == request.UserId);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         mission.MissionUsers.Remove(user);
 

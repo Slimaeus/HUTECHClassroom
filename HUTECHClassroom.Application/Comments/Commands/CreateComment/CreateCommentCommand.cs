@@ -7,7 +7,7 @@ namespace HUTECHClassroom.Application.Comments.Commands.CreateComment;
 public record CreateCommentCommand : CreateCommand<CommentDTO>
 {
     public string Content { get; set; }
-    public string UserName { get; set; }
+    public Guid UserId { get; set; }
     public Guid PostId { get; set; }
 }
 public class CreateCommentCommandHandler : CreateCommandHandler<Comment, CreateCommentCommand, CommentDTO>
@@ -23,11 +23,11 @@ public class CreateCommentCommandHandler : CreateCommandHandler<Comment, CreateC
     {
         var userQuery = _userRepository
             .SingleResultQuery()
-            .AndFilter(x => x.UserName == request.UserName);
+            .AndFilter(x => x.Id == request.UserId);
 
         var user = await _userRepository.SingleOrDefaultAsync(userQuery);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         entity.User = user;
 

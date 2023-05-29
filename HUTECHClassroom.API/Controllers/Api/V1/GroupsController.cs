@@ -1,5 +1,4 @@
-﻿using HUTECHClassroom.Application.Common.DTOs;
-using HUTECHClassroom.Application.Common.Models;
+﻿using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Groups;
 using HUTECHClassroom.Application.Groups.Commands.AddGroupLeader;
 using HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
@@ -13,7 +12,6 @@ using HUTECHClassroom.Application.Groups.DTOs;
 using HUTECHClassroom.Application.Groups.Queries.GetGroup;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
-using HUTECHClassroom.Application.Groups.Queries.GetGroupUser;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupUsersWithPagination;
 using HUTECHClassroom.Application.Projects.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -48,29 +46,25 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [HttpGet("{groupId}/members")]
     public async Task<ActionResult<IEnumerable<GroupUserDTO>>> GetMembers(Guid groupId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetGroupUsersWithPaginationQuery(groupId, @params)));
-    // Same as Get User Profile
-    [HttpGet("{groupId}/members/{userName}")]
-    public async Task<ActionResult<MemberDTO>> GetMember(Guid groupId, string userName)
-        => Ok(await Mediator.Send(new GetGroupUserQuery(groupId, userName)));
-    [HttpPost("{groupId}/members/{userName}")]
-    public async Task<IActionResult> AddMember(Guid groupId, string userName)
-        => Ok(await Mediator.Send(new AddGroupUserCommand(groupId, userName)));
-    [HttpDelete("{groupId}/members/{userName}")]
-    public async Task<IActionResult> RemoveMember(Guid groupId, string userName)
-        => Ok(await Mediator.Send(new RemoveGroupUserCommand(groupId, userName)));
+    [HttpPost("{groupId}/members/{userId}")]
+    public async Task<IActionResult> AddMember(Guid groupId, Guid userId)
+        => Ok(await Mediator.Send(new AddGroupUserCommand(groupId, userId)));
+    [HttpDelete("{groupId}/members/{userId}")]
+    public async Task<IActionResult> RemoveMember(Guid groupId, Guid userId)
+        => Ok(await Mediator.Send(new RemoveGroupUserCommand(groupId, userId)));
     [HttpGet("{groupId}/projects")]
     public async Task<ActionResult<IEnumerable<ProjectDTO>>> GetProjects(Guid groupId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetGroupProjectsWithPaginationQuery(groupId, @params)));
-    [HttpPost("{groupId}/add-leader/{userName}")]
-    public async Task<IActionResult> AddLeader(Guid groupId, string userName)
+    [HttpPost("{groupId}/add-leader/{userId}")]
+    public async Task<IActionResult> AddLeader(Guid groupId, Guid userId)
     {
-        await Mediator.Send(new AddGroupLeaderCommand(groupId, userName));
+        await Mediator.Send(new AddGroupLeaderCommand(groupId, userId));
         return NoContent();
     }
-    [HttpDelete("{groupId}/remove-leader/{userName}")]
-    public async Task<IActionResult> RemoveLeader(Guid groupId, string userName)
+    [HttpDelete("{groupId}/remove-leader/{userId}")]
+    public async Task<IActionResult> RemoveLeader(Guid groupId, Guid userId)
     {
-        await Mediator.Send(new RemoveGroupLeaderCommand(groupId, userName));
+        await Mediator.Send(new RemoveGroupLeaderCommand(groupId, userId));
         return NoContent();
     }
 }

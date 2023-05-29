@@ -8,7 +8,7 @@ public record CreateGroupCommand : CreateCommand<GroupDTO>
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public string LeaderName { get; set; }
+    public Guid LeaderId { get; set; }
     public Guid ClassroomId { get; set; }
 }
 public class CreateGroupCommandHandler : CreateCommandHandler<Group, CreateGroupCommand, GroupDTO>
@@ -25,11 +25,11 @@ public class CreateGroupCommandHandler : CreateCommandHandler<Group, CreateGroup
     {
         var userQuery = _userRepository
             .SingleResultQuery()
-            .AndFilter(x => x.UserName == request.LeaderName);
+            .AndFilter(x => x.Id == request.LeaderId);
 
         var leader = await _userRepository.SingleOrDefaultAsync(userQuery);
 
-        if (leader == null) throw new NotFoundException(nameof(ApplicationUser), request.LeaderName);
+        if (leader == null) throw new NotFoundException(nameof(ApplicationUser), request.LeaderId);
 
         entity.Leader = leader;
 

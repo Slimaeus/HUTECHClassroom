@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
 
-public record AddGroupUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record AddGroupUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -32,16 +32,16 @@ public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, U
 
         if (group == null) throw new NotFoundException(nameof(Group), request.Id);
 
-        if (group.GroupUsers.Any(x => x.User.UserName == request.UserName)) throw new InvalidOperationException($"{request.UserName} already exists");
+        if (group.GroupUsers.Any(x => x.UserId == request.UserId)) throw new InvalidOperationException($"{request.UserId} already exists");
 
         var userQuery = _userRepository
             .SingleResultQuery()
-            .AndFilter(x => x.UserName == request.UserName);
+            .AndFilter(x => x.Id == request.UserId);
 
         var user = await _userRepository
             .SingleOrDefaultAsync(userQuery, cancellationToken);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         group.GroupUsers.Add(new GroupUser
         {

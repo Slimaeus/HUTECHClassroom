@@ -8,7 +8,7 @@ public class CreateCommentCommandValidator : AbstractValidator<CreateCommentComm
     {
         RuleFor(x => x.Content).NotEmpty().MaximumLength(CommentConstants.CONTENT_MAX_LENGTH);
 
-        RuleFor(x => x.UserName).NotEmpty().NotNull();
+        RuleFor(x => x.UserId).NotEmpty().NotNull();
         RuleFor(x => x.PostId).NotEmpty().NotNull();
     }
 }

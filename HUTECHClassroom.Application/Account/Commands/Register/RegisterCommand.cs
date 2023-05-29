@@ -1,8 +1,8 @@
-﻿using HUTECHClassroom.Application.Account.DTOs;
-using HUTECHClassroom.Application.Common.Exceptions;
-using HUTECHClassroom.Application.Common.Extensions;
+﻿using AutoMapper.QueryableExtensions;
+using HUTECHClassroom.Application.Account.DTOs;
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Account.Commands.Register;
 
@@ -19,13 +19,15 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
 {
     private readonly UserManager<ApplicationUser> _userManger;
     private readonly ITokenService _tokenService;
-    private readonly IRepository<Faculty> _facultyRepository;
+    private readonly IMapper _mapper;
+    private readonly IRepository<ApplicationUser> _userRepository;
 
-    public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService)
+    public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper)
     {
         _userManger = userManger;
         _tokenService = tokenService;
-        _facultyRepository = unitOfWork.Repository<Faculty>();
+        _mapper = mapper;
+        _userRepository = unitOfWork.Repository<ApplicationUser>();
     }
     public async Task<AccountDTO> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
@@ -39,21 +41,24 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
 
         if (request.FacultyId != Guid.Empty)
         {
-            var facultyQuery = _facultyRepository
-                .SingleResultQuery()
-                .AndFilter(x => x.Id == request.FacultyId);
 
-            var faculty = await _facultyRepository.SingleOrDefaultAsync(facultyQuery, cancellationToken);
-            // TODO: Return Bad Request
-            if (faculty == null) throw new NotFoundException(nameof(Faculty), request.FacultyId);
-
-            user.Faculty = faculty;
+            user.FacultyId = request.FacultyId;
         }
-
 
         var result = await _userManger.CreateAsync(user, request.Password);
 
-        if (result.Succeeded) return user.ToAccountDTO(_tokenService.CreateToken(user));
+        var query = _userRepository
+            .SingleResultQuery()
+            .AndFilter(x => x.Id == user.Id);
+
+        var accountDTO = await _userRepository
+            .ToQueryable(query)
+            .ProjectTo<AccountDTO>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        accountDTO.Token = _tokenService.CreateToken(user);
+
+        if (result.Succeeded) return accountDTO;
 
         throw new InvalidOperationException("Failed to register");
     }

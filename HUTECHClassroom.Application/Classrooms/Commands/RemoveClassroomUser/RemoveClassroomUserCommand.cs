@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.RemoveClassroomUser;
 
-public record RemoveClassroomUserCommand(Guid Id, string UserName) : IRequest<Unit>;
+public record RemoveClassroomUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
 public class RemoveClassroomUserCommandHandler : IRequestHandler<RemoveClassroomUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -28,9 +28,9 @@ public class RemoveClassroomUserCommandHandler : IRequestHandler<RemoveClassroom
 
         if (classroom == null) throw new NotFoundException(nameof(Classroom), request.Id);
 
-        var user = classroom.ClassroomUsers.SingleOrDefault(x => x.User.UserName == request.UserName);
+        var user = classroom.ClassroomUsers.SingleOrDefault(x => x.UserId == request.UserId);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserName);
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
         classroom.ClassroomUsers.Remove(user);
 
