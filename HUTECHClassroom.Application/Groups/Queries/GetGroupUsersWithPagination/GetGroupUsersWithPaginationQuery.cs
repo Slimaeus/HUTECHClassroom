@@ -21,6 +21,6 @@ public class GetGroupUsersWithPaginationQueryHandler : GetWithPaginationQueryHan
         var toLowerSearchString = searchString.ToLower();
         return x => x.User.UserName.ToLower().Contains(toLowerSearchString) || x.User.Email.ToLower().Contains(toLowerSearchString);
     }
-    protected override IQuery<GroupUser> Order(IMultipleResultQuery<GroupUser> query) => query.OrderByDescending(x => x.User.UserName);
+    protected override IQuery<GroupUser> Order(IMultipleResultQuery<GroupUser> query) => query.OrderBy(x => x.User.UserName);
 
 }

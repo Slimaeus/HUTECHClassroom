@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Common.Models;
+﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Projects.DTOs;
 using HUTECHClassroom.Domain.Interfaces;
@@ -15,6 +16,7 @@ public class GetUserProjectsWithPaginationQueryHandler : GetWithPaginationQueryH
     {
         _userAccessor = userAccessor;
     }
+    protected override IQuery<Project> Order(IMultipleResultQuery<Project> query) => query.OrderBy(x => x.CreateDate);
     protected override Expression<Func<Project, bool>> FilterPredicate(GetUserProjectsWithPaginationQuery query)
         => x => x.Group.GroupUsers.Any(y => y.UserId == _userAccessor.Id) || x.Group.LeaderId == _userAccessor.Id;
 }

@@ -23,6 +23,6 @@ public class GetClassroomExercisesWithPaginationQueryHandler : GetWithPagination
         || x.Instruction.ToLower().Contains(toLowerSearchString)
         || x.Topic.ToLower().Contains(toLowerSearchString);
     }
-    protected override IQuery<Exercise> Order(IMultipleResultQuery<Exercise> query) => query.OrderByDescending(x => x.CreateDate);
+    protected override IQuery<Exercise> Order(IMultipleResultQuery<Exercise> query) => query.OrderBy(x => x.CreateDate);
 
 }

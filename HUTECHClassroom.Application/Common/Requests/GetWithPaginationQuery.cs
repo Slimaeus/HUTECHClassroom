@@ -64,7 +64,6 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
         => x => true;
     protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
         => x => true;
-
     protected virtual IQuery<TEntity> Order(IMultipleResultQuery<TEntity> query) => query;
     protected virtual IMultipleResultQuery<TEntity> SortingQuery(IMultipleResultQuery<TEntity> query, TQuery request) => query;
 }

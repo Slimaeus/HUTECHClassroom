@@ -1,6 +1,7 @@
-﻿using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Common.Requests;
+﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
 using HUTECHClassroom.Application.Comments.DTOs;
+using HUTECHClassroom.Application.Common.Models;
+using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Domain.Interfaces;
 using System.Linq.Expressions;
 
@@ -15,6 +16,7 @@ public class GetUserCommentsWithPaginationQueryHandler : GetWithPaginationQueryH
     {
         _userAccessor = userAccessor;
     }
+    protected override IQuery<Comment> Order(IMultipleResultQuery<Comment> query) => query.OrderBy(x => x.CreateDate);
     protected override Expression<Func<Comment, bool>> FilterPredicate(GetUserCommentsWithPaginationQuery query)
         => x => x.UserId == _userAccessor.Id;
 }

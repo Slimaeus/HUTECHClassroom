@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Common.Models;
+﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Roles.DTOs;
 using HUTECHClassroom.Domain.Interfaces;
@@ -15,6 +16,7 @@ public class GetUserRolesWithPaginationQueryHandler : GetWithPaginationQueryHand
     {
         _userAccessor = userAccessor;
     }
+    protected override IQuery<ApplicationRole> Order(IMultipleResultQuery<ApplicationRole> query) => query.OrderBy(x => x.Name);
     protected override Expression<Func<ApplicationRole, bool>> FilterPredicate(GetUserRolesWithPaginationQuery query)
         => x => x.ApplicationUserRoles.Any(y => y.UserId == _userAccessor.Id);
 }

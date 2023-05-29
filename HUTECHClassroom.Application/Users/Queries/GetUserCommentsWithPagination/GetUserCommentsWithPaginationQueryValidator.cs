@@ -4,6 +4,6 @@ using HUTECHClassroom.Application.Common.Validators;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserCommentsWithPagination;
 
-public class GetUserComemnsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserCommentsWithPaginationQuery, CommentDTO, PaginationParams>
+public class GetUserCommentsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserCommentsWithPaginationQuery, CommentDTO, PaginationParams>
 {
 }

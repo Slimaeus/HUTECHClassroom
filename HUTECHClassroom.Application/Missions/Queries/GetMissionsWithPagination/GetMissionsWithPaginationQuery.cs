@@ -15,7 +15,7 @@ public class GetMissionsWithPaginationQueryHandler : GetWithPaginationQueryHandl
     }
     protected override Expression<Func<Mission, bool>> SearchStringPredicate(string searchString)
         => x => x.Title.ToLower().Contains(searchString.ToLower()) || x.Description.ToLower().Contains(searchString.ToLower());
-    protected override IQuery<Mission> Order(IMultipleResultQuery<Mission> query) => query.OrderByDescending(x => x.CreateDate);
+    protected override IQuery<Mission> Order(IMultipleResultQuery<Mission> query) => query.OrderBy(x => x.CreateDate);
 
     protected override IMultipleResultQuery<Mission> SortingQuery(IMultipleResultQuery<Mission> query, GetMissionsWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.TitleOrder, x => x.Title)

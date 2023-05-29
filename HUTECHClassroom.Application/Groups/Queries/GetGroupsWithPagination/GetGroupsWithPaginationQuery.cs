@@ -16,7 +16,7 @@ public class GetGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler
     {
         return x => x.Name.ToLower().Equals(searchString.ToLower()) || x.Description.ToLower().Equals(searchString.ToLower());
     }
-    protected override IQuery<Group> Order(IMultipleResultQuery<Group> query) => query.OrderByDescending(x => x.CreateDate);
+    protected override IQuery<Group> Order(IMultipleResultQuery<Group> query) => query.OrderBy(x => x.CreateDate);
 
     protected override IMultipleResultQuery<Group> SortingQuery(IMultipleResultQuery<Group> query, GetGroupsWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.NameOrder, x => x.Name)
