@@ -11,7 +11,7 @@ public record RegisterCommand : IRequest<AccountDTO>
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Password { get; set; }
-    public Guid FacultyId { get; set; }
+    public Guid? FacultyId { get; set; }
 }
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDTO>
 {

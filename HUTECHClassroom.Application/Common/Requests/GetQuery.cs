@@ -31,7 +31,7 @@ public abstract class GetQueryHandler<TKey, TEntity, TQuery, TDTO> : IRequestHan
             .ProjectTo<TDTO>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync(cancellationToken);
 
-        return entity ?? throw new NotFoundException(nameof(TEntity), GetNotFoundKey(request));
+        return entity ?? throw new NotFoundException(typeof(TEntity).Name, GetNotFoundKey(request));
     }
     public virtual object GetNotFoundKey(TQuery query) => string.Empty;
     public virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)

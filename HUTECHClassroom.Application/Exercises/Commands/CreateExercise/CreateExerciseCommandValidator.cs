@@ -1,10 +1,11 @@
-﻿using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.Application.Common.Validators.Classrooms;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
 
 public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCommand>
 {
-    public CreateExerciseCommandValidator()
+    public CreateExerciseCommandValidator(ClassroomExistenceByNotNullIdValidator classroomIdValidator)
     {
         RuleFor(x => x.Title)
             .MaximumLength(ExerciseConstants.TITLE_MAX_LENGTH)
@@ -28,6 +29,8 @@ public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCo
         RuleFor(x => x.Criteria)
             .MaximumLength(ExerciseConstants.CRITERIA_MAX_LENGTH);
 
-        RuleFor(x => x.ClassroomId).NotEmpty().NotNull();
+        RuleFor(x => x.ClassroomId)
+            .NotEmpty().NotNull()
+            .SetValidator(classroomIdValidator);
     }
 }

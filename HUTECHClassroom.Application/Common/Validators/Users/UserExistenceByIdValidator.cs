@@ -2,7 +2,7 @@
 
 public class UserExistenceByIdValidator : EntityExistenceByIdValidator<ApplicationUser>
 {
-    public UserExistenceByIdValidator(IUnitOfWork unitOfWork) : base(unitOfWork, "The specified User Id does not exist.")
+    public UserExistenceByIdValidator(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 }

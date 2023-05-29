@@ -2,7 +2,7 @@
 
 public class ClassroomExistenceByIdValidator : EntityExistenceByIdValidator<Classroom>
 {
-    public ClassroomExistenceByIdValidator(IUnitOfWork unitOfWork) : base(unitOfWork, "The specified Classroom Id does not exist.")
+    public ClassroomExistenceByIdValidator(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 }

@@ -1,10 +1,12 @@
-﻿using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.Application.Common.Validators.Exercises;
+using HUTECHClassroom.Application.Common.Validators.Users;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
 
 public class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerCommand>
 {
-    public CreateAnswerCommandValidator()
+    public CreateAnswerCommandValidator(UserExistenceByNotNullIdValidator userIdValidator, ExerciseExistenceByNotNullIdValidator exerciseIdVaidator)
     {
         RuleFor(x => x.Description)
             .MaximumLength(AnswerConstants.DESCRIPTION_MAX_LENGTH)
@@ -16,8 +18,10 @@ public class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerComman
         RuleFor(x => x.Score)
             .NotEmpty().NotNull();
 
-        RuleFor(x => x.UserId).NotEmpty().NotNull();
-        RuleFor(x => x.ExerciseId).NotEmpty().NotNull();
+        RuleFor(x => x.UserId).NotEmpty().NotNull()
+            .SetValidator(userIdValidator);
+        RuleFor(x => x.ExerciseId).NotEmpty().NotNull()
+            .SetValidator(exerciseIdVaidator);
 
     }
 }

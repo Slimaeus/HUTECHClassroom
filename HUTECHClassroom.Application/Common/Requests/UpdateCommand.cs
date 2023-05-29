@@ -26,7 +26,7 @@ public abstract class UpdateCommandHandler<TKey, TEntity, TCommand> : IRequestHa
                                .AndFilter(m => m.Id.Equals(request.Id));
 
         var entity = await _repository.FirstOrDefaultAsync(query, cancellationToken)
-                     ?? throw new NotFoundException(nameof(TEntity), request.Id);
+                     ?? throw new NotFoundException(typeof(TEntity).Name, request.Id);
 
         _mapper.Map(request, entity);
 
