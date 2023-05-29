@@ -26,7 +26,7 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
         => HandleGetQuery(new GetProjectQuery(id));
     [HttpPost]
     public Task<ActionResult<ProjectDTO>> Post(CreateProjectCommand request)
-        => HandleCreateCommand(request, nameof(GetProjectDetails));
+        => HandleCreateCommand(request, nameof(GetProjectDetails), id => new GetProjectQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdateProjectCommand request)
         => HandleUpdateCommand(id, request);

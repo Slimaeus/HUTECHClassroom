@@ -24,7 +24,7 @@ public class PostsController : BaseEntityApiController<PostDTO>
         => HandleGetQuery(new GetPostQuery(id));
     [HttpPost]
     public Task<ActionResult<PostDTO>> Post(CreatePostCommand command)
-        => HandleCreateCommand(command, nameof(GetPostDetails));
+        => HandleCreateCommand(command, nameof(GetPostDetails), id => new GetPostQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdatePostCommand request)
         => HandleUpdateCommand(id, request);

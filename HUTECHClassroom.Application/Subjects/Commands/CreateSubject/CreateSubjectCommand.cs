@@ -1,17 +1,16 @@
 ﻿using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Application.Subjects.DTOs;
 
 namespace HUTECHClassroom.Application.Subjects.Commands.CreateSubject;
 
-public record CreateSubjectCommand : CreateCommand<SubjectDTO>
+public record CreateSubjectCommand : CreateCommand
 {
     public string Code { get; set; }
     public string Title { get; set; }
     public int TotalCredits { get; set; }
     public Guid MajorId { get; set; }
 }
-public class CreateSubjectCommandHandler : CreateCommandHandler<Subject, CreateSubjectCommand, SubjectDTO>
+public class CreateSubjectCommandHandler : CreateCommandHandler<Subject, CreateSubjectCommand>
 {
     private readonly IRepository<Major> _majorRepository;
 

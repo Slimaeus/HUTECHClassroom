@@ -20,7 +20,7 @@ public class MajorsController : BaseEntityApiController<MajorDTO>
         => HandleGetQuery(new GetMajorQuery(id));
     [HttpPost]
     public Task<ActionResult<MajorDTO>> Post(CreateMajorCommand command)
-        => HandleCreateCommand(command, nameof(GetMajorDetails));
+        => HandleCreateCommand(command, nameof(GetMajorDetails), id => new GetMajorQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdateMajorCommand request)
         => HandleUpdateCommand(id, request);

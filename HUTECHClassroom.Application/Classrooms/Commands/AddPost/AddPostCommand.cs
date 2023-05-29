@@ -1,5 +1,4 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
-using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.AddPost;
@@ -28,20 +27,23 @@ public class AddPostCommandHandler : IRequestHandler<AddPostCommand, Unit>
         var classroom = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (classroom == null) throw new NotFoundException(nameof(Classroom), request.Id);
+        if (classroom != null && classroom.Posts.Any(x => x.Id == request.PostId)) throw new InvalidOperationException($"{request.PostId} already exists");
 
-        if (classroom.Posts.Any(x => x.Id == request.PostId)) throw new InvalidOperationException($"{request.PostId} already exists");
+        if (request.PostId != Guid.Empty)
+        {
+            var postQuery = _postRepository
+                .SingleResultQuery()
+                .AndFilter(x => x.Id == request.PostId);
 
-        var postQuery = _postRepository
-            .SingleResultQuery()
-            .AndFilter(x => x.Id == request.PostId);
+            var post = await _postRepository
+                .SingleOrDefaultAsync(postQuery, cancellationToken);
 
-        var post = await _postRepository
-            .SingleOrDefaultAsync(postQuery, cancellationToken);
+            if (post != null)
+            {
+                classroom.Posts.Add(post);
+            }
 
-        if (post == null) throw new NotFoundException(nameof(Post), request.PostId);
-
-        classroom.Posts.Add(post);
+        }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 

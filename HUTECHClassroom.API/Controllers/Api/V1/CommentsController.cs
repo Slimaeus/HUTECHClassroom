@@ -21,7 +21,7 @@ public class CommentsController : BaseEntityApiController<CommentDTO>
         => HandleGetQuery(new GetCommentQuery(id));
     [HttpPost]
     public Task<ActionResult<CommentDTO>> Comment(CreateCommentCommand command)
-        => HandleCreateCommand(command, nameof(GetCommentDetails));
+        => HandleCreateCommand(command, nameof(GetCommentDetails), id => new GetCommentQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdateCommentCommand request)
         => HandleUpdateCommand(id, request);

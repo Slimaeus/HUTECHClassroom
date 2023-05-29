@@ -1,10 +1,12 @@
-﻿using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.Application.Common.Validators.Faculties;
+using HUTECHClassroom.Application.Common.Validators.Users;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 
 public class CreateClassroomCommandValidator : AbstractValidator<CreateClassroomCommand>
 {
-    public CreateClassroomCommandValidator()
+    public CreateClassroomCommandValidator(UserExistenceByIdValidator userIdValidator, FacultyExistenceByIdValidator facultyIdValidator)
     {
         RuleFor(x => x.Title).NotEmpty().NotNull().MaximumLength(ClassroomConstants.TITLE_MAX_LENGTH);
         RuleFor(x => x.Description).MaximumLength(ClassroomConstants.DESCRIPTION_MAX_LENGTH);
@@ -18,6 +20,10 @@ public class CreateClassroomCommandValidator : AbstractValidator<CreateClassroom
         RuleFor(x => x.Semester).IsInEnum();
         RuleFor(x => x.Type).IsInEnum();
 
-        RuleFor(x => x.LecturerId).NotEmpty().NotNull();
+        RuleFor(x => x.LecturerId).NotEmpty().NotNull()
+            .SetValidator(userIdValidator);
+
+        RuleFor(x => x.FacultyId)
+            .SetValidator(facultyIdValidator);
     }
 }

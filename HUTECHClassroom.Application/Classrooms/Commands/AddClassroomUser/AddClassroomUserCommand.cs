@@ -32,16 +32,20 @@ public class AddClassroomUserCommandHandler : IRequestHandler<AddClassroomUserCo
 
         if (classroom.ClassroomUsers.Any(x => x.UserId == request.UserId)) throw new InvalidOperationException($"User {request.UserId} already exists");
 
-        var userQuery = _userRepository
-            .SingleResultQuery()
-            .AndFilter(x => x.Id == request.UserId);
+        if (request.UserId != Guid.Empty)
+        {
+            var userQuery = _userRepository
+                .SingleResultQuery()
+                .AndFilter(x => x.Id == request.UserId);
 
-        var user = await _userRepository
-            .SingleOrDefaultAsync(userQuery, cancellationToken);
+            var user = await _userRepository
+                .SingleOrDefaultAsync(userQuery, cancellationToken);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
-
-        classroom.ClassroomUsers.Add(new ClassroomUser { User = user });
+            if (user != null)
+            {
+                classroom.ClassroomUsers.Add(new ClassroomUser { User = user });
+            }
+        }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 

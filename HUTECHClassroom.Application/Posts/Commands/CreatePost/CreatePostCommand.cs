@@ -1,17 +1,16 @@
 ﻿using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Application.Posts.DTOs;
 
 namespace HUTECHClassroom.Application.Posts.Commands.CreatePost;
 
-public record CreatePostCommand : CreateCommand<PostDTO>
+public record CreatePostCommand : CreateCommand
 {
     public string Content { get; set; }
     public string Link { get; set; }
     public Guid UserId { get; set; }
     public Guid ClassroomId { get; set; }
 }
-public class CreatePostCommandHandler : CreateCommandHandler<Post, CreatePostCommand, PostDTO>
+public class CreatePostCommandHandler : CreateCommandHandler<Post, CreatePostCommand>
 {
     private readonly IRepository<ApplicationUser> _userRepository;
     private readonly IRepository<Classroom> _classroomRepository;

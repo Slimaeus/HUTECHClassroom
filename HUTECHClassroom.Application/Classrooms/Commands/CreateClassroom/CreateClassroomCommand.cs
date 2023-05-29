@@ -1,11 +1,10 @@
-﻿using HUTECHClassroom.Application.Classrooms.DTOs;
-using HUTECHClassroom.Application.Common.Exceptions;
+﻿using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Domain.Enums;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 
-public record CreateClassroomCommand : CreateCommand<ClassroomDTO>
+public record CreateClassroomCommand : CreateCommand
 {
     public string Title { get; set; }
     public string Description { get; set; }
@@ -22,7 +21,7 @@ public record CreateClassroomCommand : CreateCommand<ClassroomDTO>
     public Guid LecturerId { get; set; }
     public Guid SubjectId { get; set; }
 }
-public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, CreateClassroomCommand, ClassroomDTO>
+public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, CreateClassroomCommand>
 {
     private readonly IRepository<ApplicationUser> _userRepository;
     private readonly IRepository<Faculty> _facultyRepository;

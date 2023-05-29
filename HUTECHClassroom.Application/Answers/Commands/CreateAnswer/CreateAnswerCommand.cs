@@ -1,10 +1,9 @@
-﻿using HUTECHClassroom.Application.Answers.DTOs;
-using HUTECHClassroom.Application.Common.Exceptions;
+﻿using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
 
 namespace HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
 
-public record CreateAnswerCommand : CreateCommand<AnswerDTO>
+public record CreateAnswerCommand : CreateCommand
 {
     public string Description { get; set; }
     public string Link { get; set; }
@@ -12,7 +11,7 @@ public record CreateAnswerCommand : CreateCommand<AnswerDTO>
     public Guid UserId { get; set; }
     public Guid ExerciseId { get; set; }
 }
-public class CreateAnswerCommandHandler : CreateCommandHandler<Answer, CreateAnswerCommand, AnswerDTO>
+public class CreateAnswerCommandHandler : CreateCommandHandler<Answer, CreateAnswerCommand>
 {
     private readonly IRepository<ApplicationUser> _userRepository;
     private readonly IRepository<Exercise> _exerciseRepository;

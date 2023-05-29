@@ -26,7 +26,7 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
         => HandleGetQuery(new GetExerciseQuery(id));
     [HttpPost]
     public Task<ActionResult<ExerciseDTO>> Post(CreateExerciseCommand command)
-        => HandleCreateCommand(command, nameof(GetExerciseDetails));
+        => HandleCreateCommand(command, nameof(GetExerciseDetails), id => new GetExerciseQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdateExerciseCommand request)
         => HandleUpdateCommand(id, request);

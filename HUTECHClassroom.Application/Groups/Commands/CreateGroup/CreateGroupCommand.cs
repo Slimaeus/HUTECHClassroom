@@ -1,17 +1,16 @@
 ﻿using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Application.Groups.DTOs;
 
 namespace HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 
-public record CreateGroupCommand : CreateCommand<GroupDTO>
+public record CreateGroupCommand : CreateCommand
 {
     public string Name { get; set; }
     public string Description { get; set; }
     public Guid LeaderId { get; set; }
     public Guid ClassroomId { get; set; }
 }
-public class CreateGroupCommandHandler : CreateCommandHandler<Group, CreateGroupCommand, GroupDTO>
+public class CreateGroupCommandHandler : CreateCommandHandler<Group, CreateGroupCommand>
 {
     private readonly IRepository<ApplicationUser> _userRepository;
     private readonly IRepository<Classroom> _classroomRepository;

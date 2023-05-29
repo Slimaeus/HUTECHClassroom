@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HUTECHClassroom.Application.Common.Validators.Faculties;
+using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.Register;
 
 public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IRepository<Faculty> _facultyRepository;
 
-    public RegisterCommandValidator(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
+    public RegisterCommandValidator(UserManager<ApplicationUser> userManager, FacultyExistenceByIdValidator facultyIdValidator)
     {
         _userManager = userManager;
-        _facultyRepository = unitOfWork.Repository<Faculty>();
 
         RuleFor(x => x.UserName)
             .NotEmpty().WithMessage("UserName is required.")
@@ -33,7 +32,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .MinimumLength(8).WithMessage("Password must be at least 8 characters long.");
 
         RuleFor(x => x.FacultyId)
-            .MustAsync(ValidateFacultyId).WithMessage("The specified Faculty Id does not exist.");
+            .SetValidator(facultyIdValidator);
     }
 
     private async Task<bool> IsUniqueUserName(string userName, CancellationToken cancellationToken)
@@ -44,17 +43,5 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     private async Task<bool> IsUniqueEmail(string email, CancellationToken cancellationToken)
     {
         return await _userManager.FindByEmailAsync(email) == null && await _userManager.FindByNameAsync(email) == null; ;
-    }
-
-    private async Task<bool> ValidateFacultyId(Guid facultyId, CancellationToken cancellationToken)
-    {
-        if (facultyId == Guid.Empty)
-        {
-            return true; // Skip validation if facultyId is not provided
-        }
-
-        // There should only one faculty found
-        var isFacultyIdValid = await _facultyRepository.CountAsync(x => x.Id == facultyId, cancellationToken) == 1;
-        return isFacultyIdValid;
     }
 }

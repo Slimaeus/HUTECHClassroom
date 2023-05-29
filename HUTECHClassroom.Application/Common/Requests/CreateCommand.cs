@@ -3,11 +3,10 @@ using HUTECHClassroom.Domain.Common;
 
 namespace HUTECHClassroom.Application.Common.Requests;
 
-public record CreateCommand<TDTO> : IRequest<TDTO> where TDTO : class;
-public abstract class CreateCommandHandler<TKey, TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
+public record CreateCommand<TKey> : IRequest<TKey>;
+public abstract class CreateCommandHandler<TKey, TEntity, TCommand> : IRequestHandler<TCommand, TKey>
     where TEntity : class, IEntity<TKey>
-    where TCommand : CreateCommand<TDTO>
-    where TDTO : class
+    where TCommand : CreateCommand<TKey>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<TEntity> _repository;
@@ -19,7 +18,7 @@ public abstract class CreateCommandHandler<TKey, TEntity, TCommand, TDTO> : IReq
         _repository = unitOfWork.Repository<TEntity>();
         _mapper = mapper;
     }
-    public async Task<TDTO> Handle(TCommand request, CancellationToken cancellationToken)
+    public async Task<TKey> Handle(TCommand request, CancellationToken cancellationToken)
     {
         var entity = _mapper.Map<TEntity>(request);
 
@@ -29,20 +28,18 @@ public abstract class CreateCommandHandler<TKey, TEntity, TCommand, TDTO> : IReq
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);
 
-        var result = _mapper.Map<TDTO>(entity);
-
         _repository.RemoveTracking(entity);
 
-        return result;
+        return entity.Id;
     }
 
     protected virtual Task ValidateAdditionalField(TCommand request, TEntity entity) => Task.CompletedTask;
 }
+public record CreateCommand : CreateCommand<Guid>;
 
-public abstract class CreateCommandHandler<TEntity, TCommand, TDTO> : CreateCommandHandler<Guid, TEntity, TCommand, TDTO>
+public abstract class CreateCommandHandler<TEntity, TCommand> : CreateCommandHandler<Guid, TEntity, TCommand>
     where TEntity : class, IEntity<Guid>
-    where TCommand : CreateCommand<TDTO>
-    where TDTO : class
+    where TCommand : CreateCommand<Guid>
 {
     protected CreateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

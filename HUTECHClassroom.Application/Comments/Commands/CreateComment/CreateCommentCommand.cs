@@ -1,16 +1,15 @@
-﻿using HUTECHClassroom.Application.Comments.DTOs;
-using HUTECHClassroom.Application.Common.Exceptions;
+﻿using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
 
 namespace HUTECHClassroom.Application.Comments.Commands.CreateComment;
 
-public record CreateCommentCommand : CreateCommand<CommentDTO>
+public record CreateCommentCommand : CreateCommand
 {
     public string Content { get; set; }
     public Guid UserId { get; set; }
     public Guid PostId { get; set; }
 }
-public class CreateCommentCommandHandler : CreateCommandHandler<Comment, CreateCommentCommand, CommentDTO>
+public class CreateCommentCommandHandler : CreateCommandHandler<Comment, CreateCommentCommand>
 {
     private readonly IRepository<ApplicationUser> _userRepository;
     private readonly IRepository<Post> _postRepository;

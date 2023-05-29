@@ -31,7 +31,7 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
         => HandleGetQuery(new GetGroupQuery(groupId));
     [HttpPost]
     public Task<ActionResult<GroupDTO>> Post(CreateGroupCommand command)
-        => HandleCreateCommand(command, nameof(GetGroupDetails));
+        => HandleCreateCommand(command, nameof(GetGroupDetails), id => new GetGroupQuery(id));
     [Authorize(Policy = RequireLeaderGroupRolePolicy)]
     [HttpPut("{groupId}")]
     public Task<IActionResult> Put(Guid groupId, UpdateGroupCommand request)

@@ -1,17 +1,16 @@
 ﻿using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Application.Missions.DTOs;
 
 namespace HUTECHClassroom.Application.Missions.Commands.CreateMission;
 
-public record CreateMissionCommand : CreateCommand<MissionDTO>
+public record CreateMissionCommand : CreateCommand
 {
     public string Title { get; set; }
     public string Description { get; set; }
     public bool IsDone { get; set; } = false;
     public Guid ProjectId { get; set; }
 }
-public class CreateMissionCommandHandler : CreateCommandHandler<Mission, CreateMissionCommand, MissionDTO>
+public class CreateMissionCommandHandler : CreateCommandHandler<Mission, CreateMissionCommand>
 {
     private readonly IRepository<Project> _projectRepository;
 

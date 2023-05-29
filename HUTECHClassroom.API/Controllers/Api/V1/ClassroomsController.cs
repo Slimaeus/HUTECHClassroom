@@ -32,7 +32,7 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
         => HandleGetQuery(new GetClassroomQuery(id));
     [HttpPost]
     public Task<ActionResult<ClassroomDTO>> Post(CreateClassroomCommand command)
-        => HandleCreateCommand(command, nameof(GetClassroomDetails));
+        => HandleCreateCommand(command, nameof(GetClassroomDetails), id => new GetClassroomQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdateClassroomCommand request)
         => HandleUpdateCommand(id, request);

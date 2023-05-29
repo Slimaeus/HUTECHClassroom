@@ -20,8 +20,8 @@ public class AnswersController : BaseEntityApiController<AnswerDTO>
     public Task<ActionResult<AnswerDTO>> GetAnswerDetails(Guid id)
         => HandleGetQuery(new GetAnswerQuery(id));
     [HttpPost]
-    public Task<ActionResult<AnswerDTO>> Answer(CreateAnswerCommand command)
-        => HandleCreateCommand(command, nameof(GetAnswerDetails));
+    public Task<ActionResult<AnswerDTO>> Post(CreateAnswerCommand command)
+        => HandleCreateCommand(command, nameof(GetAnswerDetails), id => new GetAnswerQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdateAnswerCommand request)
         => HandleUpdateCommand(id, request);

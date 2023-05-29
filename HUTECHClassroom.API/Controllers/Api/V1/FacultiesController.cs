@@ -21,7 +21,7 @@ public class FacultiesController : BaseEntityApiController<FacultyDTO>
         => HandleGetQuery(new GetFacultyQuery(id));
     [HttpPost]
     public Task<ActionResult<FacultyDTO>> Post(CreateFacultyCommand command)
-        => HandleCreateCommand(command, nameof(GetFacultyDetails));
+        => HandleCreateCommand(command, nameof(GetFacultyDetails), id => new GetFacultyQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdateFacultyCommand request)
         => HandleUpdateCommand(id, request);

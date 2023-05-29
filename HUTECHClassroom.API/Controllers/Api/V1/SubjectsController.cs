@@ -20,7 +20,7 @@ public class SubjectsController : BaseEntityApiController<SubjectDTO>
         => HandleGetQuery(new GetSubjectQuery(id));
     [HttpPost]
     public Task<ActionResult<SubjectDTO>> Post(CreateSubjectCommand command)
-        => HandleCreateCommand(command, nameof(GetSubjectDetails));
+        => HandleCreateCommand(command, nameof(GetSubjectDetails), id => new GetSubjectQuery(id));
     [HttpPut("{id}")]
     public Task<IActionResult> Put(Guid id, UpdateSubjectCommand request)
         => HandleUpdateCommand(id, request);

@@ -18,11 +18,13 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
         where TGetQuery : GetQuery<TEntityDTO>
         => Ok(await Mediator.Send(query));
 
-    protected async Task<ActionResult<TEntityDTO>> HandleCreateCommand<TCreateCommand>(TCreateCommand command, string routeName)
-        where TCreateCommand : CreateCommand<TEntityDTO>
+    protected async Task<ActionResult<TEntityDTO>> HandleCreateCommand<TCreateCommand, TGetQuery>(TCreateCommand command, string routeName, Func<TKey, TGetQuery> getQuery)
+        where TCreateCommand : CreateCommand<TKey>
+        where TGetQuery : GetQuery<TEntityDTO>
     {
-        var dto = await Mediator.Send(command);
-        return CreatedAtRoute(routeName, new { id = dto.Id }, dto);
+        var id = await Mediator.Send(command);
+        var dto = await Mediator.Send(getQuery(id));
+        return CreatedAtRoute(routeName, new { id }, dto);
     }
 
     protected async Task<IActionResult> HandleUpdateCommand<TUpdateCommand>(TKey id, TUpdateCommand command)
@@ -48,5 +50,5 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
 }
 
 public class BaseEntityApiController<TEntityDTO> : BaseEntityApiController<Guid, TEntityDTO>
-    where TEntityDTO : class, IEntityDTO
+    where TEntityDTO : class, IEntityDTO<Guid>
 { }

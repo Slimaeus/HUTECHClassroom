@@ -1,10 +1,9 @@
 ﻿using HUTECHClassroom.Application.Common.Exceptions;
 using HUTECHClassroom.Application.Common.Requests;
-using HUTECHClassroom.Application.Exercises.DTOs;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
 
-public record CreateExerciseCommand : CreateCommand<ExerciseDTO>
+public record CreateExerciseCommand : CreateCommand
 {
     public string Title { get; set; }
     public string Instruction { get; set; }
@@ -15,7 +14,7 @@ public record CreateExerciseCommand : CreateCommand<ExerciseDTO>
     public string Criteria { get; set; }
     public Guid ClassroomId { get; set; }
 }
-public class CreateExerciseCommandHandler : CreateCommandHandler<Exercise, CreateExerciseCommand, ExerciseDTO>
+public class CreateExerciseCommandHandler : CreateCommandHandler<Exercise, CreateExerciseCommand>
 {
     private readonly IRepository<Classroom> _classroomRepository;
 
