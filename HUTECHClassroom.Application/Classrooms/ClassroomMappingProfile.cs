@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
+﻿using HUTECHClassroom.Application.Classrooms.Commands.AddClassroomUser;
+using HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 using HUTECHClassroom.Application.Classrooms.Commands.UpdateClassroom;
 using HUTECHClassroom.Application.Classrooms.DTOs;
 using HUTECHClassroom.Application.Common.DTOs;
@@ -22,5 +23,7 @@ public class ClassroomMappingProfile : Profile
         CreateMap<Post, ClassroomPostDTO>();
         CreateMap<Subject, ClassroomSubjectDTO>();
         CreateMap<Major, ClassroomSubjectMajorDTO>();
+
+        CreateMap<AddClassroomUserCommand, ClassroomUser>();
     }
 }

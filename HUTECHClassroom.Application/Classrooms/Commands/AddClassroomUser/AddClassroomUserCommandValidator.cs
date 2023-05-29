@@ -7,7 +7,7 @@ public class AddClassroomUserCommandValidator : AbstractValidator<AddClassroomUs
 {
     public AddClassroomUserCommandValidator(UserExistenceByNotNullIdValidator userIdValidator, ClassroomExistenceByNotNullIdValidator classroomIdValidator)
     {
-        RuleFor(x => x.Id).NotEmpty().NotNull()
+        RuleFor(x => x.ClassroomId).NotEmpty().NotNull()
             .SetValidator(classroomIdValidator);
         RuleFor(x => x.UserId).NotEmpty().NotNull()
             .SetValidator(userIdValidator);

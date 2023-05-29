@@ -1,10 +1,15 @@
-﻿namespace HUTECHClassroom.Application.Classrooms.Commands.RemoveClassroomUser;
+﻿using HUTECHClassroom.Application.Common.Validators.Classrooms;
+using HUTECHClassroom.Application.Common.Validators.Users;
+
+namespace HUTECHClassroom.Application.Classrooms.Commands.RemoveClassroomUser;
 
 public class RemoveClassroomUserCommandValidator : AbstractValidator<RemoveClassroomUserCommand>
 {
-    public RemoveClassroomUserCommandValidator()
+    public RemoveClassroomUserCommandValidator(ClassroomExistenceByNotNullIdValidator classroomIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
     {
-        RuleFor(x => x.Id).NotEmpty().NotNull();
-        RuleFor(x => x.UserId).NotEmpty().NotNull();
+        RuleFor(x => x.ClassroomId).NotEmpty().NotNull()
+            .SetValidator(classroomIdValidator);
+        RuleFor(x => x.UserId).NotEmpty().NotNull()
+            .SetValidator(userIdValidator);
     }
 }

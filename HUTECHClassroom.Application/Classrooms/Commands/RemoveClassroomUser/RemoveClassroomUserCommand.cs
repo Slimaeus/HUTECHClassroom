@@ -1,10 +1,9 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
-using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.RemoveClassroomUser;
 
-public record RemoveClassroomUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
+public record RemoveClassroomUserCommand(Guid ClassroomId, Guid UserId) : IRequest<Unit>;
 public class RemoveClassroomUserCommandHandler : IRequestHandler<RemoveClassroomUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -21,16 +20,14 @@ public class RemoveClassroomUserCommandHandler : IRequestHandler<RemoveClassroom
             .SingleResultQuery()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
             .Include(i => i.Include(x => x.ClassroomUsers).ThenInclude(x => x.User))
-            .AndFilter(x => x.Id == request.Id);
+            .AndFilter(x => x.Id == request.ClassroomId);
 
         var classroom = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (classroom == null) throw new NotFoundException(nameof(Classroom), request.Id);
-
         var user = classroom.ClassroomUsers.SingleOrDefault(x => x.UserId == request.UserId);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+        if (user == null) throw new InvalidOperationException($"User {request.UserId} did not join");
 
         classroom.ClassroomUsers.Remove(user);
 
