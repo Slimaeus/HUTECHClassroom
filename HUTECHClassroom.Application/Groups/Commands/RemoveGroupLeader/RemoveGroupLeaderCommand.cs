@@ -1,9 +1,8 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
-using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupLeader;
-public record RemoveGroupLeaderCommand(Guid Id, Guid UserId) : IRequest<Unit>;
+public record RemoveGroupLeaderCommand(Guid GroupId, Guid UserId) : IRequest<Unit>;
 public class RemoveGroupLeaderCommandHandler : IRequestHandler<RemoveGroupLeaderCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -24,25 +23,14 @@ public class RemoveGroupLeaderCommandHandler : IRequestHandler<RemoveGroupLeader
             .SingleResultQuery()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
             .Include(i => i.Include(x => x.GroupUsers).ThenInclude(x => x.User).Include(x => x.GroupUsers).ThenInclude(x => x.GroupRole))
-            .AndFilter(x => x.Id == request.Id);
+            .AndFilter(x => x.Id == request.GroupId);
 
         var group = await _groupRepository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (group == null) throw new NotFoundException(nameof(Group), request.Id);
-
-        var userQuery = _userRepository
-            .SingleResultQuery()
-            .AndFilter(x => x.Id == request.UserId);
-
-        var user = await _userRepository
-            .SingleOrDefaultAsync(userQuery, cancellationToken);
-
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
-
         var memberRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == "Member"), cancellationToken);
 
-        var groupUser = group.GroupUsers.SingleOrDefault(x => x.UserId == user.Id && x.GroupRole.Name == "Leader");
+        var groupUser = group.GroupUsers.SingleOrDefault(x => x.UserId == request.UserId && x.GroupRole.Name == "Leader");
 
         if (groupUser != null)
         {

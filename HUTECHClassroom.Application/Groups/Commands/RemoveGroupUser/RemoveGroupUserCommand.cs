@@ -1,10 +1,9 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
-using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupUser;
 
-public record RemoveGroupUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
+public record RemoveGroupUserCommand(Guid GroupId, Guid UserId) : IRequest<Unit>;
 public class RemoveGroupUserCommandHandler : IRequestHandler<RemoveGroupUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -21,16 +20,14 @@ public class RemoveGroupUserCommandHandler : IRequestHandler<RemoveGroupUserComm
             .SingleResultQuery()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
             .Include(i => i.Include(x => x.GroupUsers).ThenInclude(x => x.User))
-            .AndFilter(x => x.Id == request.Id);
+            .AndFilter(x => x.Id == request.GroupId);
 
         var group = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (group == null) throw new NotFoundException(nameof(Group), request.Id);
-
         var user = group.GroupUsers.SingleOrDefault(x => x.UserId == request.UserId);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+        if (user == null) throw new InvalidOperationException($"User {request.UserId} is not in this group");
 
         group.GroupUsers.Remove(user);
 

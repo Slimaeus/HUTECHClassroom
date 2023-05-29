@@ -1,22 +1,21 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
-using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
 
-public record AddGroupUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
+public record AddGroupUserCommand(Guid GroupId, Guid UserId) : IRequest<Unit>;
 public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
     private readonly IRepository<Group> _repository;
-    private readonly IRepository<ApplicationUser> _userRepository;
     private readonly IRepository<GroupRole> _groupRoleRepository;
 
-    public AddGroupUserCommandHandler(IUnitOfWork unitOfWork)
+    public AddGroupUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
         _repository = unitOfWork.Repository<Group>();
-        _userRepository = _unitOfWork.Repository<ApplicationUser>();
         _groupRoleRepository = _unitOfWork.Repository<GroupRole>();
     }
     public async Task<Unit> Handle(AddGroupUserCommand request, CancellationToken cancellationToken)
@@ -25,29 +24,24 @@ public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, U
             .SingleResultQuery()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
             .Include(i => i.Include(x => x.GroupUsers).ThenInclude(x => x.User))
-            .AndFilter(x => x.Id == request.Id);
+            .AndFilter(x => x.Id == request.GroupId);
 
         var group = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (group == null) throw new NotFoundException(nameof(Group), request.Id);
-
         if (group.GroupUsers.Any(x => x.UserId == request.UserId)) throw new InvalidOperationException($"{request.UserId} already exists");
 
-        var userQuery = _userRepository
+        var groupUser = _mapper.Map<GroupUser>(request);
+
+        var groupRoleQuery = _groupRoleRepository
             .SingleResultQuery()
-            .AndFilter(x => x.Id == request.UserId);
+            .AndFilter(x => x.Name == "Member");
 
-        var user = await _userRepository
-            .SingleOrDefaultAsync(userQuery, cancellationToken);
+        var groupRole = await _groupRoleRepository.SingleOrDefaultAsync(groupRoleQuery, cancellationToken);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+        groupUser.GroupRole = groupRole;
 
-        group.GroupUsers.Add(new GroupUser
-        {
-            User = user,
-            GroupRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == "Member"), cancellationToken)
-        });
+        group.GroupUsers.Add(groupUser);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 

@@ -1,4 +1,6 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
+using HUTECHClassroom.Application.Groups.Commands.AddGroupLeader;
+using HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
 using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
@@ -21,5 +23,8 @@ public class GroupMappingProfile : Profile
 
         CreateMap<GroupUser, GroupUserDTO>()
             .ConstructUsing(x => new GroupUserDTO(x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.GroupRole.Name));
+
+        CreateMap<AddGroupUserCommand, GroupUser>();
+        CreateMap<AddGroupLeaderCommand, GroupUser>();
     }
 }

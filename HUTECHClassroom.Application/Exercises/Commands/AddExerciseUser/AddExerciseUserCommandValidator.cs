@@ -1,10 +1,15 @@
-﻿namespace HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
+﻿using HUTECHClassroom.Application.Common.Validators.Exercises;
+using HUTECHClassroom.Application.Common.Validators.Users;
+
+namespace HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
 
 public class AddExerciseUserCommandValidator : AbstractValidator<AddExerciseUserCommand>
 {
-    public AddExerciseUserCommandValidator()
+    public AddExerciseUserCommandValidator(ExerciseExistenceByNotNullIdValidator exerciseIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
     {
-        RuleFor(x => x.Id).NotEmpty().NotNull();
-        RuleFor(x => x.UserId).NotEmpty().NotNull();
+        RuleFor(x => x.ExerciseId).NotEmpty().NotNull()
+            .SetValidator(exerciseIdValidator);
+        RuleFor(x => x.UserId).NotEmpty().NotNull()
+            .SetValidator(userIdValidator);
     }
 }

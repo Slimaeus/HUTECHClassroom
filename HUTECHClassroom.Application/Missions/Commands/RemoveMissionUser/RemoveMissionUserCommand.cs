@@ -1,10 +1,9 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
-using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser;
 
-public record RemoveMissionUserCommand(Guid Id, Guid UserId) : IRequest<Unit>;
+public record RemoveMissionUserCommand(Guid MissionId, Guid UserId) : IRequest<Unit>;
 public class RemoveMissionUserCommandHandler : IRequestHandler<RemoveMissionUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -21,16 +20,14 @@ public class RemoveMissionUserCommandHandler : IRequestHandler<RemoveMissionUser
             .SingleResultQuery()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
             .Include(i => i.Include(x => x.MissionUsers).ThenInclude(x => x.User))
-            .AndFilter(x => x.Id == request.Id);
+            .AndFilter(x => x.Id == request.MissionId);
 
         var mission = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (mission == null) throw new NotFoundException(nameof(Mission), request.Id);
-
         var user = mission.MissionUsers.SingleOrDefault(x => x.UserId == request.UserId);
 
-        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+        if (user == null) throw new InvalidOperationException($"User {request.UserId} is not in this mission");
 
         mission.MissionUsers.Remove(user);
 

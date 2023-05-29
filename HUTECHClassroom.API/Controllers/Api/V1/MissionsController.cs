@@ -9,10 +9,8 @@ using HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Missions.Queries.GetMission;
-using HUTECHClassroom.Application.Missions.Queries.GetMissionProject;
 using HUTECHClassroom.Application.Missions.Queries.GetMissionsWithPagination;
 using HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagination;
-using HUTECHClassroom.Application.Projects.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -56,8 +54,4 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     [HttpDelete("{id}/members/{userId}")]
     public async Task<IActionResult> RemoveMember(Guid id, Guid userId)
         => Ok(await Mediator.Send(new RemoveMissionUserCommand(id, userId)));
-    //[Authorize(Policy = ReadMissionPolicy)]
-    [HttpGet("{id}/project")]
-    public async Task<ActionResult<ProjectDTO>> GetProject(Guid id)
-        => Ok(await Mediator.Send(new GetMissionProjectQuery(id)));
 }

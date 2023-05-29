@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
+using HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
@@ -19,5 +20,7 @@ public class MissionMappingProfile : Profile
 
         CreateMap<MissionUser, MemberDTO>()
             .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName));
+
+        CreateMap<AddMissionUserCommand, MissionUser>();
     }
 }
