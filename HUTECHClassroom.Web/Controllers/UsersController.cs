@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
@@ -60,6 +61,10 @@ public class UsersController : BaseEntityController<ApplicationUser>
     public IActionResult ImportUsers()
     {
         var viewModel = new ImportUsersFromExcelViewModel();
+        Type type = typeof(ImportedUserViewModel);
+        PropertyInfo[] propertyInfos = type.GetProperties();
+        viewModel.PropertyNames = propertyInfos.Select(x => x.Name);
+
         return View(viewModel);
     }
     [HttpPost]
@@ -67,13 +72,17 @@ public class UsersController : BaseEntityController<ApplicationUser>
     {
         if (viewModel.File == null || viewModel.File.Length == 0)
         {
-            ViewBag.Error = "Please select a file to upload.";
+            ViewBag.Error = "Please select a file to upload."; Type type = typeof(ImportedUserViewModel);
+            PropertyInfo[] propertyInfos = type.GetProperties();
+            viewModel.PropertyNames = propertyInfos.Select(x => x.Name);
             return View(viewModel);
         }
 
         if (!Path.GetExtension(viewModel.File.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
         {
-            ViewBag.Error = "Please select an Excel file (.xlsx).";
+            ViewBag.Error = "Please select an Excel file (.xlsx)."; Type type = typeof(ImportedUserViewModel);
+            PropertyInfo[] propertyInfos = type.GetProperties();
+            viewModel.PropertyNames = propertyInfos.Select(x => x.Name);
             return View(viewModel);
         }
 
@@ -90,14 +99,13 @@ public class UsersController : BaseEntityController<ApplicationUser>
         // Do something with the imported people data, such as saving to a database
         foreach (var user in users)
         {
-            await _userManager.CreateAsync(user, user.UserName);
+            await _userManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             await _userManager.AddToRoleAsync(user, "Student");
         }
 
         ViewBag.Success = $"Successfully imported {users.Count} users.";
         return RedirectToAction("Index");
     }
-
     // GET: ApplicationUsers/Create
     public IActionResult Create()
     {

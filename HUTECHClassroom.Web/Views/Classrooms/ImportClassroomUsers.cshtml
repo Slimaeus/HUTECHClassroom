@@ -13,6 +13,8 @@
             @Html.DisplayFor(model => model.ClassroomTitle)
         </dd>
     </dl>
+    <a asp-action="ExportUsers" class="btn btn-success btn-block">Export sample Data</a>
+
     <form asp-action="ImportClassroomUsers" method="post" enctype="multipart/form-data">
         @ViewBag.Error
         <div class="form-group">

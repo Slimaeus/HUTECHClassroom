@@ -5,6 +5,15 @@
 @{
 }
 @model ImportUsersFromExcelViewModel
+<h1>Data column's names</h1>
+<ul>
+    @foreach (var name in Model.PropertyNames)
+    {
+        <li>@name</li>
+    }
+</ul>
+<a asp-action="ExportUsers" class="btn btn-success btn-block">Export sample Data</a>
+
 <form asp-action="ImportUsers" method="post" enctype="multipart/form-data">
     @ViewBag.Error
     <div class="form-group">

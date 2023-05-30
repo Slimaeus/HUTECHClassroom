@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Comments;
 using HUTECHClassroom.Application.Comments.Commands.CreateComment;
+using HUTECHClassroom.Application.Comments.Queries.GetComment;
 using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -17,7 +18,8 @@ public class CommentHub : Hub
 
     public async Task SendComment(CreateCommentCommand command)
     {
-        var comment = await _mediator.Send(command);
+        var id = await _mediator.Send(command);
+        var comment = await _mediator.Send(new GetCommentQuery(id));
 
         await Clients.Group(command.PostId.ToString())
             .SendAsync("ReceiveComment", comment);

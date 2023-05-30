@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
+using HUTECHClassroom.Web.Models;
 using HUTECHClassroom.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -76,5 +77,27 @@ public class BaseEntityController<T> : Controller
         var excelData = ExcelService.ExportToExcel(data, propertyNames);
 
         return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{type.Name}Sample.xlsx");
+    }
+    public IActionResult ExportUsers()
+    {
+        Type type = typeof(ImportedUserViewModel);
+        PropertyInfo[] propertyInfos = type.GetProperties();
+
+        var data = new List<ImportedUserViewModel>();
+        var propertyNames = propertyInfos
+            .Where(x => x.Name != "Id"
+            && x.Name != "CreateDate"
+            && x.CanRead
+            && (x.PropertyType.IsPrimitive
+                || x.PropertyType.IsEnum
+                || x.PropertyType.Equals(typeof(DateTime))
+                || x.PropertyType.Equals(typeof(Guid))
+                || x.PropertyType.Equals(typeof(string))
+            ))
+            .Select(x => x.Name);
+
+        var excelData = ExcelService.ExportToExcel(data, propertyNames);
+
+        return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ImportUsersSample.xlsx");
     }
 }
