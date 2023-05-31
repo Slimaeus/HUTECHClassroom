@@ -85,7 +85,18 @@ public class GroupsController : BaseEntityController<Group>
         var results = new List<IdentityResult>();
         foreach (var user in users)
         {
-            results.Add(await UserManager.CreateAsync(user, user.UserName));
+            if (!await DbContext.Users.AnyAsync(dbUser => user.Email == dbUser.Email || user.UserName == user.UserName))
+            {
+                user.Id = Guid.NewGuid();
+                results.Add(await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false));
+                await UserManager.AddToRoleAsync(user, "Student");
+            }
+            else
+            {
+                var dbUser = await UserManager.FindByNameAsync(user.UserName);
+                if (dbUser != null)
+                    user.Id = dbUser.Id;
+            }
         }
 
         var group = await DbContext.Groups
@@ -97,8 +108,10 @@ public class GroupsController : BaseEntityController<Group>
             return NotFound();
         }
 
+        var groupRole = await DbContext.GroupRoles.SingleOrDefaultAsync(x => x.Name == "Member");
+
         group.GroupUsers.AddRange(
-            users.Select(user => new GroupUser { User = user })
+            users.Select(user => new GroupUser { User = user, GroupRole = groupRole })
         );
 
         await DbContext.SaveChangesAsync();

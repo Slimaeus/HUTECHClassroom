@@ -2,5 +2,5 @@
 
 public static class CommonConstants
 {
-    public const int LINK_MAX_LENGTH = 100;
+    public const int LINK_MAX_LENGTH = 2000;
 }

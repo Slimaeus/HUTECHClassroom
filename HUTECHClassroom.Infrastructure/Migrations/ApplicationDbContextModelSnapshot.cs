@@ -40,8 +40,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Link")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<float>("Score")
                         .ValueGeneratedOnAdd()
@@ -316,7 +316,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2023, 6, 1, 2, 39, 12, 727, DateTimeKind.Utc).AddTicks(9742));
+                        .HasDefaultValue(new DateTime(2023, 6, 1, 8, 41, 47, 359, DateTimeKind.Utc).AddTicks(47));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -324,8 +324,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(3000)");
 
                     b.Property<string>("Link")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -551,15 +551,15 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("character varying(5000)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Link")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");

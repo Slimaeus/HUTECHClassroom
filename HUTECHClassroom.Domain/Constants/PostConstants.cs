@@ -2,5 +2,5 @@
 
 public static class PostConstants
 {
-    public const int CONTENT_MAX_LENGTH = 2000;
+    public const int CONTENT_MAX_LENGTH = 5000;
 }
