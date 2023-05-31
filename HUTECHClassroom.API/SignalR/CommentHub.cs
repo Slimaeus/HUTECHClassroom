@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Comments;
 using HUTECHClassroom.Application.Comments.Commands.CreateComment;
+using HUTECHClassroom.Application.Comments.Commands.DeleteComment;
 using HUTECHClassroom.Application.Comments.Queries.GetComment;
 using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
 using MediatR;
@@ -23,6 +24,14 @@ public class CommentHub : Hub
 
         await Clients.Group(command.PostId.ToString())
             .SendAsync("ReceiveComment", comment);
+    }
+
+    public async Task DeleteComment(DeleteCommentCommand command)
+    {
+        var comment = await _mediator.Send(command);
+        if (comment is not null && comment.Post is not null)
+            await Clients.Group(comment.Post.Id.ToString())
+            .SendAsync("DeleteComment", comment);
     }
 
     public override async Task OnConnectedAsync()
