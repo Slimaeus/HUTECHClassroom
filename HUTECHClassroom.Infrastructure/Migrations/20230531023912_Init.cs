@@ -332,7 +332,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(3000)", maxLength: 3000, nullable: false),
                     Link = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
-                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2023, 5, 27, 16, 2, 24, 471, DateTimeKind.Utc).AddTicks(4897)),
+                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2023, 6, 1, 2, 39, 12, 727, DateTimeKind.Utc).AddTicks(9742)),
                     Topic = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: true),

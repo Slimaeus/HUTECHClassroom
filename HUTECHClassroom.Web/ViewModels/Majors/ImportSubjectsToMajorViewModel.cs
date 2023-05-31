@@ -1,0 +1,8 @@
+﻿namespace HUTECHClassroom.Web.ViewModels.Majors;
+
+public class ImportSubjectsToMajorViewModel
+{
+    public Guid MajorId { get; set; }
+    public string MajorTitle { get; set; }
+    public IFormFile File { get; set; }
+}

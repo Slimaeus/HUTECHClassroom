@@ -1,0 +1,28 @@
+﻿@using HUTECHClassroom.Web.ViewModels.Majors;
+@model ImportSubjectsToMajorViewModel
+<h1>Add Subjects</h1>
+
+<div>
+    <h4>Add Subjects to Major</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MajorTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MajorTitle)
+        </dd>
+    </dl>
+    <a asp-action="ExportSubjects" class="btn btn-success btn-block">Export sample Data</a>
+
+    <form asp-action="ImportSubjects" method="post" enctype="multipart/form-data">
+        @ViewBag.Error
+        <div class="form-group">
+            <label for="excelFile">Select an Excel file to import:</label>
+            <input asp-for="File" type="file" class="form-control-file" />
+            <input type="hidden" asp-for="MajorId" />
+            <input type="hidden" asp-for="MajorTitle" />
+        </div>
+        <button type="submit" class="btn btn-primary">Import</button>
+    </form>
+</div>
