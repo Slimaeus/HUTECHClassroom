@@ -51,14 +51,15 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
             }
         }
 
-        var result = await _userManger.CreateAsync(user, request.Password);
+        var result = await _userManger.CreateAsync(user, request.Password).ConfigureAwait(false);
+        await _userManger.AddToRoleAsync(user, "Student");
 
         if (!result.Succeeded)
         {
             throw new InvalidOperationException("Failed to register");
         }
 
-        var accountDTO = _mapper.Map<AccountDTO>(_mapper.ConfigurationProvider);
+        var accountDTO = _mapper.Map<AccountDTO>(user);
         var token = _tokenService.CreateToken(user);
         await _userManger.SetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken", token);
         accountDTO.Token = token;
