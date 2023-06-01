@@ -9,19 +9,19 @@ public static class GroupPolicyExtensions
     {
         options.AddPolicy(CreateGroupPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Group, CreateAction);
+            policy.RequireClaim(ApplicationClaimTypes.GROUP, CreateAction);
         });
         options.AddPolicy(ReadGroupPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Group, ReadAction);
+            policy.RequireClaim(ApplicationClaimTypes.GROUP, ReadAction);
         });
         options.AddPolicy(UpdateGroupPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Group, UpdateAction);
+            policy.RequireClaim(ApplicationClaimTypes.GROUP, UpdateAction);
         });
         options.AddPolicy(DeleteGroupPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Group, DeleteAction);
+            policy.RequireClaim(ApplicationClaimTypes.GROUP, DeleteAction);
         });
     }
 }

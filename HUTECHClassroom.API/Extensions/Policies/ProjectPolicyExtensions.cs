@@ -9,19 +9,19 @@ public static class ProjectPolicyExtensions
     {
         options.AddPolicy(CreateProjectPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Project, CreateAction);
+            policy.RequireClaim(ApplicationClaimTypes.PROJECT, CreateAction);
         });
         options.AddPolicy(ReadProjectPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Project, ReadAction);
+            policy.RequireClaim(ApplicationClaimTypes.PROJECT, ReadAction);
         });
         options.AddPolicy(UpdateProjectPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Project, UpdateAction);
+            policy.RequireClaim(ApplicationClaimTypes.PROJECT, UpdateAction);
         });
         options.AddPolicy(DeleteProjectPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Project, DeleteAction);
+            policy.RequireClaim(ApplicationClaimTypes.PROJECT, DeleteAction);
         });
     }
 }

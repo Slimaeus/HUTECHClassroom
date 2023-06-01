@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Claims;
+using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -113,7 +114,7 @@ public class ApplicationDbContextInitializer
         var deleteClaimValue = "delete";
 
         #region Mission
-        var missionClaimName = "mission";
+        var missionClaimName = ApplicationClaimTypes.MISSION;
 
         var createMissionClaim = new Claim(missionClaimName, createClaimValue);
         var readMissionClaim = new Claim(missionClaimName, readClaimValue);
@@ -122,7 +123,7 @@ public class ApplicationDbContextInitializer
         #endregion
 
         #region Project
-        var projectClaimName = "project";
+        var projectClaimName = ApplicationClaimTypes.PROJECT;
 
         var createProjectClaim = new Claim(projectClaimName, createClaimValue);
         var readProjectClaim = new Claim(projectClaimName, readClaimValue);
@@ -130,11 +131,22 @@ public class ApplicationDbContextInitializer
         var deleteProjectClaim = new Claim(projectClaimName, deleteClaimValue);
         #endregion
 
+        #region Classroom
+        var classroomClaimName = ApplicationClaimTypes.CLASSROOM;
+
+        var createClassroomClaim = new Claim(classroomClaimName, createClaimValue);
+        var readClassroomClaim = new Claim(classroomClaimName, readClaimValue);
+        var updateClassroomClaim = new Claim(classroomClaimName, updateClaimValue);
+        var deleteClassroomClaim = new Claim(classroomClaimName, deleteClaimValue);
+        #endregion
 
 
+        #region Student Role
         await _roleManager.AddClaimAsync(studentRole, readMissionClaim);
         await _roleManager.AddClaimAsync(studentRole, readProjectClaim);
+        #endregion
 
+        #region Lecturer Role
         await _roleManager.AddClaimAsync(lecturerRole, createMissionClaim);
         await _roleManager.AddClaimAsync(lecturerRole, readMissionClaim);
         await _roleManager.AddClaimAsync(lecturerRole, updateMissionClaim);
@@ -144,6 +156,7 @@ public class ApplicationDbContextInitializer
         await _roleManager.AddClaimAsync(lecturerRole, readProjectClaim);
         await _roleManager.AddClaimAsync(lecturerRole, updateProjectClaim);
         await _roleManager.AddClaimAsync(lecturerRole, deleteProjectClaim);
+        #endregion
 
         var admin = new ApplicationUser
         {

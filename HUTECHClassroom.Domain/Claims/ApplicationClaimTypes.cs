@@ -2,12 +2,20 @@
 
 public static class ApplicationClaimTypes
 {
-    public const string Mission = "mission";
-    public const string Project = "project";
-    public const string Group = "group";
-    public const string Classroom = "classroom";
+    public const string MISSION = "mission";
+    public const string PROJECT = "project";
+    public const string GROUP = "group";
+    public const string CLASSROOM = "classroom";
+    public const string EXERCISE = "exercise";
+    public const string ANSWER = "answer";
+    public const string POST = "post";
+    public const string COMMENT = "comment";
+    public const string USER = "user";
+    public const string FACULTY = "faculty";
+    public const string MAJOR = "major";
+    public const string SUBJECT = "subject";
     public static readonly IList<string> EntityClaimTypes = new List<string>
     {
-        Mission, Project, Group, Classroom
+        MISSION, PROJECT, GROUP, CLASSROOM, EXERCISE, ANSWER, POST, COMMENT, USER, FACULTY, MAJOR, SUBJECT
     };
 }

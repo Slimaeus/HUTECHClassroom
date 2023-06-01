@@ -9,19 +9,19 @@ public static class MissionPolicyExtensions
     {
         options.AddPolicy(CreateMissionPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Mission, CreateAction);
+            policy.RequireClaim(ApplicationClaimTypes.MISSION, CreateAction);
         });
         options.AddPolicy(ReadMissionPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Mission, ReadAction);
+            policy.RequireClaim(ApplicationClaimTypes.MISSION, ReadAction);
         });
         options.AddPolicy(UpdateMissionPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Mission, UpdateAction);
+            policy.RequireClaim(ApplicationClaimTypes.MISSION, UpdateAction);
         });
         options.AddPolicy(DeleteMissionPolicy, policy =>
         {
-            policy.RequireClaim(ApplicationClaimTypes.Mission, DeleteAction);
+            policy.RequireClaim(ApplicationClaimTypes.MISSION, DeleteAction);
         });
     }
 }

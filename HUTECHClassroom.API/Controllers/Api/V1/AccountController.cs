@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
+[AllowAnonymous]
 public class AccountController : BaseApiController
 {
     [HttpPost("login")]
