@@ -56,7 +56,7 @@ public class BaseEntityController<T> : Controller
         ViewBag.Success = $"Successfully imported {entities.Count} rows.";
         return RedirectToAction("Index");
     }
-    public IActionResult Export()
+    public IActionResult ExportSample()
     {
         Type type = typeof(T);
         PropertyInfo[] propertyInfos = type.GetProperties();
@@ -99,5 +99,24 @@ public class BaseEntityController<T> : Controller
         var excelData = ExcelService.ExportToExcel(data, propertyNames);
 
         return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ImportUsersSample.xlsx");
+    }
+    public IActionResult Export()
+    {
+        Type type = typeof(T);
+        PropertyInfo[] propertyInfos = type.GetProperties();
+
+        var data = DbContext.Set<T>();
+        var propertyNames = propertyInfos
+            .Where(x => x.Name != "CreateDate"
+            && x.CanRead
+            && (x.PropertyType.IsPrimitive
+                || x.PropertyType.IsEnum
+                || x.PropertyType.Equals(typeof(DateTime))
+                || x.PropertyType.Equals(typeof(Guid))
+                || x.PropertyType.Equals(typeof(string))
+            ))
+            .Select(x => x.Name);
+        var excelData = ExcelService.ExportToExcel(data, propertyNames);
+        return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Import{typeof(T).Name}Sample.xlsx");
     }
 }
