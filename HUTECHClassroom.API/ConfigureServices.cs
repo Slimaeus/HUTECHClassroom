@@ -5,7 +5,6 @@ using HUTECHClassroom.API.SignalR;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -22,11 +21,6 @@ public static class ConfigureServices
         services.AddControllers(options =>
         {
             options.Filters.Add<ApiExceptionFilterAttribute>();
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            if (env == "Production")
-            {
-                options.Filters.Add<AuthorizeFilter>();
-            }
         })
             .AddJsonOptions(options =>
         {
