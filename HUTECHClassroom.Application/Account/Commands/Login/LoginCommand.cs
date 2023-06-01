@@ -31,18 +31,35 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
         var user = await _userRepository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        //await _userManger.GetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken");
-
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
         var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
 
         var accountDTO = _mapper.Map<AccountDTO>(user);
 
-        accountDTO.Token = _tokenService.CreateToken(user);
+        if (!isSuccess)
+        {
+            throw new UnauthorizedAccessException(nameof(ApplicationUser));
+        }
 
-        if (isSuccess) return accountDTO;
+        var cacheToken = await _userManger.GetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken");
 
-        throw new UnauthorizedAccessException(nameof(ApplicationUser));
+        if (cacheToken != null)
+        {
+            var expireDate = _tokenService.GetExpireDate(cacheToken);
+            if (expireDate >= DateTime.Now.ToUniversalTime().AddMinutes(10))
+            {
+                accountDTO.Token = cacheToken;
+                return accountDTO;
+            }
+            await _userManger.RemoveAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken").ConfigureAwait(false);
+        }
+
+        var token = _tokenService.CreateToken(user);
+        accountDTO.Token = token;
+        await _userManger.SetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken", token);
+
+        return accountDTO;
+
     }
 }

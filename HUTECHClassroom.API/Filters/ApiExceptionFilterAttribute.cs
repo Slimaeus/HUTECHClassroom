@@ -3,6 +3,7 @@ using FluentValidation;
 using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Serilog;
 using System.Diagnostics;
 
 namespace HUTECHClassroom.API.Filters;
@@ -12,7 +13,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
     public ApiExceptionFilterAttribute()
     {
-        // Register known exception types and handlers.
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
             { typeof(InvalidOperationException), HandleInvalidOperationException },
@@ -51,6 +51,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
         // Log the exception details
         Trace.TraceError($"An invalid operation exception occurred: {exception.Message}");
+        Log.Error($"An invalid operation exception occurred: {exception.Message}");
 
         var details = new ProblemDetails
         {
@@ -72,6 +73,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         var exception = (ValidationException)context.Exception;
 
+        Log.Error($"A Validation exception occurred: {exception.Message}");
+
         var modelState = exception.Errors
             .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
             .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
@@ -87,6 +90,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     }
     private static void HandleInvalidModelStateException(ExceptionContext context)
     {
+        Log.Error($"An Invalid Model exception occurred: {context.Exception.Message}");
+
         var details = new ValidationProblemDetails(context.ModelState)
         {
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
@@ -99,7 +104,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private void HandleNotFoundException(ExceptionContext context)
     {
         var exception = (NotFoundException)context.Exception;
-
+        Log.Error($"An Not Found exception occurred: {exception.Message}");
         var details = new ProblemDetails()
         {
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
@@ -113,6 +118,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     }
     private void HandleUnauthorizedAccessException(ExceptionContext context)
     {
+        Log.Error($"An Unauthorized Access exception occurred: {context.Exception.Message}");
         var details = new ProblemDetails
         {
             Status = StatusCodes.Status401Unauthorized,

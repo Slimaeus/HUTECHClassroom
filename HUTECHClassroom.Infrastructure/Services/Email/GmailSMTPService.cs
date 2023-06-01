@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.Extensions.Options;
+using Serilog;
 using System.Net;
 using System.Net.Mail;
 
@@ -22,25 +23,35 @@ public class GmailSMTPService : IEmailService
 
     public async Task SendEmailAsync(string recipientEmail, string subject, string message)
     {
-        var smtpClient = new SmtpClient(_smtpHost, _smtpPort)
+        try
         {
-            Host = _smtpHost,
-            UseDefaultCredentials = false,
-            Credentials = new NetworkCredential(_smtpUsername, _smtpPassword),
-            EnableSsl = true,
-            DeliveryMethod = SmtpDeliveryMethod.Network,
-        };
+            var smtpClient = new SmtpClient(_smtpHost, _smtpPort)
+            {
+                Host = _smtpHost,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(_smtpUsername, _smtpPassword),
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+            };
 
-        var mailMessage = new MailMessage
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(_smtpUsername),
+                Subject = subject,
+                Body = message,
+                IsBodyHtml = true
+            };
+
+            mailMessage.To.Add(recipientEmail);
+
+            await smtpClient.SendMailAsync(mailMessage);
+            Log.Information("Email sent successfully to: {RecipentEmail}", recipientEmail);
+        }
+        catch (Exception ex)
         {
-            From = new MailAddress(_smtpUsername),
-            Subject = subject,
-            Body = message,
-            IsBodyHtml = true
-        };
+            Log.Error(ex, "An error occurred while sending an email to: {RecipientEmail}", recipientEmail);
+            throw;
+        }
 
-        mailMessage.To.Add(recipientEmail);
-
-        await smtpClient.SendMailAsync(mailMessage);
     }
 }
