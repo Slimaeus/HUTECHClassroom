@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Domain", "H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Infrastructure", "HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj", "{8D33EF41-E080-4BE9-9C9E-A3312A687B9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Web", "HUTECHClassroom.Web\HUTECHClassroom.Web.csproj", "{B2B735DB-DB6F-47CB-98C0-149D4F9EF1CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Web", "HUTECHClassroom.Web\HUTECHClassroom.Web.csproj", "{B2B735DB-DB6F-47CB-98C0-149D4F9EF1CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

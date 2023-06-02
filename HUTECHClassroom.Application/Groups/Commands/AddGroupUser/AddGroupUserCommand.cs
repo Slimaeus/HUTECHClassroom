@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
+using HUTECHClassroom.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
@@ -35,7 +36,7 @@ public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, U
 
         var groupRoleQuery = _groupRoleRepository
             .SingleResultQuery()
-            .AndFilter(x => x.Name == "Member");
+            .AndFilter(x => x.Name == GroupRoleConstants.MEMBER);
 
         var groupRole = await _groupRoleRepository.SingleOrDefaultAsync(groupRoleQuery, cancellationToken);
 

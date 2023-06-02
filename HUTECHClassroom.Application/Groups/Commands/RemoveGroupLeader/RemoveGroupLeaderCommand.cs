@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
+using HUTECHClassroom.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupLeader;
@@ -28,9 +29,12 @@ public class RemoveGroupLeaderCommandHandler : IRequestHandler<RemoveGroupLeader
         var group = await _groupRepository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        var memberRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == "Member"), cancellationToken);
+        var memberRole = await _groupRoleRepository.SingleOrDefaultAsync(
+            _groupRoleRepository
+                .SingleResultQuery()
+                .AndFilter(x => x.Name == GroupRoleConstants.MEMBER), cancellationToken);
 
-        var groupUser = group.GroupUsers.SingleOrDefault(x => x.UserId == request.UserId && x.GroupRole.Name == "Leader");
+        var groupUser = group.GroupUsers.SingleOrDefault(x => x.UserId == request.UserId && x.GroupRole.Name == GroupRoleConstants.LEADER);
 
         if (groupUser != null)
         {

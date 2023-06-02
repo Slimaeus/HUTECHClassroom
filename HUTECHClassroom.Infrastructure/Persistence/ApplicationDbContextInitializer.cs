@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Claims;
+using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
@@ -89,11 +90,11 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(groupRoles);
 
-        var studentRole = new ApplicationRole("Student");
-        var lecturerRole = new ApplicationRole("Lecturer");
-        var deanRole = new ApplicationRole("Dean");
-        var trainingOfficeRole = new ApplicationRole("TrainingOffice");
-        var administratorRole = new ApplicationRole("Administrator");
+        var studentRole = new ApplicationRole(RoleConstants.STUDENT);
+        var lecturerRole = new ApplicationRole(RoleConstants.LECTURER);
+        var deanRole = new ApplicationRole(RoleConstants.DEAN);
+        var trainingOfficeRole = new ApplicationRole(RoleConstants.TRAINING_OFFICE);
+        var administratorRole = new ApplicationRole(RoleConstants.ADMIN);
         var roles = new ApplicationRole[]
         {
             studentRole,

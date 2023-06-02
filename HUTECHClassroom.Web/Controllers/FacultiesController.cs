@@ -94,7 +94,7 @@ public class FacultiesController : BaseEntityController<Faculty>
                 DbContext.Update(dbUser);
             }
         }
-        await DbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
         ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
         return RedirectToAction("Index");

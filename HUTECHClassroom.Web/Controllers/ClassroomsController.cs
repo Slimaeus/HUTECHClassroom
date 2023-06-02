@@ -86,9 +86,12 @@ public class ClassroomsController : BaseEntityController<Classroom>
         // Do something with the imported people data, such as saving to a database
         var results = new List<IdentityResult>();
         var dbUsers = new List<ApplicationUser>();
+        var existingUsers = await DbContext.Users
+            .Where(u => users.Select(x => x.UserName).Contains(u.UserName) || users.Select(x => x.Email).Contains(u.Email))
+            .ToListAsync();
         foreach (var user in users)
         {
-            var dbUser = await UserManager.FindByNameAsync(user.UserName) ?? await UserManager.FindByEmailAsync(user.Email);
+            var dbUser = existingUsers.FirstOrDefault(u => u.UserName == user.UserName || u.Email == user.Email); ;
             if (dbUser == null)
             {
                 user.Id = Guid.NewGuid();
@@ -115,7 +118,7 @@ public class ClassroomsController : BaseEntityController<Classroom>
             users.Select(user => new ClassroomUser { User = user })
         );
 
-        await DbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
         ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
         return RedirectToAction("Index");

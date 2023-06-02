@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkCore.Repository.Extensions;
+using HUTECHClassroom.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.AddGroupLeader;
@@ -30,8 +31,8 @@ public class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderComman
         var group = await _groupRepository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        var leaderRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == "Leader"), cancellationToken);
-        var memberRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == "Member"), cancellationToken);
+        var leaderRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == GroupRoleConstants.LEADER), cancellationToken);
+        var memberRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == GroupRoleConstants.MEMBER), cancellationToken);
 
         var currentLeaderGroupUser = group.GroupUsers.SingleOrDefault(x => x.GroupRole.Name == leaderRole.Name);
 
