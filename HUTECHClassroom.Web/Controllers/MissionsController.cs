@@ -82,19 +82,20 @@ public class MissionsController : BaseEntityController<Mission>
         var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
         // Do something with the imported people data, such as saving to a database
         var results = new List<IdentityResult>();
+        var dbUsers = new List<ApplicationUser>();
         foreach (var user in users)
         {
-            if (!await DbContext.Users.AnyAsync(dbUser => user.Email == dbUser.Email || user.UserName == user.UserName))
+            var dbUser = await UserManager.FindByNameAsync(user.UserName);
+            if (dbUser == null)
             {
                 user.Id = Guid.NewGuid();
                 results.Add(await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false));
                 await UserManager.AddToRoleAsync(user, "Student");
+                dbUsers.Add(user);
             }
             else
             {
-                var dbUser = await UserManager.FindByNameAsync(user.UserName);
-                if (dbUser != null)
-                    user.Id = dbUser.Id;
+                dbUsers.Add(dbUser);
             }
         }
 
@@ -108,7 +109,7 @@ public class MissionsController : BaseEntityController<Mission>
         }
 
         mission.MissionUsers.AddRange(
-            users.Select(user => new MissionUser { User = user })
+            dbUsers.Select(user => new MissionUser { User = user })
         );
 
         await DbContext.SaveChangesAsync();

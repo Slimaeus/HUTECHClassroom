@@ -80,19 +80,20 @@ public class ExercisesController : BaseEntityController<Exercise>
 
         var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
         var results = new List<IdentityResult>();
+        var dbUsers = new List<ApplicationUser>();
         foreach (var user in users)
         {
-            if (!await DbContext.Users.AnyAsync(dbUser => user.Email == dbUser.Email || user.UserName == user.UserName))
+            var dbUser = await UserManager.FindByNameAsync(user.UserName) ?? await UserManager.FindByEmailAsync(user.Email);
+            if (dbUser == null)
             {
                 user.Id = Guid.NewGuid();
                 results.Add(await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false));
                 await UserManager.AddToRoleAsync(user, "Student");
+                dbUsers.Add(user);
             }
             else
             {
-                var dbUser = await UserManager.FindByNameAsync(user.UserName);
-                if (dbUser != null)
-                    user.Id = dbUser.Id;
+                dbUsers.Add(dbUser);
             }
         }
 
@@ -106,7 +107,7 @@ public class ExercisesController : BaseEntityController<Exercise>
         }
 
         exercise.ExerciseUsers.AddRange(
-            users.Select(user => new ExerciseUser { User = user })
+            dbUsers.Select(user => new ExerciseUser { User = user })
         );
 
         await DbContext.SaveChangesAsync();
