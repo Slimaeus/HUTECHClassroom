@@ -16,19 +16,19 @@ public class FacultiesController : BaseEntityApiController<FacultyDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<FacultyDTO>>> Get([FromQuery] FacultyPaginationParams @params)
         => HandlePaginationQuery<GetFacultiesWithPaginationQuery, FacultyPaginationParams>(new GetFacultiesWithPaginationQuery(@params));
-    [HttpGet("{id}", Name = nameof(GetFacultyDetails))]
-    public Task<ActionResult<FacultyDTO>> GetFacultyDetails(Guid id)
-        => HandleGetQuery(new GetFacultyQuery(id));
+    [HttpGet("{facultyId}", Name = nameof(GetFacultyDetails))]
+    public Task<ActionResult<FacultyDTO>> GetFacultyDetails(Guid facultyId)
+        => HandleGetQuery(new GetFacultyQuery(facultyId));
     [HttpPost]
     public Task<ActionResult<FacultyDTO>> Post(CreateFacultyCommand command)
-        => HandleCreateCommand(command, nameof(GetFacultyDetails), id => new GetFacultyQuery(id));
-    [HttpPut("{id}")]
-    public Task<IActionResult> Put(Guid id, UpdateFacultyCommand request)
-        => HandleUpdateCommand(id, request);
-    [HttpDelete("{id}")]
-    public Task<ActionResult<FacultyDTO>> Delete(Guid id)
-        => HandleDeleteCommand(new DeleteFacultyCommand(id));
+        => HandleCreateCommand(command, nameof(GetFacultyDetails), facultyId => new GetFacultyQuery(facultyId));
+    [HttpPut("{facultyId}")]
+    public Task<IActionResult> Put(Guid facultyId, UpdateFacultyCommand request)
+        => HandleUpdateCommand(facultyId, request);
+    [HttpDelete("{facultyId}")]
+    public Task<ActionResult<FacultyDTO>> Delete(Guid facultyId)
+        => HandleDeleteCommand(new DeleteFacultyCommand(facultyId));
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<Guid> ids)
-        => HandleDeleteRangeCommand(new DeleteRangeFacultyCommand(ids));
+    public Task<IActionResult> DeleteRange(IList<Guid> facultyId)
+        => HandleDeleteRangeCommand(new DeleteRangeFacultyCommand(facultyId));
 }

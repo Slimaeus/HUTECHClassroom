@@ -16,19 +16,19 @@ public class CommentsController : BaseEntityApiController<CommentDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<CommentDTO>>> Get([FromQuery] CommentPaginationParams @params)
         => HandlePaginationQuery<GetCommentsWithPaginationQuery, CommentPaginationParams>(new GetCommentsWithPaginationQuery(@params));
-    [HttpGet("{id}", Name = nameof(GetCommentDetails))]
-    public Task<ActionResult<CommentDTO>> GetCommentDetails(Guid id)
-        => HandleGetQuery(new GetCommentQuery(id));
+    [HttpGet("{commentId}", Name = nameof(GetCommentDetails))]
+    public Task<ActionResult<CommentDTO>> GetCommentDetails(Guid commentId)
+        => HandleGetQuery(new GetCommentQuery(commentId));
     [HttpPost]
     public Task<ActionResult<CommentDTO>> Comment(CreateCommentCommand command)
-        => HandleCreateCommand(command, nameof(GetCommentDetails), id => new GetCommentQuery(id));
-    [HttpPut("{id}")]
-    public Task<IActionResult> Put(Guid id, UpdateCommentCommand request)
-        => HandleUpdateCommand(id, request);
-    [HttpDelete("{id}")]
-    public Task<ActionResult<CommentDTO>> Delete(Guid id)
-        => HandleDeleteCommand(new DeleteCommentCommand(id));
+        => HandleCreateCommand(command, nameof(GetCommentDetails), commentId => new GetCommentQuery(commentId));
+    [HttpPut("{commentId}")]
+    public Task<IActionResult> Put(Guid commentId, UpdateCommentCommand request)
+        => HandleUpdateCommand(commentId, request);
+    [HttpDelete("{commentId}")]
+    public Task<ActionResult<CommentDTO>> Delete(Guid commentId)
+        => HandleDeleteCommand(new DeleteCommentCommand(commentId));
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<Guid> ids)
-        => HandleDeleteRangeCommand(new DeleteRangeCommentCommand(ids));
+    public Task<IActionResult> DeleteRange(IList<Guid> commentIds)
+        => HandleDeleteRangeCommand(new DeleteRangeCommentCommand(commentIds));
 }

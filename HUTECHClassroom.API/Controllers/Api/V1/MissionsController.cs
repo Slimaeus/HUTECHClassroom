@@ -23,35 +23,35 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     public Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] MissionPaginationParams @params)
         => HandlePaginationQuery<GetMissionsWithPaginationQuery, MissionPaginationParams>(new GetMissionsWithPaginationQuery(@params));
     //[Authorize(Policy = ReadMissionPolicy)]
-    [HttpGet("{id}", Name = nameof(GetDetails))]
-    public Task<ActionResult<MissionDTO>> GetDetails(Guid id)
-        => HandleGetQuery(new GetMissionQuery(id));
+    [HttpGet("{missionId}", Name = nameof(GetDetails))]
+    public Task<ActionResult<MissionDTO>> GetDetails(Guid missionId)
+        => HandleGetQuery(new GetMissionQuery(missionId));
     //[Authorize(Policy = CreateMissionPolicy)]
     [HttpPost]
     public Task<ActionResult<MissionDTO>> Post(CreateMissionCommand request)
-        => HandleCreateCommand(request, nameof(GetDetails), id => new GetMissionQuery(id));
+        => HandleCreateCommand(request, nameof(GetDetails), missionId => new GetMissionQuery(missionId));
     //[Authorize(Policy = UpdateMissionPolicy)]
-    [HttpPut("{id}")]
-    public Task<IActionResult> Put(Guid id, UpdateMissionCommand request)
-        => HandleUpdateCommand(id, request);
+    [HttpPut("{missionId}")]
+    public Task<IActionResult> Put(Guid missionId, UpdateMissionCommand request)
+        => HandleUpdateCommand(missionId, request);
     //[Authorize(Policy = DeleteMissionPolicy)]
-    [HttpDelete("{id}")]
-    public Task<ActionResult<MissionDTO>> Delete(Guid id)
-        => HandleDeleteCommand(new DeleteMissionCommand(id));
+    [HttpDelete("{missionId}")]
+    public Task<ActionResult<MissionDTO>> Delete(Guid missionId)
+        => HandleDeleteCommand(new DeleteMissionCommand(missionId));
     //[Authorize(Policy = DeleteMissionPolicy)]
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<Guid> ids)
-        => HandleDeleteRangeCommand(new DeleteRangeMissionCommand(ids));
+    public Task<IActionResult> DeleteRange(IList<Guid> missionIds)
+        => HandleDeleteRangeCommand(new DeleteRangeMissionCommand(missionIds));
     //[Authorize(Policy = ReadMissionPolicy)]
-    [HttpGet("{id}/members")]
-    public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
-        => HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(id, @params)));
+    [HttpGet("{missionId}/members")]
+    public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid missionId, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(missionId, @params)));
     //[Authorize(Policy = UpdateMissionPolicy)]
-    [HttpPost("{id}/members/{userId}")]
-    public async Task<IActionResult> AddMember(Guid id, Guid userId)
-        => Ok(await Mediator.Send(new AddMissionUserCommand(id, userId)));
+    [HttpPost("{missionId}/members/{userId}")]
+    public async Task<IActionResult> AddMember(Guid missionId, Guid userId)
+        => Ok(await Mediator.Send(new AddMissionUserCommand(missionId, userId)));
     //[Authorize(Policy = UpdateMissionPolicy)]
-    [HttpDelete("{id}/members/{userId}")]
-    public async Task<IActionResult> RemoveMember(Guid id, Guid userId)
-        => Ok(await Mediator.Send(new RemoveMissionUserCommand(id, userId)));
+    [HttpDelete("{missionId}/members/{userId}")]
+    public async Task<IActionResult> RemoveMember(Guid missionId, Guid userId)
+        => Ok(await Mediator.Send(new RemoveMissionUserCommand(missionId, userId)));
 }

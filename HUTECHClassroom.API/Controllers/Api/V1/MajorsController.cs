@@ -15,19 +15,19 @@ public class MajorsController : BaseEntityApiController<MajorDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<MajorDTO>>> Get([FromQuery] MajorPaginationParams @params)
         => HandlePaginationQuery<GetMajorsWithPaginationQuery, MajorPaginationParams>(new GetMajorsWithPaginationQuery(@params));
-    [HttpGet("{id}", Name = nameof(GetMajorDetails))]
-    public Task<ActionResult<MajorDTO>> GetMajorDetails(Guid id)
-        => HandleGetQuery(new GetMajorQuery(id));
+    [HttpGet("{majorId}", Name = nameof(GetMajorDetails))]
+    public Task<ActionResult<MajorDTO>> GetMajorDetails(Guid majorId)
+        => HandleGetQuery(new GetMajorQuery(majorId));
     [HttpPost]
     public Task<ActionResult<MajorDTO>> Post(CreateMajorCommand command)
-        => HandleCreateCommand(command, nameof(GetMajorDetails), id => new GetMajorQuery(id));
-    [HttpPut("{id}")]
-    public Task<IActionResult> Put(Guid id, UpdateMajorCommand request)
-        => HandleUpdateCommand(id, request);
-    [HttpDelete("{id}")]
-    public Task<ActionResult<MajorDTO>> Delete(Guid id)
-        => HandleDeleteCommand(new DeleteMajorCommand(id));
+        => HandleCreateCommand(command, nameof(GetMajorDetails), majorId => new GetMajorQuery(majorId));
+    [HttpPut("{majorId}")]
+    public Task<IActionResult> Put(Guid majorId, UpdateMajorCommand request)
+        => HandleUpdateCommand(majorId, request);
+    [HttpDelete("{majorId}")]
+    public Task<ActionResult<MajorDTO>> Delete(Guid majorId)
+        => HandleDeleteCommand(new DeleteMajorCommand(majorId));
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<Guid> ids)
-        => HandleDeleteRangeCommand(new DeleteRangeMajorCommand(ids));
+    public Task<IActionResult> DeleteRange(IList<Guid> majorIds)
+        => HandleDeleteRangeCommand(new DeleteRangeMajorCommand(majorIds));
 }

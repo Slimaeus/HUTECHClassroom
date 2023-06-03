@@ -21,28 +21,28 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<ProjectDTO>>> Get([FromQuery] ProjectPaginationParams @params)
         => HandlePaginationQuery<GetProjectsWithPaginationQuery, ProjectPaginationParams>(new GetProjectsWithPaginationQuery(@params));
-    [HttpGet("{id}", Name = nameof(GetProjectDetails))]
-    public Task<ActionResult<ProjectDTO>> GetProjectDetails(Guid id)
-        => HandleGetQuery(new GetProjectQuery(id));
+    [HttpGet("{projectId}", Name = nameof(GetProjectDetails))]
+    public Task<ActionResult<ProjectDTO>> GetProjectDetails(Guid projectId)
+        => HandleGetQuery(new GetProjectQuery(projectId));
     [HttpPost]
     public Task<ActionResult<ProjectDTO>> Post(CreateProjectCommand request)
-        => HandleCreateCommand(request, nameof(GetProjectDetails), id => new GetProjectQuery(id));
-    [HttpPut("{id}")]
-    public Task<IActionResult> Put(Guid id, UpdateProjectCommand request)
-        => HandleUpdateCommand(id, request);
-    [HttpDelete("{id}")]
-    public Task<ActionResult<ProjectDTO>> Delete(Guid id)
-        => HandleDeleteCommand(new DeleteProjectCommand(id));
+        => HandleCreateCommand(request, nameof(GetProjectDetails), projectId => new GetProjectQuery(projectId));
+    [HttpPut("{projectId}")]
+    public Task<IActionResult> Put(Guid projectId, UpdateProjectCommand request)
+        => HandleUpdateCommand(projectId, request);
+    [HttpDelete("{projectId}")]
+    public Task<ActionResult<ProjectDTO>> Delete(Guid projectId)
+        => HandleDeleteCommand(new DeleteProjectCommand(projectId));
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<Guid> ids)
-        => HandleDeleteRangeCommand(new DeleteRangeProjectCommand(ids));
-    [HttpGet("{id}/missions")]
-    public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(Guid id, [FromQuery] PaginationParams @params)
-        => HandlePagedList(await Mediator.Send(new GetProjectMissionsWithPaginationQuery(id, @params)));
-    [HttpPost("{id}/missions/{missionId}")]
-    public async Task<ActionResult<MissionDTO>> AddMission(Guid id, Guid missionId)
-        => Ok(await Mediator.Send(new AddMissionCommand(id, missionId)));
-    [HttpDelete("{id}/missions/{missionId}")]
-    public async Task<ActionResult<MissionDTO>> RemoveMission(Guid id, Guid missionId)
-        => Ok(await Mediator.Send(new RemoveMissionCommand(id, missionId)));
+    public Task<IActionResult> DeleteRange(IList<Guid> projectIds)
+        => HandleDeleteRangeCommand(new DeleteRangeProjectCommand(projectIds));
+    [HttpGet("{projectId}/missions")]
+    public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(Guid projectId, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetProjectMissionsWithPaginationQuery(projectId, @params)));
+    [HttpPost("{projectId}/missions/{missionId}")]
+    public async Task<ActionResult<MissionDTO>> AddMission(Guid projectId, Guid missionId)
+        => Ok(await Mediator.Send(new AddMissionCommand(projectId, missionId)));
+    [HttpDelete("{projectId}/missions/{missionId}")]
+    public async Task<ActionResult<MissionDTO>> RemoveMission(Guid projectId, Guid missionId)
+        => Ok(await Mediator.Send(new RemoveMissionCommand(projectId, missionId)));
 }

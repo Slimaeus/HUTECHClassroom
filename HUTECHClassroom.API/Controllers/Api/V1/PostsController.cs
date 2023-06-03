@@ -19,22 +19,22 @@ public class PostsController : BaseEntityApiController<PostDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<PostDTO>>> Get([FromQuery] PostPaginationParams @params)
         => HandlePaginationQuery<GetPostsWithPaginationQuery, PostPaginationParams>(new GetPostsWithPaginationQuery(@params));
-    [HttpGet("{id}", Name = nameof(GetPostDetails))]
-    public Task<ActionResult<PostDTO>> GetPostDetails(Guid id)
-        => HandleGetQuery(new GetPostQuery(id));
+    [HttpGet("{postId}", Name = nameof(GetPostDetails))]
+    public Task<ActionResult<PostDTO>> GetPostDetails(Guid postId)
+        => HandleGetQuery(new GetPostQuery(postId));
     [HttpPost]
     public Task<ActionResult<PostDTO>> Post(CreatePostCommand command)
-        => HandleCreateCommand(command, nameof(GetPostDetails), id => new GetPostQuery(id));
-    [HttpPut("{id}")]
-    public Task<IActionResult> Put(Guid id, UpdatePostCommand request)
-        => HandleUpdateCommand(id, request);
-    [HttpDelete("{id}")]
-    public Task<ActionResult<PostDTO>> Delete(Guid id)
-        => HandleDeleteCommand(new DeletePostCommand(id));
+        => HandleCreateCommand(command, nameof(GetPostDetails), postId => new GetPostQuery(postId));
+    [HttpPut("{postId}")]
+    public Task<IActionResult> Put(Guid postId, UpdatePostCommand request)
+        => HandleUpdateCommand(postId, request);
+    [HttpDelete("{postId}")]
+    public Task<ActionResult<PostDTO>> Delete(Guid postId)
+        => HandleDeleteCommand(new DeletePostCommand(postId));
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<Guid> ids)
-        => HandleDeleteRangeCommand(new DeleteRangePostCommand(ids));
-    [HttpGet("{id}/comments")]
-    public async Task<ActionResult<IEnumerable<CommentDTO>>> GetComments(Guid id, [FromQuery] CommentPaginationParams @params)
-        => HandlePagedList(await Mediator.Send(new GetPostCommentsWithPaginationQuery(id, @params)));
+    public Task<IActionResult> DeleteRange(IList<Guid> postIds)
+        => HandleDeleteRangeCommand(new DeleteRangePostCommand(postIds));
+    [HttpGet("{postId}/comments")]
+    public async Task<ActionResult<IEnumerable<CommentDTO>>> GetComments(Guid postId, [FromQuery] CommentPaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetPostCommentsWithPaginationQuery(postId, @params)));
 }

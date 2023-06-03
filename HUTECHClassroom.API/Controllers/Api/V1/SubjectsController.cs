@@ -15,19 +15,19 @@ public class SubjectsController : BaseEntityApiController<SubjectDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<SubjectDTO>>> Get([FromQuery] SubjectPaginationParams @params)
         => HandlePaginationQuery<GetSubjectsWithPaginationQuery, SubjectPaginationParams>(new GetSubjectsWithPaginationQuery(@params));
-    [HttpGet("{id}", Name = nameof(GetSubjectDetails))]
-    public Task<ActionResult<SubjectDTO>> GetSubjectDetails(Guid id)
-        => HandleGetQuery(new GetSubjectQuery(id));
+    [HttpGet("{subjectId}", Name = nameof(GetSubjectDetails))]
+    public Task<ActionResult<SubjectDTO>> GetSubjectDetails(Guid subjectId)
+        => HandleGetQuery(new GetSubjectQuery(subjectId));
     [HttpPost]
     public Task<ActionResult<SubjectDTO>> Post(CreateSubjectCommand command)
-        => HandleCreateCommand(command, nameof(GetSubjectDetails), id => new GetSubjectQuery(id));
-    [HttpPut("{id}")]
-    public Task<IActionResult> Put(Guid id, UpdateSubjectCommand request)
-        => HandleUpdateCommand(id, request);
-    [HttpDelete("{id}")]
-    public Task<ActionResult<SubjectDTO>> Delete(Guid id)
-        => HandleDeleteCommand(new DeleteSubjectCommand(id));
+        => HandleCreateCommand(command, nameof(GetSubjectDetails), subjectId => new GetSubjectQuery(subjectId));
+    [HttpPut("{subjectId}")]
+    public Task<IActionResult> Put(Guid subjectId, UpdateSubjectCommand request)
+        => HandleUpdateCommand(subjectId, request);
+    [HttpDelete("{subjectId}")]
+    public Task<ActionResult<SubjectDTO>> Delete(Guid subjectId)
+        => HandleDeleteCommand(new DeleteSubjectCommand(subjectId));
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<Guid> ids)
-        => HandleDeleteRangeCommand(new DeleteRangeSubjectCommand(ids));
+    public Task<IActionResult> DeleteRange(IList<Guid> subjectIds)
+        => HandleDeleteRangeCommand(new DeleteRangeSubjectCommand(subjectIds));
 }

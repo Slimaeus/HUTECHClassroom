@@ -27,37 +27,37 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<ClassroomDTO>>> Get([FromQuery] ClassroomPaginationParams @params)
         => HandlePaginationQuery<GetClassroomsWithPaginationQuery, ClassroomPaginationParams>(new GetClassroomsWithPaginationQuery(@params));
-    [HttpGet("{id}", Name = nameof(GetClassroomDetails))]
-    public Task<ActionResult<ClassroomDTO>> GetClassroomDetails(Guid id)
-        => HandleGetQuery(new GetClassroomQuery(id));
+    [HttpGet("{classroomId}", Name = nameof(GetClassroomDetails))]
+    public Task<ActionResult<ClassroomDTO>> GetClassroomDetails(Guid classroomId)
+        => HandleGetQuery(new GetClassroomQuery(classroomId));
     [HttpPost]
     public Task<ActionResult<ClassroomDTO>> Post(CreateClassroomCommand command)
-        => HandleCreateCommand(command, nameof(GetClassroomDetails), id => new GetClassroomQuery(id));
-    [HttpPut("{id}")]
-    public Task<IActionResult> Put(Guid id, UpdateClassroomCommand request)
-        => HandleUpdateCommand(id, request);
-    [HttpDelete("{id}")]
-    public Task<ActionResult<ClassroomDTO>> Delete(Guid id)
-        => HandleDeleteCommand(new DeleteClassroomCommand(id));
+        => HandleCreateCommand(command, nameof(GetClassroomDetails), classroomId => new GetClassroomQuery(classroomId));
+    [HttpPut("{classroomId}")]
+    public Task<IActionResult> Put(Guid classroomId, UpdateClassroomCommand request)
+        => HandleUpdateCommand(classroomId, request);
+    [HttpDelete("{classroomId}")]
+    public Task<ActionResult<ClassroomDTO>> Delete(Guid classroomId)
+        => HandleDeleteCommand(new DeleteClassroomCommand(classroomId));
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<Guid> ids)
-        => HandleDeleteRangeCommand(new DeleteRangeClassroomCommand(ids));
-    [HttpGet("{id}/members")]
-    public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid id, [FromQuery] PaginationParams @params)
-        => HandlePagedList(await Mediator.Send(new GetClassroomUsersWithPaginationQuery(id, @params)));
-    [HttpPost("{id}/members/{userId}")]
-    public async Task<IActionResult> AddMember(Guid id, Guid userId)
-        => Ok(await Mediator.Send(new AddClassroomUserCommand(id, userId)));
-    [HttpDelete("{id}/members/{userId}")]
-    public async Task<IActionResult> RemoveMember(Guid id, Guid userId)
-        => Ok(await Mediator.Send(new RemoveClassroomUserCommand(id, userId)));
-    [HttpGet("{id}/exercises")]
-    public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetExercises(Guid id, [FromQuery] PaginationParams @params)
-        => HandlePagedList(await Mediator.Send(new GetClassroomExercisesWithPaginationQuery(id, @params)));
-    [HttpGet("{id}/groups")]
-    public async Task<ActionResult<IEnumerable<GroupDTO>>> GetGroups(Guid id, [FromQuery] PaginationParams @params)
-        => HandlePagedList(await Mediator.Send(new GetClassroomGroupsWithPaginationQuery(id, @params)));
-    [HttpGet("{id}/posts")]
-    public async Task<ActionResult<IEnumerable<PostDTO>>> GetPosts(Guid id, [FromQuery] PaginationParams @params)
-        => HandlePagedList(await Mediator.Send(new GetClassroomPostsWithPaginationQuery(id, @params)));
+    public Task<IActionResult> DeleteRange(IList<Guid> classroomIds)
+        => HandleDeleteRangeCommand(new DeleteRangeClassroomCommand(classroomIds));
+    [HttpGet("{classroomId}/members")]
+    public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid classroomId, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetClassroomUsersWithPaginationQuery(classroomId, @params)));
+    [HttpPost("{classroomId}/members/{userId}")]
+    public async Task<IActionResult> AddMember(Guid classroomId, Guid userId)
+        => Ok(await Mediator.Send(new AddClassroomUserCommand(classroomId, userId)));
+    [HttpDelete("{classroomId}/members/{userId}")]
+    public async Task<IActionResult> RemoveMember(Guid classroomId, Guid userId)
+        => Ok(await Mediator.Send(new RemoveClassroomUserCommand(classroomId, userId)));
+    [HttpGet("{classroomId}/exercises")]
+    public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetExercises(Guid classroomId, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetClassroomExercisesWithPaginationQuery(classroomId, @params)));
+    [HttpGet("{classroomId}/groups")]
+    public async Task<ActionResult<IEnumerable<GroupDTO>>> GetGroups(Guid classroomId, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetClassroomGroupsWithPaginationQuery(classroomId, @params)));
+    [HttpGet("{classroomId}/posts")]
+    public async Task<ActionResult<IEnumerable<PostDTO>>> GetPosts(Guid classroomId, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetClassroomPostsWithPaginationQuery(classroomId, @params)));
 }
