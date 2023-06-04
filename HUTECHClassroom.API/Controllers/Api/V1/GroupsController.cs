@@ -26,12 +26,12 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     public Task<ActionResult<IEnumerable<GroupDTO>>> Get([FromQuery] GroupPaginationParams @params)
         => HandlePaginationQuery<GetGroupsWithPaginationQuery, GroupPaginationParams>(new GetGroupsWithPaginationQuery(@params));
     [Authorize(Policy = RequireLeaderGroupRolePolicy)]
-    [HttpGet("{groupId}", Name = nameof(GetGroupDetails))]
+    [HttpGet("{groupId}")]
     public Task<ActionResult<GroupDTO>> GetGroupDetails(Guid groupId)
         => HandleGetQuery(new GetGroupQuery(groupId));
     [HttpPost]
     public Task<ActionResult<GroupDTO>> Post(CreateGroupCommand command)
-        => HandleCreateCommand(command, nameof(GetGroupDetails), id => new GetGroupQuery(id));
+        => HandleCreateCommand(command, id => new GetGroupQuery(id));
     [Authorize(Policy = RequireLeaderGroupRolePolicy)]
     [HttpPut("{groupId}")]
     public Task<IActionResult> Put(Guid groupId, UpdateGroupCommand request)

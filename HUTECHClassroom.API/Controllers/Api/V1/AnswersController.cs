@@ -16,12 +16,12 @@ public class AnswersController : BaseEntityApiController<AnswerDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<AnswerDTO>>> Get([FromQuery] AnswerPaginationParams @params)
         => HandlePaginationQuery<GetAnswersWithPaginationQuery, AnswerPaginationParams>(new GetAnswersWithPaginationQuery(@params));
-    [HttpGet("{answerId}", Name = nameof(GetAnswerDetails))]
+    [HttpGet("{answerId}")]
     public Task<ActionResult<AnswerDTO>> GetAnswerDetails(Guid answerId)
         => HandleGetQuery(new GetAnswerQuery(answerId));
     [HttpPost]
     public Task<ActionResult<AnswerDTO>> Post(CreateAnswerCommand command)
-        => HandleCreateCommand(command, nameof(GetAnswerDetails), answerId => new GetAnswerQuery(answerId));
+        => HandleCreateCommand(command, answerId => new GetAnswerQuery(answerId));
     [HttpPut("{answerId}")]
     public Task<IActionResult> Put(Guid answerId, UpdateAnswerCommand request)
         => HandleUpdateCommand(answerId, request);

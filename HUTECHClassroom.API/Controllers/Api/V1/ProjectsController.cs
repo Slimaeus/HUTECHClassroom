@@ -21,12 +21,12 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<ProjectDTO>>> Get([FromQuery] ProjectPaginationParams @params)
         => HandlePaginationQuery<GetProjectsWithPaginationQuery, ProjectPaginationParams>(new GetProjectsWithPaginationQuery(@params));
-    [HttpGet("{projectId}", Name = nameof(GetProjectDetails))]
+    [HttpGet("{projectId}")]
     public Task<ActionResult<ProjectDTO>> GetProjectDetails(Guid projectId)
         => HandleGetQuery(new GetProjectQuery(projectId));
     [HttpPost]
     public Task<ActionResult<ProjectDTO>> Post(CreateProjectCommand request)
-        => HandleCreateCommand(request, nameof(GetProjectDetails), projectId => new GetProjectQuery(projectId));
+        => HandleCreateCommand(request, projectId => new GetProjectQuery(projectId));
     [HttpPut("{projectId}")]
     public Task<IActionResult> Put(Guid projectId, UpdateProjectCommand request)
         => HandleUpdateCommand(projectId, request);

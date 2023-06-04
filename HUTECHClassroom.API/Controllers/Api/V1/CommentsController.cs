@@ -16,12 +16,12 @@ public class CommentsController : BaseEntityApiController<CommentDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<CommentDTO>>> Get([FromQuery] CommentPaginationParams @params)
         => HandlePaginationQuery<GetCommentsWithPaginationQuery, CommentPaginationParams>(new GetCommentsWithPaginationQuery(@params));
-    [HttpGet("{commentId}", Name = nameof(GetCommentDetails))]
+    [HttpGet("{commentId}")]
     public Task<ActionResult<CommentDTO>> GetCommentDetails(Guid commentId)
         => HandleGetQuery(new GetCommentQuery(commentId));
     [HttpPost]
     public Task<ActionResult<CommentDTO>> Comment(CreateCommentCommand command)
-        => HandleCreateCommand(command, nameof(GetCommentDetails), commentId => new GetCommentQuery(commentId));
+        => HandleCreateCommand(command, commentId => new GetCommentQuery(commentId));
     [HttpPut("{commentId}")]
     public Task<IActionResult> Put(Guid commentId, UpdateCommentCommand request)
         => HandleUpdateCommand(commentId, request);

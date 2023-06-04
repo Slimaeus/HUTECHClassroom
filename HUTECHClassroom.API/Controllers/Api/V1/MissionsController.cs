@@ -23,13 +23,13 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     public Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] MissionPaginationParams @params)
         => HandlePaginationQuery<GetMissionsWithPaginationQuery, MissionPaginationParams>(new GetMissionsWithPaginationQuery(@params));
     //[Authorize(Policy = ReadMissionPolicy)]
-    [HttpGet("{missionId}", Name = nameof(GetDetails))]
+    [HttpGet("{missionId}")]
     public Task<ActionResult<MissionDTO>> GetDetails(Guid missionId)
         => HandleGetQuery(new GetMissionQuery(missionId));
     //[Authorize(Policy = CreateMissionPolicy)]
     [HttpPost]
     public Task<ActionResult<MissionDTO>> Post(CreateMissionCommand request)
-        => HandleCreateCommand(request, nameof(GetDetails), missionId => new GetMissionQuery(missionId));
+        => HandleCreateCommand(request, missionId => new GetMissionQuery(missionId));
     //[Authorize(Policy = UpdateMissionPolicy)]
     [HttpPut("{missionId}")]
     public Task<IActionResult> Put(Guid missionId, UpdateMissionCommand request)

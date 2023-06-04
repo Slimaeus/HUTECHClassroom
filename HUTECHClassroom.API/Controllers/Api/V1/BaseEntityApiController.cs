@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -18,13 +19,18 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
         where TGetQuery : GetQuery<TEntityDTO>
         => Ok(await Mediator.Send(query));
 
-    protected async Task<ActionResult<TEntityDTO>> HandleCreateCommand<TCreateCommand, TGetQuery>(TCreateCommand command, string routeName, Func<TKey, TGetQuery> getQuery)
+    protected async Task<ActionResult<TEntityDTO>> HandleCreateCommand<TCreateCommand, TGetQuery>(TCreateCommand command, Func<TKey, TGetQuery> getQuery)
         where TCreateCommand : CreateCommand<TKey>
         where TGetQuery : GetQuery<TEntityDTO>
     {
         var id = await Mediator.Send(command);
         var dto = await Mediator.Send(getQuery(id));
-        return CreatedAtRoute(routeName, new { id }, dto);
+
+        var domain = HttpContext.Request.GetDisplayUrl();
+        var routeTemplate = ControllerContext.ActionDescriptor.AttributeRouteInfo.Template;
+        var apiVersion = HttpContext.GetRequestedApiVersion().ToString();
+
+        return Created($"{domain}/{routeTemplate.Replace("{version:apiVersion}", apiVersion)}/{id}", dto);
     }
 
     protected async Task<IActionResult> HandleUpdateCommand<TUpdateCommand>(TKey id, TUpdateCommand command)

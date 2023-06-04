@@ -21,12 +21,12 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<ExerciseDTO>>> Get([FromQuery] ExercisePaginationParams @params)
         => HandlePaginationQuery<GetExercisesWithPaginationQuery, ExercisePaginationParams>(new GetExercisesWithPaginationQuery(@params));
-    [HttpGet("{exerciseId}", Name = nameof(GetExerciseDetails))]
+    [HttpGet("{exerciseId}")]
     public Task<ActionResult<ExerciseDTO>> GetExerciseDetails(Guid exerciseId)
         => HandleGetQuery(new GetExerciseQuery(exerciseId));
     [HttpPost]
     public Task<ActionResult<ExerciseDTO>> Post(CreateExerciseCommand command)
-        => HandleCreateCommand(command, nameof(GetExerciseDetails), exerciseId => new GetExerciseQuery(exerciseId));
+        => HandleCreateCommand(command, exerciseId => new GetExerciseQuery(exerciseId));
     [HttpPut("{exerciseId}")]
     public Task<IActionResult> Put(Guid exerciseId, UpdateExerciseCommand request)
         => HandleUpdateCommand(exerciseId, request);

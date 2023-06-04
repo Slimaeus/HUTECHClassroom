@@ -15,12 +15,12 @@ public class SubjectsController : BaseEntityApiController<SubjectDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<SubjectDTO>>> Get([FromQuery] SubjectPaginationParams @params)
         => HandlePaginationQuery<GetSubjectsWithPaginationQuery, SubjectPaginationParams>(new GetSubjectsWithPaginationQuery(@params));
-    [HttpGet("{subjectId}", Name = nameof(GetSubjectDetails))]
+    [HttpGet("{subjectId}")]
     public Task<ActionResult<SubjectDTO>> GetSubjectDetails(Guid subjectId)
         => HandleGetQuery(new GetSubjectQuery(subjectId));
     [HttpPost]
     public Task<ActionResult<SubjectDTO>> Post(CreateSubjectCommand command)
-        => HandleCreateCommand(command, nameof(GetSubjectDetails), subjectId => new GetSubjectQuery(subjectId));
+        => HandleCreateCommand(command, subjectId => new GetSubjectQuery(subjectId));
     [HttpPut("{subjectId}")]
     public Task<IActionResult> Put(Guid subjectId, UpdateSubjectCommand request)
         => HandleUpdateCommand(subjectId, request);

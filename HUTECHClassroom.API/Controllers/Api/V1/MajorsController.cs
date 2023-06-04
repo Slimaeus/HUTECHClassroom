@@ -15,12 +15,12 @@ public class MajorsController : BaseEntityApiController<MajorDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<MajorDTO>>> Get([FromQuery] MajorPaginationParams @params)
         => HandlePaginationQuery<GetMajorsWithPaginationQuery, MajorPaginationParams>(new GetMajorsWithPaginationQuery(@params));
-    [HttpGet("{majorId}", Name = nameof(GetMajorDetails))]
+    [HttpGet("{majorId}")]
     public Task<ActionResult<MajorDTO>> GetMajorDetails(Guid majorId)
         => HandleGetQuery(new GetMajorQuery(majorId));
     [HttpPost]
     public Task<ActionResult<MajorDTO>> Post(CreateMajorCommand command)
-        => HandleCreateCommand(command, nameof(GetMajorDetails), majorId => new GetMajorQuery(majorId));
+        => HandleCreateCommand(command, majorId => new GetMajorQuery(majorId));
     [HttpPut("{majorId}")]
     public Task<IActionResult> Put(Guid majorId, UpdateMajorCommand request)
         => HandleUpdateCommand(majorId, request);

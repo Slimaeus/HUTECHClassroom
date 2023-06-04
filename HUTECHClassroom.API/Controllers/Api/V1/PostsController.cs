@@ -19,12 +19,12 @@ public class PostsController : BaseEntityApiController<PostDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<PostDTO>>> Get([FromQuery] PostPaginationParams @params)
         => HandlePaginationQuery<GetPostsWithPaginationQuery, PostPaginationParams>(new GetPostsWithPaginationQuery(@params));
-    [HttpGet("{postId}", Name = nameof(GetPostDetails))]
+    [HttpGet("{postId}")]
     public Task<ActionResult<PostDTO>> GetPostDetails(Guid postId)
         => HandleGetQuery(new GetPostQuery(postId));
     [HttpPost]
     public Task<ActionResult<PostDTO>> Post(CreatePostCommand command)
-        => HandleCreateCommand(command, nameof(GetPostDetails), postId => new GetPostQuery(postId));
+        => HandleCreateCommand(command, postId => new GetPostQuery(postId));
     [HttpPut("{postId}")]
     public Task<IActionResult> Put(Guid postId, UpdatePostCommand request)
         => HandleUpdateCommand(postId, request);

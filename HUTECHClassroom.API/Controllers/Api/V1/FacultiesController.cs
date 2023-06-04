@@ -16,12 +16,12 @@ public class FacultiesController : BaseEntityApiController<FacultyDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<FacultyDTO>>> Get([FromQuery] FacultyPaginationParams @params)
         => HandlePaginationQuery<GetFacultiesWithPaginationQuery, FacultyPaginationParams>(new GetFacultiesWithPaginationQuery(@params));
-    [HttpGet("{facultyId}", Name = nameof(GetFacultyDetails))]
+    [HttpGet("{facultyId}")]
     public Task<ActionResult<FacultyDTO>> GetFacultyDetails(Guid facultyId)
         => HandleGetQuery(new GetFacultyQuery(facultyId));
     [HttpPost]
     public Task<ActionResult<FacultyDTO>> Post(CreateFacultyCommand command)
-        => HandleCreateCommand(command, nameof(GetFacultyDetails), facultyId => new GetFacultyQuery(facultyId));
+        => HandleCreateCommand(command, facultyId => new GetFacultyQuery(facultyId));
     [HttpPut("{facultyId}")]
     public Task<IActionResult> Put(Guid facultyId, UpdateFacultyCommand request)
         => HandleUpdateCommand(facultyId, request);

@@ -27,12 +27,12 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<ClassroomDTO>>> Get([FromQuery] ClassroomPaginationParams @params)
         => HandlePaginationQuery<GetClassroomsWithPaginationQuery, ClassroomPaginationParams>(new GetClassroomsWithPaginationQuery(@params));
-    [HttpGet("{classroomId}", Name = nameof(GetClassroomDetails))]
+    [HttpGet("{classroomId}")]
     public Task<ActionResult<ClassroomDTO>> GetClassroomDetails(Guid classroomId)
         => HandleGetQuery(new GetClassroomQuery(classroomId));
     [HttpPost]
     public Task<ActionResult<ClassroomDTO>> Post(CreateClassroomCommand command)
-        => HandleCreateCommand(command, nameof(GetClassroomDetails), classroomId => new GetClassroomQuery(classroomId));
+        => HandleCreateCommand(command, classroomId => new GetClassroomQuery(classroomId));
     [HttpPut("{classroomId}")]
     public Task<IActionResult> Put(Guid classroomId, UpdateClassroomCommand request)
         => HandleUpdateCommand(classroomId, request);
