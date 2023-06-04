@@ -11,5 +11,6 @@ public static class AuthorizationOptionsExtensions
         options.AddProjectPolicies();
         options.AddGroupPolicies();
         options.AddGroupRolePolicies();
+        options.AddClassroomPolicies();
     }
 }

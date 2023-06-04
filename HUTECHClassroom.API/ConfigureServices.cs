@@ -46,10 +46,6 @@ public static class ConfigureServices
         services.AddAuthorization(options =>
         {
             options.AddEntityPolicies();
-            options.AddPolicy("GroupRolePolicy", policy =>
-            {
-                policy.AddRequirements(new GroupRoleRequirement("Leader"));
-            });
         });
 
         services.AddScoped<IAuthorizationHandler, GroupRoleAuthorizationHandler>();
