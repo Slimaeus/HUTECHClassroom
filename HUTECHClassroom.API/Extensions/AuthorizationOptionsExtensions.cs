@@ -12,6 +12,7 @@ public static class AuthorizationOptionsExtensions
         options.AddGroupPolicies();
         options.AddGroupRolePolicies();
         options.AddClassroomPolicies();
+        options.AddExercisePolicies();
         options.AddCommonPolicies();
     }
 }

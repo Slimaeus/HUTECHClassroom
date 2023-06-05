@@ -11,6 +11,7 @@ using HUTECHClassroom.Application.Exercises.DTOs;
 using HUTECHClassroom.Application.Exercises.Queries.GetExercise;
 using HUTECHClassroom.Application.Exercises.Queries.GetExercisesWithPagination;
 using HUTECHClassroom.Application.Exercises.Queries.GetExerciseUsersWithPagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -24,12 +25,15 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
     [HttpGet("{exerciseId}")]
     public Task<ActionResult<ExerciseDTO>> GetExerciseDetails(Guid exerciseId)
         => HandleGetQuery(new GetExerciseQuery(exerciseId));
+    [Authorize(Policy = CreateExercisePolicy)]
     [HttpPost]
     public Task<ActionResult<ExerciseDTO>> Post(CreateExerciseCommand command)
         => HandleCreateCommand(command, exerciseId => new GetExerciseQuery(exerciseId));
+    [Authorize(Policy = UpdateExercisePolicy)]
     [HttpPut("{exerciseId}")]
     public Task<IActionResult> Put(Guid exerciseId, UpdateExerciseCommand request)
         => HandleUpdateCommand(exerciseId, request);
+    [Authorize(Policy = DeleteExercisePolicy)]
     [HttpDelete("{exerciseId}")]
     public Task<ActionResult<ExerciseDTO>> Delete(Guid exerciseId)
         => HandleDeleteCommand(new DeleteExerciseCommand(exerciseId));
