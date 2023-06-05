@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCore.Repository.Collections;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -20,7 +21,7 @@ public class BaseApiController : ControllerBase
         Response.Headers.Add("pagination", JsonConvert.SerializeObject(new { currentPage = pagedList.PageIndex, itemsPerPage = pagedList.PageSize, totalItems = pagedList.TotalCount, totalPages = pagedList.TotalPages, hasNext = pagedList.HasNextPage, hasPrevious = pagedList.HasPreviousPage }));
         return Ok(pagedList.Items);
     }
-
+    [AllowAnonymous]
     [HttpGet("endpoints")]
     public ActionResult<IEnumerable<string>> GetEndpoints()
     {

@@ -1,4 +1,4 @@
-﻿using HUTECHClassroom.API.Authorization;
+﻿using HUTECHClassroom.API.Extensions;
 using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.API.SignalR;
 using HUTECHClassroom.Infrastructure.Persistence;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace HUTECHClassroom.API;
@@ -44,10 +45,17 @@ public static class ConfigureServices
         #region Authorization
         services.AddAuthorization(options =>
         {
-            //options.AddEntityPolicies();
+            options.AddEntityPolicies();
         });
 
-        services.AddScoped<IAuthorizationHandler, GroupRoleAuthorizationHandler>();
+
+        IEnumerable<Type> authorizationHandlerTypes = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(type => typeof(IAuthorizationHandler).IsAssignableFrom(type) && !type.IsInterface);
+
+        foreach (Type authorizationHandlerType in authorizationHandlerTypes)
+        {
+            services.AddScoped(typeof(IAuthorizationHandler), authorizationHandlerType);
+        }
         #endregion
 
         #region Swagger

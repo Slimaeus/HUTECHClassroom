@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace HUTECHClassroom.API.Authorization;
+namespace HUTECHClassroom.API.Authorization.GroupRoles;
 
 public class GroupRoleRequirement : IAuthorizationRequirement
 {

@@ -1,4 +1,4 @@
-﻿using HUTECHClassroom.API.Authorization;
+﻿using HUTECHClassroom.API.Authorization.GroupRoles;
 using HUTECHClassroom.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 

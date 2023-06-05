@@ -35,4 +35,8 @@
 		<Using Static="true" Include="HUTECHClassroom.API.Extensions.Policies.PolicyConstants" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Authorization\Groups\" />
+	</ItemGroup>
+
 </Project>

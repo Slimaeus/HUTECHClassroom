@@ -10,22 +10,26 @@ public static class ClassroomPolicyExtensions
         options.AddPolicy(CreateClassroomPolicy, policy =>
         {
             policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
-            //policy.RequireClaim(ApplicationClaimTypes.CLASSROOM, CreateAction);
         });
         options.AddPolicy(ReadClassroomPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
-            //policy.RequireClaim(ApplicationClaimTypes.CLASSROOM, ReadAction);
+            policy.RequireAuthenticatedUser();
         });
         options.AddPolicy(UpdateClassroomPolicy, policy =>
         {
             policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
-            //policy.RequireClaim(ApplicationClaimTypes.CLASSROOM, UpdateAction);
         });
         options.AddPolicy(DeleteClassroomPolicy, policy =>
         {
             policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
-            //policy.RequireClaim(ApplicationClaimTypes.CLASSROOM, DeleteAction);
+        });
+        options.AddPolicy(AddClassroomUserPolicy, policy =>
+        {
+            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+        });
+        options.AddPolicy(RemoveClassroomUserPolicy, policy =>
+        {
+            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
         });
     }
 }

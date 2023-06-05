@@ -17,6 +17,7 @@ using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Exercises.DTOs;
 using HUTECHClassroom.Application.Groups.DTOs;
 using HUTECHClassroom.Application.Posts.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -45,9 +46,11 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     [HttpGet("{classroomId}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid classroomId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomUsersWithPaginationQuery(classroomId, @params)));
+    [Authorize(Policy = AddClassroomUserPolicy)]
     [HttpPost("{classroomId}/members/{userId}")]
     public async Task<IActionResult> AddMember(Guid classroomId, Guid userId)
         => Ok(await Mediator.Send(new AddClassroomUserCommand(classroomId, userId)));
+    [Authorize(Policy = RemoveClassroomUserPolicy)]
     [HttpDelete("{classroomId}/members/{userId}")]
     public async Task<IActionResult> RemoveMember(Guid classroomId, Guid userId)
         => Ok(await Mediator.Send(new RemoveClassroomUserCommand(classroomId, userId)));
