@@ -14,6 +14,7 @@ public static class MissionPolicyExtensions
         });
         options.AddPolicy(ReadMissionPolicy, policy =>
         {
+            policy.RequireRole(RoleConstants.STUDENT);
             //policy.RequireClaim(ApplicationClaimTypes.MISSION, ReadAction);
         });
         options.AddPolicy(UpdateMissionPolicy, policy =>

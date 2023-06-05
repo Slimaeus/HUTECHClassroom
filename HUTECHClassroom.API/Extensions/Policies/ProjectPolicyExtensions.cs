@@ -14,6 +14,7 @@ public static class ProjectPolicyExtensions
         });
         options.AddPolicy(ReadProjectPolicy, policy =>
         {
+            policy.RequireRole(RoleConstants.STUDENT);
             //policy.RequireClaim(ApplicationClaimTypes.PROJECT, ReadAction);
         });
         options.AddPolicy(UpdateProjectPolicy, policy =>

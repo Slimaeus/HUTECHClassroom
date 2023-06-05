@@ -15,6 +15,7 @@ public static class GroupPolicyExtensions
         });
         options.AddPolicy(ReadGroupPolicy, policy =>
         {
+            policy.RequireRole(RoleConstants.STUDENT);
             //policy.RequireClaim(ApplicationClaimTypes.GROUP, ReadAction);
         });
         options.AddPolicy(UpdateGroupPolicy, policy =>

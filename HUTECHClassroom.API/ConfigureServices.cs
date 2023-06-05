@@ -1,5 +1,4 @@
 ﻿using HUTECHClassroom.API.Authorization;
-using HUTECHClassroom.API.Extensions;
 using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.API.SignalR;
 using HUTECHClassroom.Infrastructure.Persistence;
@@ -45,7 +44,7 @@ public static class ConfigureServices
         #region Authorization
         services.AddAuthorization(options =>
         {
-            options.AddEntityPolicies();
+            //options.AddEntityPolicies();
         });
 
         services.AddScoped<IAuthorizationHandler, GroupRoleAuthorizationHandler>();
