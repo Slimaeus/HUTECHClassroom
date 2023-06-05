@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Web.ViewModels.Exercises;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
+[Authorize(DeanOrTrainingOfficePolicy)]
 public class ExercisesController : BaseEntityController<Exercise>
 {
     public IActionResult Index(int? page, int? size)

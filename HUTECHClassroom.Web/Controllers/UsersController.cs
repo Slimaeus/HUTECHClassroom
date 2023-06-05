@@ -1,6 +1,8 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Web.Models;
 using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +12,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
+[Authorize(Roles = RoleConstants.ADMIN)]
 public class UsersController : BaseEntityController<ApplicationUser>
 {
     private readonly UserManager<ApplicationUser> _userManager;

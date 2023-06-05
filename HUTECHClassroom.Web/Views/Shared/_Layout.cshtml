@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using HUTECHClassroom.Domain.Constants;
+@using HUTECHClassroom.Domain.Entities;
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,6 +38,9 @@
                                 Entities
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.DEAN) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TRAINING_OFFICE)))
+                                {
+                                    
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Answers" asp-action="Index">Answers</a>
                                 </li>
@@ -64,9 +74,14 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Subjects</a>
                                 </li>
+                                }
+                                @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.ADMIN))
+                                {
+                                    
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
                                 </li>
+                                }
                             </ul>
                         </li>
                     </ul>

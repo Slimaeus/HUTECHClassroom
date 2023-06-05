@@ -18,6 +18,7 @@ public static class AuthorizationOptionsExtensions
         options.AddSubjectPolicies();
         options.AddPostPolicies();
         options.AddCommentPolicies();
+        options.AddAnswerPolicies();
         options.AddCommonPolicies();
     }
 }

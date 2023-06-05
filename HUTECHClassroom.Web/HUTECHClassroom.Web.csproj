@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -21,7 +21,11 @@
     <ProjectReference Include="..\HUTECHClassroom.Application\HUTECHClassroom.Application.csproj" />
     <ProjectReference Include="..\HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj" />
   </ItemGroup>
-
+	
+	<ItemGroup>
+		<Using Static="true" Include="HUTECHClassroom.Web.Extensions.Policies.PolicyConstants" />
+	</ItemGroup>
+	
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="ViewModels\Shared\" />

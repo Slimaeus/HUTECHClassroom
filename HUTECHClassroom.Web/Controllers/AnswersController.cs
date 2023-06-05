@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
+[Authorize(DeanOrTrainingOfficePolicy)]
 public class AnswersController : BaseEntityController<Answer>
 {
     public IActionResult Index(int? page, int? size)

@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Web.ViewModels.Majors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
@@ -8,6 +9,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
+[Authorize(DeanOrTrainingOfficePolicy)]
 public class MajorsController : BaseEntityController<Major>
 {
     public IActionResult Index(int? page, int? size)

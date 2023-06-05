@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Web.ViewModels.Faculties;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
+[Authorize(DeanOrTrainingOfficePolicy)]
 public class FacultiesController : BaseEntityController<Faculty>
 {
     // GET: Faculties
