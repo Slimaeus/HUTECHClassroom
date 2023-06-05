@@ -11,6 +11,7 @@ using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Missions.Queries.GetMission;
 using HUTECHClassroom.Application.Missions.Queries.GetMissionsWithPagination;
 using HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -18,39 +19,39 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 [ApiVersion("1.0")]
 public class MissionsController : BaseEntityApiController<MissionDTO>
 {
-    //[Authorize(Policy = ReadMissionPolicy)]
+    [Authorize(ReadMissionPolicy)]
     [HttpGet]
     public Task<ActionResult<IEnumerable<MissionDTO>>> Get([FromQuery] MissionPaginationParams @params)
         => HandlePaginationQuery<GetMissionsWithPaginationQuery, MissionPaginationParams>(new GetMissionsWithPaginationQuery(@params));
-    //[Authorize(Policy = ReadMissionPolicy)]
+    [Authorize(ReadMissionPolicy)]
     [HttpGet("{missionId}")]
     public Task<ActionResult<MissionDTO>> GetDetails(Guid missionId)
         => HandleGetQuery(new GetMissionQuery(missionId));
-    //[Authorize(Policy = CreateMissionPolicy)]
+    [Authorize(CreateMissionPolicy)]
     [HttpPost]
     public Task<ActionResult<MissionDTO>> Post(CreateMissionCommand request)
         => HandleCreateCommand(request, missionId => new GetMissionQuery(missionId));
-    //[Authorize(Policy = UpdateMissionPolicy)]
+    [Authorize(UpdateMissionPolicy)]
     [HttpPut("{missionId}")]
     public Task<IActionResult> Put(Guid missionId, UpdateMissionCommand request)
         => HandleUpdateCommand(missionId, request);
-    //[Authorize(Policy = DeleteMissionPolicy)]
+    [Authorize(DeleteMissionPolicy)]
     [HttpDelete("{missionId}")]
     public Task<ActionResult<MissionDTO>> Delete(Guid missionId)
         => HandleDeleteCommand(new DeleteMissionCommand(missionId));
-    //[Authorize(Policy = DeleteMissionPolicy)]
+    [Authorize(DeleteMissionPolicy)]
     [HttpDelete]
     public Task<IActionResult> DeleteRange(IList<Guid> missionIds)
         => HandleDeleteRangeCommand(new DeleteRangeMissionCommand(missionIds));
-    //[Authorize(Policy = ReadMissionPolicy)]
+    [Authorize(ReadMissionPolicy)]
     [HttpGet("{missionId}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid missionId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetMissionUsersWithPaginationQuery(missionId, @params)));
-    //[Authorize(Policy = UpdateMissionPolicy)]
+    [Authorize(UpdateMissionPolicy)]
     [HttpPost("{missionId}/members/{userId}")]
     public async Task<IActionResult> AddMember(Guid missionId, Guid userId)
         => Ok(await Mediator.Send(new AddMissionUserCommand(missionId, userId)));
-    //[Authorize(Policy = UpdateMissionPolicy)]
+    [Authorize(UpdateMissionPolicy)]
     [HttpDelete("{missionId}/members/{userId}")]
     public async Task<IActionResult> RemoveMember(Guid missionId, Guid userId)
         => Ok(await Mediator.Send(new RemoveMissionUserCommand(missionId, userId)));

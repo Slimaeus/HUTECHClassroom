@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.API.Authorization.GroupRoles;
+using HUTECHClassroom.API.Authorization.Roles;
 using HUTECHClassroom.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 
@@ -10,7 +11,7 @@ public static class GroupPolicyExtensions
     {
         options.AddPolicy(CreateGroupPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleRequirement(GroupRoleConstants.LEADER));
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
         });
         options.AddPolicy(ReadGroupPolicy, policy =>
         {
@@ -22,7 +23,23 @@ public static class GroupPolicyExtensions
         });
         options.AddPolicy(DeleteGroupPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleRequirement(GroupRoleConstants.LEADER));
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
+        });
+        options.AddPolicy(AddGroupUserPolicy, policy =>
+        {
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
+        });
+        options.AddPolicy(RemoveGroupUserPolicy, policy =>
+        {
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
+        });
+        options.AddPolicy(AddGroupLeaderPolicy, policy =>
+        {
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
+        });
+        options.AddPolicy(RemoveGroupLeaderPolicy, policy =>
+        {
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
         });
     }
 }

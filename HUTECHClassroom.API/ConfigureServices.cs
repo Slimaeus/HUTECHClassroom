@@ -54,7 +54,7 @@ public static class ConfigureServices
 
         foreach (Type authorizationHandlerType in authorizationHandlerTypes)
         {
-            services.AddScoped(typeof(IAuthorizationHandler), authorizationHandlerType);
+            services.AddSingleton(typeof(IAuthorizationHandler), authorizationHandlerType);
         }
         #endregion
 

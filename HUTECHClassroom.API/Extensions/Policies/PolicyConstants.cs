@@ -32,6 +32,11 @@ public static partial class PolicyConstants
     public const string DeleteGroupPolicy = nameof(DeleteGroupPolicy);
 
     public const string RequireLeaderGroupRolePolicy = nameof(RequireLeaderGroupRolePolicy);
+    public const string AddGroupUserPolicy = nameof(AddGroupUserPolicy);
+    public const string RemoveGroupUserPolicy = nameof(RemoveGroupUserPolicy);
+
+    public const string AddGroupLeaderPolicy = nameof(AddGroupLeaderPolicy);
+    public const string RemoveGroupLeaderPolicy = nameof(RemoveGroupLeaderPolicy);
 }
 
 public static partial class PolicyConstants

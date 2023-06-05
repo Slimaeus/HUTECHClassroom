@@ -1,0 +1,27 @@
+﻿using HUTECHClassroom.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
+
+namespace HUTECHClassroom.API.Extensions.Policies;
+
+public static class AnswerPolicyExtensions
+{
+    public static void AddAnswerPolicies(this AuthorizationOptions options)
+    {
+        options.AddPolicy(CreateAnswerPolicy, policy =>
+        {
+            policy.RequireRole(RoleConstants.STUDENT);
+        });
+        options.AddPolicy(ReadAnswerPolicy, policy =>
+        {
+            policy.RequireAuthenticatedUser();
+        });
+        options.AddPolicy(UpdateAnswerPolicy, policy =>
+        {
+            policy.RequireRole(RoleConstants.STUDENT);
+        });
+        options.AddPolicy(DeleteAnswerPolicy, policy =>
+        {
+            policy.RequireRole(RoleConstants.STUDENT);
+        });
+    }
+}

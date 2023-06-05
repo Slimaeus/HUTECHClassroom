@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
+[AllowAnonymous]
 public class ResultsController : BaseApiController
 {
     [HttpGet("not-found")]

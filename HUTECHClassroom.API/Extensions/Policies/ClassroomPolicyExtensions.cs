@@ -10,7 +10,7 @@ public static class ClassroomPolicyExtensions
     {
         options.AddPolicy(CreateClassroomPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
         });
         options.AddPolicy(ReadClassroomPolicy, policy =>
         {
@@ -18,11 +18,12 @@ public static class ClassroomPolicyExtensions
         });
         options.AddPolicy(UpdateClassroomPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
+
         });
         options.AddPolicy(DeleteClassroomPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
         });
         options.AddPolicy(AddClassroomUserPolicy, policy =>
         {
