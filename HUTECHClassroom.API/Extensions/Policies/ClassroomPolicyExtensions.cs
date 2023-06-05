@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.API.Authorization.Roles;
+using HUTECHClassroom.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions.Policies;
@@ -25,11 +26,11 @@ public static class ClassroomPolicyExtensions
         });
         options.AddPolicy(AddClassroomUserPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
         });
         options.AddPolicy(RemoveClassroomUserPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
         });
     }
 }
