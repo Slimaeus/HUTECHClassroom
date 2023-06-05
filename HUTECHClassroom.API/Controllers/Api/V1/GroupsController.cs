@@ -14,7 +14,6 @@ using HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
 using HUTECHClassroom.Application.Groups.Queries.GetGroupUsersWithPagination;
 using HUTECHClassroom.Application.Projects.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -25,18 +24,18 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [HttpGet]
     public Task<ActionResult<IEnumerable<GroupDTO>>> Get([FromQuery] GroupPaginationParams @params)
         => HandlePaginationQuery<GetGroupsWithPaginationQuery, GroupPaginationParams>(new GetGroupsWithPaginationQuery(@params));
-    [Authorize(Policy = RequireLeaderGroupRolePolicy)]
+    //[Authorize(Policy = RequireLeaderGroupRolePolicy)]
     [HttpGet("{groupId}")]
     public Task<ActionResult<GroupDTO>> GetGroupDetails(Guid groupId)
         => HandleGetQuery(new GetGroupQuery(groupId));
     [HttpPost]
     public Task<ActionResult<GroupDTO>> Post(CreateGroupCommand command)
         => HandleCreateCommand(command, id => new GetGroupQuery(id));
-    [Authorize(Policy = RequireLeaderGroupRolePolicy)]
+    //[Authorize(Policy = RequireLeaderGroupRolePolicy)]
     [HttpPut("{groupId}")]
     public Task<IActionResult> Put(Guid groupId, UpdateGroupCommand request)
         => HandleUpdateCommand(groupId, request);
-    [Authorize(Policy = RequireLeaderGroupRolePolicy)]
+    //[Authorize(Policy = RequireLeaderGroupRolePolicy)]
     [HttpDelete("{groupId}")]
     public Task<ActionResult<GroupDTO>> Delete(Guid groupId)
         => HandleDeleteCommand(new DeleteGroupCommand(groupId));
