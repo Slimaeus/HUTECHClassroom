@@ -84,6 +84,10 @@ public class FacultiesController : BaseEntityController<Faculty>
             var dbUser = await UserManager.FindByNameAsync(user.UserName) ?? await UserManager.FindByEmailAsync(user.Email);
             if (dbUser == null)
             {
+                if (user.Email == null || user.UserName == null || user.FirstName == null || user.LastName == null)
+                {
+                    continue;
+                }
                 user.Id = Guid.NewGuid();
                 user.FacultyId = viewModel.FacultyId;
                 results.Add(await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false));

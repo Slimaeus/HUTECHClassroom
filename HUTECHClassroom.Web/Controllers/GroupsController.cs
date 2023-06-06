@@ -94,6 +94,10 @@ public class GroupsController : BaseEntityController<Group>
             var dbUser = existingUsers.FirstOrDefault(u => u.UserName == user.UserName || u.Email == user.Email);
             if (dbUser == null)
             {
+                if (user.Email == null || user.UserName == null || user.FirstName == null || user.LastName == null)
+                {
+                    continue;
+                }
                 user.Id = Guid.NewGuid();
                 results.Add(await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false));
                 await UserManager.AddToRoleAsync(user, "Student");

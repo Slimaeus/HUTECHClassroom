@@ -93,11 +93,15 @@ public class ClassroomsController : BaseEntityController<Classroom>
             .ToListAsync();
         foreach (var user in users)
         {
-            var dbUser = existingUsers.FirstOrDefault(u => u.UserName == user.UserName || u.Email == user.Email); ;
+            var dbUser = existingUsers.FirstOrDefault(u => u.UserName == user.UserName || u.Email == user.Email);
             if (dbUser == null)
             {
+                if (user.Email == null || user.UserName == null || user.FirstName == null || user.LastName == null)
+                {
+                    continue;
+                }
                 user.Id = Guid.NewGuid();
-                results.Add(await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false));
+                results.Add(await UserManager.CreateAsync(user, user.UserName));
                 await UserManager.AddToRoleAsync(user, "Student");
                 dbUsers.Add(user);
             }
@@ -117,10 +121,10 @@ public class ClassroomsController : BaseEntityController<Classroom>
         }
 
         classroom.ClassroomUsers.AddRange(
-            users.Select(user => new ClassroomUser { User = user })
+            dbUsers.Select(user => new ClassroomUser { User = user })
         );
 
-        await DbContext.SaveChangesAsync().ConfigureAwait(false);
+        await DbContext.SaveChangesAsync();
 
         ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
         return RedirectToAction("Index");
