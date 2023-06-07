@@ -28,11 +28,12 @@ public abstract class GetQueryHandler<TKey, TEntity, TQuery, TDTO> : IRequestHan
         var entity = await _repository
             .ToQueryable(query)
             .AsSplitQuery()
-            .ProjectTo<TDTO>(_mapper.ConfigurationProvider)
+            .ProjectTo<TDTO>(_mapper.ConfigurationProvider, GetMappingParameters())
             .SingleOrDefaultAsync(cancellationToken);
 
         return entity ?? throw new NotFoundException(typeof(TEntity).Name, GetNotFoundKey(request));
     }
+    protected virtual object GetMappingParameters() => new { };
     public virtual object GetNotFoundKey(TQuery query) => string.Empty;
     public virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
         => x => true;

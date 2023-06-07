@@ -38,9 +38,6 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
 
         query = (IMultipleResultQuery<TEntity>)Order(query);
 
-        //query = (IMultipleResultQuery<TEntity>)query
-        //        .OrderBy(OrderByKeySelector());
-
         if (string.IsNullOrEmpty(request.Params.SearchString) is false)
         {
             query = (IMultipleResultQuery<TEntity>)query
@@ -49,7 +46,7 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
 
         var pagedList = await _repository
             .ToQueryable(query)
-            .ProjectTo<TDTO>(_mapper.ConfigurationProvider)
+            .ProjectTo<TDTO>(_mapper.ConfigurationProvider, GetMappingParameters())
             .AsSplitQuery()
             .ToListAsync(cancellationToken)
             .Then<List<TDTO>, IList<TDTO>>(result => result, cancellationToken)
@@ -59,6 +56,10 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
                               cancellationToken);
 
         return pagedList;
+    }
+    protected virtual object GetMappingParameters()
+    {
+        return new { };
     }
     protected virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString)
         => x => true;

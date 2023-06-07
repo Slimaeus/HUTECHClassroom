@@ -4,6 +4,7 @@ using HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
 using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
+using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Groups;
 
@@ -11,7 +12,13 @@ public class GroupMappingProfile : Profile
 {
     public GroupMappingProfile()
     {
-        CreateMap<Group, GroupDTO>();
+        Guid? currentUserId = null;
+        CreateMap<Group, GroupDTO>()
+            .ForMember(x => x.Roles, config => config.MapFrom(g => (g.LeaderId == currentUserId)
+            ? new List<string> { GroupRoleConstants.LEADER }
+            : g.GroupUsers.Any(gu => gu.UserId == currentUserId)
+                ? new List<string> { GroupRoleConstants.MEMBER }
+                : new List<string>()));
         CreateMap<CreateGroupCommand, Group>();
         CreateMap<UpdateGroupCommand, Group>()
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));

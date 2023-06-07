@@ -7,8 +7,7 @@ public class AccountMappingProfile : Profile
     public AccountMappingProfile()
     {
         CreateMap<ApplicationUser, AccountDTO>()
-            .ForMember(x => x.Roles, (config) => config.MapFrom(x => x.ApplicationUserRoles.Select(x => x.Role.Name)))
-            .ForMember(x => x.Faculty, (config) => config.MapFrom(x => x.Faculty));
+            .ForMember(x => x.Roles, (config) => config.MapFrom(u => u.ApplicationUserRoles.Select(ur => ur.Role.Name)));
 
         CreateMap<Faculty, UserFacultyDTO>();
     }

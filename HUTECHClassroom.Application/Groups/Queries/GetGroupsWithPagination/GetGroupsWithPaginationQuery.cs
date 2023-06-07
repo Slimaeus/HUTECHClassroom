@@ -2,6 +2,7 @@
 using HUTECHClassroom.Application.Common.Extensions;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Groups.DTOs;
+using HUTECHClassroom.Domain.Interfaces;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
@@ -9,8 +10,15 @@ namespace HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
 public record GetGroupsWithPaginationQuery(GroupPaginationParams Params) : GetWithPaginationQuery<GroupDTO, GroupPaginationParams>(Params);
 public class GetGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Group, GetGroupsWithPaginationQuery, GroupDTO, GroupPaginationParams>
 {
-    public GetGroupsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    private readonly IUserAccessor _userAccessor;
+
+    public GetGroupsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserAccessor userAccessor) : base(unitOfWork, mapper)
     {
+        _userAccessor = userAccessor;
+    }
+    protected override object GetMappingParameters()
+    {
+        return new { currentUserId = _userAccessor.Id };
     }
     protected override Expression<Func<Group, bool>> SearchStringPredicate(string searchString)
     {
