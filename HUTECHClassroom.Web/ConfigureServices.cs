@@ -1,7 +1,7 @@
 ﻿using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Infrastructure.Persistence;
-using static HUTECHClassroom.Web.Extensions.Policies.PolicyConstants;
+using System.Reflection;
 
 namespace HUTECHClassroom.Web;
 
@@ -22,6 +22,10 @@ public static class ConfigureServices
         });
 
         #region Services
+        #endregion
+
+        #region Mapper
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         #endregion
 
         services.AddRazorPages();

@@ -1,8 +1,9 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using AutoMapper;
+using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
-using HUTECHClassroom.Web.Models;
 using HUTECHClassroom.Web.ViewModels;
+using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ public class BaseEntityController<T> : Controller
     protected ApplicationDbContext DbContext => HttpContext.RequestServices.GetService<ApplicationDbContext>();
     protected UserManager<ApplicationUser> UserManager => HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
     protected IExcelServie ExcelService => HttpContext.RequestServices.GetService<IExcelServie>();
+    protected IMapper Mapper => HttpContext.RequestServices.GetService<IMapper>();
     public IActionResult Import()
     {
         var viewModel = new ImportEntitiesFromExcelViewModel();

@@ -167,6 +167,22 @@ public class ApplicationDbContextInitializer
             Email = "admin@gmail.com",
         };
 
+        var dean = new ApplicationUser
+        {
+            UserName = "dean",
+            FirstName = "dean",
+            LastName = "dean",
+            Email = "dean@gmail.com",
+        };
+
+        var trainingOffice = new ApplicationUser
+        {
+            UserName = "trainingOffice",
+            FirstName = "trainingOffice",
+            LastName = "trainingOffice",
+            Email = "trainingOffice@gmail.com",
+        };
+
         var users = new ApplicationUser[]
         {
             new ApplicationUser
@@ -201,7 +217,9 @@ public class ApplicationDbContextInitializer
                 Email = "lecturer2@gmail.com",
                 Faculty = faculties[0]
             },
-            admin
+            admin,
+            dean,
+            trainingOffice
         };
 
 
@@ -213,6 +231,8 @@ public class ApplicationDbContextInitializer
         }
 
         await _userManager.AddToRoleAsync(admin, administratorRole.Name);
+        await _userManager.AddToRoleAsync(dean, deanRole.Name);
+        await _userManager.AddToRoleAsync(trainingOffice, trainingOfficeRole.Name);
 
         var majors = new Major[]
         {

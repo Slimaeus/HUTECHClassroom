@@ -1,6 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Web.Models;
 using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -91,14 +90,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
 
         var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
         // Map userViewModels to users
-        var users = userViewModels.Select(x => new ApplicationUser
-        {
-            UserName = x.UserName,
-            Email = x.Email ?? $"user{x.UserName}@gmail.com",
-            FirstName = x.FirstName,
-            LastName = x.LastName,
-            FacultyId = x.FacultyId != Guid.Empty ? x.FacultyId : null
-        }).ToList();
+        var users = userViewModels.Select(x => Mapper.Map<ApplicationUser>(x)).ToList();
         // Do something with the imported people data, such as saving to a database
         foreach (var user in users)
         {
