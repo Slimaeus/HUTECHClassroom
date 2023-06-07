@@ -1,7 +1,9 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using AutoMapper.QueryableExtensions;
+using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using HUTECHClassroom.Web.ViewModels.Missions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -81,32 +83,27 @@ public class MissionsController : BaseEntityController<Mission>
             return View(viewModel);
         }
 
-        var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
+        var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
         // Do something with the imported people data, such as saving to a database
-        var results = new List<IdentityResult>();
         var dbUsers = new List<ApplicationUser>();
+
         var existingUsers = await DbContext.Users
-            .Where(u => users.Select(x => x.UserName).Contains(u.UserName) || users.Select(x => x.Email).Contains(u.Email))
+            .Where(u => userViewModels.Select(x => x.UserName).Contains(u.UserName))
             .ToListAsync();
-        foreach (var user in users)
+
+        var newUsers = userViewModels
+            .Where(vm => !existingUsers.Select(x => x.UserName).Contains(vm.UserName))
+            .AsQueryable()
+            .ProjectTo<ApplicationUser>(Mapper.ConfigurationProvider)
+            .ToList();
+        foreach (var user in newUsers)
         {
-            var dbUser = existingUsers.FirstOrDefault(u => u.UserName == user.UserName || u.Email == user.Email); ;
-            if (dbUser == null)
-            {
-                if (user.Email == null || user.UserName == null || user.FirstName == null || user.LastName == null)
-                {
-                    continue;
-                }
-                user.Id = Guid.NewGuid();
-                results.Add(await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false));
-                await UserManager.AddToRoleAsync(user, "Student");
-                dbUsers.Add(user);
-            }
-            else
-            {
-                dbUsers.Add(dbUser);
-            }
+            await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
+            await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
+            dbUsers.Add(user);
         }
+
+        dbUsers.AddRange(existingUsers.Where(x => !x.MissionUsers.Any(cu => cu.MissionId == viewModel.MissionId)));
 
         var mission = await DbContext.Missions
             .Include(c => c.MissionUsers)
@@ -123,7 +120,7 @@ public class MissionsController : BaseEntityController<Mission>
 
         await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-        ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
+        ViewBag.Success = $"Successfully imported {dbUsers.Count} rows.";
         return RedirectToAction("Index");
     }
 

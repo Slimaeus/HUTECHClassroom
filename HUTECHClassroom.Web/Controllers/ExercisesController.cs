@@ -1,6 +1,7 @@
 ﻿using AutoMapper.QueryableExtensions;
 using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using HUTECHClassroom.Web.ViewModels.Exercises;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -90,7 +91,7 @@ public class ExercisesController : BaseEntityController<Exercise>
             return NotFound();
         }
 
-        var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
+        var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
         var dbUsers = new List<ApplicationUser>();
         var existingUsers = await DbContext.Users
             .Where(u => userViewModels.Select(x => x.UserName).Contains(u.UserName))
@@ -102,7 +103,7 @@ public class ExercisesController : BaseEntityController<Exercise>
             .ProjectTo<ApplicationUser>(Mapper.ConfigurationProvider)
             .ToList();
 
-        foreach (var user in userViewModels)
+        foreach (var user in newUsers)
         {
             await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);

@@ -1,7 +1,9 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using AutoMapper.QueryableExtensions;
+using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Entities;
+using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using HUTECHClassroom.Web.ViewModels.Faculties;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
@@ -76,33 +78,37 @@ public class FacultiesController : BaseEntityController<Faculty>
             return View(viewModel);
         }
 
-        var users = ExcelService.ReadExcelFileWithColumnNames<ApplicationUser>(viewModel.File.OpenReadStream(), null);
+        var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
         // Do something with the imported people data, such as saving to a database
-        var results = new List<IdentityResult>();
-        foreach (var user in users)
-        {
-            var dbUser = await UserManager.FindByNameAsync(user.UserName) ?? await UserManager.FindByEmailAsync(user.Email);
-            if (dbUser == null)
-            {
-                if (user.Email == null || user.UserName == null || user.FirstName == null || user.LastName == null)
-                {
-                    continue;
-                }
-                user.Id = Guid.NewGuid();
-                user.FacultyId = viewModel.FacultyId;
-                results.Add(await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false));
-                await UserManager.AddToRoleAsync(user, "Student");
-            }
-            else
-            {
-                dbUser.FacultyId = viewModel.FacultyId;
-                DbContext.Entry(dbUser).State = EntityState.Modified;
-                DbContext.Update(dbUser);
-            }
-        }
-        await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-        ViewBag.Success = $"Successfully imported {results.Count(x => x.Succeeded)} rows.";
+        var existingUsers = await DbContext.Users
+            .Where(u => userViewModels.Select(x => x.UserName).Contains(u.UserName))
+            .ToListAsync();
+
+        var newUsers = userViewModels
+            .Where(vm => !existingUsers.Select(x => x.UserName).Contains(vm.UserName))
+            .AsQueryable()
+            .ProjectTo<ApplicationUser>(Mapper.ConfigurationProvider)
+            .ToList();
+
+        foreach (var user in existingUsers)
+        {
+            user.FacultyId = viewModel.FacultyId;
+            DbContext.Entry(user).State = EntityState.Modified;
+            DbContext.Update(user);
+        }
+
+        foreach (var user in newUsers)
+        {
+            user.FacultyId = viewModel.FacultyId;
+            await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
+            await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
+        }
+
+
+        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
+
+        ViewBag.Success = $"Successfully imported and updated {count} rows.";
         return RedirectToAction("Index");
     }
 
