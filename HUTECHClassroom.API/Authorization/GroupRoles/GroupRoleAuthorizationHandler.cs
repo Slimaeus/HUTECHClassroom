@@ -34,7 +34,7 @@ public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequi
             .ThenInclude(x => x.GroupRole)
             .AsSplitQuery()
             .SingleOrDefaultAsync(x => x.Id == userId);
-        var groupId = await GetGroupIdFromRouteAsync();
+        var groupId = await GetGroupIdAsync();
 
         if (groupId != null && user != null)
         {
@@ -63,7 +63,7 @@ public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequi
         return groupUser != null;
     }
 
-    private async Task<Guid?> GetGroupIdFromRouteAsync()
+    private async Task<Guid?> GetGroupIdAsync()
     {
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
         if (routeData != null && routeData.Values.TryGetValue("groupId", out var idValue))
