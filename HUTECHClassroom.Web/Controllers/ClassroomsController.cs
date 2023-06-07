@@ -123,9 +123,9 @@ public class ClassroomsController : BaseEntityController<Classroom>
             dbUsers.Select(user => new ClassroomUser { User = user })
         );
 
-        await DbContext.SaveChangesAsync().ConfigureAwait(false);
+        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-        ViewBag.Success = $"Successfully imported {dbUsers.Count} rows.";
+        ViewBag.Success = $"Successfully imported and updated {count} rows.";
         return RedirectToAction("Index");
     }
 

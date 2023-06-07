@@ -116,9 +116,9 @@ public class ExercisesController : BaseEntityController<Exercise>
             dbUsers.Select(user => new ExerciseUser { User = user })
         );
 
-        await DbContext.SaveChangesAsync().ConfigureAwait(false);
+        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-        ViewBag.Success = $"Successfully imported {dbUsers.Count} rows.";
+        ViewBag.Success = $"Successfully imported and updated {count} rows.";
         return RedirectToAction("Index");
     }
 

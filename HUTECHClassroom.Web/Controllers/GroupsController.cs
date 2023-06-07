@@ -116,16 +116,15 @@ public class GroupsController : BaseEntityController<Group>
 
         dbUsers.AddRange(existingUsers.Where(x => !x.GroupUsers.Any(cu => cu.GroupId == viewModel.GroupId)));
 
-
         var groupRole = await DbContext.GroupRoles.SingleOrDefaultAsync(x => x.Name == "Member");
 
         group.GroupUsers.AddRange(
             dbUsers.Select(user => new GroupUser { User = user, GroupRole = groupRole })
         );
 
-        await DbContext.SaveChangesAsync().ConfigureAwait(false);
+        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-        ViewBag.Success = $"Successfully imported {dbUsers.Count} rows.";
+        ViewBag.Success = $"Successfully imported and updated {count} rows.";
         return RedirectToAction("Index");
     }
 

@@ -118,9 +118,9 @@ public class MissionsController : BaseEntityController<Mission>
             dbUsers.Select(user => new MissionUser { User = user })
         );
 
-        await DbContext.SaveChangesAsync().ConfigureAwait(false);
+        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-        ViewBag.Success = $"Successfully imported {dbUsers.Count} rows.";
+        ViewBag.Success = $"Successfully imported and updated {count} rows.";
         return RedirectToAction("Index");
     }
 
