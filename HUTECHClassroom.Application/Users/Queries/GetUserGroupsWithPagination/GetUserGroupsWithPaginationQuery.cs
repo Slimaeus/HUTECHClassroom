@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
+using HUTECHClassroom.Application.Common.Interfaces;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Groups.DTOs;
@@ -16,9 +17,9 @@ public class GetUserGroupsWithPaginationQueryHandler : GetWithPaginationQueryHan
     {
         _userAccessor = userAccessor;
     }
-    protected override object GetMappingParameters()
+    protected override IMappingParams GetMappingParameters()
     {
-        return new { currentUserId = _userAccessor.Id };
+        return new UserMappingParams { UserId = _userAccessor.Id };
     }
     protected override IQuery<Group> Order(IMultipleResultQuery<Group> query) => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Group, bool>> FilterPredicate(GetUserGroupsWithPaginationQuery query)

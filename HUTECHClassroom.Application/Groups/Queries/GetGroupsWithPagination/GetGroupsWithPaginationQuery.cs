@@ -1,5 +1,7 @@
 ﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
 using HUTECHClassroom.Application.Common.Extensions;
+using HUTECHClassroom.Application.Common.Interfaces;
+using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using HUTECHClassroom.Application.Groups.DTOs;
 using HUTECHClassroom.Domain.Interfaces;
@@ -16,9 +18,9 @@ public class GetGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler
     {
         _userAccessor = userAccessor;
     }
-    protected override object GetMappingParameters()
+    protected override IMappingParams GetMappingParameters()
     {
-        return new { currentUserId = _userAccessor.Id };
+        return new UserMappingParams { UserId = _userAccessor.Id };
     }
     protected override Expression<Func<Group, bool>> SearchStringPredicate(string searchString)
     {

@@ -12,11 +12,12 @@ public class GroupMappingProfile : Profile
 {
     public GroupMappingProfile()
     {
-        Guid? currentUserId = null;
+        Guid? UserId = null;
         CreateMap<Group, GroupDTO>()
-            .ForMember(x => x.Roles, config => config.MapFrom(g => (g.LeaderId == currentUserId)
+            .ForMember(x => x.Roles, config => config.MapFrom(g =>
+            (g.LeaderId == UserId)
             ? new List<string> { GroupRoleConstants.LEADER }
-            : g.GroupUsers.Any(gu => gu.UserId == currentUserId)
+            : g.GroupUsers.Any(gu => gu.UserId == UserId)
                 ? new List<string> { GroupRoleConstants.MEMBER }
                 : new List<string>()));
         CreateMap<CreateGroupCommand, Group>();

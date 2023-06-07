@@ -2,6 +2,7 @@
 using EntityFrameworkCore.QueryBuilder.Interfaces;
 using EntityFrameworkCore.Repository.Collections;
 using EntityFrameworkCore.Repository.Extensions;
+using HUTECHClassroom.Application.Common.Interfaces;
 using HUTECHClassroom.Application.Common.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -57,10 +58,7 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
 
         return pagedList;
     }
-    protected virtual object GetMappingParameters()
-    {
-        return new { };
-    }
+    protected virtual IMappingParams GetMappingParameters() => default;
     protected virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString)
         => x => true;
     protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
