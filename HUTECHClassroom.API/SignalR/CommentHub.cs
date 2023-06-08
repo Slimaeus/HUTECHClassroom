@@ -1,7 +1,7 @@
-﻿using HUTECHClassroom.Application.Comments;
-using HUTECHClassroom.Application.Comments.Commands.CreateComment;
+﻿using HUTECHClassroom.Application.Comments.Commands.CreateComment;
 using HUTECHClassroom.Application.Comments.Commands.DeleteComment;
 using HUTECHClassroom.Application.Comments.Queries.GetComment;
+using HUTECHClassroom.Application.Posts;
 using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -43,7 +43,7 @@ public class CommentHub : Hub
         if (!isParsePageNumberSuccess) pageNumber = 1;
         if (!isParsePageSizeSuccess) pageSize = 5;
         await Groups.AddToGroupAsync(Context.ConnectionId, postId);
-        var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId), new CommentPaginationParams(pageNumber, pageSize)));
+        var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId), new PostPaginationParams(pageNumber, pageSize)));
         await Clients.Caller.SendAsync("LoadComments", result.Items, new
         {
             pageIndex = result.PageIndex,

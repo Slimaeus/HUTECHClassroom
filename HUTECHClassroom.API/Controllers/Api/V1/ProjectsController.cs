@@ -1,5 +1,4 @@
-﻿using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Missions.DTOs;
+﻿using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Projects;
 using HUTECHClassroom.Application.Projects.Commands.AddMission;
 using HUTECHClassroom.Application.Projects.Commands.CreateProject;
@@ -45,7 +44,7 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
         => HandleDeleteRangeCommand(new DeleteRangeProjectCommand(projectIds));
     [Authorize(ReadProjectPolicy)]
     [HttpGet("{projectId}/missions")]
-    public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(Guid projectId, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(Guid projectId, [FromQuery] ProjectPaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetProjectMissionsWithPaginationQuery(projectId, @params)));
     [Authorize(UpdateProjectPolicy)]
     [HttpPost("{projectId}/missions/{missionId}")]

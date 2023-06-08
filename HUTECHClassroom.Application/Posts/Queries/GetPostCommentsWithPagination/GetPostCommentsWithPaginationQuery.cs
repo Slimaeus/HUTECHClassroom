@@ -15,7 +15,7 @@ public class GetPostCommentsWithPaginationQueryHandler : GetWithPaginationQueryH
     protected override IQuery<Comment> Order(IMultipleResultQuery<Comment> query) => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Comment, bool>> FilterPredicate(GetPostCommentsWithPaginationQuery query)
     {
-        return x => x.PostId == query.Id && (query.Params.UserId == null || query.Params.UserId == Guid.Empty || query.Params.UserId == x.Post.UserId);
+        return x => x.PostId == query.Id && (query.Params.UserId == null || query.Params.UserId == Guid.Empty || query.Params.UserId == x.UserId);
     }
 
     protected override IMultipleResultQuery<Comment> SortingQuery(IMultipleResultQuery<Comment> query, GetPostCommentsWithPaginationQuery request)

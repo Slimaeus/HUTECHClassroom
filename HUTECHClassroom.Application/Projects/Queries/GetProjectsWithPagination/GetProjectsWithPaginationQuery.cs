@@ -10,6 +10,10 @@ public record GetProjectsWithPaginationQuery(ProjectPaginationParams Params) : G
 public class GetProjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Project, GetProjectsWithPaginationQuery, ProjectDTO, ProjectPaginationParams>
 {
     public GetProjectsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+    protected override Expression<Func<Project, bool>> FilterPredicate(GetProjectsWithPaginationQuery query)
+    {
+        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || query.Params.UserId == x.Group.LeaderId || x.Missions.Any(m => m.MissionUsers.Any(mu => query.Params.UserId == mu.UserId));
+    }
     protected override Expression<Func<Project, bool>> SearchStringPredicate(string searchString)
         => x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Description.ToLower().Contains(searchString.ToLower());
     protected override IQuery<Project> Order(IMultipleResultQuery<Project> query) => query.OrderByDescending(x => x.CreateDate);
