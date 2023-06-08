@@ -23,7 +23,6 @@ using HUTECHClassroom.Application.Users.Queries.GetUserRolesWithPagination;
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Immutable;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
@@ -37,15 +36,10 @@ public class UsersController : BaseEntityApiController<UserDTO>
     {
         _userAccessor = userAccessor;
     }
-    [HttpGet("get-entity-claims")]
-    public ActionResult<IDictionary<string, ImmutableArray<string>>> GetEntityClaims()
-    {
-        return Ok(_userAccessor.EntityClaims);
-    }
     [AllowAnonymous]
-    [HttpGet("{userName}")]
-    public Task<ActionResult<UserDTO>> GetUserDetails(string userName)
-        => HandleGetQuery(new GetUserQuery(userName));
+    [HttpGet("{userId}")]
+    public Task<ActionResult<UserDTO>> GetUserDetails(Guid userId)
+        => HandleGetQuery(new GetUserQuery(userId));
     [HttpGet("@me")]
     public Task<ActionResult<UserDTO>> GetCurrentUserDetails()
         => HandleGetQuery(new GetCurrentUserQuery());
