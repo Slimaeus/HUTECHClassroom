@@ -62,14 +62,14 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
         => Ok(await Mediator.Send(new RemoveClassroomUserCommand(classroomId, userId)));
     [Authorize(ReadClassroomPolicy)]
     [HttpGet("{classroomId}/exercises")]
-    public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetExercises(Guid classroomId, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetExercises(Guid classroomId, [FromQuery] ClassroomPaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomExercisesWithPaginationQuery(classroomId, @params)));
     [Authorize(ReadClassroomPolicy)]
     [HttpGet("{classroomId}/groups")]
-    public async Task<ActionResult<IEnumerable<GroupDTO>>> GetGroups(Guid classroomId, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<GroupDTO>>> GetGroups(Guid classroomId, [FromQuery] ClassroomPaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomGroupsWithPaginationQuery(classroomId, @params)));
     [Authorize(ReadClassroomPolicy)]
     [HttpGet("{classroomId}/posts")]
-    public async Task<ActionResult<IEnumerable<PostDTO>>> GetPosts(Guid classroomId, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<PostDTO>>> GetPosts(Guid classroomId, [FromQuery] ClassroomPaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomPostsWithPaginationQuery(classroomId, @params)));
 }

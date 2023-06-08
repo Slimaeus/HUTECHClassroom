@@ -1,8 +1,8 @@
 ﻿namespace HUTECHClassroom.Application.Common.Models;
 
 public record UserPaginationParams(
-    Guid UserId,
     int? PageNumber,
     int? PageSize,
-    string SearchString
+    string SearchString,
+    Guid? UserId = null
 ) : PaginationParams(PageNumber, PageSize, SearchString);

@@ -13,7 +13,7 @@ public class GetClassroomPostsWithPaginationQueryHandler : GetWithPaginationQuer
     }
     protected override Expression<Func<Post, bool>> FilterPredicate(GetClassroomPostsWithPaginationQuery query)
     {
-        return x => x.ClassroomId == query.Id && (query.Params.UserId == Guid.Empty || query.Params.UserId == x.UserId);
+        return x => x.ClassroomId == query.Id && (query.Params.UserId == null || query.Params.UserId == Guid.Empty || query.Params.UserId == x.UserId);
     }
     protected override Expression<Func<Post, bool>> SearchStringPredicate(string searchString)
     {

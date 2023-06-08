@@ -12,7 +12,7 @@ public class GetAnswersWithPaginationQueryHandler : GetWithPaginationQueryHandle
     public GetAnswersWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Answer, bool>> FilterPredicate(GetAnswersWithPaginationQuery query)
     {
-        return x => query.Params.UserId == Guid.Empty || query.Params.UserId == x.UserId;
+        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || query.Params.UserId == x.UserId;
     }
     protected override Expression<Func<Answer, bool>> SearchStringPredicate(string searchString) =>
         x => x.Description.ToLower().Contains(searchString.ToLower())

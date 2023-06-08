@@ -14,7 +14,7 @@ public class GetClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHan
     }
     protected override Expression<Func<Classroom, bool>> FilterPredicate(GetClassroomsWithPaginationQuery query)
     {
-        return x => query.Params.UserId == Guid.Empty || x.LecturerId == query.Params.UserId || x.ClassroomUsers.Any(cu => cu.UserId == query.Params.UserId);
+        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || x.LecturerId == query.Params.UserId || x.ClassroomUsers.Any(cu => cu.UserId == query.Params.UserId);
     }
     protected override Expression<Func<Classroom, bool>> SearchStringPredicate(string searchString)
     {
