@@ -14,7 +14,7 @@ public class GetExercisesWithPaginationQueryHandler : GetWithPaginationQueryHand
     }
     protected override Expression<Func<Exercise, bool>> FilterPredicate(GetExercisesWithPaginationQuery query)
     {
-        return x => query.Params.UserId == Guid.Empty || x.ExerciseUsers.Any(eu => eu.UserId == query.Params.UserId);
+        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || x.ExerciseUsers.Any(eu => eu.UserId == query.Params.UserId);
     }
     protected override Expression<Func<Exercise, bool>> SearchStringPredicate(string searchString)
         => x => x.Title.ToLower().Equals(searchString.ToLower())

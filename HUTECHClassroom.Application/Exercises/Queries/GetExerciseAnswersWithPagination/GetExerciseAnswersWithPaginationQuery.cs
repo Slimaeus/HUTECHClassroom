@@ -13,7 +13,7 @@ public class GetExerciseAnswersWithPaginationQueryHandler : GetWithPaginationQue
     }
     protected override Expression<Func<Answer, bool>> FilterPredicate(GetExerciseAnswersWithPaginationQuery query)
     {
-        return x => x.ExerciseId == query.Id && (query.Params.UserId == Guid.Empty || x.UserId == query.Params.UserId);
+        return x => x.ExerciseId == query.Id && (query.Params.UserId == null || query.Params.UserId == Guid.Empty || x.UserId == query.Params.UserId);
     }
     protected override IQuery<Answer> Order(IMultipleResultQuery<Answer> query) => query.OrderByDescending(x => x.CreateDate);
 
