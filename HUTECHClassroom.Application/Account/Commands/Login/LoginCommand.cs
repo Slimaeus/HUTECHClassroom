@@ -29,11 +29,11 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
             .AndFilter(x => x.UserName == request.UserName);
 
         var user = await _userRepository
-            .SingleOrDefaultAsync(query, cancellationToken);
+            .SingleOrDefaultAsync(query, cancellationToken).ConfigureAwait(false);
 
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
-        var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password);
+        var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password).ConfigureAwait(false);
 
         var accountDTO = _mapper.Map<AccountDTO>(user);
 
@@ -42,7 +42,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
             throw new UnauthorizedAccessException(nameof(ApplicationUser));
         }
 
-        var cacheToken = await _userManger.GetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken");
+        var cacheToken = await _userManger.GetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken").ConfigureAwait(false);
 
         if (cacheToken != null)
         {
@@ -57,7 +57,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 
         var token = _tokenService.CreateToken(user);
         accountDTO.Token = token;
-        await _userManger.SetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken", token);
+        await _userManger.SetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken", token).ConfigureAwait(false);
 
         return accountDTO;
 
