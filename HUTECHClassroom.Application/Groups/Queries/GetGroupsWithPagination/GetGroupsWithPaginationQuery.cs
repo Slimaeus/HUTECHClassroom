@@ -18,6 +18,10 @@ public class GetGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler
     {
         _userAccessor = userAccessor;
     }
+    protected override Expression<Func<Group, bool>> FilterPredicate(GetGroupsWithPaginationQuery query)
+    {
+        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || query.Params.UserId == x.LeaderId || x.GroupUsers.Any(gu => query.Params.UserId == gu.UserId);
+    }
     protected override IMappingParams GetMappingParameters()
     {
         return new UserMappingParams { UserId = _userAccessor.Id };
