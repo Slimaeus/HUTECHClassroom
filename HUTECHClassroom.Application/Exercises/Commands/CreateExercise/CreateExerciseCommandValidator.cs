@@ -18,9 +18,6 @@ public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCo
         RuleFor(x => x.Link)
             .MaximumLength(CommonConstants.LINK_MAX_LENGTH);
 
-        RuleFor(x => x.TotalScore)
-            .NotEmpty().NotNull();
-
         RuleFor(x => x.Deadline);
 
         RuleFor(x => x.Topic)
