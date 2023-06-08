@@ -47,7 +47,7 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
         => HandleDeleteRangeCommand(new DeleteRangeExerciseCommand(exerciseIds));
     [Authorize(ReadExercisePolicy)]
     [HttpGet("{exerciseId}/answers")]
-    public async Task<ActionResult<IEnumerable<AnswerDTO>>> GetAnswers(Guid exerciseId, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<AnswerDTO>>> GetAnswers(Guid exerciseId, [FromQuery] ExercisePaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetExerciseAnswersWithPaginationQuery(exerciseId, @params)));
     [Authorize(ReadExercisePolicy)]
     [HttpGet("{exerciseId}/members")]
