@@ -10,6 +10,10 @@ public record GetCommentsWithPaginationQuery(CommentPaginationParams Params) : G
 public class GetCommentsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Comment, GetCommentsWithPaginationQuery, CommentDTO, CommentPaginationParams>
 {
     public GetCommentsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+    protected override Expression<Func<Comment, bool>> FilterPredicate(GetCommentsWithPaginationQuery query)
+    {
+        return x => query.Params.UserId == Guid.Empty || query.Params.UserId == x.UserId;
+    }
     protected override Expression<Func<Comment, bool>> SearchStringPredicate(string searchString)
         => x => x.Content.ToLower().Contains(searchString.ToLower());
     protected override IQuery<Comment> Order(IMultipleResultQuery<Comment> query) => query.OrderByDescending(x => x.CreateDate);

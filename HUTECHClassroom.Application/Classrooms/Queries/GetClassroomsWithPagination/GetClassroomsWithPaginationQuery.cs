@@ -12,6 +12,10 @@ public class GetClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHan
     public GetClassroomsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
+    protected override Expression<Func<Classroom, bool>> FilterPredicate(GetClassroomsWithPaginationQuery query)
+    {
+        return x => query.Params.UserId == Guid.Empty || x.LecturerId == query.Params.UserId || x.ClassroomUsers.Any(cu => cu.UserId == query.Params.UserId);
+    }
     protected override Expression<Func<Classroom, bool>> SearchStringPredicate(string searchString)
     {
         var toLowerSearchString = searchString.ToLower();
