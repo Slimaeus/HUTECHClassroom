@@ -13,10 +13,7 @@ public class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerComman
             .NotEmpty().NotNull();
 
         RuleFor(x => x.Link)
-            .MaximumLength(CommonConstants.LINK_MAX_LENGTH);
-
-        RuleFor(x => x.Score)
-            .NotEmpty().NotNull();
+            .MaximumLength(CommonConstants.LINK_MAX_LENGTH)
 
         RuleFor(x => x.UserId).NotEmpty().NotNull()
             .SetValidator(userIdValidator);

@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Common.DTOs;
+﻿using HUTECHClassroom.Application.Answers.DTOs;
+using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Exercises;
 using HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
@@ -9,6 +10,7 @@ using HUTECHClassroom.Application.Exercises.Commands.RemoveExerciseUser;
 using HUTECHClassroom.Application.Exercises.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Exercises.DTOs;
 using HUTECHClassroom.Application.Exercises.Queries.GetExercise;
+using HUTECHClassroom.Application.Exercises.Queries.GetExerciseAnswersWithPagination;
 using HUTECHClassroom.Application.Exercises.Queries.GetExercisesWithPagination;
 using HUTECHClassroom.Application.Exercises.Queries.GetExerciseUsersWithPagination;
 using Microsoft.AspNetCore.Authorization;
@@ -43,6 +45,10 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
     [HttpDelete]
     public Task<IActionResult> DeleteRange(IList<Guid> exerciseIds)
         => HandleDeleteRangeCommand(new DeleteRangeExerciseCommand(exerciseIds));
+    [Authorize(ReadExercisePolicy)]
+    [HttpGet("{exerciseId}/answers")]
+    public async Task<ActionResult<IEnumerable<AnswerDTO>>> GetAnswers(Guid exerciseId, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetExerciseAnswersWithPaginationQuery(exerciseId, @params)));
     [Authorize(ReadExercisePolicy)]
     [HttpGet("{exerciseId}/members")]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid exerciseId, [FromQuery] PaginationParams @params)
