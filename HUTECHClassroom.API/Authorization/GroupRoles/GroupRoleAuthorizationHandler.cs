@@ -4,12 +4,11 @@ using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace HUTECHClassroom.API.Authorization.GroupRoles;
 
-public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequirement>
+public abstract class GroupRoleAuthorizationHandler<TRequiremt> : AuthorizationHandler<TRequiremt>
+    where TRequiremt : GroupRoleRequirement
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IUserAccessor _userAccessor;
@@ -22,7 +21,7 @@ public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequi
         _httpContextAccessor = httpContextAccessor;
     }
 
-    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, GroupRoleRequirement requirement)
+    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, TRequiremt requirement)
     {
         var userId = _userAccessor.Id;
 
@@ -63,7 +62,18 @@ public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequi
         return groupUser != null;
     }
 
-    private async Task<Guid?> GetGroupIdAsync()
+    protected virtual async Task<Guid?> GetGroupIdAsync()
+    {
+        var groupIdFromRoute = GetGroupIdFromRoute();
+
+        if (groupIdFromRoute != null) return groupIdFromRoute;
+
+
+
+        return null;
+    }
+
+    private Guid? GetGroupIdFromRoute()
     {
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
         if (routeData != null && routeData.Values.TryGetValue("groupId", out var idValue))
@@ -73,18 +83,26 @@ public class GroupRoleAuthorizationHandler : AuthorizationHandler<GroupRoleRequi
                 return groupId;
             }
         }
-
-        using var requestReader = new StreamReader(_httpContextAccessor.HttpContext?.Request.Body);
-        var body = await requestReader.ReadToEndAsync();
-        var groupIdBody = JsonConvert.DeserializeObject<GroupIdBody>(body);
-        _httpContextAccessor.HttpContext.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(body));
-        if (groupIdBody.GroupId != Guid.Empty)
-        {
-            return groupIdBody.GroupId;
-        }
         return null;
     }
 
-    record GroupIdBody(Guid GroupId);
+    protected async Task<Guid?> GetGroupIdFromDbContextAsync(Guid projectId)
+    {
+        var project = await _dbContext.Projects.FindAsync(projectId);
+
+        if (project == null) return null;
+
+        return project.GroupId;
+    }
+
+    protected record GroupIdBody(Guid GroupId);
+    protected record ProjectIdBody(Guid ProjectId);
+}
+
+public class GroupRoleAuthorizationHandler : GroupRoleAuthorizationHandler<GroupRoleRequirement>
+{
+    public GroupRoleAuthorizationHandler(ApplicationDbContext dbContext, IUserAccessor userAccessor, IHttpContextAccessor httpContextAccessor) : base(dbContext, userAccessor, httpContextAccessor)
+    {
+    }
 }
 

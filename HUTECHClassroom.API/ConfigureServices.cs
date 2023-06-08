@@ -1,4 +1,8 @@
-﻿using HUTECHClassroom.API.Extensions;
+﻿using HUTECHClassroom.API.Authorization.GroupRoles;
+using HUTECHClassroom.API.Authorization.Missions;
+using HUTECHClassroom.API.Authorization.Projects;
+using HUTECHClassroom.API.Authorization.Roles;
+using HUTECHClassroom.API.Extensions;
 using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.API.SignalR;
 using HUTECHClassroom.Infrastructure.Persistence;
@@ -6,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace HUTECHClassroom.API;
@@ -49,13 +52,19 @@ public static class ConfigureServices
         });
 
 
-        IEnumerable<Type> authorizationHandlerTypes = Assembly.GetExecutingAssembly().GetTypes()
-            .Where(type => typeof(IAuthorizationHandler).IsAssignableFrom(type) && !type.IsInterface);
+        //IEnumerable<Type> authorizationHandlerTypes = Assembly.GetExecutingAssembly().GetTypes()
+        //    .Where(type => typeof(IAuthorizationHandler).IsAssignableFrom(type) && !type.IsInterface);
 
-        foreach (Type authorizationHandlerType in authorizationHandlerTypes)
-        {
-            services.AddScoped(typeof(IAuthorizationHandler), authorizationHandlerType);
-        }
+        //foreach (Type authorizationHandlerType in authorizationHandlerTypes)
+        //{
+        //    services.AddScoped(typeof(IAuthorizationHandler), authorizationHandlerType);
+        //}
+
+        services.AddScoped(typeof(IAuthorizationHandler), typeof(GroupRoleAuthorizationHandler));
+        services.AddScoped(typeof(IAuthorizationHandler), typeof(GroupRoleFromMissionAuthorizationHandler));
+        services.AddScoped(typeof(IAuthorizationHandler), typeof(GroupRoleFromProjectAuthorizationHandler));
+        services.AddScoped(typeof(IAuthorizationHandler), typeof(AtLeastOneRoleAuthorizationHandler));
+
         #endregion
 
         #region Swagger
