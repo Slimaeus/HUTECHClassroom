@@ -10,6 +10,10 @@ public record GetPostsWithPaginationQuery(PostPaginationParams Params) : GetWith
 public class GetPostsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Post, GetPostsWithPaginationQuery, PostDTO, PostPaginationParams>
 {
     public GetPostsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+    protected override Expression<Func<Post, bool>> FilterPredicate(GetPostsWithPaginationQuery query)
+    {
+        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || query.Params.UserId == x.UserId;
+    }
     protected override Expression<Func<Post, bool>> SearchStringPredicate(string searchString) =>
         x => x.Content.ToLower().Contains(searchString.ToLower()) || x.Link.ToLower().Contains(searchString.ToLower());
     protected override IQuery<Post> Order(IMultipleResultQuery<Post> query) => query.OrderByDescending(x => x.CreateDate);

@@ -13,6 +13,10 @@ public class GetMissionsWithPaginationQueryHandler : GetWithPaginationQueryHandl
     public GetMissionsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
+    protected override Expression<Func<Mission, bool>> FilterPredicate(GetMissionsWithPaginationQuery query)
+    {
+        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || x.MissionUsers.Any(mu => query.Params.UserId == mu.UserId);
+    }
     protected override Expression<Func<Mission, bool>> SearchStringPredicate(string searchString)
         => x => x.Title.ToLower().Contains(searchString.ToLower()) || x.Description.ToLower().Contains(searchString.ToLower());
     protected override IQuery<Mission> Order(IMultipleResultQuery<Mission> query) => query.OrderByDescending(x => x.CreateDate);
