@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HUTECHClassroom.Application.Account.Commands.Register;
 
@@ -18,13 +19,15 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
     private readonly UserManager<ApplicationUser> _userManger;
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
+    private readonly IMemoryCache _memoryCache;
     private readonly IRepository<Faculty> _facultyRepository;
 
-    public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper)
+    public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper, IMemoryCache memoryCache)
     {
         _userManger = userManger;
         _tokenService = tokenService;
         _mapper = mapper;
+        _memoryCache = memoryCache;
         _facultyRepository = unitOfWork.Repository<Faculty>();
     }
     public async Task<AccountDTO> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -61,7 +64,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
 
         var accountDTO = _mapper.Map<AccountDTO>(user);
         var token = _tokenService.CreateToken(user);
-        await _userManger.SetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken", token);
+        _memoryCache.Set($"UserToken_{user.UserName}", token);
         accountDTO.Token = token;
         return accountDTO;
     }

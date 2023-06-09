@@ -2,6 +2,7 @@
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HUTECHClassroom.Application.Account.Commands.Login;
 
@@ -11,13 +12,15 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
     private readonly UserManager<ApplicationUser> _userManger;
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
+    private readonly IMemoryCache _memoryCache;
     private readonly IRepository<ApplicationUser> _userRepository;
 
-    public LoginCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper)
+    public LoginCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper, IMemoryCache memoryCache)
     {
         _userManger = userManger;
         _tokenService = tokenService;
         _mapper = mapper;
+        _memoryCache = memoryCache;
         _userRepository = unitOfWork.Repository<ApplicationUser>();
     }
     public async Task<AccountDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -42,22 +45,22 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
             throw new UnauthorizedAccessException(nameof(ApplicationUser));
         }
 
-        var cacheToken = await _userManger.GetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken").ConfigureAwait(false);
+        var doesGetCacheTokenSuccess = _memoryCache.TryGetValue($"UserToken_{user.UserName}", out string memoryCacheToken);
 
-        if (cacheToken != null)
+        if (doesGetCacheTokenSuccess)
         {
-            var expireDate = _tokenService.GetExpireDate(cacheToken);
+            var expireDate = _tokenService.GetExpireDate(memoryCacheToken);
             if (expireDate >= DateTime.Now.ToUniversalTime().AddMinutes(10))
             {
-                accountDTO.Token = cacheToken;
+                accountDTO.Token = memoryCacheToken;
                 return accountDTO;
             }
-            await _userManger.RemoveAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken").ConfigureAwait(false);
+            _memoryCache.Remove($"UserToken_{user.UserName}");
         }
 
         var token = _tokenService.CreateToken(user);
         accountDTO.Token = token;
-        await _userManger.SetAuthenticationTokenAsync(user, "HUTECHClassroom", "JwtToken", token).ConfigureAwait(false);
+        _memoryCache.Set($"UserToken_{user.UserName}", token);
 
         return accountDTO;
 

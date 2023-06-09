@@ -15,6 +15,7 @@ public static class ConfigureServices
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
+        services.AddMemoryCache();
         return services;
     }
 }
