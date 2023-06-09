@@ -183,6 +183,24 @@ public class ApplicationDbContextInitializer
             Email = "trainingOffice@gmail.com",
         };
 
+        var lecturer1 = new ApplicationUser
+        {
+            UserName = "lecturer1",
+            FirstName = "Lecturer",
+            LastName = "1",
+            Email = "lecturer1@gmail.com",
+            Faculty = faculties[0]
+        };
+
+        var lecturer2 = new ApplicationUser
+        {
+            UserName = "lecturer2",
+            FirstName = "Lecturer",
+            LastName = "2",
+            Email = "lecturer2@gmail.com",
+            Faculty = faculties[0]
+        };
+
         var users = new ApplicationUser[]
         {
             new ApplicationUser
@@ -201,22 +219,8 @@ public class ApplicationDbContextInitializer
                 Email = "mei@gmail.com",
                 Faculty = faculties[0]
             },
-            new ApplicationUser
-            {
-                UserName = "lecturer1",
-                FirstName = "Lecturer",
-                LastName = "1",
-                Email = "lecturer1@gmail.com",
-                Faculty = faculties[0]
-            },
-            new ApplicationUser
-            {
-                UserName = "lecturer2",
-                FirstName = "Lecturer",
-                LastName = "2",
-                Email = "lecturer2@gmail.com",
-                Faculty = faculties[0]
-            },
+            lecturer1,
+            lecturer2,
             admin,
             dean,
             trainingOffice
@@ -233,6 +237,8 @@ public class ApplicationDbContextInitializer
         await _userManager.AddToRoleAsync(admin, administratorRole.Name);
         await _userManager.AddToRoleAsync(dean, deanRole.Name);
         await _userManager.AddToRoleAsync(trainingOffice, trainingOfficeRole.Name);
+        await _userManager.AddToRoleAsync(lecturer1, lecturerRole.Name);
+        await _userManager.AddToRoleAsync(lecturer2, lecturerRole.Name);
 
         var majors = new Major[]
         {
@@ -271,9 +277,9 @@ public class ApplicationDbContextInitializer
         {
             new Classroom
             {
-                Title = "Linear algebra",
-                Description = "A subject",
-                Topic = "Mathemetics",
+                Title = "Đại số tuyến tính",
+                Description = "Môn đại số",
+                Topic = "Toán học",
                 Room = "101",
                 StudyPeriod = "1/1/2022 - 1/1/2023",
                 Class = "20DTHD1",
@@ -294,9 +300,9 @@ public class ApplicationDbContextInitializer
             },
             new Classroom
             {
-                Title = "English 1",
-                Description = "A subject",
-                Topic = "English",
+                Title = "Tiếng Anh 1",
+                Description = "Môn học",
+                Topic = "Tiếng Anh",
                 StudyPeriod = "1/1/2022 - 1/1/2023",
                 Room = "102",
                 Class = "20DTHD3",
@@ -326,13 +332,13 @@ public class ApplicationDbContextInitializer
         {
             new Exercise
             {
-                Title = "Solve the problem",
-                Instruction = "Suppose that L1 and L2 are lines in the plane, that the x-intercepts of L1 and L2 are 5\r\nand −1, respectively, and that the respective y-intercepts are 5 and 1. Then L1 and L2\r\nintersect at the point ( , ) .",
+                Title = "Giải bài toán",
+                Instruction = "62 - 32 = ?",
                 Link = "google.com",
                 TotalScore = 10,
                 Deadline = DateTime.UtcNow.AddDays(1),
-                Topic = "Mathemetics",
-                Criteria = "Good: 10, Bad: 5",
+                Topic = "Toán học",
+                Criteria = "Tốt: 10, Tệ: 5",
                 Classroom = classrooms[0],
                 ExerciseUsers = new ExerciseUser[]
                 {
@@ -354,7 +360,7 @@ public class ApplicationDbContextInitializer
         {
             new Answer
             {
-                Description = "Sorry, I don't know T_T",
+                Description = "Xin lỗi em không biết làm T_T",
                 Link = "a.com",
                 Score = 0,
                 Exercise = exercises[0],
@@ -362,7 +368,7 @@ public class ApplicationDbContextInitializer
             },
             new Answer
             {
-                Description = "Sorry, I don't know, too T_T",
+                Description = "Xin lỗi em cũng không biết làm ạ T_T",
                 Link = "b.com",
                 Score = 0,
                 Exercise = exercises[0],
@@ -376,14 +382,14 @@ public class ApplicationDbContextInitializer
         {
             new Post
             {
-                Content = "Hello world",
+                Content = "Xin chào thế giới",
                 Link = "google.com",
                 User = users[0],
                 Classroom = classrooms[0]
             },
             new Post
             {
-                Content = "Hello!",
+                Content = "Xin chào!",
                 Link = "yahoo.com",
                 User = users[1],
                 Classroom = classrooms[1]
@@ -396,13 +402,13 @@ public class ApplicationDbContextInitializer
         {
             new Comment
             {
-                Content = "Hello universe ._.",
+                Content = "Xin chào vũ trụ ._.",
                 User = users[0],
                 Post = posts[0]
             },
             new Comment
             {
-                Content = "Hi",
+                Content = "Chào",
                 User = users[0],
                 Post = posts[1]
             }
@@ -415,7 +421,7 @@ public class ApplicationDbContextInitializer
             new Group
             {
                 Name = "Owlvernyte",
-                Description = "Owls group",
+                Description = "Nhóm",
                 Leader = users[0],
                 GroupUsers = new GroupUser[]
                 {
@@ -430,7 +436,7 @@ public class ApplicationDbContextInitializer
             new Group
             {
                 Name = "Semibox",
-                Description = "Half of a box",
+                Description = "Nửa hộp",
                 Leader = users[1],
                 GroupUsers = new GroupUser[]
                 {
@@ -456,13 +462,13 @@ public class ApplicationDbContextInitializer
             new Project
             {
                 Name = "Plan together",
-                Description = "Projects, Groups Management system",
+                Description = "Hệ thống quản lý nhóm và dự án",
                 Group = groups[0]
             },
             new Project
             {
                 Name = "HUTECH Classroom",
-                Description = "Classroom, Students, Lecturers... Management system",
+                Description = "Hệ thống quản lý lớp học",
                 Group = groups[1]
             }
         };
@@ -473,8 +479,8 @@ public class ApplicationDbContextInitializer
         {
             new Mission
             {
-                Title = "Let's read",
-                Description = "Read 1 book",
+                Title = "Hãy đọc",
+                Description = "Đọc 1 quyển sách",
                 MissionUsers = new MissionUser[]
                 {
                     new MissionUser
@@ -486,8 +492,8 @@ public class ApplicationDbContextInitializer
             },
             new Mission
             {
-                Title = "Let's write",
-                Description = "Write 1 note",
+                Title = "Hãy viết",
+                Description = "Viết 1 quyển sách",
                 MissionUsers = new MissionUser[]
                 {
                     new MissionUser
@@ -499,8 +505,8 @@ public class ApplicationDbContextInitializer
             },
             new Mission
             {
-                Title = "Let's listen",
-                Description = "Listen 1 song",
+                Title = "Hãy nghe",
+                Description = "Nghe 1 bài hát",
                 MissionUsers = new MissionUser[]
                 {
                     new MissionUser
@@ -516,8 +522,8 @@ public class ApplicationDbContextInitializer
             },
             new Mission
             {
-                Title = "Let's sing",
-                Description = "Sing 1 song",
+                Title = "Hãy hát",
+                Description = "Hát 1 bài hát",
                 MissionUsers = new MissionUser[]
                 {
                     new MissionUser
@@ -529,8 +535,8 @@ public class ApplicationDbContextInitializer
             },
             new Mission
             {
-                Title = "Let's run",
-                Description = "Run away",
+                Title = "Hãy chạy",
+                Description = "Chạy đi!",
                 MissionUsers = new MissionUser[]
                 {
                     new MissionUser
@@ -546,8 +552,8 @@ public class ApplicationDbContextInitializer
             },
             new Mission
             {
-                Title = "Let's think",
-                Description = "Think a while",
+                Title = "Hãy nghĩ",
+                Description = "Nghĩ một lát",
                 MissionUsers = new MissionUser[]
                 {
                     new MissionUser

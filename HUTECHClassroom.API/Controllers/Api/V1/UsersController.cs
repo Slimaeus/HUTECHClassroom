@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Answers.DTOs;
+﻿using HUTECHClassroom.Application.Account.DTOs;
+using HUTECHClassroom.Application.Answers.DTOs;
 using HUTECHClassroom.Application.Classrooms.DTOs;
 using HUTECHClassroom.Application.Comments.DTOs;
 using HUTECHClassroom.Application.Common.Models;
@@ -41,8 +42,8 @@ public class UsersController : BaseEntityApiController<UserDTO>
     public Task<ActionResult<UserDTO>> GetUserDetails(Guid userId)
         => HandleGetQuery(new GetUserQuery(userId));
     [HttpGet("@me")]
-    public Task<ActionResult<UserDTO>> GetCurrentUserDetails()
-        => HandleGetQuery(new GetCurrentUserQuery());
+    public async Task<ActionResult<AccountDTO>> GetCurrentUserDetails()
+        => Ok(await Mediator.Send(new GetCurrentUserQuery()));
     [HttpGet("@me/classrooms")]
     public async Task<ActionResult<IEnumerable<ClassroomDTO>>> GetClassrooms([FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetUserClassroomsWithPaginationQuery(@params)));
