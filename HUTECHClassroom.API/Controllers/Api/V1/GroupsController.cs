@@ -60,7 +60,7 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
         => Ok(await Mediator.Send(new RemoveGroupUserCommand(groupId, userId)));
     [Authorize(Policy = ReadGroupPolicy)]
     [HttpGet("{groupId}/projects")]
-    public async Task<ActionResult<IEnumerable<ProjectDTO>>> GetProjects(Guid groupId, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<ProjectDTO>>> GetProjects(Guid groupId, [FromQuery] GroupPaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetGroupProjectsWithPaginationQuery(groupId, @params)));
     [Authorize(Policy = AddGroupLeaderPolicy)]
     [HttpPost("{groupId}/add-leader/{userId}")]

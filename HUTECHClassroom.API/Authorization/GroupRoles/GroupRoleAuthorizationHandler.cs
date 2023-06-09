@@ -62,15 +62,13 @@ public abstract class GroupRoleAuthorizationHandler<TRequiremt> : AuthorizationH
         return groupUser != null;
     }
 
-    protected virtual async Task<Guid?> GetGroupIdAsync()
+    protected virtual Task<Guid?> GetGroupIdAsync()
     {
         var groupIdFromRoute = GetGroupIdFromRoute();
 
-        if (groupIdFromRoute != null) return groupIdFromRoute;
+        if (groupIdFromRoute != null) return Task.FromResult(groupIdFromRoute);
 
-
-
-        return null;
+        return Task.FromResult<Guid?>(null);
     }
 
     private Guid? GetGroupIdFromRoute()
