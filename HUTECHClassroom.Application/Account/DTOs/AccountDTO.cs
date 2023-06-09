@@ -4,7 +4,7 @@ namespace HUTECHClassroom.Application.Account.DTOs;
 
 public record AccountDTO : IEntityDTO
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
     public string UserName { get; set; }
     public string Email { get; set; }
     public string FirstName { get; set; }

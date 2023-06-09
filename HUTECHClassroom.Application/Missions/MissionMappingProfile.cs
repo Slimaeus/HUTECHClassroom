@@ -19,7 +19,7 @@ public class MissionMappingProfile : Profile
         CreateMap<Project, MissionProjectDTO>();
 
         CreateMap<MissionUser, MemberDTO>()
-            .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName));
+            .ConstructUsing(x => new MemberDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName));
 
         CreateMap<AddMissionUserCommand, MissionUser>();
     }

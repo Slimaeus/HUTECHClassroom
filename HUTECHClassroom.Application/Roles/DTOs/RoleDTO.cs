@@ -2,8 +2,5 @@
 
 namespace HUTECHClassroom.Application.Roles.DTOs;
 
-public record RoleDTO : IEntityDTO
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-}
+public record RoleDTO(Guid Id, string Name) : IEntityDTO
+{ }

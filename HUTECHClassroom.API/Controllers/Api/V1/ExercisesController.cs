@@ -1,5 +1,4 @@
 ﻿using HUTECHClassroom.Application.Answers.DTOs;
-using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Exercises;
 using HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
@@ -51,7 +50,7 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
         => HandlePagedList(await Mediator.Send(new GetExerciseAnswersWithPaginationQuery(exerciseId, @params)));
     [Authorize(ReadExercisePolicy)]
     [HttpGet("{exerciseId}/members")]
-    public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers(Guid exerciseId, [FromQuery] PaginationParams @params)
+    public async Task<ActionResult<IEnumerable<ExerciseUserDTO>>> GetMembers(Guid exerciseId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetExerciseUsersWithPaginationQuery(exerciseId, @params)));
     [Authorize(UpdateExercisePolicy)]
     [HttpPost("{exerciseId}/members/{userId}")]

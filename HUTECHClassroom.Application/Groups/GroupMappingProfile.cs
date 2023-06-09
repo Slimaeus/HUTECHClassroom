@@ -25,7 +25,7 @@ public class GroupMappingProfile : Profile
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
         CreateMap<GroupUser, MemberDTO>()
-            .ConstructUsing(x => new MemberDTO(x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName));
+            .ConstructUsing(x => new MemberDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName));
         CreateMap<Project, GroupProjectDTO>();
         CreateMap<Classroom, GroupClassroomDTO>();
 
