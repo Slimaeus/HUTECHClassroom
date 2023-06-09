@@ -218,12 +218,7 @@ public class ApplicationDbContextInitializer
                 LastName = "Trương Thục",
                 Email = "mei@gmail.com",
                 Faculty = faculties[0]
-            },
-            lecturer1,
-            lecturer2,
-            admin,
-            dean,
-            trainingOffice
+            }
         };
 
 
@@ -234,11 +229,21 @@ public class ApplicationDbContextInitializer
             await _userManager.AddToRoleAsync(user, lecturerRole.Name);
         }
 
+        await _userManager.CreateAsync(admin, "P@ssw0rd").ConfigureAwait(false);
         await _userManager.AddToRoleAsync(admin, administratorRole.Name);
+
+        await _userManager.CreateAsync(dean, "P@ssw0rd").ConfigureAwait(false);
         await _userManager.AddToRoleAsync(dean, deanRole.Name);
+
+        await _userManager.CreateAsync(trainingOffice, "P@ssw0rd").ConfigureAwait(false);
         await _userManager.AddToRoleAsync(trainingOffice, trainingOfficeRole.Name);
+
+        await _userManager.CreateAsync(lecturer1, "P@ssw0rd").ConfigureAwait(false);
         await _userManager.AddToRoleAsync(lecturer1, lecturerRole.Name);
+
+        await _userManager.CreateAsync(lecturer2, "P@ssw0rd").ConfigureAwait(false);
         await _userManager.AddToRoleAsync(lecturer2, lecturerRole.Name);
+
 
         var majors = new Major[]
         {
@@ -287,7 +292,7 @@ public class ApplicationDbContextInitializer
                 SchoolYear = "2022",
                 Semester = Semester.I,
                 Type = ClassroomType.TheoryRoom,
-                Lecturer = users[2],
+                Lecturer = lecturer1,
                 Subject = subjects[0],
                 Faculty = faculties[0],
                 ClassroomUsers = new ClassroomUser[]
@@ -310,7 +315,7 @@ public class ApplicationDbContextInitializer
                 SchoolYear = "2021",
                 Semester = Semester.II,
                 Type = ClassroomType.TheoryRoom,
-                Lecturer = users[3],
+                Lecturer = lecturer2,
                 Faculty = faculties[0],
                 ClassroomUsers = new ClassroomUser[]
                 {

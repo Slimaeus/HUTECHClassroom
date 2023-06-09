@@ -8,15 +8,15 @@ public record AddGroupUsersCommand(Guid GroupId, IList<Guid> UserIds) : IRequest
 public class AddGroupUsersCommandHandler : IRequestHandler<AddGroupUsersCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
     private readonly IRepository<Group> _repository;
+    private readonly IRepository<ApplicationUser> _userRepository;
     private readonly IRepository<GroupRole> _groupRoleRepository;
 
-    public AddGroupUsersCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public AddGroupUsersCommandHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _repository = unitOfWork.Repository<Group>();
+        _userRepository = unitOfWork.Repository<ApplicationUser>();
         _groupRoleRepository = _unitOfWork.Repository<GroupRole>();
     }
     public async Task<Unit> Handle(AddGroupUsersCommand request, CancellationToken cancellationToken)
@@ -30,9 +30,14 @@ public class AddGroupUsersCommandHandler : IRequestHandler<AddGroupUsersCommand,
         var group = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (group.GroupUsers.Any(x => x.UserId == request.UserIds[0])) throw new InvalidOperationException($"{request.UserIds[0]} already exists");
+        var userQuery = _userRepository
+            .MultipleResultQuery()
+            .AndFilter(x => request.UserIds.Contains(x.Id));
 
-        var groupUser = _mapper.Map<GroupUser>(request);
+        var users = await _userRepository
+            .SearchAsync(userQuery, cancellationToken);
+
+        if (users.Count <= 0) return Unit.Value;
 
         var groupRoleQuery = _groupRoleRepository
             .SingleResultQuery()
@@ -40,9 +45,10 @@ public class AddGroupUsersCommandHandler : IRequestHandler<AddGroupUsersCommand,
 
         var groupRole = await _groupRoleRepository.SingleOrDefaultAsync(groupRoleQuery, cancellationToken);
 
-        groupUser.GroupRole = groupRole;
-
-        group.GroupUsers.Add(groupUser);
+        foreach (var user in users)
+        {
+            group.GroupUsers.Add(new GroupUser { UserId = user.Id, GroupRoleId = groupRole.Id });
+        }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 

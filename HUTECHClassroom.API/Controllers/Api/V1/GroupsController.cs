@@ -2,6 +2,7 @@
 using HUTECHClassroom.Application.Groups;
 using HUTECHClassroom.Application.Groups.Commands.AddGroupLeader;
 using HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
+using HUTECHClassroom.Application.Groups.Commands.AddGroupUsers;
 using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.Commands.DeleteGroup;
 using HUTECHClassroom.Application.Groups.Commands.DeleteRangeGroup;
@@ -50,6 +51,10 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [HttpGet("{groupId}/members")]
     public async Task<ActionResult<IEnumerable<GroupUserDTO>>> GetMembers(Guid groupId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetGroupUsersWithPaginationQuery(groupId, @params)));
+    [Authorize(Policy = AddGroupUserPolicy)]
+    [HttpPost("{groupId}/members")]
+    public async Task<IActionResult> AddMember(Guid groupId, IList<Guid> userIds)
+        => Ok(await Mediator.Send(new AddGroupUsersCommand(groupId, userIds)));
     [Authorize(Policy = AddGroupUserPolicy)]
     [HttpPost("{groupId}/members/{userId}")]
     public async Task<IActionResult> AddMember(Guid groupId, Guid userId)
