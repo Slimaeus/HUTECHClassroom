@@ -30,7 +30,7 @@ public class GroupMappingProfile : Profile
         CreateMap<Classroom, GroupClassroomDTO>();
 
         CreateMap<GroupUser, GroupUserDTO>()
-            .ConstructUsing(x => new GroupUserDTO(x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.GroupRole.Name));
+            .ConstructUsing(x => new GroupUserDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.GroupRole.Name));
 
         CreateMap<AddGroupUserCommand, GroupUser>();
         CreateMap<AddGroupLeaderCommand, GroupUser>();
