@@ -24,7 +24,7 @@ public class AddGroupUsersCommandHandler : IRequestHandler<AddGroupUsersCommand,
         var query = _repository
             .SingleResultQuery()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
-            .Include(i => i.Include(x => x.GroupUsers).ThenInclude(x => x.User))
+            .Include(i => i.Include(x => x.GroupUsers))
             .AndFilter(x => x.Id == request.GroupId);
 
         var group = await _repository
@@ -32,6 +32,7 @@ public class AddGroupUsersCommandHandler : IRequestHandler<AddGroupUsersCommand,
 
         var userQuery = _userRepository
             .MultipleResultQuery()
+            .AndFilter(x => group.GroupUsers.Any(gu => gu.UserId == x.Id))
             .AndFilter(x => request.UserIds.Contains(x.Id));
 
         var users = await _userRepository
