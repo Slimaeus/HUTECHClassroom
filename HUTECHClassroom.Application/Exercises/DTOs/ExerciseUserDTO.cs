@@ -2,4 +2,4 @@
 
 namespace HUTECHClassroom.Application.Exercises.DTOs;
 
-public record ExerciseUserDTO(Guid Id, string UserName, string Email, string FirstName, string LastName, bool IsSubmited) : IEntityDTO { }
+public record ExerciseUserDTO(Guid Id, string UserName, string Email, string FirstName, string LastName, bool IsSubmitted) : IEntityDTO { }
