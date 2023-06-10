@@ -2,10 +2,10 @@
 using HUTECHClassroom.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 
-namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUsers;
+namespace HUTECHClassroom.Application.Groups.Commands.AddRangeGroupUser;
 
-public record AddGroupUsersCommand(Guid GroupId, IList<Guid> UserIds) : IRequest<Unit>;
-public class AddGroupUsersCommandHandler : IRequestHandler<AddGroupUsersCommand, Unit>
+public record AddRangeGroupUserCommand(Guid GroupId, IList<Guid> UserIds) : IRequest<Unit>;
+public class AddGroupUsersCommandHandler : IRequestHandler<AddRangeGroupUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Group> _repository;
@@ -19,7 +19,7 @@ public class AddGroupUsersCommandHandler : IRequestHandler<AddGroupUsersCommand,
         _userRepository = unitOfWork.Repository<ApplicationUser>();
         _groupRoleRepository = _unitOfWork.Repository<GroupRole>();
     }
-    public async Task<Unit> Handle(AddGroupUsersCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(AddRangeGroupUserCommand request, CancellationToken cancellationToken)
     {
         var query = _repository
             .SingleResultQuery()

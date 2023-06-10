@@ -2,7 +2,7 @@
 using HUTECHClassroom.Application.Groups;
 using HUTECHClassroom.Application.Groups.Commands.AddGroupLeader;
 using HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
-using HUTECHClassroom.Application.Groups.Commands.AddGroupUsers;
+using HUTECHClassroom.Application.Groups.Commands.AddRangeGroupUser;
 using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 using HUTECHClassroom.Application.Groups.Commands.DeleteGroup;
 using HUTECHClassroom.Application.Groups.Commands.DeleteRangeGroup;
@@ -54,7 +54,7 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [Authorize(Policy = AddGroupUserPolicy)]
     [HttpPost("{groupId}/members")]
     public async Task<IActionResult> AddMember(Guid groupId, IList<Guid> userIds)
-        => Ok(await Mediator.Send(new AddGroupUsersCommand(groupId, userIds)));
+        => Ok(await Mediator.Send(new AddRangeGroupUserCommand(groupId, userIds)));
     [Authorize(Policy = AddGroupUserPolicy)]
     [HttpPost("{groupId}/members/{userId}")]
     public async Task<IActionResult> AddMember(Guid groupId, Guid userId)

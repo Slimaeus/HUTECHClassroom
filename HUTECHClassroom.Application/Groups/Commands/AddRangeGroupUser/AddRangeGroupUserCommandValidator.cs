@@ -1,11 +1,11 @@
 ﻿using HUTECHClassroom.Application.Common.Validators.Groups;
 using HUTECHClassroom.Application.Common.Validators.Users;
 
-namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUsers;
+namespace HUTECHClassroom.Application.Groups.Commands.AddRangeGroupUser;
 
-public class AddGroupUsersCommandValidator : AbstractValidator<AddGroupUsersCommand>
+public class AddRangeGroupUserCommandValidator : AbstractValidator<AddRangeGroupUserCommand>
 {
-    public AddGroupUsersCommandValidator(GroupExistenceByNotNullIdValidator groupIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
+    public AddRangeGroupUserCommandValidator(GroupExistenceByNotNullIdValidator groupIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
     {
         RuleFor(x => x.GroupId).NotEmpty().NotNull()
             .SetValidator(groupIdValidator);
