@@ -9,8 +9,7 @@ public class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerComman
     public CreateAnswerCommandValidator(UserExistenceByNotNullIdValidator userIdValidator, ExerciseExistenceByNotNullIdValidator exerciseIdVaidator)
     {
         RuleFor(x => x.Description)
-            .MaximumLength(AnswerConstants.DESCRIPTION_MAX_LENGTH)
-            .NotEmpty().NotNull();
+            .MaximumLength(AnswerConstants.DESCRIPTION_MAX_LENGTH);
 
         RuleFor(x => x.Link)
             .MaximumLength(CommonConstants.LINK_MAX_LENGTH);
