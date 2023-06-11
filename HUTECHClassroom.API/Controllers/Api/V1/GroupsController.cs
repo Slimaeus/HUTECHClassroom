@@ -8,6 +8,7 @@ using HUTECHClassroom.Application.Groups.Commands.DeleteGroup;
 using HUTECHClassroom.Application.Groups.Commands.DeleteRangeGroup;
 using HUTECHClassroom.Application.Groups.Commands.RemoveGroupLeader;
 using HUTECHClassroom.Application.Groups.Commands.RemoveGroupUser;
+using HUTECHClassroom.Application.Groups.Commands.RemoveRangeGroupUser;
 using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 using HUTECHClassroom.Application.Groups.DTOs;
 using HUTECHClassroom.Application.Groups.Queries.GetGroup;
@@ -52,10 +53,6 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     public async Task<ActionResult<IEnumerable<GroupUserDTO>>> GetMembers(Guid groupId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetGroupUsersWithPaginationQuery(groupId, @params)));
     [Authorize(Policy = AddGroupUserPolicy)]
-    [HttpPost("{groupId}/members")]
-    public async Task<IActionResult> AddMember(Guid groupId, IList<Guid> userIds)
-        => Ok(await Mediator.Send(new AddRangeGroupUserCommand(groupId, userIds)));
-    [Authorize(Policy = AddGroupUserPolicy)]
     [HttpPost("{groupId}/members/{userId}")]
     public async Task<IActionResult> AddMember(Guid groupId, Guid userId)
         => Ok(await Mediator.Send(new AddGroupUserCommand(groupId, userId)));
@@ -63,6 +60,14 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [HttpDelete("{groupId}/members/{userId}")]
     public async Task<IActionResult> RemoveMember(Guid groupId, Guid userId)
         => Ok(await Mediator.Send(new RemoveGroupUserCommand(groupId, userId)));
+    [Authorize(Policy = AddGroupUserPolicy)]
+    [HttpPost("{groupId}/members")]
+    public async Task<IActionResult> AddMembers(Guid groupId, IList<Guid> userIds)
+        => Ok(await Mediator.Send(new AddRangeGroupUserCommand(groupId, userIds)));
+    [Authorize(Policy = RemoveGroupUserPolicy)]
+    [HttpPost("{groupId}/members")]
+    public async Task<IActionResult> RemoveMembers(Guid groupId, IList<Guid> userIds)
+        => Ok(await Mediator.Send(new RemoveRangeGroupUserCommand(groupId, userIds)));
     [Authorize(Policy = ReadGroupPolicy)]
     [HttpGet("{groupId}/projects")]
     public async Task<ActionResult<IEnumerable<ProjectDTO>>> GetProjects(Guid groupId, [FromQuery] GroupPaginationParams @params)
