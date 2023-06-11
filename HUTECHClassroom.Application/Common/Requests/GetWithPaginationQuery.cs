@@ -45,16 +45,32 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
                 .AndFilter(SearchStringPredicate(request.Params.SearchString));
         }
 
-        var pagedList = await _repository
-            .ToQueryable(query)
+        var pagedListQueryable = _repository
+            .ToQueryable(query);
+
+        var projectedPagedList = pagedListQueryable
             .ProjectTo<TDTO>(_mapper.ConfigurationProvider, GetMappingParameters())
-            .AsSplitQuery()
-            .ToListAsync(cancellationToken)
+            .AsSplitQuery();
+
+        var asyncPagedList = projectedPagedList.ToListAsync(cancellationToken);
+
+        var pagedList = await asyncPagedList
             .Then<List<TDTO>, IList<TDTO>>(result => result, cancellationToken)
             .ToPagedListAsync(query.Paging.PageIndex,
                               query.Paging.PageSize,
                               query.Paging.TotalCount,
                               cancellationToken);
+
+        //var pagedList = await _repository
+        //    .ToQueryable(query)
+        //    .ProjectTo<TDTO>(_mapper.ConfigurationProvider, GetMappingParameters())
+        //    .AsSplitQuery()
+        //    .ToListAsync(cancellationToken)
+        //    .Then<List<TDTO>, IList<TDTO>>(result => result, cancellationToken)
+        //    .ToPagedListAsync(query.Paging.PageIndex,
+        //                      query.Paging.PageSize,
+        //                      query.Paging.TotalCount,
+        //                      cancellationToken);
 
         return pagedList;
     }

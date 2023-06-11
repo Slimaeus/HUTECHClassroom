@@ -1,26 +1,26 @@
 ﻿using EntityFrameworkCore.QueryBuilder.Interfaces;
-using HUTECHClassroom.Application.Common.DTOs;
+using HUTECHClassroom.Application.Classrooms.DTOs;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
 using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroomUsersWithPagination;
 
-public record GetClassroomUsersWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<MemberDTO, PaginationParams>(Params);
-public class GetClassroomUsersWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationUser, GetClassroomUsersWithPaginationQuery, MemberDTO, PaginationParams>
+public record GetClassroomUsersWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<ClassroomUserDTO, PaginationParams>(Params);
+public class GetClassroomUsersWithPaginationQueryHandler : GetWithPaginationQueryHandler<ClassroomUser, GetClassroomUsersWithPaginationQuery, ClassroomUserDTO, PaginationParams>
 {
     public GetClassroomUsersWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
-    protected override Expression<Func<ApplicationUser, bool>> FilterPredicate(GetClassroomUsersWithPaginationQuery query)
+    protected override Expression<Func<ClassroomUser, bool>> FilterPredicate(GetClassroomUsersWithPaginationQuery query)
     {
-        return x => x.ClassroomUsers.Any(x => x.ClassroomId == query.Id);
+        return x => x.ClassroomId == query.Id;
     }
-    protected override Expression<Func<ApplicationUser, bool>> SearchStringPredicate(string searchString)
+    protected override Expression<Func<ClassroomUser, bool>> SearchStringPredicate(string searchString)
     {
         var toLowerSearchString = searchString.ToLower();
-        return x => x.UserName.ToLower().Contains(toLowerSearchString) || x.Email.ToLower().Contains(toLowerSearchString);
+        return x => x.User.UserName.ToLower().Contains(toLowerSearchString) || x.User.Email.ToLower().Contains(toLowerSearchString);
     }
-    protected override IQuery<ApplicationUser> Order(IMultipleResultQuery<ApplicationUser> query) => query.OrderBy(x => x.UserName);
+    protected override IQuery<ClassroomUser> Order(IMultipleResultQuery<ClassroomUser> query) => query.OrderBy(x => x.User.UserName);
 
 }
