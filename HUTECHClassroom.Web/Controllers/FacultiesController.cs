@@ -103,8 +103,11 @@ public class FacultiesController : BaseEntityController<Faculty>
         foreach (var user in newSubjects)
         {
             user.FacultyId = viewModel.FacultyId;
-            await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
-            await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
+            var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
+            if (result.Succeeded)
+            {
+                await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
+            }
         }
 
         ViewBag.Success = $"Successfully imported and updated {subjects} rows.";

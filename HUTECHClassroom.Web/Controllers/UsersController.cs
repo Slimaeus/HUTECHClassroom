@@ -3,7 +3,6 @@ using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +14,6 @@ namespace HUTECHClassroom.Web.Controllers;
 [Authorize(Roles = $"{RoleConstants.DEAN},{RoleConstants.TRAINING_OFFICE},{RoleConstants.ADMIN}")]
 public class UsersController : BaseEntityController<ApplicationUser>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-
-    public UsersController(UserManager<ApplicationUser> userManager)
-    {
-        _userManager = userManager;
-    }
     public IActionResult Index(int? page, int? size)
     {
         int pageIndex = page ?? 1;
@@ -78,6 +71,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
             ViewBag.Error = "Please select a file to upload."; Type type = typeof(ImportedUserViewModel);
             PropertyInfo[] propertyInfos = type.GetProperties();
             viewModel.PropertyNames = propertyInfos.Select(x => x.Name);
+            ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
             return View(viewModel);
         }
 
@@ -86,12 +80,11 @@ public class UsersController : BaseEntityController<ApplicationUser>
             ViewBag.Error = "Please select an Excel file (.xlsx)."; Type type = typeof(ImportedUserViewModel);
             PropertyInfo[] propertyInfos = type.GetProperties();
             viewModel.PropertyNames = propertyInfos.Select(x => x.Name);
+            ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
             return View(viewModel);
         }
 
         var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
-        // Map userViewModels to users
-        //var users = userViewModels.Select(x => Mapper.Map<ApplicationUser>(x)).ToList();
 
         var existingUsers = await DbContext.Users
             .Include(u => u.ApplicationUserRoles)
@@ -105,21 +98,23 @@ public class UsersController : BaseEntityController<ApplicationUser>
             .ProjectTo<ApplicationUser>(Mapper.ConfigurationProvider)
             .ToList();
 
-        // Do something with the imported people data, such as saving to a database
-        foreach (var user in newUsers)
-        {
-            await _userManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
-            await _userManager.AddToRoleAsync(user, viewModel.RoleName);
-        }
-
         foreach (var user in existingUsers)
         {
             DbContext.Entry(user).State = EntityState.Modified;
             foreach (var applicationUserRole in user.ApplicationUserRoles)
             {
-                await _userManager.RemoveFromRoleAsync(user, applicationUserRole.Role.Name);
+                await UserManager.RemoveFromRoleAsync(user, applicationUserRole.Role.Name).ConfigureAwait(false);
             }
-            await _userManager.AddToRoleAsync(user, viewModel.RoleName);
+            await UserManager.AddToRoleAsync(user, viewModel.RoleName).ConfigureAwait(false);
+        }
+
+        foreach (var user in newUsers)
+        {
+            var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
+            if (result.Succeeded)
+            {
+                await UserManager.AddToRoleAsync(user, viewModel.RoleName).ConfigureAwait(false);
+            }
         }
 
         ViewBag.Success = $"Successfully imported and updated {userViewModels.Count} users.";
@@ -148,8 +143,8 @@ public class UsersController : BaseEntityController<ApplicationUser>
                 LastName = viewModel.LastName,
                 FacultyId = viewModel.FacultyId != Guid.Empty ? viewModel.FacultyId : null
             };
-            await _userManager.CreateAsync(applicationUser, applicationUser.UserName);
-            await _userManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
+            await UserManager.CreateAsync(applicationUser, applicationUser.UserName);
+            await UserManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
             return RedirectToAction(nameof(Index));
         }
         ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", viewModel.FacultyId).Append(new SelectListItem("None", Guid.Empty.ToString()));
@@ -210,9 +205,9 @@ public class UsersController : BaseEntityController<ApplicationUser>
                 DbContext.Update(applicationUser);
                 foreach (var applicationUserRole in applicationUser.ApplicationUserRoles)
                 {
-                    await _userManager.RemoveFromRoleAsync(applicationUser, applicationUserRole.Role.Name);
+                    await UserManager.RemoveFromRoleAsync(applicationUser, applicationUserRole.Role.Name);
                 }
-                await _userManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
+                await UserManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
                 await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
