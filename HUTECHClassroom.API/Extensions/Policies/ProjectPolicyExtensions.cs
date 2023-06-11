@@ -1,5 +1,4 @@
-﻿using HUTECHClassroom.API.Authorization.Projects;
-using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions.Policies;
@@ -10,7 +9,8 @@ public static class ProjectPolicyExtensions
     {
         options.AddPolicy(CreateProjectPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
+            //policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
         });
         options.AddPolicy(ReadProjectPolicy, policy =>
         {
@@ -19,11 +19,13 @@ public static class ProjectPolicyExtensions
         });
         options.AddPolicy(UpdateProjectPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
+            //policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
         });
         options.AddPolicy(DeleteProjectPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
+            //policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
         });
     }
 }

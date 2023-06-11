@@ -1,5 +1,4 @@
-﻿using HUTECHClassroom.API.Authorization.GroupRoles;
-using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions.Policies;
@@ -18,7 +17,8 @@ public static class GroupPolicyExtensions
         });
         options.AddPolicy(UpdateGroupPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleRequirement(GroupRoleConstants.LEADER));
+            //policy.AddRequirements(new GroupRoleRequirement(GroupRoleConstants.LEADER));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
         });
         options.AddPolicy(DeleteGroupPolicy, policy =>
         {
