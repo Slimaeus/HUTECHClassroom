@@ -1,10 +1,10 @@
 ﻿using AutoMapper.QueryableExtensions;
-using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using HUTECHClassroom.Web.ViewModels.Faculties;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
@@ -59,6 +59,7 @@ public class FacultiesController : BaseEntityController<Faculty>
             FacultyId = classroom.Id,
             FacultyName = classroom.Name
         };
+        ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
         return View(viewModel);
     }
 
@@ -69,12 +70,14 @@ public class FacultiesController : BaseEntityController<Faculty>
         if (viewModel.File == null || viewModel.File.Length == 0)
         {
             ViewBag.Error = "Please select a file to upload.";
+            ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
             return View(viewModel);
         }
 
         if (!Path.GetExtension(viewModel.File.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
         {
             ViewBag.Error = "Please select an Excel file (.xlsx).";
+            ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
             return View(viewModel);
         }
 
@@ -95,6 +98,11 @@ public class FacultiesController : BaseEntityController<Faculty>
         {
             user.FacultyId = viewModel.FacultyId;
             DbContext.Entry(user).State = EntityState.Modified;
+            foreach (var applicationUserRole in user.ApplicationUserRoles)
+            {
+                await UserManager.RemoveFromRoleAsync(user, applicationUserRole.Role.Name).ConfigureAwait(false);
+            }
+            await UserManager.AddToRoleAsync(user, viewModel.RoleName).ConfigureAwait(false);
             DbContext.Update(user);
         }
 
@@ -106,7 +114,7 @@ public class FacultiesController : BaseEntityController<Faculty>
             var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             if (result.Succeeded)
             {
-                await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
+                await UserManager.AddToRoleAsync(user, viewModel.RoleName).ConfigureAwait(false);
             }
         }
 

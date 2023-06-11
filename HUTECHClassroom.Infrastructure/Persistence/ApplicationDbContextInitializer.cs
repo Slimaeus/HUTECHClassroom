@@ -65,15 +65,11 @@ public class ApplicationDbContextInitializer
         {
             new Faculty
             {
-                Name = "Information Technology"
+                Name = "Công nghệ thông tin"
             },
             new Faculty
             {
-                Name = "Marketing"
-            },
-            new Faculty
-            {
-                Name = "Study of Language"
+                Name = "Marketing - Kinh doanh Quốc tế"
             }
         };
 
@@ -250,16 +246,16 @@ public class ApplicationDbContextInitializer
             new Major
             {
                 Code = "TH",
-                Title = "Information Technology",
+                Title = "Công nghệ thông tin",
                 TotalCredits = 152,
-                NonComulativeCredits = 10
+                NonComulativeCredits = 5
             },
             new Major
             {
-                Code = "MK",
-                Title = "Maketing",
-                TotalCredits = 150,
-                NonComulativeCredits = 10
+                Code = "MARQT",
+                Title = "Marketing - Kinh doanh Quốc tế",
+                TotalCredits = 137,
+                NonComulativeCredits = 5
             }
         };
 

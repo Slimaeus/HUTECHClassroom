@@ -98,8 +98,9 @@ public class MissionsController : BaseEntityController<Mission>
             .ToList();
         foreach (var user in newUsers)
         {
-            await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
-            await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
+            var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
+            if (result.Succeeded)
+                await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
             dbUsers.Add(user);
         }
 
