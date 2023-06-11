@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Constants;
+﻿using AutoMapper.QueryableExtensions;
+using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using Microsoft.AspNetCore.Authorization;
@@ -66,7 +67,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         Type type = typeof(ImportedUserViewModel);
         PropertyInfo[] propertyInfos = type.GetProperties();
         viewModel.PropertyNames = propertyInfos.Select(x => x.Name);
-
+        ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
         return View(viewModel);
     }
     [HttpPost]
@@ -90,15 +91,38 @@ public class UsersController : BaseEntityController<ApplicationUser>
 
         var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
         // Map userViewModels to users
-        var users = userViewModels.Select(x => Mapper.Map<ApplicationUser>(x)).ToList();
+        //var users = userViewModels.Select(x => Mapper.Map<ApplicationUser>(x)).ToList();
+
+        var existingUsers = await DbContext.Users
+            .Include(u => u.ApplicationUserRoles)
+            .ThenInclude(ar => ar.Role)
+            .Where(u => userViewModels.Select(x => x.UserName).Contains(u.UserName))
+            .ToListAsync();
+
+        var newUsers = userViewModels
+            .Where(vm => !existingUsers.Select(x => x.UserName).Contains(vm.UserName))
+            .AsQueryable()
+            .ProjectTo<ApplicationUser>(Mapper.ConfigurationProvider)
+            .ToList();
+
         // Do something with the imported people data, such as saving to a database
-        foreach (var user in users)
+        foreach (var user in newUsers)
         {
             await _userManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
-            await _userManager.AddToRoleAsync(user, "Student");
+            await _userManager.AddToRoleAsync(user, viewModel.RoleName);
         }
 
-        ViewBag.Success = $"Successfully imported {users.Count} users.";
+        foreach (var user in existingUsers)
+        {
+            DbContext.Entry(user).State = EntityState.Modified;
+            foreach (var applicationUserRole in user.ApplicationUserRoles)
+            {
+                await _userManager.RemoveFromRoleAsync(user, applicationUserRole.Role.Name);
+            }
+            await _userManager.AddToRoleAsync(user, viewModel.RoleName);
+        }
+
+        ViewBag.Success = $"Successfully imported and updated {userViewModels.Count} users.";
         return RedirectToAction("Index");
     }
     // GET: ApplicationUsers/Create

@@ -61,7 +61,7 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     public async Task<IActionResult> RemoveMember(Guid groupId, Guid userId)
         => Ok(await Mediator.Send(new RemoveGroupUserCommand(groupId, userId)));
     [Authorize(Policy = AddGroupUserPolicy)]
-    [HttpPost("{groupId}/members")]
+    [HttpPost("{groupId}/members/add")]
     public async Task<IActionResult> AddMembers(Guid groupId, IList<Guid> userIds)
         => Ok(await Mediator.Send(new AddRangeGroupUserCommand(groupId, userIds)));
     [Authorize(Policy = RemoveGroupUserPolicy)]

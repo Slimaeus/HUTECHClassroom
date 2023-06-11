@@ -98,6 +98,8 @@ public class FacultiesController : BaseEntityController<Faculty>
             DbContext.Update(user);
         }
 
+        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
+
         foreach (var user in newUsers)
         {
             user.FacultyId = viewModel.FacultyId;
@@ -105,10 +107,7 @@ public class FacultiesController : BaseEntityController<Faculty>
             await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
         }
 
-
-        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
-
-        ViewBag.Success = $"Successfully imported and updated {count} rows.";
+        ViewBag.Success = $"Successfully imported and updated {userViewModels} rows.";
         return RedirectToAction("Index");
     }
 

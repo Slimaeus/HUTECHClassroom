@@ -186,8 +186,8 @@ public class ApplicationDbContextInitializer
         var lecturer1 = new ApplicationUser
         {
             UserName = "lecturer1",
-            FirstName = "Lecturer",
-            LastName = "1",
+            FirstName = "1",
+            LastName = "Giảng viên",
             Email = "lecturer1@gmail.com",
             Faculty = faculties[0]
         };
@@ -195,8 +195,8 @@ public class ApplicationDbContextInitializer
         var lecturer2 = new ApplicationUser
         {
             UserName = "lecturer2",
-            FirstName = "Lecturer",
-            LastName = "2",
+            FirstName = "2",
+            LastName = "Giảng viên",
             Email = "lecturer2@gmail.com",
             Faculty = faculties[0]
         };
