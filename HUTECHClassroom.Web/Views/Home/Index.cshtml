@@ -1,4 +1,5 @@
-﻿@using HUTECHClassroom.Domain.Entities;
+﻿@using HUTECHClassroom.Domain.Constants;
+@using HUTECHClassroom.Domain.Entities;
 @using HUTECHClassroom.Infrastructure.Persistence;
 @using Microsoft.AspNetCore.Identity
 
@@ -13,7 +14,7 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>HUTECH Classroom Admin website.</p>
-    @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Administrator"))
+    @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.ADMIN) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.DEAN) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TRAINING_OFFICE)))
         {
         <div class="row row-cols-1 row-cols-md-4 g-4" role="group" aria-label="Entities">
             <div class="col">

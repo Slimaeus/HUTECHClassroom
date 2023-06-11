@@ -78,14 +78,14 @@ public class FacultiesController : BaseEntityController<Faculty>
             return View(viewModel);
         }
 
-        var userViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
+        var subjects = ExcelService.ReadExcelFileWithColumnNames<ImportedUserViewModel>(viewModel.File.OpenReadStream(), null);
         // Do something with the imported people data, such as saving to a database
 
         var existingUsers = await DbContext.Users
-            .Where(u => userViewModels.Select(x => x.UserName).Contains(u.UserName))
+            .Where(u => subjects.Select(x => x.UserName).Contains(u.UserName))
             .ToListAsync();
 
-        var newUsers = userViewModels
+        var newSubjects = subjects
             .Where(vm => !existingUsers.Select(x => x.UserName).Contains(vm.UserName))
             .AsQueryable()
             .ProjectTo<ApplicationUser>(Mapper.ConfigurationProvider)
@@ -100,14 +100,14 @@ public class FacultiesController : BaseEntityController<Faculty>
 
         int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-        foreach (var user in newUsers)
+        foreach (var user in newSubjects)
         {
             user.FacultyId = viewModel.FacultyId;
             await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
         }
 
-        ViewBag.Success = $"Successfully imported and updated {userViewModels} rows.";
+        ViewBag.Success = $"Successfully imported and updated {subjects} rows.";
         return RedirectToAction("Index");
     }
 

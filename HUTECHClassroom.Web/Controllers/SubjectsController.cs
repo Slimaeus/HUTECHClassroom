@@ -38,6 +38,17 @@ public class SubjectsController : BaseEntityController<Subject>
         return View(subject);
     }
 
+    protected override async Task<IEnumerable<Subject>> GetExistingEntities(IEnumerable<Subject> subjects)
+    {
+        return await DbContext.Subjects
+            .Where(s => subjects.Select(x => x.Code).Contains(s.Code))
+            .ToListAsync();
+    }
+
+    protected override IEnumerable<Subject> GetNewEntities(IEnumerable<Subject> subjects, IEnumerable<Subject> existingSubjects)
+    {
+        return subjects.Where(m => !existingSubjects.Select(es => es.Code).Contains(m.Code));
+    }
     public IActionResult Create()
     {
         ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code");

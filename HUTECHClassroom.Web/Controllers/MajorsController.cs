@@ -3,7 +3,6 @@ using HUTECHClassroom.Web.ViewModels.Majors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging;
 using System.Reflection;
 using X.PagedList;
 
@@ -36,6 +35,18 @@ public class MajorsController : BaseEntityController<Major>
         }
 
         return View(major);
+    }
+
+    protected override async Task<IEnumerable<Major>> GetExistingEntities(IEnumerable<Major> majors)
+    {
+        return await DbContext.Majors
+            .Where(m => majors.Select(x => x.Code).Contains(m.Code))
+            .ToListAsync();
+    }
+
+    protected override IEnumerable<Major> GetNewEntities(IEnumerable<Major> majors, IEnumerable<Major> existingMajors)
+    {
+        return majors.Where(m => !existingMajors.Select(em => em.Code).Contains(m.Code));
     }
 
     public async Task<IActionResult> ImportSubjects(Guid? id)
@@ -76,25 +87,31 @@ public class MajorsController : BaseEntityController<Major>
         }
 
         var subjects = ExcelService.ReadExcelFileWithColumnNames<Subject>(viewModel.File.OpenReadStream(), null);
-        var major = await DbContext.Majors
-            .SingleOrDefaultAsync(c => c.Id == viewModel.MajorId);
 
-        if (major == null)
+        var existingSubjects = await DbContext.Subjects
+            .Where(u => subjects.Select(x => x.Code).Contains(u.Code))
+            .ToListAsync();
+
+        var newSubjects = subjects
+            .Where(vm => !existingSubjects.Select(x => x.Code).Contains(vm.Code))
+            .ToList();
+
+        foreach (var subject in existingSubjects)
         {
-            return NotFound();
+            subject.MajorId = viewModel.MajorId;
+            DbContext.Entry(subject).State = EntityState.Modified;
+            DbContext.Update(subject);
         }
-        subjects = subjects.Where(subject => !DbContext.Subjects.Any(x => x.Code == subject.Code)).ToList();
-        foreach (var subject in subjects)
+
+        foreach (var subject in newSubjects)
         {
-            DbContext.Entry(subject).State = EntityState.Added;
+            subject.MajorId = viewModel.MajorId;
+            await DbContext.Subjects.AddAsync(subject);
         }
-        major.Subjects.AddRange(
-            subjects
-        );
 
-        await DbContext.SaveChangesAsync();
+        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-        ViewBag.Success = $"Successfully imported {subjects.Count} rows.";
+        ViewBag.Success = $"Successfully imported and updated {count} rows.";
         return RedirectToAction("Index");
     }
 

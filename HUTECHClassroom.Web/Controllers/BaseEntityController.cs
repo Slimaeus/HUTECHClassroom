@@ -7,6 +7,7 @@ using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace HUTECHClassroom.Web.Controllers;
@@ -51,12 +52,30 @@ public class BaseEntityController<T> : Controller
         }
 
         var entities = ExcelService.ReadExcelFileWithColumnNames<T>(viewModel.File.OpenReadStream(), null);
-        // Do something with the imported people data, such as saving to a database
-        await DbContext.AddRangeAsync(entities);
+
+        var existingEntities = await GetExistingEntities(entities);
+
+        var newEntities = GetNewEntities(entities, existingEntities);
+
+        foreach (var entity in existingEntities)
+        {
+            DbContext.Entry(entity).State = EntityState.Modified;
+            DbContext.Update(entity);
+        }
+
+        await DbContext.AddRangeAsync(newEntities);
         await DbContext.SaveChangesAsync();
 
         ViewBag.Success = $"Successfully imported {entities.Count} rows.";
         return RedirectToAction("Index");
+    }
+    protected virtual Task<IEnumerable<T>> GetExistingEntities(IEnumerable<T> entities)
+    {
+        return Task.FromResult<IEnumerable<T>>(new List<T>());
+    }
+    protected virtual IEnumerable<T> GetNewEntities(IEnumerable<T> entities, IEnumerable<T> existingEntities)
+    {
+        return entities;
     }
     public IActionResult ExportSample()
     {
