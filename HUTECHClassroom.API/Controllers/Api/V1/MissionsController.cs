@@ -2,10 +2,12 @@
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Missions;
 using HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
+using HUTECHClassroom.Application.Missions.Commands.AddRangeMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.CreateMission;
 using HUTECHClassroom.Application.Missions.Commands.DeleteMission;
 using HUTECHClassroom.Application.Missions.Commands.DeleteRangeMission;
 using HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser;
+using HUTECHClassroom.Application.Missions.Commands.RemoveRangeMissionUser;
 using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 using HUTECHClassroom.Application.Missions.DTOs;
 using HUTECHClassroom.Application.Missions.Queries.GetMission;
@@ -55,4 +57,12 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     [HttpDelete("{missionId}/members/{userId}")]
     public async Task<IActionResult> RemoveMember(Guid missionId, Guid userId)
         => Ok(await Mediator.Send(new RemoveMissionUserCommand(missionId, userId)));
+    [Authorize(Policy = UpdateMissionPolicy)]
+    [HttpPost("{missionId}/members/add")]
+    public async Task<IActionResult> AddMembers(Guid missionId, IList<Guid> userIds)
+        => Ok(await Mediator.Send(new AddRangeMissionUserCommand(missionId, userIds)));
+    [Authorize(Policy = UpdateMissionPolicy)]
+    [HttpPost("{missionId}/members/remove")]
+    public async Task<IActionResult> RemoveMembers(Guid missionId, IList<Guid> userIds)
+        => Ok(await Mediator.Send(new RemoveRangeMissionUserCommand(missionId, userIds)));
 }

@@ -1,5 +1,4 @@
-﻿using HUTECHClassroom.API.Authorization.Missions;
-using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions.Policies;
@@ -10,7 +9,9 @@ public static class MissionPolicyExtensions
     {
         options.AddPolicy(CreateMissionPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
+            //policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+
         });
         options.AddPolicy(ReadMissionPolicy, policy =>
         {
@@ -18,11 +19,15 @@ public static class MissionPolicyExtensions
         });
         options.AddPolicy(UpdateMissionPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
+            //policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+
         });
         options.AddPolicy(DeleteMissionPolicy, policy =>
         {
-            policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
+            //policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+
         });
     }
 }
