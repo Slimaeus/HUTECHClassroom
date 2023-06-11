@@ -30,9 +30,11 @@ public class AddGroupUsersCommandHandler : IRequestHandler<AddRangeGroupUserComm
         var group = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
+        var groupUserIds = group.GroupUsers.Select(gu => gu.UserId);
+
         var userQuery = _userRepository
             .MultipleResultQuery()
-            .AndFilter(x => group.GroupUsers.Any(gu => gu.UserId == x.Id))
+            .AndFilter(x => !groupUserIds.Contains(x.Id))
             .AndFilter(x => request.UserIds.Contains(x.Id));
 
         var users = await _userRepository
