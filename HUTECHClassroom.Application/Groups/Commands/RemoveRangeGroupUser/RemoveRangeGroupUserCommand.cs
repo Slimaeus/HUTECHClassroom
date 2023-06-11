@@ -26,7 +26,7 @@ public class RemoveGroupUsersCommandHandler : IRequestHandler<RemoveRangeGroupUs
             .SingleOrDefaultAsync(query, cancellationToken);
 
         var users = group.GroupUsers
-            .Where(x => request.UserIds.Contains(x.UserId));
+            .Where(x => request.UserIds.Contains(x.UserId)).ToList();
 
         foreach (var user in users)
         {
