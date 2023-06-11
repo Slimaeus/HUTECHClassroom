@@ -1,7 +1,6 @@
 ﻿using HUTECHClassroom.API.Authorization.GroupRoles;
 using HUTECHClassroom.API.Authorization.Missions;
 using HUTECHClassroom.API.Authorization.Projects;
-using HUTECHClassroom.API.Authorization.Roles;
 using HUTECHClassroom.API.Extensions;
 using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.API.SignalR;
@@ -63,7 +62,6 @@ public static class ConfigureServices
         services.AddScoped(typeof(IAuthorizationHandler), typeof(GroupRoleAuthorizationHandler));
         services.AddScoped(typeof(IAuthorizationHandler), typeof(GroupRoleFromMissionAuthorizationHandler));
         services.AddScoped(typeof(IAuthorizationHandler), typeof(GroupRoleFromProjectAuthorizationHandler));
-        services.AddScoped(typeof(IAuthorizationHandler), typeof(AtLeastOneRoleAuthorizationHandler));
 
         #endregion
 

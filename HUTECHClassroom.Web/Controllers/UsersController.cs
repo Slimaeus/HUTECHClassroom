@@ -12,7 +12,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-[Authorize(Roles = RoleConstants.ADMIN)]
+[Authorize(Roles = $"{RoleConstants.DEAN},{RoleConstants.TRAINING_OFFICE},{RoleConstants.ADMIN}")]
 public class UsersController : BaseEntityController<ApplicationUser>
 {
     private readonly UserManager<ApplicationUser> _userManager;
@@ -156,7 +156,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name", viewModel.RoleName);
         return View(viewModel);
     }
-
+    [Authorize(Roles = RoleConstants.ADMIN)]
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Users == null)
@@ -182,7 +182,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
         return View(viewModel);
     }
-
+    [Authorize(Roles = RoleConstants.ADMIN)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, EditUserViewModel viewModel)
@@ -194,7 +194,10 @@ public class UsersController : BaseEntityController<ApplicationUser>
 
         if (ModelState.IsValid)
         {
-            var applicationUser = await DbContext.Users.FindAsync(viewModel.Id);
+            var applicationUser = await DbContext.Users
+                .Include(u => u.ApplicationUserRoles)
+                .ThenInclude(ar => ar.Role)
+                .SingleOrDefaultAsync(u => u.Id == viewModel.Id);
             applicationUser.Id = viewModel.Id;
             applicationUser.UserName = viewModel.UserName;
             applicationUser.Email = viewModel.Email;
@@ -205,10 +208,11 @@ public class UsersController : BaseEntityController<ApplicationUser>
             try
             {
                 DbContext.Update(applicationUser);
-                if (!await _userManager.IsInRoleAsync(applicationUser, viewModel.RoleName))
+                foreach (var applicationUserRole in applicationUser.ApplicationUserRoles)
                 {
-                    await _userManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
+                    await _userManager.RemoveFromRoleAsync(applicationUser, applicationUserRole.Role.Name);
                 }
+                await _userManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
                 await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -228,7 +232,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name", viewModel.RoleName);
         return View(viewModel);
     }
-
+    [Authorize(Roles = RoleConstants.ADMIN)]
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Users == null)
@@ -254,7 +258,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         };
         return View(viewModel);
     }
-
+    [Authorize(Roles = RoleConstants.ADMIN)]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

@@ -1,5 +1,4 @@
-﻿using HUTECHClassroom.API.Authorization.Roles;
-using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions.Policies;
@@ -10,7 +9,7 @@ public static class CommentPolicyExtensions
     {
         options.AddPolicy(CreateCommentPolicy, policy =>
         {
-            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
         });
         options.AddPolicy(ReadCommentPolicy, policy =>
         {
@@ -18,12 +17,12 @@ public static class CommentPolicyExtensions
         });
         options.AddPolicy(UpdateCommentPolicy, policy =>
         {
-            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
 
         });
         options.AddPolicy(DeleteCommentPolicy, policy =>
         {
-            policy.AddRequirements(new AtLeastOneRoleRequirement(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE));
+            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
         });
     }
 }
