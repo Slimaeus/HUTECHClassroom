@@ -80,7 +80,7 @@ public static class ConfigureServices
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
+                    ClockSkew = TimeSpan.FromSeconds(5)
                 };
             });
 
