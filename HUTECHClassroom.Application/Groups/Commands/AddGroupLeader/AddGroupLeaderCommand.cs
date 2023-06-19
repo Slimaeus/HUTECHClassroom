@@ -38,8 +38,6 @@ public class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderComman
 
         if (currentLeaderGroupUser != null && currentLeaderGroupUser.UserId == request.UserId)
         {
-            await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
-
             _groupRepository.RemoveTracking(group);
 
             return Unit.Value;
