@@ -51,7 +51,10 @@ public class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderComman
 
         if (groupUserInGroup == null)
         {
+
             var groupUser = _mapper.Map<GroupUser>(request);
+
+            group.LeaderId = groupUser.UserId;
 
             groupUser.GroupRole = leaderRole;
 
@@ -59,6 +62,8 @@ public class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderComman
         }
         else
         {
+            group.LeaderId = groupUserInGroup.UserId;
+
             groupUserInGroup.GroupRole = leaderRole;
         }
 
