@@ -32,6 +32,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.DEAN) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TRAINING_OFFICE) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.ADMIN))) {
                         
                         <li class="nav-item dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -84,6 +85,7 @@
                                 }
                             </ul>
                         </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

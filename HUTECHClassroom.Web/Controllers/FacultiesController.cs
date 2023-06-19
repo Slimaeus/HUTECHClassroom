@@ -1,11 +1,13 @@
 ﻿using AutoMapper.QueryableExtensions;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
+using HUTECHClassroom.Web.ViewModels.Classrooms;
 using HUTECHClassroom.Web.ViewModels.Faculties;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
@@ -120,6 +122,98 @@ public class FacultiesController : BaseEntityController<Faculty>
 
         ViewBag.Success = $"Successfully imported and updated {subjects} rows.";
         return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> ImportFacultyClassrooms(Guid? id)
+    {
+        if (id == null)
+            return View("Index");
+        if (id == null || DbContext.Faculties == null)
+        {
+            return NotFound();
+        }
+        var classroom = await DbContext.Faculties.FindAsync(id);
+        if (classroom == null)
+        {
+            return NotFound();
+        }
+        var viewModel = new ImportClassroomsToFacultyViewModel
+        {
+            FacultyId = classroom.Id,
+            FacultyName = classroom.Name
+        };
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ImportFacultyClassrooms(ImportClassroomsToFacultyViewModel viewModel)
+    {
+        if (viewModel.File == null || viewModel.File.Length == 0)
+        {
+            ViewBag.Error = "Please select a file to upload.";
+            return View(viewModel);
+        }
+
+        if (!Path.GetExtension(viewModel.File.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+        {
+            ViewBag.Error = "Please select an Excel file (.xlsx).";
+            return View(viewModel);
+        }
+
+        var classroomViewModels = ExcelService.ReadExcelFileWithColumnNames<ImportedClassroomViewModel>(viewModel.File.OpenReadStream(), null);
+
+        var subjectIds = DbContext.Subjects
+            .Where(s => classroomViewModels.Select(vm => vm.SubjectCode).Contains(s.Code))
+            .ToDictionary(s => s.Code, s => s.Id);
+
+        var lecturerIds = DbContext.Users
+            .Where(u => classroomViewModels.Select(vm => vm.LecturerName).Contains(u.UserName))
+            .ToDictionary(u => u.UserName, u => u.Id);
+
+        foreach (var classroomViewModel in classroomViewModels)
+        {
+            var classroom = Mapper.Map<Classroom>(classroomViewModel);
+            classroom.FacultyId = viewModel.FacultyId;
+            if (subjectIds.TryGetValue(classroomViewModel.SubjectCode, out var subjectId))
+            {
+                classroom.SubjectId = subjectId;
+            }
+            if (lecturerIds.TryGetValue(classroomViewModel.LecturerName, out var lecturerId))
+            {
+                classroom.LecturerId = lecturerId;
+            }
+            await DbContext.AddAsync(classroom);
+        }
+
+        int count = await DbContext.SaveChangesAsync().ConfigureAwait(false);
+
+
+        ViewBag.Success = $"Successfully imported and updated {classroomViewModels.Count} rows.";
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult ExportClassrooms()
+    {
+        Type type = typeof(ImportedClassroomViewModel);
+        PropertyInfo[] propertyInfos = type.GetProperties();
+
+        var data = new List<ImportedClassroomViewModel>();
+        var propertyNames = propertyInfos
+            .Where(x => x.Name != "Id"
+            && x.Name != "CreateDate"
+            && x.CanRead
+            && (x.PropertyType.IsPrimitive
+                || x.PropertyType.IsEnum
+                || x.PropertyType.Equals(typeof(DateTime))
+                || x.PropertyType.Equals(typeof(Guid))
+                || x.PropertyType.Equals(typeof(string))
+            ))
+            .Select(x => x.Name);
+
+        var excelData = ExcelService.ExportToExcel(data, propertyNames);
+
+        return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ImportClassroomsSample.xlsx");
     }
 
     // GET: Faculties/Create
