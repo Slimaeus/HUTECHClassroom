@@ -8,7 +8,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-[Authorize(TrainingOfficePolicy)]
+[Authorize(DeanOrTrainingOfficePolicy)]
 public class MajorsController : BaseEntityController<Major>
 {
     public IActionResult Index(int? page, int? size)
@@ -137,12 +137,12 @@ public class MajorsController : BaseEntityController<Major>
 
         return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ImportSubjectsSample.xlsx");
     }
-
+    [Authorize(TrainingOfficePolicy)]
     public IActionResult Create()
     {
         return View();
     }
-
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Code,Title,TotalCredits,NonComulativeCredits,Id,CreateDate")] Major major)
@@ -160,7 +160,7 @@ public class MajorsController : BaseEntityController<Major>
         }
         return View(major);
     }
-
+    [Authorize(TrainingOfficePolicy)]
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Majors == null)
@@ -175,7 +175,7 @@ public class MajorsController : BaseEntityController<Major>
         }
         return View(major);
     }
-
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid? id, [Bind("Code,Title,TotalCredits,NonComulativeCredits,Id,CreateDate")] Major major)
@@ -212,7 +212,7 @@ public class MajorsController : BaseEntityController<Major>
         }
         return View(major);
     }
-
+    [Authorize(TrainingOfficePolicy)]
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Majors == null)
@@ -229,7 +229,7 @@ public class MajorsController : BaseEntityController<Major>
 
         return View(major);
     }
-
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid? id)

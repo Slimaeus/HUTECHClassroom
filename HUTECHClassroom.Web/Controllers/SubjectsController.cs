@@ -7,7 +7,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-[Authorize(TrainingOfficePolicy)]
+[Authorize(DeanOrTrainingOfficePolicy)]
 public class SubjectsController : BaseEntityController<Subject>
 {
     public IActionResult Index(int? page, int? size)
@@ -54,7 +54,7 @@ public class SubjectsController : BaseEntityController<Subject>
         ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code");
         return View();
     }
-
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Code,Title,TotalCredits,MajorId,Id,CreateDate")] Subject subject)
@@ -73,7 +73,7 @@ public class SubjectsController : BaseEntityController<Subject>
         ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code", subject.MajorId);
         return View(subject);
     }
-
+    [Authorize(TrainingOfficePolicy)]
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Subjects == null)
@@ -89,7 +89,7 @@ public class SubjectsController : BaseEntityController<Subject>
         ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code", subject.MajorId);
         return View(subject);
     }
-
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("Code,Title,TotalCredits,MajorId,Id,CreateDate")] Subject subject)
@@ -127,7 +127,7 @@ public class SubjectsController : BaseEntityController<Subject>
         ViewData["MajorId"] = new SelectList(DbContext.Majors, "Id", "Code", subject.MajorId);
         return View(subject);
     }
-
+    [Authorize(TrainingOfficePolicy)]
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Subjects == null)
@@ -145,7 +145,7 @@ public class SubjectsController : BaseEntityController<Subject>
 
         return View(subject);
     }
-
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

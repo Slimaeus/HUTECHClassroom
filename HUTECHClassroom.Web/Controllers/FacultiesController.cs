@@ -12,7 +12,8 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-[Authorize(TrainingOfficePolicy)]
+[Authorize(DeanOrTrainingOfficePolicy)]
+
 public class FacultiesController : BaseEntityController<Faculty>
 {
     // GET: Faculties
@@ -64,7 +65,6 @@ public class FacultiesController : BaseEntityController<Faculty>
         ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
         return View(viewModel);
     }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ImportFacultyUsers(ImportUsersToFacultyViewModel viewModel)
@@ -217,6 +217,7 @@ public class FacultiesController : BaseEntityController<Faculty>
     }
 
     // GET: Faculties/Create
+    [Authorize(TrainingOfficePolicy)]
     public IActionResult Create()
     {
         return View();
@@ -225,6 +226,7 @@ public class FacultiesController : BaseEntityController<Faculty>
     // POST: Faculties/Create
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Id,CreateDate")] Faculty faculty)
@@ -240,6 +242,7 @@ public class FacultiesController : BaseEntityController<Faculty>
     }
 
     // GET: Faculties/Edit/5
+    [Authorize(TrainingOfficePolicy)]
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Faculties == null)
@@ -258,6 +261,7 @@ public class FacultiesController : BaseEntityController<Faculty>
     // POST: Faculties/Edit/5
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id,CreateDate")] Faculty faculty)
@@ -291,6 +295,7 @@ public class FacultiesController : BaseEntityController<Faculty>
     }
 
     // GET: Faculties/Delete/5
+    [Authorize(TrainingOfficePolicy)]
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Faculties == null)
@@ -309,6 +314,7 @@ public class FacultiesController : BaseEntityController<Faculty>
     }
 
     // POST: Faculties/Delete/5
+    [Authorize(TrainingOfficePolicy)]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
