@@ -12,7 +12,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-[Authorize(DeanOrTrainingOfficePolicy)]
+[Authorize(TrainingOfficePolicy)]
 public class FacultiesController : BaseEntityController<Faculty>
 {
     // GET: Faculties

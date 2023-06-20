@@ -19,6 +19,10 @@ public static class ConfigureServices
             {
                 policy.RequireAssertion(context => context.User.IsInRole(RoleConstants.DEAN) || context.User.IsInRole(RoleConstants.TRAINING_OFFICE));
             });
+            options.AddPolicy(TrainingOfficePolicy, policy =>
+            {
+                policy.RequireAssertion(context => context.User.IsInRole(RoleConstants.TRAINING_OFFICE));
+            });
         });
 
         #region Services
