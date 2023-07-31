@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkCore.UnitOfWork.Extensions;
+using HUTECHClassroom.Domain.Constants.Services;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
@@ -68,7 +69,7 @@ public static class ConfigureServices
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[ServiceConstants.TOKEN_KEY]));
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

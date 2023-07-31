@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Constants.Services;
+using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ public class TokenService : ITokenService
 
     public TokenService(IConfiguration configuration, ApplicationDbContext context)
     {
-        _tokenKey = configuration["TokenKey"];
+        _tokenKey = configuration[ServiceConstants.TOKEN_KEY];
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenKey));
         _signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
         _tokenLifespan = TimeSpan.FromHours(5);
