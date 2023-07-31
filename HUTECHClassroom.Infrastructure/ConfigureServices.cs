@@ -24,15 +24,16 @@ public static class ConfigureServices
         #region DbContext
         services.AddDbContext<DbContext, ApplicationDbContext>(options =>
         {
+            // Use Legacy Timestamp Behavior
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            if (env == "Development")
+            var env = Environment.GetEnvironmentVariable(ServiceConstants.ENVIRONMENT_KEY);
+            if (env == ServiceConstants.DEVELOPMENT_ENVIRONMENT_VALUE)
             {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(configuration.GetConnectionString(ServiceConstants.CONNECTION_STRING_KEY));
             }
             else
             {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(configuration.GetConnectionString(ServiceConstants.CONNECTION_STRING_KEY));
             }
         });
 
