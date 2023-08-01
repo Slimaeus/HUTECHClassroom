@@ -23,7 +23,7 @@ public class CommentHub : Hub
         var comment = await _mediator.Send(new GetCommentQuery(id));
 
         await Clients.Group(command.PostId.ToString())
-            .SendAsync("ReceiveComment", comment);
+            .SendAsync("ReceiveComment", comment).ConfigureAwait(false);
     }
 
     public async Task DeleteComment(DeleteCommentCommand command)
@@ -31,7 +31,7 @@ public class CommentHub : Hub
         var comment = await _mediator.Send(command);
         if (comment is not null && comment.Post is not null)
             await Clients.Group(comment.Post.Id.ToString())
-            .SendAsync("DeleteComment", comment);
+            .SendAsync("DeleteComment", comment).ConfigureAwait(false);
     }
 
     public override async Task OnConnectedAsync()
@@ -42,7 +42,7 @@ public class CommentHub : Hub
         var isParsePageSizeSuccess = int.TryParse(httpContext.Request.Query["pageSize"], out int pageSize);
         if (!isParsePageNumberSuccess) pageNumber = 1;
         if (!isParsePageSizeSuccess) pageSize = 5;
-        await Groups.AddToGroupAsync(Context.ConnectionId, postId);
+        await Groups.AddToGroupAsync(Context.ConnectionId, postId).ConfigureAwait(false);
         var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId), new PostPaginationParams(pageNumber, pageSize)));
         await Clients.Caller.SendAsync("LoadComments", result.Items, new
         {
@@ -53,6 +53,6 @@ public class CommentHub : Hub
             totalPages = result.TotalPages,
             hasPreviousPage = result.HasPreviousPage,
             hasNextPage = result.HasNextPage
-        });
+        }).ConfigureAwait(false);
     }
 }

@@ -42,7 +42,7 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
             ModelState.AddModelError("Id", "Ids are not the same");
             return ValidationProblem();
         }
-        await Mediator.Send(command);
+        await Mediator.Send(command).ConfigureAwait(false);
         return NoContent();
     }
     protected async Task<ActionResult<TEntityDTO>> HandleDeleteCommand<TDeleteCommand>(TDeleteCommand command)
@@ -51,7 +51,7 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
     protected async Task<IActionResult> HandleDeleteRangeCommand<TDeleteRangeCommand>(TDeleteRangeCommand command)
         where TDeleteRangeCommand : DeleteRangeCommand<TKey>
     {
-        await Mediator.Send(command);
+        await Mediator.Send(command).ConfigureAwait(false);
         return NoContent();
     }
 }

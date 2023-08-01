@@ -26,7 +26,7 @@ public abstract class CreateCommandHandler<TKey, TEntity, TCommand> : IRequestHa
 
         await _repository.AddAsync(entity, cancellationToken);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         _repository.RemoveTracking(entity);
 
