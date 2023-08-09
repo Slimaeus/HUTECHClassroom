@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Account.DTOs;
+using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
@@ -55,7 +56,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
         }
 
         var result = await _userManger.CreateAsync(user, request.Password).ConfigureAwait(false);
-        await _userManger.AddToRoleAsync(user, "Student");
+        await _userManger.AddToRoleAsync(user, RoleConstants.STUDENT);
 
         if (!result.Succeeded)
         {
