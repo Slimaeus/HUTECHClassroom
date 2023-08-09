@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.API.Authorization.GroupRoles;
+using HUTECHClassroom.Domain.Constants.HttpParams;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -50,7 +51,7 @@ public class GroupRoleFromMissionAuthorizationHandler : GroupRoleAuthorizationHa
     {
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
 
-        if (routeData != null && routeData.Values.TryGetValue("missionId", out var idValue))
+        if (routeData != null && routeData.Values.TryGetValue(MissionParamsConstants.MISSION_ID, out var idValue))
         {
             var doesParseMissionIdSuccess = Guid.TryParse(idValue.ToString(), out var missionId);
 

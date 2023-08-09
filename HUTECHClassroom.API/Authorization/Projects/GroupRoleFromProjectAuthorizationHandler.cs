@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.API.Authorization.GroupRoles;
+using HUTECHClassroom.Domain.Constants.HttpParams;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Newtonsoft.Json;
@@ -45,7 +46,7 @@ public class GroupRoleFromProjectAuthorizationHandler : GroupRoleAuthorizationHa
     {
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
 
-        if (routeData != null && routeData.Values.TryGetValue("projectId", out var idValue))
+        if (routeData != null && routeData.Values.TryGetValue(ProjectParamsConstants.PROJECT_ID, out var idValue))
         {
             var doesParseProjectIdSuccess = Guid.TryParse(idValue.ToString(), out var projectId);
 

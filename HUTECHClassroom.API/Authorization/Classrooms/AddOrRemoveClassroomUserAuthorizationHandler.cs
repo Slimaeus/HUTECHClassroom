@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Constants.HttpParams;
+using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
@@ -43,7 +44,7 @@ public class AddOrRemoveClassroomUserAuthorizationHandler : AuthorizationHandler
     private Guid? GetClassroomIdFromRoute()
     {
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
-        if (routeData != null && routeData.Values.TryGetValue("classroomId", out var idValue))
+        if (routeData != null && routeData.Values.TryGetValue(ClassroomParamsConstants.CLASSROOM_ID, out var idValue))
         {
             if (Guid.TryParse(idValue.ToString(), out var classroomId))
             {

@@ -3,6 +3,8 @@ using HUTECHClassroom.Application.Comments.Commands.DeleteComment;
 using HUTECHClassroom.Application.Comments.Queries.GetComment;
 using HUTECHClassroom.Application.Posts;
 using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
+using HUTECHClassroom.Domain.Constants.HttpParams;
+using HUTECHClassroom.Domain.Constants.HttpParams.Common;
 using HUTECHClassroom.Domain.Constants.Hubs;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -38,9 +40,9 @@ public class CommentHub : Hub
     public override async Task OnConnectedAsync()
     {
         var httpContext = Context.GetHttpContext();
-        var postId = httpContext.Request.Query["postId"];
-        var isParsePageNumberSuccess = int.TryParse(httpContext.Request.Query["pageNumber"], out int pageNumber);
-        var isParsePageSizeSuccess = int.TryParse(httpContext.Request.Query["pageSize"], out int pageSize);
+        var postId = httpContext.Request.Query[PostParamsConstants.POST_ID];
+        var isParsePageNumberSuccess = int.TryParse(httpContext.Request.Query[PaginationParamsConstants.PAGE_NUMBER], out int pageNumber);
+        var isParsePageSizeSuccess = int.TryParse(httpContext.Request.Query[PaginationParamsConstants.PAGE_SIZE], out int pageSize);
         if (!isParsePageNumberSuccess) pageNumber = 1;
         if (!isParsePageSizeSuccess) pageSize = 5;
         await Groups.AddToGroupAsync(Context.ConnectionId, postId).ConfigureAwait(false);

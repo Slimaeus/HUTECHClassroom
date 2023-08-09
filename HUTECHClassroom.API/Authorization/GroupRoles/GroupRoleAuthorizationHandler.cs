@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Constants.HttpParams;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
@@ -74,7 +75,7 @@ public abstract class GroupRoleAuthorizationHandler<TRequiremt> : AuthorizationH
     private Guid? GetGroupIdFromRoute()
     {
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
-        if (routeData != null && routeData.Values.TryGetValue("groupId", out var idValue))
+        if (routeData != null && routeData.Values.TryGetValue(GroupParamsConstants.GROUP_ID, out var idValue))
         {
             if (Guid.TryParse(idValue.ToString(), out var groupId))
             {
