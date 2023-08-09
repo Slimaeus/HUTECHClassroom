@@ -3,6 +3,7 @@ using HUTECHClassroom.Application.Comments.Commands.DeleteComment;
 using HUTECHClassroom.Application.Comments.Queries.GetComment;
 using HUTECHClassroom.Application.Posts;
 using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
+using HUTECHClassroom.Domain.Constants.Hubs;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
@@ -23,7 +24,7 @@ public class CommentHub : Hub
         var comment = await _mediator.Send(new GetCommentQuery(id));
 
         await Clients.Group(command.PostId.ToString())
-            .SendAsync("ReceiveComment", comment).ConfigureAwait(false);
+            .SendAsync(CommentHubConstants.RECEIVE_COMMENT_METHOD, comment).ConfigureAwait(false);
     }
 
     public async Task DeleteComment(DeleteCommentCommand command)
@@ -31,7 +32,7 @@ public class CommentHub : Hub
         var comment = await _mediator.Send(command);
         if (comment is not null && comment.Post is not null)
             await Clients.Group(comment.Post.Id.ToString())
-            .SendAsync("DeleteComment", comment).ConfigureAwait(false);
+            .SendAsync(CommentHubConstants.DELETE_COMMENT_METHOD, comment).ConfigureAwait(false);
     }
 
     public override async Task OnConnectedAsync()
@@ -44,7 +45,7 @@ public class CommentHub : Hub
         if (!isParsePageSizeSuccess) pageSize = 5;
         await Groups.AddToGroupAsync(Context.ConnectionId, postId).ConfigureAwait(false);
         var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId), new PostPaginationParams(pageNumber, pageSize)));
-        await Clients.Caller.SendAsync("LoadComments", result.Items, new
+        await Clients.Caller.SendAsync(CommentHubConstants.LOAD_COMMENTS_METHOD, result.Items, new
         {
             pageIndex = result.PageIndex,
             pageSize = result.PageSize,
