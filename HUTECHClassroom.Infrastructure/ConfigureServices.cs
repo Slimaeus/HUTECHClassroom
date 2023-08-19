@@ -97,6 +97,7 @@ public static class ConfigureServices
         services.Configure<CloudinarySettings>(configuration.GetSection(ServiceConstants.CLOUDINARY_SETTINGS_KEY));
         services.AddScoped<IEmailService, GmailSMTPService>();
         services.AddScoped<IExcelServie, ExcelSerive>();
+        services.AddScoped<IPhotoAccessor, CloudinaryPhotoAccessor>();
         #endregion
 
         return services;
