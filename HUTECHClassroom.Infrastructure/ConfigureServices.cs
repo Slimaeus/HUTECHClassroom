@@ -6,6 +6,7 @@ using HUTECHClassroom.Infrastructure.Persistence;
 using HUTECHClassroom.Infrastructure.Services.Authentication;
 using HUTECHClassroom.Infrastructure.Services.Email;
 using HUTECHClassroom.Infrastructure.Services.Excel;
+using HUTECHClassroom.Infrastructure.Services.Photos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -93,6 +94,7 @@ public static class ConfigureServices
         #region Services
         services.AddHttpContextAccessor();
         services.Configure<GmailSMTPSettings>(configuration.GetSection("EmailService:Gmail"));
+        services.Configure<CloudinarySettings>(configuration.GetSection(ServiceConstants.CLOUDINARY_SETTINGS_KEY));
         services.AddScoped<IEmailService, GmailSMTPService>();
         services.AddScoped<IExcelServie, ExcelSerive>();
         #endregion
