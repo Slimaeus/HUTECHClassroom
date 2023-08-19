@@ -31,4 +31,9 @@ public class ResultsController : BaseApiController
     [HttpGet("internal-server-error")]
     public IActionResult GetInternalServerError()
         => StatusCode(StatusCodes.Status500InternalServerError);
+    [HttpGet("test")]
+    public IActionResult Test()
+    {
+        return Ok();
+    }
 }
