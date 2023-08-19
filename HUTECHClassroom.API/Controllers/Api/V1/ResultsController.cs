@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using HUTECHClassroom.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -7,6 +8,12 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 [AllowAnonymous]
 public class ResultsController : BaseApiController
 {
+    private readonly IPhotoAccessor _photoAccessor;
+
+    public ResultsController(IPhotoAccessor photoAccessor)
+    {
+        _photoAccessor = photoAccessor;
+    }
     [HttpGet("not-found")]
     public IActionResult GetNotFound()
         => NotFound();
@@ -31,9 +38,22 @@ public class ResultsController : BaseApiController
     [HttpGet("internal-server-error")]
     public IActionResult GetInternalServerError()
         => StatusCode(StatusCodes.Status500InternalServerError);
+    [HttpPost("add-photo")]
+    public async Task<IActionResult> AddPhotoAsync(IFormFile file)
+    {
+        var result = await _photoAccessor.AddPhoto(file);
+        return Ok(result.PublicId);
+    }
+    [HttpDelete("delete-photo")]
+    public async Task<IActionResult> DeletePhotoAsync(string publicId)
+    {
+        var result = await _photoAccessor.DeletePhoto(publicId);
+        return Ok(result);
+    }
     [HttpGet("test")]
     public IActionResult Test()
     {
+
         return Ok();
     }
 }
