@@ -19,13 +19,14 @@ public class CloudinaryPhotoAccessor : IPhotoAccessor
         );
         _cloudinary = new Cloudinary(account);
     }
-    public async Task<PhotoUploadResult> AddPhoto(IFormFile file)
+    public async Task<PhotoUploadResult> AddPhoto(IFormFile file, string folder = "")
     {
         if (file.Length > 0)
         {
             await using var stream = file.OpenReadStream();
             var uploadParams = new ImageUploadParams
             {
+                Folder = folder,
                 File = new FileDescription(file.FileName, stream),
                 Transformation = new Transformation().Height(500).Width(500).Crop("fill")
             };
