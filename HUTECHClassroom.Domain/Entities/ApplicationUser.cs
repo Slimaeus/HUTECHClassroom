@@ -9,6 +9,7 @@ public class ApplicationUser : IdentityUser<Guid>, IEntity
     public string FirstName { get; set; } = string.Empty;
     [PersonalData]
     public string LastName { get; set; } = string.Empty;
+    public string? AvatarUrl { get; set; }
     public Guid? FacultyId { get; set; }
     public virtual Faculty? Faculty { get; set; }
     public virtual ICollection<Classroom> Classrooms { get; set; } = new HashSet<Classroom>();

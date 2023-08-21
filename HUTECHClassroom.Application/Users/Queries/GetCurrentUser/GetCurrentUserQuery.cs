@@ -35,7 +35,7 @@ public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, A
             .AndFilter(x => x.Id == _userAccessor.Id);
 
         var user = await _userRepository
-            .SingleOrDefaultAsync(query, cancellationToken).ConfigureAwait(false);
+            .SingleOrDefaultAsync(query, cancellationToken);
 
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
