@@ -34,6 +34,11 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
 
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
+        if (user.AvatarUrl is not null)
+        {
+            // TODO: Delete previous avatar
+        }
+
         user.AvatarUrl = result.Url;
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

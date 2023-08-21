@@ -9,6 +9,7 @@ public record AccountDTO : IEntityDTO
     public string Email { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public string AvatarUrl { get; set; }
     public UserFacultyDTO Faculty { get; set; }
     public IEnumerable<string> Roles { get; set; }
     public string Token { get; set; }
