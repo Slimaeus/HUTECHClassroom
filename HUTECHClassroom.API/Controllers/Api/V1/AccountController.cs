@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Account.Commands.ChangePassword;
+﻿using HUTECHClassroom.Application.Account.Commands.AddAvatar;
+using HUTECHClassroom.Application.Account.Commands.ChangePassword;
 using HUTECHClassroom.Application.Account.Commands.ForgotPassword;
 using HUTECHClassroom.Application.Account.Commands.Login;
 using HUTECHClassroom.Application.Account.Commands.Register;
@@ -37,6 +38,12 @@ public class AccountController : BaseApiController
     public async Task<IActionResult> ResetPassword(ResetPasswordCommand request)
     {
         await Mediator.Send(request);
+        return NoContent();
+    }
+    [HttpPost("add-avatar")]
+    public async Task<IActionResult> AddAvatar(IFormFile file)
+    {
+        await Mediator.Send(new AddAvatarCommand(file));
         return NoContent();
     }
 }
