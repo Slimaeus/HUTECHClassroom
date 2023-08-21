@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Interfaces;
+﻿using HUTECHClassroom.Domain.Constants.Services;
+using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace HUTECHClassroom.Application.Account.Commands.AddAvatar;
@@ -14,7 +15,7 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
     }
     public async Task<Unit> Handle(AddAvatarCommand request, CancellationToken cancellationToken)
     {
-        await _photoAccessor.AddPhoto(request.File, "hutech_classroom").ConfigureAwait(false);
+        await _photoAccessor.AddPhoto(request.File, ServiceConstants.ROOT_IMAGE_FOLDER + "/" + ServiceConstants.AVATAR_FOLDER).ConfigureAwait(false);
         return Unit.Value;
     }
 }
