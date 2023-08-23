@@ -28,6 +28,7 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
             .SingleResultQuery()
             .Include(i => i.Include(x => x.Faculty))
             .Include(i => i.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.Role))
+            .Include(i => i.Include(x => x.Avatar))
             .AndFilter(x => x.Id == _userAccessor.Id);
 
         var user = await _userRepository
@@ -37,13 +38,13 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
 
         var result = await _photoAccessor.AddPhoto(request.File, ServiceConstants.ROOT_IMAGE_FOLDER + "/" + ServiceConstants.AVATAR_FOLDER + "/" + user.Id.ToString()).ConfigureAwait(false);
 
+        if (user.Avatar is not null)
+        {
+            Console.WriteLine(user.Avatar.PublicId);
+            await _photoAccessor.DeletePhoto(user.Avatar.PublicId).ConfigureAwait(false);
+            _photoRepository.Remove(user.Avatar);
+        }
 
-        //if (user.AvatarUrl is not null)
-        //{
-        //    // TODO: Delete previous avatar
-        //}
-
-        //user.AvatarUrl = result.Url;
 
         var avatar = await _photoRepository.AddAsync(new Photo { PublicId = result.PublicId, Url = result.Url, Title = user.Id.ToString() }, cancellationToken);
 
