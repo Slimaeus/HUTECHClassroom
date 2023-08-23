@@ -3,6 +3,7 @@ using HUTECHClassroom.Application.Account.Commands.ChangePassword;
 using HUTECHClassroom.Application.Account.Commands.ForgotPassword;
 using HUTECHClassroom.Application.Account.Commands.Login;
 using HUTECHClassroom.Application.Account.Commands.Register;
+using HUTECHClassroom.Application.Account.Commands.RemoveAvatar;
 using HUTECHClassroom.Application.Account.Commands.ResetPassword;
 using HUTECHClassroom.Application.Account.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -45,6 +46,13 @@ public class AccountController : BaseApiController
     public async Task<IActionResult> AddAvatar(IFormFile file)
     {
         await Mediator.Send(new AddAvatarCommand(file));
+        return NoContent();
+    }
+    [Authorize]
+    [HttpDelete("remove-avatar")]
+    public async Task<IActionResult> RemoveAvatar()
+    {
+        await Mediator.Send(new RemoveAvatarCommand());
         return NoContent();
     }
 }
