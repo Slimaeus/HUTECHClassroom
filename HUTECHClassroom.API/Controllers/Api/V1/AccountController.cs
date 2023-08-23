@@ -6,6 +6,7 @@ using HUTECHClassroom.Application.Account.Commands.Register;
 using HUTECHClassroom.Application.Account.Commands.RemoveAvatar;
 using HUTECHClassroom.Application.Account.Commands.ResetPassword;
 using HUTECHClassroom.Application.Account.DTOs;
+using HUTECHClassroom.Application.Users.Queries.GetCurrentUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,4 +56,8 @@ public class AccountController : BaseApiController
         await Mediator.Send(new RemoveAvatarCommand());
         return NoContent();
     }
+    [Authorize]
+    [HttpGet("@me")]
+    public async Task<ActionResult<AccountDTO>> GetCurrentUserDetails()
+        => Ok(await Mediator.Send(new GetCurrentUserQuery()));
 }
