@@ -34,8 +34,8 @@ public class RemoveAvatarCommandHandler : IRequestHandler<RemoveAvatarCommand, U
 
         if (user.Avatar is not null)
         {
-            _photoRepository.Remove(user.Avatar);
             await _photoAccessor.DeletePhoto(user.Avatar.PublicId).ConfigureAwait(false);
+            _photoRepository.Remove(user.Avatar);
             user.Avatar = null;
             await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);
         }
