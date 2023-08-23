@@ -26,8 +26,6 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
     {
         var query = _userRepository
             .SingleResultQuery()
-            .Include(i => i.Include(x => x.Faculty))
-            .Include(i => i.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.Role))
             .Include(i => i.Include(x => x.Avatar))
             .AndFilter(x => x.Id == _userAccessor.Id);
 
