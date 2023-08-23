@@ -40,7 +40,6 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
 
         if (user.Avatar is not null)
         {
-            Console.WriteLine(user.Avatar.PublicId);
             await _photoAccessor.DeletePhoto(user.Avatar.PublicId).ConfigureAwait(false);
             _photoRepository.Remove(user.Avatar);
         }
