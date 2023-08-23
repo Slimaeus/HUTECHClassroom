@@ -3,6 +3,7 @@ using System;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230823052542_AddUrlFieldToPhotoEntity")]
+    partial class AddUrlFieldToPhotoEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -156,8 +159,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AvatarId")
-                        .IsUnique();
+                    b.HasIndex("AvatarId");
 
                     b.HasIndex("FacultyId");
 
@@ -322,7 +324,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2023, 8, 24, 5, 38, 39, 539, DateTimeKind.Utc).AddTicks(7344));
+                        .HasDefaultValue(new DateTime(2023, 8, 24, 5, 25, 41, 899, DateTimeKind.Utc).AddTicks(6787));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -568,9 +570,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.ToTable("Photos");
@@ -796,8 +795,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.ApplicationUser", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.Photo", "Avatar")
-                        .WithOne("User")
-                        .HasForeignKey("HUTECHClassroom.Domain.Entities.ApplicationUser", "AvatarId");
+                        .WithMany()
+                        .HasForeignKey("AvatarId");
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.Faculty", "Faculty")
                         .WithMany("Users")
@@ -1153,11 +1152,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Mission", b =>
                 {
                     b.Navigation("MissionUsers");
-                });
-
-            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Photo", b =>
-                {
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Post", b =>

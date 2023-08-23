@@ -29,6 +29,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
             .SingleResultQuery()
             .Include(i => i.Include(x => x.Faculty))
             .Include(i => i.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.Role))
+            .Include(i => i.Include(x => x.Avatar))
             .AndFilter(x => x.UserName == request.UserName);
 
         var user = await _userRepository

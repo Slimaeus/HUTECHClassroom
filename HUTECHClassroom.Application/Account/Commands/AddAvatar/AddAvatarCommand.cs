@@ -45,7 +45,7 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
 
         //user.AvatarUrl = result.Url;
 
-        var avatar = await _photoRepository.AddAsync(new Photo { PublicId = result.PublicId, Title = user.Id.ToString() }, cancellationToken);
+        var avatar = await _photoRepository.AddAsync(new Photo { PublicId = result.PublicId, Url = result.Url, Title = user.Id.ToString() }, cancellationToken);
 
         user.Avatar = avatar;
 

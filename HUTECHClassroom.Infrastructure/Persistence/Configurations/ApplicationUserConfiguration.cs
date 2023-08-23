@@ -33,5 +33,9 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         builder.HasMany(x => x.Comments)
             .WithOne(x => x.User)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasOne(u => u.Avatar)
+            .WithOne(a => a.User)
+            .HasForeignKey<ApplicationUser>(u => u.AvatarId);
     }
 }

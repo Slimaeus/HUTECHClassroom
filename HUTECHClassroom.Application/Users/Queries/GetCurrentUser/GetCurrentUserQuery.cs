@@ -32,6 +32,7 @@ public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, A
             .SingleResultQuery()
             .Include(i => i.Include(x => x.Faculty))
             .Include(i => i.Include(x => x.ApplicationUserRoles).ThenInclude(x => x.Role))
+            .Include(i => i.Include(x => x.Avatar))
             .AndFilter(x => x.Id == _userAccessor.Id);
 
         var user = await _userRepository
