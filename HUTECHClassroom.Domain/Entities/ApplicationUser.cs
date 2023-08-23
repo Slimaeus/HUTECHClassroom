@@ -12,6 +12,8 @@ public class ApplicationUser : IdentityUser<Guid>, IEntity
     public string? AvatarUrl { get; set; }
     public Guid? FacultyId { get; set; }
     public virtual Faculty? Faculty { get; set; }
+    public Guid? AvatarId { get; set; }
+    public virtual Photo? Avatar { get; set; }
     public virtual ICollection<Classroom> Classrooms { get; set; } = new HashSet<Classroom>();
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();
     public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
