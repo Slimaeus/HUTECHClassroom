@@ -21,7 +21,7 @@ public class CloudinaryPhotoAccessor : IPhotoAccessor
     }
     public async Task<PhotoUploadResult> AddPhoto(IFormFile file, string folder = "")
     {
-        if (file.Length > 0)
+        if (file is not null && file.Length > 0)
         {
             await using var stream = file.OpenReadStream();
             var uploadParams = new ImageUploadParams

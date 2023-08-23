@@ -12,6 +12,7 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
     private readonly IPhotoAccessor _photoAccessor;
     private readonly IUserAccessor _userAccessor;
     private readonly IRepository<ApplicationUser> _userRepository;
+    private readonly IRepository<Photo> _photoRepository;
 
     public AddAvatarCommandHandler(IUnitOfWork unitOfWork, IPhotoAccessor photoAccessor, IUserAccessor userAccessor)
     {
@@ -19,10 +20,10 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
         _photoAccessor = photoAccessor;
         _userAccessor = userAccessor;
         _userRepository = unitOfWork.Repository<ApplicationUser>();
+        _photoRepository = unitOfWork.Repository<Photo>();
     }
     public async Task<Unit> Handle(AddAvatarCommand request, CancellationToken cancellationToken)
     {
-        var result = await _photoAccessor.AddPhoto(request.File, ServiceConstants.ROOT_IMAGE_FOLDER + "/" + ServiceConstants.AVATAR_FOLDER).ConfigureAwait(false);
         var query = _userRepository
             .SingleResultQuery()
             .Include(i => i.Include(x => x.Faculty))
@@ -34,12 +35,19 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
 
         if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
-        if (user.AvatarUrl is not null)
-        {
-            // TODO: Delete previous avatar
-        }
+        var result = await _photoAccessor.AddPhoto(request.File, ServiceConstants.ROOT_IMAGE_FOLDER + "/" + ServiceConstants.AVATAR_FOLDER + "/" + user.Id.ToString()).ConfigureAwait(false);
 
-        user.AvatarUrl = result.Url;
+
+        //if (user.AvatarUrl is not null)
+        //{
+        //    // TODO: Delete previous avatar
+        //}
+
+        //user.AvatarUrl = result.Url;
+
+        var avatar = await _photoRepository.AddAsync(new Photo { PublicId = result.PublicId, Title = user.Id.ToString() }, cancellationToken);
+
+        user.Avatar = avatar;
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 

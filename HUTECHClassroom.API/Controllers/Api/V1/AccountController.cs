@@ -40,6 +40,7 @@ public class AccountController : BaseApiController
         await Mediator.Send(request);
         return NoContent();
     }
+    [Authorize]
     [HttpPost("add-avatar")]
     public async Task<IActionResult> AddAvatar(IFormFile file)
     {

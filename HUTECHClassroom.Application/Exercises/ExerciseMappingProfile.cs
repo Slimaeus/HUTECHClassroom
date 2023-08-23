@@ -16,7 +16,7 @@ public class ExerciseMappingProfile : Profile
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
         CreateMap<ExerciseUser, MemberDTO>()
-            .ConstructUsing(x => new MemberDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.User.AvatarUrl));
+            .ConstructUsing(x => new MemberDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.User.Avatar == null ? "" : x.User.Avatar.PublicId));
         CreateMap<ExerciseUser, ExerciseUserDTO>()
             .ConstructUsing(x => new ExerciseUserDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.Exercise.Answers.Any(a => a.UserId == x.UserId)));
         CreateMap<Classroom, ExerciseClassroomDTO>();
