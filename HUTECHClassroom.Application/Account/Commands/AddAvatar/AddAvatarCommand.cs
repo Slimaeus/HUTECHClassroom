@@ -34,7 +34,7 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
 
         if (user == null) throw new UnauthorizedAccessException(typeof(ApplicationUser).Name);
 
-        var result = await _photoAccessor.AddPhoto(request.File, ServiceConstants.ROOT_IMAGE_FOLDER + "/" + ServiceConstants.AVATAR_FOLDER + "/" + user.Id.ToString()).ConfigureAwait(false);
+        var result = await _photoAccessor.AddPhoto(request.File, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.AVATAR_FOLDER}/{user.Id}").ConfigureAwait(false);
 
         if (user.Avatar is not null)
         {
