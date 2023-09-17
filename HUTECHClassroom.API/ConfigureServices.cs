@@ -8,7 +8,9 @@ using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.OpenApi.Models;
+using System.IO.Compression;
 using System.Text.Json.Serialization;
 
 namespace HUTECHClassroom.API;
@@ -18,6 +20,18 @@ public static class ConfigureServices
     public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
+
+        #region Compression
+        services.AddResponseCompression(options =>
+        {
+            options.EnableForHttps = true;
+        });
+
+        services.Configure<BrotliCompressionProviderOptions>(options =>
+        {
+            options.Level = CompressionLevel.Fastest;
+        });
+        #endregion
 
         #region Controllers
         services.AddControllers(options =>
@@ -161,6 +175,10 @@ public static class ConfigureServices
     {
         #region SignalR
         app.MapHub<CommentHub>("hubs/comments");
+        #endregion
+
+        #region Compression
+        app.UseResponseCompression();
         #endregion
 
         #region Cors
