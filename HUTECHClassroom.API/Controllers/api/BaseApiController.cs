@@ -11,7 +11,7 @@ namespace HUTECHClassroom.API.Controllers.Api;
 
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class BaseApiController : ControllerBase
+public abstract class BaseApiController : ControllerBase
 {
     protected IMediator Mediator => HttpContext.RequestServices.GetRequiredService<IMediator>();
     protected IActionDescriptorCollectionProvider MyActionDescriptionCollectionProvider => HttpContext.RequestServices.GetRequiredService<IActionDescriptorCollectionProvider>();
@@ -39,18 +39,16 @@ public class BaseApiController : ControllerBase
 
             var apiVersion = HttpContext.GetRequestedApiVersion().ToString();
 
-            var endpoint = new Endpoint { Method = httpMethods, Url = routeTemplate.Replace("{version:apiVersion}", apiVersion) };
+            var domain = HttpContext.Request.Host;
+
+            var endpoint = new Endpoint(httpMethods, $"https://{domain}/{routeTemplate.Replace("{version:apiVersion}", apiVersion)}");
 
             controllerEndpoints.Add(endpoint);
         }
 
         return Ok(controllerEndpoints);
     }
-    public record Endpoint
-    {
-        public string Method { get; set; }
-        public string Url { get; set; }
-    }
+    public record Endpoint(string Method, string Url);
 }
 
 
