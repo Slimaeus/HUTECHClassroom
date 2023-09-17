@@ -23,7 +23,7 @@ public class BaseApiController : ControllerBase
     }
     [AllowAnonymous]
     [HttpGet("endpoints")]
-    public ActionResult<IEnumerable<string>> GetEndpoints()
+    public ActionResult<IEnumerable<Endpoint>> GetEndpoints()
     {
         var controllerEndpoints = new List<Endpoint>();
 
@@ -46,7 +46,7 @@ public class BaseApiController : ControllerBase
 
         return Ok(controllerEndpoints);
     }
-    record Endpoint
+    public record Endpoint
     {
         public string Method { get; set; }
         public string Url { get; set; }

@@ -1,8 +1,8 @@
 ﻿using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace HUTECHClassroom.Infrastructure.Persistence;
 
@@ -34,25 +34,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     {
         base.OnModelCreating(builder);
 
-        builder.ApplyConfiguration(new ClassroomConfiguration())
-               .ApplyConfiguration(new ClassroomUserConfiguration())
-               .ApplyConfiguration(new ExerciseConfiguration())
-               .ApplyConfiguration(new ExerciseUserConfiguration())
-               .ApplyConfiguration(new AnswerConfiguration())
-               .ApplyConfiguration(new FacultyConfiguration())
-               .ApplyConfiguration(new MajorConfiguration())
-               .ApplyConfiguration(new SubjectConfiguration())
-               .ApplyConfiguration(new MissionConfiguration())
-               .ApplyConfiguration(new MissionUserConfiguration())
-               .ApplyConfiguration(new ProjectConfiguration())
-               .ApplyConfiguration(new GroupConfiguration())
-               .ApplyConfiguration(new GroupUserConfiguration())
-               .ApplyConfiguration(new PostConfiguration())
-               .ApplyConfiguration(new CommentConfiguration())
-               .ApplyConfiguration(new PhotoConfiguration())
-               .ApplyConfiguration(new ApplicationUserRoleConfiguration())
-               .ApplyConfiguration(new ApplicationUserConfiguration())
-               .ApplyConfiguration(new GroupRoleConfiguration())
-               .ApplyConfiguration(new GroupRoleClaimConfiguration());
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

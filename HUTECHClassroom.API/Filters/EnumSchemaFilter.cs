@@ -11,6 +11,7 @@ public class EnumSchemaFilter : ISchemaFilter
         if (context.Type.IsEnum)
         {
             schema.Enum.Clear();
+            schema.Type = typeof(string).Name;
             Enum.GetNames(context.Type)
                 .ToList()
                 .ForEach(name => schema.Enum.Add(new OpenApiString($"{name}")));
