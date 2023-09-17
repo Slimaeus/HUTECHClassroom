@@ -25,7 +25,7 @@ public static class ConfigureServices
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         #region DbContext
-        services.AddDbContext<DbContext, ApplicationDbContext>(options =>
+        services.AddDbContextPool<DbContext, ApplicationDbContext>(options =>
         {
             // Use Legacy Timestamp Behavior
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
