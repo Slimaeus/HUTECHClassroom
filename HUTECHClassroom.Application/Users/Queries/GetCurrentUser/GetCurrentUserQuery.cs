@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetCurrentUser;
 
-public record GetCurrentUserQuery() : IRequest<AccountDTO>;
+public record GetCurrentUserQuery : IRequest<AccountDTO>;
 public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, AccountDTO>
 {
     private readonly IMapper _mapper;
@@ -36,9 +36,8 @@ public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, A
             .AndFilter(x => x.Id == _userAccessor.Id);
 
         var user = await _userRepository
-            .SingleOrDefaultAsync(query, cancellationToken);
-
-        if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
+            .SingleOrDefaultAsync(query, cancellationToken)
+            ?? throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
         var accountDTO = _mapper.Map<AccountDTO>(user);
 

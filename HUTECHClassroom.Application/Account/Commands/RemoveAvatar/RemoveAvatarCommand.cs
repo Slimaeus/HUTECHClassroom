@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Account.Commands.RemoveAvatar;
 
-public record RemoveAvatarCommand() : IRequest<Unit>;
+public record RemoveAvatarCommand : IRequest<Unit>;
 public class RemoveAvatarCommandHandler : IRequestHandler<RemoveAvatarCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -28,11 +28,10 @@ public class RemoveAvatarCommandHandler : IRequestHandler<RemoveAvatarCommand, U
             .AndFilter(x => x.Id == _userAccessor.Id);
 
         var user = await _userRepository
-            .SingleOrDefaultAsync(query, cancellationToken);
+            .SingleOrDefaultAsync(query, cancellationToken)
+            ?? throw new UnauthorizedAccessException(typeof(ApplicationUser).Name);
 
-        if (user == null) throw new UnauthorizedAccessException(typeof(ApplicationUser).Name);
-
-        if (user.Avatar is not null)
+        if (user.Avatar is { })
         {
             await _photoAccessor.DeletePhoto(user.Avatar.PublicId).ConfigureAwait(false);
             _photoRepository.Remove(user.Avatar);

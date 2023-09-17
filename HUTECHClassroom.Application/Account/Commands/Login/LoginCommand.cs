@@ -33,20 +33,21 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
             .AndFilter(x => x.UserName == request.UserName);
 
         var user = await _userRepository
-            .SingleOrDefaultAsync(query, cancellationToken).ConfigureAwait(false);
+            .SingleOrDefaultAsync(query, cancellationToken).ConfigureAwait(false)
+            ?? throw new UnauthorizedAccessException(nameof(ApplicationUser));
 
-        if (user == null) throw new UnauthorizedAccessException(nameof(ApplicationUser));
-
-        var isSuccess = await _userManger.CheckPasswordAsync(user, request.Password).ConfigureAwait(false);
-
-        var accountDTO = _mapper.Map<AccountDTO>(user);
+        var isSuccess = await _userManger
+            .CheckPasswordAsync(user, request.Password).ConfigureAwait(false);
 
         if (!isSuccess)
-        {
             throw new UnauthorizedAccessException(nameof(ApplicationUser));
-        }
 
-        var doesGetCacheTokenSuccess = _memoryCache.TryGetValue($"UserToken_{user.UserName}", out string memoryCacheToken);
+        var accountDTO = _mapper
+            .Map<AccountDTO>(user);
+
+
+        var doesGetCacheTokenSuccess = _memoryCache
+            .TryGetValue($"UserToken_{user.UserName}", out string memoryCacheToken);
 
         if (doesGetCacheTokenSuccess)
         {

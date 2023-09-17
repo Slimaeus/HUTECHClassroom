@@ -17,11 +17,15 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
     }
     public async Task<string> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email) ?? throw new NotFoundException(nameof(ApplicationUser), request.Email);
+        var user = await _userManager
+            .FindByEmailAsync(request.Email)
+            ?? throw new NotFoundException(nameof(ApplicationUser), request.Email);
 
-        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var token = await _userManager
+            .GeneratePasswordResetTokenAsync(user);
 
-        await _emailService.SendEmailAsync(user.Email, "Reset Password Code", $"This is reset password code: {token}");
+        await _emailService
+            .SendEmailAsync(user.Email, "Reset Password Code", $"This is reset password code: {token}");
 
         return token;
     }

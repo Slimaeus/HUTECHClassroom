@@ -15,11 +15,15 @@ public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand,
 
     public async Task<Unit> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email) ?? throw new NotFoundException(nameof(ApplicationUser), request.Email);
+        var user = await _userManager
+            .FindByEmailAsync(request.Email)
+            ?? throw new NotFoundException(nameof(ApplicationUser), request.Email);
 
-        var result = await _userManager.ResetPasswordAsync(user, request.Code, request.Password);
+        var result = await _userManager
+            .ResetPasswordAsync(user, request.Code, request.Password);
 
-        if (!result.Succeeded) throw new InvalidOperationException($"Failed to reset password: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+        if (!result.Succeeded)
+            throw new InvalidOperationException($"Failed to reset password: {string.Join(", ", result.Errors.Select(e => e.Description))}");
 
         return Unit.Value;
     }
