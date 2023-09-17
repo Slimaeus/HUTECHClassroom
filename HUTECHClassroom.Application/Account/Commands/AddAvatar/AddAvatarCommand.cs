@@ -30,24 +30,36 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
             .AndFilter(x => x.Id == _userAccessor.Id);
 
         var user = await _userRepository
-            .SingleOrDefaultAsync(query, cancellationToken);
+            .SingleOrDefaultAsync(query, cancellationToken)
+            ?? throw new UnauthorizedAccessException(typeof(ApplicationUser).Name);
 
-        if (user == null) throw new UnauthorizedAccessException(typeof(ApplicationUser).Name);
+        var result = await _photoAccessor
+            .AddPhoto(request.File, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.AVATAR_FOLDER}/{user.Id}")
+            .ConfigureAwait(false);
 
-        var result = await _photoAccessor.AddPhoto(request.File, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.AVATAR_FOLDER}/{user.Id}").ConfigureAwait(false);
-
-        if (user.Avatar is not null)
+        if (user.Avatar is { })
         {
-            await _photoAccessor.DeletePhoto(user.Avatar.PublicId).ConfigureAwait(false);
-            _photoRepository.Remove(user.Avatar);
+            await _photoAccessor
+                .DeletePhoto(user.Avatar.PublicId)
+                .ConfigureAwait(false);
+            _photoRepository
+                .Remove(user.Avatar);
         }
 
 
-        var avatar = await _photoRepository.AddAsync(new Photo { PublicId = result.PublicId, Url = result.Url, Title = user.Id.ToString() }, cancellationToken);
+        var avatar = await _photoRepository
+            .AddAsync(new Photo
+            {
+                PublicId = result.PublicId,
+                Url = result.Url,
+                Title = user.Id.ToString()
+            }, cancellationToken);
 
         user.Avatar = avatar;
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        await _unitOfWork
+            .SaveChangesAsync(cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
         return Unit.Value;
     }
