@@ -8,10 +8,12 @@ using HUTECHClassroom.Infrastructure.Services.Email;
 using HUTECHClassroom.Infrastructure.Services.Excel;
 using HUTECHClassroom.Infrastructure.Services.Photos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
@@ -101,5 +103,17 @@ public static class ConfigureServices
         #endregion
 
         return services;
+    }
+    public static async Task<WebApplication> UseInfrastructureAsync(this WebApplication app)
+    {
+        if (app.Environment.IsDevelopment())
+        {
+            using var scope = app.Services.CreateScope();
+            var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
+            await initialiser.InitialiseAsync();
+            await initialiser.SeedAsync();
+        }
+
+        return app;
     }
 }

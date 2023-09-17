@@ -173,8 +173,31 @@ public static class ConfigureServices
 
     public static WebApplication UseWebApi(this WebApplication app)
     {
+        #region Swagger
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "HUTECH_ClassroomV1");
+            options.SwaggerEndpoint("/swagger/v2/swagger.json", "HUTECH_ClassroomV2");
+        });
+        #endregion
+
+        app.UseHttpsRedirection();
+
+        #region Controllers
+        app.MapControllers();
+        #endregion
+
         #region SignalR
         app.MapHub<CommentHub>("hubs/comments");
+        #endregion
+
+        #region Authentication
+        app.UseAuthentication();
+        #endregion
+
+        #region Authorization
+        app.UseAuthorization();
         #endregion
 
         #region Compression
@@ -184,6 +207,7 @@ public static class ConfigureServices
         #region Cors
         app.UseCors();
         #endregion
+
         return app;
     }
 }
