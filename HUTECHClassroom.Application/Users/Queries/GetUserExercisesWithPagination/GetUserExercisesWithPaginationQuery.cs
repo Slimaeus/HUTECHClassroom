@@ -13,10 +13,9 @@ public class GetUserExercisesWithPaginationQueryHandler : GetWithPaginationQuery
     private readonly IUserAccessor _userAccessor;
 
     public GetUserExercisesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserAccessor userAccessor) : base(unitOfWork, mapper)
-    {
-        _userAccessor = userAccessor;
-    }
-    protected override IQuery<Exercise> Order(IMultipleResultQuery<Exercise> query) => query.OrderByDescending(x => x.CreateDate);
+        => _userAccessor = userAccessor;
+    protected override IQuery<Exercise> Order(IMultipleResultQuery<Exercise> query)
+        => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Exercise, bool>> FilterPredicate(GetUserExercisesWithPaginationQuery query)
         => x => x.ExerciseUsers.Any(x => x.UserId == _userAccessor.Id);
 }

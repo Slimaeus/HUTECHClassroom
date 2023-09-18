@@ -2,5 +2,4 @@
 
 namespace HUTECHClassroom.Application.GroupRoles.DTOs;
 
-public record GroupRoleDTO(Guid Id, string Name) : IEntityDTO
-{ }
+public record GroupRoleDTO(Guid Id, string Name) : IEntityDTO;

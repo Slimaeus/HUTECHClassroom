@@ -29,13 +29,16 @@ public class AddMissionUserCommandHandler : IRequestHandler<AddMissionUserComman
         var mission = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (mission.MissionUsers.Any(x => x.UserId == request.UserId)) throw new InvalidOperationException($"{request.UserId} already exists");
+        if (mission.MissionUsers.Any(x => x.UserId == request.UserId))
+            throw new InvalidOperationException($"{request.UserId} already exists");
 
         var missionUser = _mapper.Map<MissionUser>(request);
 
         mission.MissionUsers.Add(missionUser);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        await _unitOfWork
+            .SaveChangesAsync(cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
         _repository.RemoveTracking(mission);
 

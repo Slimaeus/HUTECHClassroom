@@ -33,7 +33,7 @@ public abstract class GetQueryHandler<TKey, TEntity, TQuery, TDTO> : IRequestHan
 
         return entity ?? throw new NotFoundException(typeof(TEntity).Name, GetNotFoundKey(request));
     }
-    protected virtual object GetMappingParameters() => new object();
+    protected virtual object GetMappingParameters() => new();
     public virtual object GetNotFoundKey(TQuery query) => string.Empty;
     public virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
         => x => true;

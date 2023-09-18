@@ -14,14 +14,11 @@ public class GetUserGroupsWithPaginationQueryHandler : GetWithPaginationQueryHan
     private readonly IUserAccessor _userAccessor;
 
     public GetUserGroupsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserAccessor userAccessor) : base(unitOfWork, mapper)
-    {
-        _userAccessor = userAccessor;
-    }
+        => _userAccessor = userAccessor;
     protected override IMappingParams GetMappingParameters()
-    {
-        return new UserMappingParams { UserId = _userAccessor.Id };
-    }
-    protected override IQuery<Group> Order(IMultipleResultQuery<Group> query) => query.OrderByDescending(x => x.CreateDate);
+        => new UserMappingParams { UserId = _userAccessor.Id };
+    protected override IQuery<Group> Order(IMultipleResultQuery<Group> query)
+        => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Group, bool>> FilterPredicate(GetUserGroupsWithPaginationQuery query)
         => x => x.GroupUsers.Any(y => y.UserId == _userAccessor.Id) || x.LeaderId == _userAccessor.Id;
 }

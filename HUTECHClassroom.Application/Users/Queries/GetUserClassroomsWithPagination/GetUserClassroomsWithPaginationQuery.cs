@@ -13,10 +13,9 @@ public class GetUserClassroomsWithPaginationQueryHandler : GetWithPaginationQuer
     private readonly IUserAccessor _userAccessor;
 
     public GetUserClassroomsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserAccessor userAccessor) : base(unitOfWork, mapper)
-    {
-        _userAccessor = userAccessor;
-    }
-    protected override IQuery<Classroom> Order(IMultipleResultQuery<Classroom> query) => query.OrderByDescending(x => x.CreateDate);
+        => _userAccessor = userAccessor;
+    protected override IQuery<Classroom> Order(IMultipleResultQuery<Classroom> query)
+        => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Classroom, bool>> FilterPredicate(GetUserClassroomsWithPaginationQuery query)
         => x => x.ClassroomUsers.Any(y => y.UserId == _userAccessor.Id) || x.LecturerId == _userAccessor.Id;
 }

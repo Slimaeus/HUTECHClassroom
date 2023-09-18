@@ -21,17 +21,20 @@ public abstract class UpdateCommandHandler<TKey, TEntity, TCommand> : IRequestHa
     }
     public async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken)
     {
-        var query = _repository.SingleResultQuery()
-                               .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
-                               .AndFilter(m => m.Id.Equals(request.Id));
+        var query = _repository
+            .SingleResultQuery()
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
+            .AndFilter(m => m.Id.Equals(request.Id));
 
-        var entity = await _repository.FirstOrDefaultAsync(query, cancellationToken)
-                     ?? throw new NotFoundException(typeof(TEntity).Name, request.Id);
+        var entity = await _repository
+            .FirstOrDefaultAsync(query, cancellationToken)
+            ?? throw new NotFoundException(typeof(TEntity).Name, request.Id);
 
         _mapper.Map(request, entity);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken)
-                         .ConfigureAwait(false);
+        await _unitOfWork
+            .SaveChangesAsync(cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
         return Unit.Value;
     }

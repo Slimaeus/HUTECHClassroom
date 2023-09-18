@@ -24,16 +24,22 @@ public abstract class CreateCommandHandler<TKey, TEntity, TCommand> : IRequestHa
 
         await ValidateAdditionalField(request, entity);
 
-        await _repository.AddAsync(entity, cancellationToken);
+        await _repository
+            .AddAsync(entity, cancellationToken);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        await _unitOfWork
+            .SaveChangesAsync(cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
         _repository.RemoveTracking(entity);
 
         return entity.Id;
     }
 
-    protected virtual Task ValidateAdditionalField(TCommand request, TEntity entity) => Task.CompletedTask;
+    protected virtual Task ValidateAdditionalField(TCommand request, TEntity entity)
+    {
+        return Task.CompletedTask;
+    }
 }
 public record CreateCommand : CreateCommand<Guid>;
 

@@ -25,10 +25,8 @@ public class RemoveExerciseUserCommandHandler : IRequestHandler<RemoveExerciseUs
         var exercise = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        var user = exercise.ExerciseUsers.SingleOrDefault(x => x.UserId == request.UserId);
-
-        if (user == null) throw new InvalidOperationException($"User {request.UserId} is not in take this exercise");
-
+        var user = exercise.ExerciseUsers.SingleOrDefault(x => x.UserId == request.UserId)
+            ?? throw new InvalidOperationException($"User {request.UserId} is not in take this exercise");
         exercise.ExerciseUsers.Remove(user);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

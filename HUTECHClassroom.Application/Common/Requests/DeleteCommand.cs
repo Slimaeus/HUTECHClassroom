@@ -29,9 +29,12 @@ public abstract class DeleteCommandHandler<TKey, TEntity, TCommand, TDTO> : IReq
         var dto = await _repository
             .ToQueryable(query)
             .ProjectTo<TDTO>(_mapper.ConfigurationProvider)
-            .SingleOrDefaultAsync(cancellationToken) ?? throw new NotFoundException(typeof(TEntity).Name, request.Id);
+            .SingleOrDefaultAsync(cancellationToken)
+            ?? throw new NotFoundException(typeof(TEntity).Name, request.Id);
 
-        await _repository.RemoveAsync(x => x.Id.Equals(request.Id), cancellationToken).ConfigureAwait(false);
+        await _repository
+            .RemoveAsync(x => x.Id.Equals(request.Id), cancellationToken)
+            .ConfigureAwait(false);
 
         return dto;
     }

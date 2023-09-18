@@ -13,10 +13,9 @@ public class GetUserAnswersWithPaginationQueryHandler : GetWithPaginationQueryHa
     private readonly IUserAccessor _userAccessor;
 
     public GetUserAnswersWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserAccessor userAccessor) : base(unitOfWork, mapper)
-    {
-        _userAccessor = userAccessor;
-    }
-    protected override IQuery<Answer> Order(IMultipleResultQuery<Answer> query) => query.OrderByDescending(x => x.CreateDate);
+        => _userAccessor = userAccessor;
+    protected override IQuery<Answer> Order(IMultipleResultQuery<Answer> query)
+        => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Answer, bool>> FilterPredicate(GetUserAnswersWithPaginationQuery query)
         => x => x.UserId == _userAccessor.Id;
 }

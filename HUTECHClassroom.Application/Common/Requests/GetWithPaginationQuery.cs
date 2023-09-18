@@ -61,17 +61,6 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
                               query.Paging.TotalCount,
                               cancellationToken);
 
-        //var pagedList = await _repository
-        //    .ToQueryable(query)
-        //    .ProjectTo<TDTO>(_mapper.ConfigurationProvider, GetMappingParameters())
-        //    .AsSplitQuery()
-        //    .ToListAsync(cancellationToken)
-        //    .Then<List<TDTO>, IList<TDTO>>(result => result, cancellationToken)
-        //    .ToPagedListAsync(query.Paging.PageIndex,
-        //                      query.Paging.PageSize,
-        //                      query.Paging.TotalCount,
-        //                      cancellationToken);
-
         return pagedList;
     }
     protected virtual IMappingParams GetMappingParameters() => default;

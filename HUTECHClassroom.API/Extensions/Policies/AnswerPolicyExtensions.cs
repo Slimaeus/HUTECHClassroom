@@ -19,12 +19,10 @@ public static class AnswerPolicyExtensions
         options.AddPolicy(UpdateAnswerPolicy, policy =>
         {
             policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
-
         });
         options.AddPolicy(DeleteAnswerPolicy, policy =>
         {
             policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
-
         });
     }
 }

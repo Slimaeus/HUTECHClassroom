@@ -19,17 +19,17 @@ public class CreateExerciseCommandHandler : CreateCommandHandler<Exercise, Creat
     private readonly IRepository<Classroom> _classroomRepository;
 
     public CreateExerciseCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
-    {
-        _classroomRepository = unitOfWork.Repository<Classroom>();
-    }
+        => _classroomRepository = unitOfWork.Repository<Classroom>();
 
     protected override async Task ValidateAdditionalField(CreateExerciseCommand request, Exercise entity)
     {
-        var classroomQuery = _classroomRepository.SingleResultQuery()
+        var classroomQuery = _classroomRepository
+            .SingleResultQuery()
             .Include(i => i.Include(c => c.ClassroomUsers))
             .AndFilter(x => x.Id == request.ClassroomId);
 
-        var classroom = await _classroomRepository.SingleOrDefaultAsync(classroomQuery);
+        var classroom = await _classroomRepository
+            .SingleOrDefaultAsync(classroomQuery);
 
         foreach (var classroomUser in classroom.ClassroomUsers)
         {

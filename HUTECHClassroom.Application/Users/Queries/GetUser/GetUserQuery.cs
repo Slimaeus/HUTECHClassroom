@@ -11,11 +11,7 @@ public class GetUserQueryHandler : GetQueryHandler<ApplicationUser, GetUserQuery
     {
     }
     public override Expression<Func<ApplicationUser, bool>> FilterPredicate(GetUserQuery query)
-    {
-        return x => x.Id == query.Id;
-    }
+        => x => x.Id == query.Id;
     public override object GetNotFoundKey(GetUserQuery query)
-    {
-        return query.Id;
-    }
+        => query.Id;
 }

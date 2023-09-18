@@ -28,7 +28,9 @@ public class DeleteRangeCommandHandler<TKey, TEntity, TCommand> : IRequestHandle
 
         _repository.RemoveRange(entities);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        await _unitOfWork
+            .SaveChangesAsync(cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
         return Unit.Value;
     }

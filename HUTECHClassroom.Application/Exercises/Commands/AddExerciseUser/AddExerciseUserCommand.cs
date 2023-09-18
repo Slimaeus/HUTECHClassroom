@@ -29,7 +29,8 @@ public class AddExerciseUserCommandHandler : IRequestHandler<AddExerciseUserComm
         var exercise = await _repository
             .SingleOrDefaultAsync(query, cancellationToken);
 
-        if (exercise.ExerciseUsers.Any(x => x.UserId == request.UserId)) throw new InvalidOperationException($"{request.UserId} already exists");
+        if (exercise.ExerciseUsers.Any(x => x.UserId == request.UserId))
+            throw new InvalidOperationException($"{request.UserId} already exists");
 
         var exerciseUser = _mapper.Map<ExerciseUser>(request);
 

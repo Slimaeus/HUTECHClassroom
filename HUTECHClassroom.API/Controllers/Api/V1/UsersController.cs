@@ -21,7 +21,6 @@ using HUTECHClassroom.Application.Users.Queries.GetUserMissionsWithPagination;
 using HUTECHClassroom.Application.Users.Queries.GetUserPostsWithPagination;
 using HUTECHClassroom.Application.Users.Queries.GetUserProjectsWithPagination;
 using HUTECHClassroom.Application.Users.Queries.GetUserRolesWithPagination;
-using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,12 +30,6 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 [Authorize]
 public class UsersController : BaseEntityApiController<UserDTO>
 {
-    private readonly IUserAccessor _userAccessor;
-
-    public UsersController(IUserAccessor userAccessor)
-    {
-        _userAccessor = userAccessor;
-    }
     [AllowAnonymous]
     [HttpGet("{userId}")]
     public Task<ActionResult<UserDTO>> GetUserDetails(Guid userId)
