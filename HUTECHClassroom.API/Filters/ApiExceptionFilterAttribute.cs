@@ -10,8 +10,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
     private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
     public ApiExceptionFilterAttribute()
-    {
-        _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
+        => _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
             { typeof(InvalidOperationException), HandleInvalidOperationException },
             { typeof(ValidationException), HandleValidationException },
@@ -19,7 +18,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
             //{ typeof(ForbiddenAccessException), HandleForbiddenAccessException },
         };
-    }
 
     public override void OnException(ExceptionContext context)
     {

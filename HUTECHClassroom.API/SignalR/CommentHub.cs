@@ -11,9 +11,7 @@ public class CommentHub : Hub
     private readonly IMediator _mediator;
 
     public CommentHub(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
+        => _mediator = mediator;
 
     public async Task SendComment(CreateCommentCommand command)
     {

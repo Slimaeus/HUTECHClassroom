@@ -19,6 +19,7 @@ public abstract class BaseApiController : ControllerBase
         Response.Headers.Add("pagination", JsonConvert.SerializeObject(new { currentPage = pagedList.PageIndex, itemsPerPage = pagedList.PageSize, totalItems = pagedList.TotalCount, totalPages = pagedList.TotalPages, hasNext = pagedList.HasNextPage, hasPrevious = pagedList.HasPreviousPage }));
         return Ok(pagedList.Items);
     }
+
     [AllowAnonymous]
     [HttpGet("endpoints")]
     public ActionResult<IEnumerable<Endpoint>> GetEndpoints()

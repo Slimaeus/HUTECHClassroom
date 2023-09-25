@@ -15,7 +15,6 @@ public static class HostingExtensions
     }
     public static async Task<WebApplication> ConfigurePipelineAsync(this WebApplication app)
     {
-
         app.UseWebApi();
         await app.UseInfrastructureAsync();
 
