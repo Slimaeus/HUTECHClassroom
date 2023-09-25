@@ -1,25 +1,4 @@
-﻿using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Groups;
-using HUTECHClassroom.Application.Groups.Commands.AddGroupLeader;
-using HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
-using HUTECHClassroom.Application.Groups.Commands.AddRangeGroupUser;
-using HUTECHClassroom.Application.Groups.Commands.CreateGroup;
-using HUTECHClassroom.Application.Groups.Commands.DeleteGroup;
-using HUTECHClassroom.Application.Groups.Commands.DeleteRangeGroup;
-using HUTECHClassroom.Application.Groups.Commands.RemoveGroupLeader;
-using HUTECHClassroom.Application.Groups.Commands.RemoveGroupUser;
-using HUTECHClassroom.Application.Groups.Commands.RemoveRangeGroupUser;
-using HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
-using HUTECHClassroom.Application.Groups.DTOs;
-using HUTECHClassroom.Application.Groups.Queries.GetGroup;
-using HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination;
-using HUTECHClassroom.Application.Groups.Queries.GetGroupsWithPagination;
-using HUTECHClassroom.Application.Groups.Queries.GetGroupUsersWithPagination;
-using HUTECHClassroom.Application.Projects.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class GroupsController : BaseEntityApiController<GroupDTO>

@@ -1,15 +1,4 @@
-﻿using HUTECHClassroom.Application.Faculties;
-using HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
-using HUTECHClassroom.Application.Faculties.Commands.DeleteFaculty;
-using HUTECHClassroom.Application.Faculties.Commands.DeleteRangeFaculty;
-using HUTECHClassroom.Application.Faculties.Commands.UpdateFaculty;
-using HUTECHClassroom.Application.Faculties.DTOs;
-using HUTECHClassroom.Application.Faculties.Queries.GetFacultiesWithPagination;
-using HUTECHClassroom.Application.Faculties.Queries.GetFaculty;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class FacultiesController : BaseEntityApiController<FacultyDTO>

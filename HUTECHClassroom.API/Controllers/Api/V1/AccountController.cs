@@ -1,16 +1,4 @@
-﻿using HUTECHClassroom.Application.Account.Commands.AddAvatar;
-using HUTECHClassroom.Application.Account.Commands.ChangePassword;
-using HUTECHClassroom.Application.Account.Commands.ForgotPassword;
-using HUTECHClassroom.Application.Account.Commands.Login;
-using HUTECHClassroom.Application.Account.Commands.Register;
-using HUTECHClassroom.Application.Account.Commands.RemoveAvatar;
-using HUTECHClassroom.Application.Account.Commands.ResetPassword;
-using HUTECHClassroom.Application.Account.DTOs;
-using HUTECHClassroom.Application.Users.Queries.GetCurrentUser;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 [AllowAnonymous]

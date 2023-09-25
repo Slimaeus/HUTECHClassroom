@@ -1,17 +1,4 @@
-﻿using HUTECHClassroom.Application.Comments.DTOs;
-using HUTECHClassroom.Application.Posts;
-using HUTECHClassroom.Application.Posts.Commands.CreatePost;
-using HUTECHClassroom.Application.Posts.Commands.DeletePost;
-using HUTECHClassroom.Application.Posts.Commands.DeleteRangePost;
-using HUTECHClassroom.Application.Posts.Commands.UpdatePost;
-using HUTECHClassroom.Application.Posts.DTOs;
-using HUTECHClassroom.Application.Posts.Queries.GetPost;
-using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
-using HUTECHClassroom.Application.Posts.Queries.GetPostsWithPagination;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class PostsController : BaseEntityApiController<PostDTO>

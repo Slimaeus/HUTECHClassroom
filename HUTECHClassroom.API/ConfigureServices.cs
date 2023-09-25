@@ -5,8 +5,6 @@ using HUTECHClassroom.API.Extensions;
 using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.API.SignalR;
 using HUTECHClassroom.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.OpenApi.Models;

@@ -2,7 +2,6 @@
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.API.Authorization.Classrooms;

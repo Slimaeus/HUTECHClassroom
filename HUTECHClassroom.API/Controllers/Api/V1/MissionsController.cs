@@ -1,22 +1,4 @@
-﻿using HUTECHClassroom.Application.Common.DTOs;
-using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Missions;
-using HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
-using HUTECHClassroom.Application.Missions.Commands.AddRangeMissionUser;
-using HUTECHClassroom.Application.Missions.Commands.CreateMission;
-using HUTECHClassroom.Application.Missions.Commands.DeleteMission;
-using HUTECHClassroom.Application.Missions.Commands.DeleteRangeMission;
-using HUTECHClassroom.Application.Missions.Commands.RemoveMissionUser;
-using HUTECHClassroom.Application.Missions.Commands.RemoveRangeMissionUser;
-using HUTECHClassroom.Application.Missions.Commands.UpdateMission;
-using HUTECHClassroom.Application.Missions.DTOs;
-using HUTECHClassroom.Application.Missions.Queries.GetMission;
-using HUTECHClassroom.Application.Missions.Queries.GetMissionsWithPagination;
-using HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagination;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class MissionsController : BaseEntityApiController<MissionDTO>

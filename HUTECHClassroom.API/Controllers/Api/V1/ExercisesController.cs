@@ -1,21 +1,4 @@
-﻿using HUTECHClassroom.Application.Answers.DTOs;
-using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Exercises;
-using HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
-using HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
-using HUTECHClassroom.Application.Exercises.Commands.DeleteExercise;
-using HUTECHClassroom.Application.Exercises.Commands.DeleteRangeExercise;
-using HUTECHClassroom.Application.Exercises.Commands.RemoveExerciseUser;
-using HUTECHClassroom.Application.Exercises.Commands.UpdateGroup;
-using HUTECHClassroom.Application.Exercises.DTOs;
-using HUTECHClassroom.Application.Exercises.Queries.GetExercise;
-using HUTECHClassroom.Application.Exercises.Queries.GetExerciseAnswersWithPagination;
-using HUTECHClassroom.Application.Exercises.Queries.GetExercisesWithPagination;
-using HUTECHClassroom.Application.Exercises.Queries.GetExerciseUsersWithPagination;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class ExercisesController : BaseEntityApiController<ExerciseDTO>

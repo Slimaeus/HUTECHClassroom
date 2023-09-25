@@ -1,30 +1,4 @@
-﻿using HUTECHClassroom.Application.Account.DTOs;
-using HUTECHClassroom.Application.Answers.DTOs;
-using HUTECHClassroom.Application.Classrooms.DTOs;
-using HUTECHClassroom.Application.Comments.DTOs;
-using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Exercises.DTOs;
-using HUTECHClassroom.Application.Groups.DTOs;
-using HUTECHClassroom.Application.Missions.DTOs;
-using HUTECHClassroom.Application.Posts.DTOs;
-using HUTECHClassroom.Application.Projects.DTOs;
-using HUTECHClassroom.Application.Roles.DTOs;
-using HUTECHClassroom.Application.Users.DTOs;
-using HUTECHClassroom.Application.Users.Queries.GetCurrentUser;
-using HUTECHClassroom.Application.Users.Queries.GetUser;
-using HUTECHClassroom.Application.Users.Queries.GetUserAnswersWithPagination;
-using HUTECHClassroom.Application.Users.Queries.GetUserClassroomsWithPagination;
-using HUTECHClassroom.Application.Users.Queries.GetUserCommentsWithPagination;
-using HUTECHClassroom.Application.Users.Queries.GetUserExercisesWithPagination;
-using HUTECHClassroom.Application.Users.Queries.GetUserGroupsWithPagination;
-using HUTECHClassroom.Application.Users.Queries.GetUserMissionsWithPagination;
-using HUTECHClassroom.Application.Users.Queries.GetUserPostsWithPagination;
-using HUTECHClassroom.Application.Users.Queries.GetUserProjectsWithPagination;
-using HUTECHClassroom.Application.Users.Queries.GetUserRolesWithPagination;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 [Authorize]

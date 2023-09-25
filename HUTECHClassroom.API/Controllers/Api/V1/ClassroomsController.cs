@@ -1,25 +1,4 @@
-﻿using HUTECHClassroom.Application.Classrooms;
-using HUTECHClassroom.Application.Classrooms.Commands.AddClassroomUser;
-using HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
-using HUTECHClassroom.Application.Classrooms.Commands.DeleteClassroom;
-using HUTECHClassroom.Application.Classrooms.Commands.DeleteRangeClassroom;
-using HUTECHClassroom.Application.Classrooms.Commands.RemoveClassroomUser;
-using HUTECHClassroom.Application.Classrooms.Commands.UpdateClassroom;
-using HUTECHClassroom.Application.Classrooms.DTOs;
-using HUTECHClassroom.Application.Classrooms.Queries.GetClassroom;
-using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomExercisesWithPagination;
-using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomGroupsWithPagination;
-using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomPostsWithPagination;
-using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomsWithPagination;
-using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomUsersWithPagination;
-using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Exercises.DTOs;
-using HUTECHClassroom.Application.Groups.DTOs;
-using HUTECHClassroom.Application.Posts.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class ClassroomsController : BaseEntityApiController<ClassroomDTO>

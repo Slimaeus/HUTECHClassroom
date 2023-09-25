@@ -1,15 +1,4 @@
-﻿using HUTECHClassroom.Application.Comments;
-using HUTECHClassroom.Application.Comments.Commands.CreateComment;
-using HUTECHClassroom.Application.Comments.Commands.DeleteComment;
-using HUTECHClassroom.Application.Comments.Commands.DeleteRangeComment;
-using HUTECHClassroom.Application.Comments.Commands.UpdateComment;
-using HUTECHClassroom.Application.Comments.DTOs;
-using HUTECHClassroom.Application.Comments.Queries.GetComment;
-using HUTECHClassroom.Application.Comments.Queries.GetCommentsWithPagination;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class CommentsController : BaseEntityApiController<CommentDTO>

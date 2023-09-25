@@ -1,19 +1,4 @@
-﻿using HUTECHClassroom.Application.Missions.DTOs;
-using HUTECHClassroom.Application.Projects;
-using HUTECHClassroom.Application.Projects.Commands.AddMission;
-using HUTECHClassroom.Application.Projects.Commands.CreateProject;
-using HUTECHClassroom.Application.Projects.Commands.DeleteProject;
-using HUTECHClassroom.Application.Projects.Commands.DeleteRangeProject;
-using HUTECHClassroom.Application.Projects.Commands.RemoveMission;
-using HUTECHClassroom.Application.Projects.Commands.UpdateProject;
-using HUTECHClassroom.Application.Projects.DTOs;
-using HUTECHClassroom.Application.Projects.Queries.GetProject;
-using HUTECHClassroom.Application.Projects.Queries.GetProjectMissionsWithPagination;
-using HUTECHClassroom.Application.Projects.Queries.GetProjectsWithPagination;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class ProjectsController : BaseEntityApiController<ProjectDTO>

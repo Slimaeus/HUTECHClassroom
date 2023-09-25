@@ -1,5 +1,4 @@
 ﻿using HUTECHClassroom.API.Extensions.Policies;
-using Microsoft.AspNetCore.Authorization;
 
 namespace HUTECHClassroom.API.Extensions;
 

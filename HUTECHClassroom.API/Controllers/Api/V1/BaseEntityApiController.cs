@@ -1,9 +1,5 @@
-﻿using HUTECHClassroom.Application.Common.DTOs;
-using HUTECHClassroom.Application.Common.Models;
-using HUTECHClassroom.Application.Common.Requests;
-using Microsoft.AspNetCore.Authorization;
+﻿using HUTECHClassroom.Application.Common.Requests;
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 

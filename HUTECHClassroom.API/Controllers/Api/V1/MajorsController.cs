@@ -1,15 +1,4 @@
-﻿using HUTECHClassroom.Application.Majors;
-using HUTECHClassroom.Application.Majors.Commands.CreateMajor;
-using HUTECHClassroom.Application.Majors.Commands.DeleteMajor;
-using HUTECHClassroom.Application.Majors.Commands.DeleteRangeMajor;
-using HUTECHClassroom.Application.Majors.Commands.UpdateMajor;
-using HUTECHClassroom.Application.Majors.DTOs;
-using HUTECHClassroom.Application.Majors.Queries.GetMajor;
-using HUTECHClassroom.Application.Majors.Queries.GetMajorsWithPagination;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 public class MajorsController : BaseEntityApiController<MajorDTO>
 {

@@ -1,7 +1,5 @@
-﻿
-using FluentValidation;
+﻿using FluentValidation;
 using HUTECHClassroom.Application.Common.Exceptions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 using System.Diagnostics;

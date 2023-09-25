@@ -1,15 +1,4 @@
-﻿using HUTECHClassroom.Application.Answers;
-using HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
-using HUTECHClassroom.Application.Answers.Commands.DeleteAnswer;
-using HUTECHClassroom.Application.Answers.Commands.DeleteRangeAnswer;
-using HUTECHClassroom.Application.Answers.Commands.UpdateAnswer;
-using HUTECHClassroom.Application.Answers.DTOs;
-using HUTECHClassroom.Application.Answers.Queries.GetAnswer;
-using HUTECHClassroom.Application.Answers.Queries.GetAnswersWithPagination;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 public class AnswersController : BaseEntityApiController<AnswerDTO>

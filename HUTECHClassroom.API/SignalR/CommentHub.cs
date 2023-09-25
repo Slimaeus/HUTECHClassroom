@@ -1,9 +1,4 @@
-﻿using HUTECHClassroom.Application.Comments.Commands.CreateComment;
-using HUTECHClassroom.Application.Comments.Commands.DeleteComment;
-using HUTECHClassroom.Application.Comments.Queries.GetComment;
-using HUTECHClassroom.Application.Posts;
-using HUTECHClassroom.Application.Posts.Queries.GetPostCommentsWithPagination;
-using HUTECHClassroom.Domain.Constants.HttpParams;
+﻿using HUTECHClassroom.Domain.Constants.HttpParams;
 using HUTECHClassroom.Domain.Constants.HttpParams.Common;
 using HUTECHClassroom.Domain.Constants.Hubs;
 using MediatR;
