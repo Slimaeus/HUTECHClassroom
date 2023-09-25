@@ -11,9 +11,7 @@ public class UserAccessor : IUserAccessor
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public UserAccessor(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
+        => _httpContextAccessor = httpContextAccessor;
     public Guid Id => Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? Guid.Empty.ToString());
     public string UserName => _httpContextAccessor.HttpContext.User.Identity.Name;
     public IList<string> Roles => _httpContextAccessor.HttpContext.User.Claims

@@ -9,8 +9,11 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
     {
+        #region Identity
         services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
+        #endregion
 
+        #region Web
         services.AddControllersWithViews();
 
         services.AddAuthorization(options =>
@@ -24,6 +27,8 @@ public static class ConfigureServices
                 policy.RequireAssertion(context => context.User.IsInRole(RoleConstants.TRAINING_OFFICE));
             });
         });
+        services.AddRazorPages();
+        #endregion
 
         #region Services
         #endregion
@@ -31,8 +36,6 @@ public static class ConfigureServices
         #region Mapper
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         #endregion
-
-        services.AddRazorPages();
 
         return services;
     }

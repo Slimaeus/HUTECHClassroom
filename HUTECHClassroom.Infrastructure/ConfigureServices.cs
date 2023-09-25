@@ -49,7 +49,6 @@ public static class ConfigureServices
         #endregion
 
         #region Identity
-
         services
             .AddIdentityCore<ApplicationUser>(options =>
             {
@@ -106,6 +105,7 @@ public static class ConfigureServices
     }
     public static async Task<WebApplication> UseInfrastructureAsync(this WebApplication app)
     {
+        #region DbContext
         if (app.Environment.IsDevelopment())
         {
             using var scope = app.Services.CreateScope();
@@ -113,6 +113,7 @@ public static class ConfigureServices
             await initialiser.InitialiseAsync();
             await initialiser.SeedAsync();
         }
+        #endregion
 
         return app;
     }
