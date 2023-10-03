@@ -175,8 +175,8 @@ public static class ConfigureServices
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "HUTECH_ClassroomV1");
-            options.SwaggerEndpoint("/swagger/v2/swagger.json", "HUTECH_ClassroomV2");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Version 1");
+            options.SwaggerEndpoint("/swagger/v2/swagger.json", "Version 2");
             options.EnableFilter();
             options.EnableTryItOutByDefault();
             options.EnablePersistAuthorization();
