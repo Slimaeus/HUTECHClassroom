@@ -1,12 +1,11 @@
 ﻿using HUTECHClassroom.Domain.Constants.HttpParams;
 using HUTECHClassroom.Domain.Constants.HttpParams.Common;
-using HUTECHClassroom.Domain.Constants.Hubs;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
 namespace HUTECHClassroom.API.SignalR;
 
-public class CommentHub : Hub
+public class CommentHub : Hub<ICommentClientHub>
 {
     private readonly IMediator _mediator;
 
@@ -19,7 +18,7 @@ public class CommentHub : Hub
         var comment = await _mediator.Send(new GetCommentQuery(id));
 
         await Clients.Group(command.PostId.ToString())
-            .SendAsync(CommentHubConstants.RECEIVE_COMMENT_METHOD, comment).ConfigureAwait(false);
+            .ReceiveComment(comment).ConfigureAwait(false);
     }
 
     public async Task DeleteComment(DeleteCommentCommand command)
@@ -27,7 +26,7 @@ public class CommentHub : Hub
         var comment = await _mediator.Send(command);
         if (comment is not null && comment.Post is not null)
             await Clients.Group(comment.Post.Id.ToString())
-            .SendAsync(CommentHubConstants.DELETE_COMMENT_METHOD, comment).ConfigureAwait(false);
+                .DeleteComment(comment).ConfigureAwait(false);
     }
 
     public override async Task OnConnectedAsync()
@@ -40,15 +39,17 @@ public class CommentHub : Hub
         if (!isParsePageSizeSuccess) pageSize = 5;
         await Groups.AddToGroupAsync(Context.ConnectionId, postId).ConfigureAwait(false);
         var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId), new PostPaginationParams(pageNumber, pageSize)));
-        await Clients.Caller.SendAsync(CommentHubConstants.LOAD_COMMENTS_METHOD, result.Items, new
-        {
-            pageIndex = result.PageIndex,
-            pageSize = result.PageSize,
-            count = result.Count,
-            totalCount = result.TotalCount,
-            totalPages = result.TotalPages,
-            hasPreviousPage = result.HasPreviousPage,
-            hasNextPage = result.HasNextPage
-        }).ConfigureAwait(false);
+        await Clients.Caller
+
+            .LoadComments(result.Items, new
+            {
+                pageIndex = result.PageIndex,
+                pageSize = result.PageSize,
+                count = result.Count,
+                totalCount = result.TotalCount,
+                totalPages = result.TotalPages,
+                hasPreviousPage = result.HasPreviousPage,
+                hasNextPage = result.HasNextPage
+            }).ConfigureAwait(false);
     }
 }
