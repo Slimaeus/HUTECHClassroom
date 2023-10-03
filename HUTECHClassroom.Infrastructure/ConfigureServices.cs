@@ -25,7 +25,7 @@ public static class ConfigureServices
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         #region DbContext
-        services.AddDbContextPool<DbContext, ApplicationDbContext>(options =>
+        services.AddTriggeredDbContextPool<DbContext, ApplicationDbContext>(options =>
         {
             // Use Legacy Timestamp Behavior
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -38,6 +38,8 @@ public static class ConfigureServices
             {
                 options.UseNpgsql(configuration.GetConnectionString(ServiceConstants.CONNECTION_STRING_KEY));
             }
+
+            options.UseTriggers(x => x.AddAssemblyTriggers());
         });
 
         services.AddScoped<ApplicationDbContextInitializer>();
