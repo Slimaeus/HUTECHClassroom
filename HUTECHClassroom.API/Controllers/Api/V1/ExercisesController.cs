@@ -16,7 +16,7 @@ public class ExercisesController : BaseEntityApiController<ExerciseDTO>
     [Authorize(CreateExercisePolicy)]
     [HttpPost]
     public Task<ActionResult<ExerciseDTO>> Post(CreateExerciseCommand command)
-        => HandleCreateCommand(command, exerciseId => new GetExerciseQuery(exerciseId));
+        => HandleCreateCommand<CreateExerciseCommand, GetExerciseQuery>(command);
 
     [Authorize(UpdateExercisePolicy)]
     [HttpPut("{exerciseId}")]

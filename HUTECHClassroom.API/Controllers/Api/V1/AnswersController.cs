@@ -16,7 +16,7 @@ public class AnswersController : BaseEntityApiController<AnswerDTO>
     [Authorize(CreateAnswerPolicy)]
     [HttpPost]
     public Task<ActionResult<AnswerDTO>> Post(CreateAnswerCommand command)
-        => HandleCreateCommand(command, answerId => new GetAnswerQuery(answerId));
+        => HandleCreateCommand<CreateAnswerCommand, GetAnswerQuery>(command);
 
     [Authorize(UpdateAnswerPolicy)]
     [HttpPut("{answerId}")]

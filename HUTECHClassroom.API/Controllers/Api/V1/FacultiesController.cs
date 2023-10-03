@@ -16,7 +16,7 @@ public class FacultiesController : BaseEntityApiController<FacultyDTO>
     [Authorize(CreateFacultyPolicy)]
     [HttpPost]
     public Task<ActionResult<FacultyDTO>> Post(CreateFacultyCommand command)
-        => HandleCreateCommand(command, facultyId => new GetFacultyQuery(facultyId));
+        => HandleCreateCommand<CreateFacultyCommand, GetFacultyQuery>(command);
 
     [Authorize(UpdateFacultyPolicy)]
     [HttpPut("{facultyId}")]

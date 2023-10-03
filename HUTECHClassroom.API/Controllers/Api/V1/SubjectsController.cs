@@ -15,7 +15,7 @@ public class SubjectsController : BaseEntityApiController<SubjectDTO>
     [Authorize(CreateSubjectPolicy)]
     [HttpPost]
     public Task<ActionResult<SubjectDTO>> Post(CreateSubjectCommand command)
-        => HandleCreateCommand(command, subjectId => new GetSubjectQuery(subjectId));
+        => HandleCreateCommand<CreateSubjectCommand, GetSubjectQuery>(command);
 
     [Authorize(UpdateSubjectPolicy)]
     [HttpPut("{subjectId}")]

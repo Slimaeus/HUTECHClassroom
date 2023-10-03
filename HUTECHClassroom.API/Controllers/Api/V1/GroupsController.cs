@@ -16,7 +16,7 @@ public class GroupsController : BaseEntityApiController<GroupDTO>
     [Authorize(Policy = CreateGroupPolicy)]
     [HttpPost]
     public Task<ActionResult<GroupDTO>> Post(CreateGroupCommand command)
-        => HandleCreateCommand(command, id => new GetGroupQuery(id));
+        => HandleCreateCommand<CreateGroupCommand, GetGroupQuery>(command);
 
     [Authorize(Policy = UpdateGroupPolicy)]
     [HttpPut("{groupId}")]

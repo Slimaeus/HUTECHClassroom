@@ -16,7 +16,7 @@ public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     [Authorize(CreateClassroomPolicy)]
     [HttpPost]
     public Task<ActionResult<ClassroomDTO>> Post(CreateClassroomCommand command)
-        => HandleCreateCommand(command, classroomId => new GetClassroomQuery(classroomId));
+        => HandleCreateCommand<CreateClassroomCommand, GetClassroomQuery>(command);
 
     [Authorize(UpdateClassroomPolicy)]
     [HttpPut("{classroomId}")]

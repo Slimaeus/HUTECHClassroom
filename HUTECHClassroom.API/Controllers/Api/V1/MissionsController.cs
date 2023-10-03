@@ -16,7 +16,7 @@ public class MissionsController : BaseEntityApiController<MissionDTO>
     [Authorize(CreateMissionPolicy)]
     [HttpPost]
     public Task<ActionResult<MissionDTO>> Post(CreateMissionCommand request)
-        => HandleCreateCommand(request, missionId => new GetMissionQuery(missionId));
+        => HandleCreateCommand<CreateMissionCommand, GetMissionQuery>(request);
 
     [Authorize(UpdateMissionPolicy)]
     [HttpPut("{missionId}")]

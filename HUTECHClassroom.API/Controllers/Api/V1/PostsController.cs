@@ -16,7 +16,7 @@ public class PostsController : BaseEntityApiController<PostDTO>
     [Authorize(CreatePostPolicy)]
     [HttpPost]
     public Task<ActionResult<PostDTO>> Post(CreatePostCommand command)
-        => HandleCreateCommand(command, postId => new GetPostQuery(postId));
+        => HandleCreateCommand<CreatePostCommand, GetPostQuery>(command);
 
     [Authorize(UpdatePostPolicy)]
     [HttpPut("{postId}")]

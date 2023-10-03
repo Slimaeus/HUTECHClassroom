@@ -16,12 +16,14 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
         where TGetQuery : GetQuery<TEntityDTO>
         => Ok(await Mediator.Send(query));
 
-    protected async Task<ActionResult<TEntityDTO>> HandleCreateCommand<TCreateCommand, TGetQuery>(TCreateCommand command, Func<TKey, TGetQuery> getQuery)
+    protected async Task<ActionResult<TEntityDTO>> HandleCreateCommand<TCreateCommand, TGetQuery>(TCreateCommand command)
         where TCreateCommand : CreateCommand<TKey>
         where TGetQuery : GetQuery<TEntityDTO>
     {
         var id = await Mediator.Send(command);
-        var dto = await Mediator.Send(getQuery(id));
+        var query = Activator.CreateInstance(typeof(TGetQuery), id) as TGetQuery
+            ?? throw new InvalidOperationException("Cannot create get by Id query!");
+        var dto = await Mediator.Send(query);
 
         var domain = HttpContext.Request.GetDisplayUrl();
         var routeTemplate = ControllerContext.ActionDescriptor.AttributeRouteInfo.Template;

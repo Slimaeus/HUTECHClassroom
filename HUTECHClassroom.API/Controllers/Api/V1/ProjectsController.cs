@@ -16,7 +16,7 @@ public class ProjectsController : BaseEntityApiController<ProjectDTO>
     [Authorize(CreateProjectPolicy)]
     [HttpPost]
     public Task<ActionResult<ProjectDTO>> Post(CreateProjectCommand request)
-        => HandleCreateCommand(request, projectId => new GetProjectQuery(projectId));
+        => HandleCreateCommand<CreateProjectCommand, GetProjectQuery>(request);
 
     [Authorize(UpdateProjectPolicy)]
     [HttpPut("{projectId}")]

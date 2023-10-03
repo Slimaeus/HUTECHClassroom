@@ -16,7 +16,7 @@ public class CommentsController : BaseEntityApiController<CommentDTO>
     [Authorize(CreateCommentPolicy)]
     [HttpPost]
     public Task<ActionResult<CommentDTO>> Post(CreateCommentCommand command)
-        => HandleCreateCommand(command, commentId => new GetCommentQuery(commentId));
+        => HandleCreateCommand<CreateCommentCommand, GetCommentQuery>(command);
 
     [Authorize(UpdateCommentPolicy)]
     [HttpPut("{commentId}")]

@@ -15,7 +15,7 @@ public class MajorsController : BaseEntityApiController<MajorDTO>
     [Authorize(CreateMajorPolicy)]
     [HttpPost]
     public Task<ActionResult<MajorDTO>> Post(CreateMajorCommand command)
-        => HandleCreateCommand(command, majorId => new GetMajorQuery(majorId));
+        => HandleCreateCommand<CreateMajorCommand, GetMajorQuery>(command);
 
     [Authorize(UpdateMajorPolicy)]
     [HttpPut("{majorId}")]
