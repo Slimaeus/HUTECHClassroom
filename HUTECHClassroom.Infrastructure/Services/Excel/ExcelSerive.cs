@@ -137,7 +137,7 @@ public class ExcelSerive : IExcelServie
                 var property = properties
                     .FirstOrDefault(p => p.Name.Equals(columnName, StringComparison.OrdinalIgnoreCase));
 
-                if (property == null)
+                if (property is null)
                 {
                     // Skip the column if there is no matching property
                     continue;
@@ -197,10 +197,8 @@ public class ExcelSerive : IExcelServie
         }
 
         // Convert the workbook to a byte array
-        using (var stream = new MemoryStream())
-        {
-            workbook.SaveAs(stream);
-            return stream.ToArray();
-        }
+        using var stream = new MemoryStream();
+        workbook.SaveAs(stream);
+        return stream.ToArray();
     }
 }

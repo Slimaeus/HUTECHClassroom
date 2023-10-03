@@ -40,7 +40,6 @@ public class CommentHub : Hub<ICommentClientHub>
         await Groups.AddToGroupAsync(Context.ConnectionId, postId).ConfigureAwait(false);
         var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId), new PostPaginationParams(pageNumber, pageSize)));
         await Clients.Caller
-
             .LoadComments(result.Items, new
             {
                 pageIndex = result.PageIndex,

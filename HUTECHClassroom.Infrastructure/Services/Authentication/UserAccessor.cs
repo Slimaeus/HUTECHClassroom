@@ -14,6 +14,11 @@ public class UserAccessor : IUserAccessor
         => _httpContextAccessor = httpContextAccessor;
     public Guid Id => Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? Guid.Empty.ToString());
     public string UserName => _httpContextAccessor.HttpContext.User.Identity.Name;
+    public string Jwt =>
+        _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString() is { }
+        && _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().StartsWith("Bearer ")
+        ? _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString()["Bearer ".Length..].Trim()
+        : string.Empty;
     public IList<string> Roles => _httpContextAccessor.HttpContext.User.Claims
         .Where(x => x.Type == ClaimTypes.Role)
         .Select(x => x.Value)
