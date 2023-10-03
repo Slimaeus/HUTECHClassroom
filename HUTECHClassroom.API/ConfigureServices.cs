@@ -177,6 +177,9 @@ public static class ConfigureServices
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "HUTECH_ClassroomV1");
             options.SwaggerEndpoint("/swagger/v2/swagger.json", "HUTECH_ClassroomV2");
+            options.EnableFilter();
+            options.EnableTryItOutByDefault();
+            options.EnablePersistAuthorization();
         });
         #endregion
 
