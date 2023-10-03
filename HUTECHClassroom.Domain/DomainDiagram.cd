@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Alphabetical">
+  <Class Name="HUTECHClassroom.Domain.Entities.ApplicationUser">
+    <Position X="9" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAQAAACAIAATEQABAAAAAIAAAAAQAIAAAAAIAg=</HashCode>
+      <FileName>Entities\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ClassroomUsers" />
+      <Property Name="Posts" />
+      <Property Name="GroupUsers" />
+      <Property Name="Groups" />
+      <Property Name="ExerciseUsers" />
+      <Property Name="Classrooms" />
+      <Property Name="MissionUsers" />
+      <Property Name="ApplicationUserRoles" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Classroom">
+    <Position X="14.5" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAGAQEAAgAMAAZNIAgAEAAAAAACQAASAAACAAAAA=</HashCode>
+      <FileName>Entities\Classroom.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ClassroomUsers" />
+      <Property Name="Excercises" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.ClassroomUser">
+    <Position X="11.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAEAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\ClassroomUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Post">
+    <Position X="17" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAgAAAAAAAAEAAAgAAAAAAAAAAAAAQAAAIAA=</HashCode>
+      <FileName>Entities\Post.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Comments" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.GroupUser">
+    <Position X="2.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAEABAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\GroupUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Group">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAiAAAAAAEAAEwAAAAAAIAAAAAAAAAAAQA=</HashCode>
+      <FileName>Entities\Group.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="GroupUsers" />
+      <Property Name="Projects" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.ExerciseUser">
+    <Position X="6" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAEAAAgAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\ExerciseUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Exercise">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIEAAAAAAAEAAAAEAAAgAAAAIAAAAQAMAQCAAAAA=</HashCode>
+      <FileName>Entities\Exercise.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ExerciseUsers" />
+      <Property Name="Answers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.MissionUser" Collapsed="true">
+    <Position X="6" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAADAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\MissionUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Mission">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAgAEAAAAAADAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Mission.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="MissionUsers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.GroupRole">
+    <Position X="2.5" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\GroupRole.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="GroupUsers" />
+      <Property Name="GroupRoleClaims" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.GroupRoleClaim">
+    <Position X="2.25" Y="13" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\GroupRoleClaim.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Comment">
+    <Position X="21.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAgAAAAEAAAAAAAgACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Comment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Project">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAEAAAgAAAAAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Project.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Missions" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.ApplicationRole">
+    <Position X="8.5" Y="12.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\ApplicationRole.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ApplicationUserRoles" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.ApplicationUserRole" Collapsed="true">
+    <Position X="8.75" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\ApplicationUserRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Major">
+    <Position X="9.5" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAgEAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Major.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Subjects" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Subject">
+    <Position X="19.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAEIAAEAgAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Entities\Subject.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Classrooms" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Faculty">
+    <Position X="23.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAEAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Faculty.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Classrooms" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Entities.Answer">
+    <Position X="12.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAgAAgAAAEAAAgAEAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Entities\Answer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Common.BaseEntity&lt;TKey&gt;" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Common\BaseEntity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="HUTECHClassroom.Domain.Common.BaseEntity" Collapsed="true">
+    <Position X="12.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\BaseEntity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
