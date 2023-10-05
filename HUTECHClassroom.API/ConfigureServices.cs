@@ -32,14 +32,16 @@ public static class ConfigureServices
         #endregion
 
         #region Controllers
-        services.AddControllers(options =>
-        {
-            options.Filters.Add<ApiExceptionFilterAttribute>();
-        })
+        services
+            .AddControllers(options =>
+            {
+                options.Filters.Add<ApiExceptionFilterAttribute>();
+            })
             .AddJsonOptions(options =>
-        {
-            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        });
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
         #endregion
 
         #region Versions
