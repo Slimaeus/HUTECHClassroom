@@ -361,7 +361,7 @@ public class ApplicationDbContextInitializer
         {
             new Answer
             {
-                Description = "Xin lỗi em không biết làm T_T",
+                Description = "Xin lỗi thầy em không biết làm T_T",
                 Link = "a.com",
                 Score = 0,
                 Exercise = exercises[0],
@@ -369,7 +369,7 @@ public class ApplicationDbContextInitializer
             },
             new Answer
             {
-                Description = "Xin lỗi em cũng không biết làm ạ T_T",
+                Description = "Xin lỗi thầy em cũng không biết làm ạ T_T",
                 Link = "b.com",
                 Score = 0,
                 Exercise = exercises[0],
