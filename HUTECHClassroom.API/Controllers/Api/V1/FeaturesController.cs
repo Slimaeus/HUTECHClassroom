@@ -1,10 +1,12 @@
-﻿using HUTECHClassroom.Domain.Interfaces;
+﻿using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Domain.Models.ComputerVision;
 using System.Net;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
+[Authorize(Roles = RoleConstants.ADMIN)]
 public class FeaturesController : BaseApiController
 {
     private readonly IAzureComputerVisionService _azureComputerVisionService;
