@@ -211,6 +211,11 @@ public static class ConfigureServices
         app.UseCors();
         #endregion
 
+        #region Redirections
+        app.MapGet("", () => Results.Redirect("/swagger"))
+            .ExcludeFromDescription();
+        #endregion
+
         return app;
     }
 }
