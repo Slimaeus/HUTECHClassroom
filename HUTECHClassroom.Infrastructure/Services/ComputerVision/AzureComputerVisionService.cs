@@ -26,8 +26,8 @@ public sealed class AzureComputerVisionService : IAzureComputerVisionService
         {
             results = await _computerVisionClient.GetReadResultAsync(Guid.Parse(operationId));
         }
-        while (results.Status == OperationStatusCodes.Running ||
-            results.Status == OperationStatusCodes.NotStarted);
+        while (results.Status == OperationStatusCodes.Running
+            || results.Status == OperationStatusCodes.NotStarted);
 
         var textFileUrlResults = results.AnalyzeResult.ReadResults;
 

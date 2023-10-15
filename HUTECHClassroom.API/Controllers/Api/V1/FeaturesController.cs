@@ -12,9 +12,7 @@ public class FeaturesController : BaseApiController
     private readonly IAzureComputerVisionService _azureComputerVisionService;
 
     public FeaturesController(IAzureComputerVisionService azureComputerVisionService)
-    {
-        _azureComputerVisionService = azureComputerVisionService;
-    }
+        => _azureComputerVisionService = azureComputerVisionService;
 
     [HttpGet("vision/read/{url}")]
     public async Task<ActionResult<IEnumerable<OptimizedPage>>> Read(string url)
