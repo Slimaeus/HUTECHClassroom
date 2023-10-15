@@ -26,7 +26,47 @@ Build and run the project or `dotnet restore`.
 This API allows you to manage student data. You can create, read, update, and delete student records using the endpoints provided.
 
 ## Secrets
+You can also use Environment Variables
+### 🔃 Api
 appsettings.json
+```json
+"Serilog": {
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information",
+        "Microsoft.AspNetCore.Authentication": "Debug",
+        "System": "Warning"
+      }
+    }
+  },
+  "EmailService": {
+    "Gmail": {
+      "Host": "smtp.gmail.com",
+      "Port": 587,
+      "UserName": "UserName@gmail.com",
+      "Password": "Password"
+    }
+  },
+  "AllowedHosts": "*",
+  "Cloudinary": {
+    "CloudName": "CloudName",
+    "ApiKey": "ApiKey",
+    "ApiSecret": "ApiSecret"
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=Server;Port=5432;User Id=UserId;Password=Password;Database=Database;"
+  },
+  "TokenKey": "TokenKey",
+  "Azure": {
+    "ComputerVision": {
+      "Key": "Key",
+      "Endpoint": "Endpoint"
+    }
+  }
+```
+### 🕸️ Web
 ```json
 {
   "Serilog": {
@@ -44,13 +84,13 @@ appsettings.json
     "Gmail": {
       "Host": "smtp.gmail.com",
       "Port": 587,
-      "UserName": "example@gmail.com",
-      "Password": "yoursecret"
+      "UserName": "something@gmail.com",
+      "Password": "Password"
     }
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "Server=Host;Port=5432;User Id=UserId;Password=Password;Database=hutechclassroom;"
+    "DefaultConnection": "Server=Server;Port=5432;User Id=UserId;Password=Password;Database=Database;"
   },
   "TokenKey": "TokenKey"
 }
@@ -58,19 +98,38 @@ appsettings.json
 
 ## Endpoints
 
-#### Mission
-
-- 🔎GET api/v1/Missions - Returns a list of all missions.
-- 🔍GET api/v1/Missions/{id} - Returns a single mission record by ID.
-- ➕POST api/v1/Missions - Creates a new mission record.
-- ✏️PUT api/v1/Missions/{id} - Updates an existing mission record by ID.
-- 🗑️DELETE api/v1/Missions/{id} - Deletes a mission record by ID.
-
 #### Account
+- ➕ **POST /api/v1/Account/Register** - Registers a new user (For Testing).
 
-- ➕POST api/v1/Account/Register - Registers a new user.
-- 👤POST api/v1/Account/Login - Logs in a user and returns a JWT token.
-- 🔍GET api/v1/User - Returns information about the currently logged in user.
+- 👤 **POST /api/v1/Account/Login** - Logs in a user and returns a JWT token.
+
+- 🔍 **GET /api/v1/Account/@me** - Returns information about the currently logged in user.
+
+- 🔐 **PATCH /api/v1/Account/change-password** - Changes a user's password.
+
+- 🔒 **POST /api/v1/Account/forgot-password** - Initiates the process for resetting a user's forgotten password.
+
+- 🔑 **POST /api/v1/Account/reset-password** - Resets a user's password based on a reset token.
+
+- 🖼️ **POST /api/v1/Account/add-avatar** - Uploads a user's avatar.
+  
+- ❌ **DELETE /api/v1/Account/remove-avatar** - Removes a user's avatar.
+
+### Answers
+- 🔍 **GET /api/v1/Answers** - Returns a list of answers.
+
+- ➕ **POST /api/v1/Answers** - Creates a new answer.
+
+- ❌ **DELETE /api/v1/Answers** - Deletes multiple answers.
+
+- 🔍 **GET /api/v1/Answers/{answerId}** - Returns a specific answer by ID.
+
+- ✏️ **PUT /api/v1/Answers/{answerId}** - Updates a specific answer by ID.
+
+- ❌ **DELETE /api/v1/Answers/{answerId}** - Deletes a specific answer by ID.
+
+...
+Visit my swagger page for more information ---> [HUTECH Classroom Open Api](https://hutechclassroom.azurewebsites.net/swagger)
 
 ## Authentication
 
