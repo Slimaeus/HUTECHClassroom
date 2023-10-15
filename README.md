@@ -30,7 +30,8 @@ You can also use Environment Variables
 ### 🔃 Api
 appsettings.json
 ```json
-"Serilog": {
+{
+  "Serilog": {
     "MinimumLevel": {
       "Default": "Debug",
       "Override": {
@@ -65,8 +66,10 @@ appsettings.json
       "Endpoint": "Endpoint"
     }
   }
+}
 ```
 ### 🕸️ Web
+appsettings.json
 ```json
 {
   "Serilog": {
@@ -98,7 +101,7 @@ appsettings.json
 
 ## Endpoints
 
-#### Account
+### Account
 - ➕ **POST /api/v1/Account/Register** - Registers a new user (For Testing).
 
 - 👤 **POST /api/v1/Account/Login** - Logs in a user and returns a JWT token.
@@ -115,6 +118,8 @@ appsettings.json
   
 - ❌ **DELETE /api/v1/Account/remove-avatar** - Removes a user's avatar.
 
+---
+
 ### Answers
 - 🔍 **GET /api/v1/Answers** - Returns a list of answers.
 
@@ -128,8 +133,9 @@ appsettings.json
 
 - ❌ **DELETE /api/v1/Answers/{answerId}** - Deletes a specific answer by ID.
 
-...
-Visit my swagger page for more information ---> [HUTECH Classroom Open Api](https://hutechclassroom.azurewebsites.net/swagger)
+---
+
+[Visit my swagger page for more endpoints](https://hutechclassroom.azurewebsites.net/swagger)
 
 ## Authentication
 
@@ -138,10 +144,6 @@ This API uses JWT authentication to secure access to the endpoints. You will nee
 ## Authorization
 
 Authorization has also been implemented for certain endpoints. Only users with the appropriate role can access these endpoints. Please refer to the documentation for more information on the required roles.
-
-## Contributing
-
-If you find this project useful, please give it a stars⭐⭐⭐! Contributions are also welcome. Please fork the repository and submit a pull request with your changes.
 
 ## Authors
 
