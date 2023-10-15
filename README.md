@@ -151,4 +151,4 @@ Nguyễn Hồng Thái
 
 ## License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). See the LICENSE.md file for details.
+This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.html). See the LICENSE.md file for details.
