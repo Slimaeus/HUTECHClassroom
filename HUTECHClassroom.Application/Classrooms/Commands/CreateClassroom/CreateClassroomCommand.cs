@@ -10,7 +10,6 @@ public record CreateClassroomCommand : CreateCommand
     public string Topic { get; set; }
     public string Room { get; set; }
     public string StudyPeriod { get; set; }
-    public string Class { get; set; }
     public string SchoolYear { get; set; }
     public string StudyGroup { get; set; }
     public string PracticalStudyGroup { get; set; }
@@ -19,6 +18,7 @@ public record CreateClassroomCommand : CreateCommand
     public Guid? FacultyId { get; set; }
     public Guid LecturerId { get; set; }
     public Guid? SubjectId { get; set; }
+    public string ClassId { get; set; }
 }
 public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, CreateClassroomCommand>
 {
