@@ -10,7 +10,7 @@ public class Classroom : BaseEntity
     public string? Description { get; set; }
     public string Room { get; set; } = string.Empty;
     public string? StudyPeriod { get; set; }
-    public string? Class { get; set; }
+    //public string? Class { get; set; }
     public string SchoolYear { get; set; } = string.Empty;
     public string? StudyGroup { get; set; }
     public string? PracticalStudyGroup { get; set; }
@@ -23,6 +23,8 @@ public class Classroom : BaseEntity
     public virtual Faculty? Faculty { get; set; }
     public Guid? SubjectId { get; set; }
     public virtual Subject? Subject { get; set; }
+    public string? ClassId { get; set; }
+    public virtual Class? Class { get; set; }
 
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();
     public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();

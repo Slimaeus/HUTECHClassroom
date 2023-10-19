@@ -11,6 +11,7 @@ public record AccountDTO : IEntityDTO
     public string LastName { get; set; }
     public string AvatarUrl { get; set; }
     public UserFacultyDTO Faculty { get; set; }
+    public string Class { get; set; }
     public IEnumerable<string> Roles { get; set; }
     public string Token { get; set; }
 }

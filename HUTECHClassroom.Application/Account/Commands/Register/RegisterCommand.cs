@@ -14,6 +14,7 @@ public record RegisterCommand : IRequest<AccountDTO>
     public string LastName { get; set; }
     public string Password { get; set; }
     public Guid? FacultyId { get; set; }
+    public string ClassId { get; set; }
 }
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDTO>
 {
@@ -22,6 +23,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
     private readonly IMapper _mapper;
     private readonly IMemoryCache _memoryCache;
     private readonly IRepository<Faculty> _facultyRepository;
+    private readonly IRepository<Class> _classRepository;
 
     public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper, IMemoryCache memoryCache)
     {
@@ -30,6 +32,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
         _mapper = mapper;
         _memoryCache = memoryCache;
         _facultyRepository = unitOfWork.Repository<Faculty>();
+        _classRepository = unitOfWork.Repository<Class>();
     }
     public async Task<AccountDTO> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
@@ -49,9 +52,23 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
 
             var faculty = await _facultyRepository.SingleOrDefaultAsync(facultyQuery, cancellationToken);
 
-            if (faculty != null)
+            if (faculty is null)
             {
                 user.Faculty = faculty;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(request.ClassId))
+        {
+            var classQuery = _classRepository
+                .SingleResultQuery()
+                .AndFilter(x => x.Id == request.ClassId);
+
+            var @class = await _classRepository.SingleOrDefaultAsync(classQuery, cancellationToken);
+
+            if (@class is null)
+            {
+                user.Class = @class;
             }
         }
 

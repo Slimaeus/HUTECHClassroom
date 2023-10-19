@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+    public DbSet<Class> Classes { get; set; }
     public DbSet<Classroom> Classrooms { get; set; }
     public DbSet<Exercise> Exercises { get; set; }
     public DbSet<Answer> Answers { get; set; }

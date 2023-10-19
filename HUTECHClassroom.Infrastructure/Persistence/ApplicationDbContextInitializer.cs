@@ -61,7 +61,7 @@ public class ApplicationDbContextInitializer
             || _context.Groups.Any()
             || _context.Roles.Any()) return;
 
-        var faculties = new Faculty[]
+        var faculties = new List<Faculty>
         {
             new Faculty
             {
@@ -78,7 +78,7 @@ public class ApplicationDbContextInitializer
         var leader = new GroupRole("Leader");
         var member = new GroupRole("Member");
 
-        var groupRoles = new GroupRole[]
+        var groupRoles = new List<GroupRole>
         {
             leader,
             member
@@ -91,7 +91,7 @@ public class ApplicationDbContextInitializer
         var deanRole = new ApplicationRole(RoleConstants.DEAN);
         var trainingOfficeRole = new ApplicationRole(RoleConstants.TRAINING_OFFICE);
         var administratorRole = new ApplicationRole(RoleConstants.ADMIN);
-        var roles = new ApplicationRole[]
+        var roles = new List<ApplicationRole>
         {
             studentRole,
             lecturerRole,
@@ -129,12 +129,12 @@ public class ApplicationDbContextInitializer
         #endregion
 
         #region Classroom
-        var classroomClaimName = ApplicationClaimTypes.CLASSROOM;
+        //var classroomClaimName = ApplicationClaimTypes.CLASSROOM;
 
-        var createClassroomClaim = new Claim(classroomClaimName, createClaimValue);
-        var readClassroomClaim = new Claim(classroomClaimName, readClaimValue);
-        var updateClassroomClaim = new Claim(classroomClaimName, updateClaimValue);
-        var deleteClassroomClaim = new Claim(classroomClaimName, deleteClaimValue);
+        //var createClassroomClaim = new Claim(classroomClaimName, createClaimValue);
+        //var readClassroomClaim = new Claim(classroomClaimName, readClaimValue);
+        //var updateClassroomClaim = new Claim(classroomClaimName, updateClaimValue);
+        //var deleteClassroomClaim = new Claim(classroomClaimName, deleteClaimValue);
         #endregion
 
 
@@ -153,6 +153,20 @@ public class ApplicationDbContextInitializer
         await _roleManager.AddClaimAsync(lecturerRole, readProjectClaim);
         await _roleManager.AddClaimAsync(lecturerRole, updateProjectClaim);
         await _roleManager.AddClaimAsync(lecturerRole, deleteProjectClaim);
+
+        var classes = new List<Class>
+        {
+            new Class
+            {
+                Id = "20DTHD1"
+            },
+            new Class
+            {
+                Id = "20DTHD3"
+            }
+        };
+
+        await _context.AddRangeAsync(classes);
         #endregion
 
         var admin = new ApplicationUser
@@ -197,7 +211,7 @@ public class ApplicationDbContextInitializer
             Faculty = faculties[0]
         };
 
-        var users = new ApplicationUser[]
+        var users = new List<ApplicationUser>
         {
             new ApplicationUser
             {
@@ -205,7 +219,8 @@ public class ApplicationDbContextInitializer
                 FirstName = "Thái",
                 LastName = "Nguyễn Hồng",
                 Email = "thai@gmail.com",
-                Faculty = faculties[0]
+                Faculty = faculties[0],
+                Class = classes[1]
             },
             new ApplicationUser
             {
@@ -213,7 +228,8 @@ public class ApplicationDbContextInitializer
                 FirstName = "Vân",
                 LastName = "Trương Thục",
                 Email = "mei@gmail.com",
-                Faculty = faculties[0]
+                Faculty = faculties[0],
+                Class = classes[1]
             }
         };
 
@@ -241,7 +257,7 @@ public class ApplicationDbContextInitializer
         await _userManager.AddToRoleAsync(lecturer2, lecturerRole.Name);
 
 
-        var majors = new Major[]
+        var majors = new List<Major>
         {
             new Major
             {
@@ -261,7 +277,7 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(majors);
 
-        var subjects = new Subject[]
+        var subjects = new List<Subject>
         {
             new Subject
             {
@@ -274,7 +290,7 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(subjects);
 
-        var classrooms = new Classroom[]
+        var classrooms = new List<Classroom>
         {
             new Classroom
             {
@@ -283,7 +299,7 @@ public class ApplicationDbContextInitializer
                 Topic = "Toán học",
                 Room = "101",
                 StudyPeriod = "1/1/2022 - 1/1/2023",
-                Class = "20DTHD1",
+                Class = classes[0],
                 StudyGroup = "1",
                 SchoolYear = "2022",
                 Semester = Semester.I,
@@ -291,7 +307,7 @@ public class ApplicationDbContextInitializer
                 Lecturer = lecturer1,
                 Subject = subjects[0],
                 Faculty = faculties[0],
-                ClassroomUsers = new ClassroomUser[]
+                ClassroomUsers = new List<ClassroomUser>
                 {
                     new ClassroomUser
                     {
@@ -306,14 +322,14 @@ public class ApplicationDbContextInitializer
                 Topic = "Tiếng Anh",
                 StudyPeriod = "1/1/2022 - 1/1/2023",
                 Room = "102",
-                Class = "20DTHD3",
+                Class = classes[1],
                 StudyGroup = "2",
                 SchoolYear = "2021",
                 Semester = Semester.II,
                 Type = ClassroomType.TheoryRoom,
                 Lecturer = lecturer2,
                 Faculty = faculties[0],
-                ClassroomUsers = new ClassroomUser[]
+                ClassroomUsers = new List<ClassroomUser>
                 {
                     new ClassroomUser
                     {
@@ -329,7 +345,7 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(classrooms);
 
-        var exercises = new Exercise[]
+        var exercises = new List<Exercise>
         {
             new Exercise
             {
@@ -341,12 +357,12 @@ public class ApplicationDbContextInitializer
                 Topic = "Toán học",
                 Criteria = "Tốt: 10, Tệ: 5",
                 Classroom = classrooms[0],
-                ExerciseUsers = new ExerciseUser[]
+                ExerciseUsers = new List<ExerciseUser>
                 {
-                    new ExerciseUser
-                    {
-                        User = users[0]
-                    },
+                    //new ExerciseUser
+                    //{
+                    //    User = users[0]
+                    //},
                     new ExerciseUser
                     {
                         User = users[1]
@@ -357,7 +373,7 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(exercises);
 
-        var answers = new Answer[]
+        var answers = new List<Answer>
         {
             new Answer
             {
@@ -379,7 +395,7 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(answers);
 
-        var posts = new Post[]
+        var posts = new List<Post>
         {
             new Post
             {
@@ -399,7 +415,7 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(posts);
 
-        var comments = new Comment[]
+        var comments = new List<Comment>
         {
             new Comment
             {
@@ -417,20 +433,20 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(comments);
 
-        var groups = new Group[]
+        var groups = new List<Group>
         {
             new Group
             {
                 Name = "Owlvernyte",
                 Description = "Nhóm",
                 Leader = users[0],
-                GroupUsers = new GroupUser[]
+                GroupUsers = new List<GroupUser>
                 {
-                    new GroupUser
-                    {
-                        User = users[0],
-                        GroupRole = leader
-                    }
+                    //new GroupUser
+                    //{
+                    //    User = users[0],
+                    //    GroupRole = leader
+                    //}
                 },
                 Classroom = classrooms[0]
             },
@@ -439,18 +455,18 @@ public class ApplicationDbContextInitializer
                 Name = "Semibox",
                 Description = "Nửa hộp",
                 Leader = users[1],
-                GroupUsers = new GroupUser[]
+                GroupUsers = new List<GroupUser>
                 {
                     new GroupUser
                     {
                         User = users[0],
                         GroupRole = leader
                     },
-                    new GroupUser
-                    {
-                        User = users[1],
-                        GroupRole = member
-                    }
+                    //new GroupUser
+                    //{
+                    //    User = users[1],
+                    //    GroupRole = member
+                    //}
                 },
                 Classroom = classrooms[1]
             }
@@ -458,7 +474,7 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(groups).ConfigureAwait(false);
 
-        var projects = new Project[]
+        var projects = new List<Project>
         {
             new Project
             {
@@ -476,13 +492,13 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(projects).ConfigureAwait(false);
 
-        var missions = new Mission[]
+        var missions = new List<Mission>
         {
             new Mission
             {
                 Title = "Hãy đọc",
                 Description = "Đọc 1 quyển sách",
-                MissionUsers = new MissionUser[]
+                MissionUsers = new List<MissionUser>
                 {
                     new MissionUser
                     {
@@ -495,7 +511,7 @@ public class ApplicationDbContextInitializer
             {
                 Title = "Hãy viết",
                 Description = "Viết 1 quyển sách",
-                MissionUsers = new MissionUser[]
+                MissionUsers = new List<MissionUser>
                 {
                     new MissionUser
                     {
@@ -508,7 +524,7 @@ public class ApplicationDbContextInitializer
             {
                 Title = "Hãy nghe",
                 Description = "Nghe 1 bài hát",
-                MissionUsers = new MissionUser[]
+                MissionUsers = new List<MissionUser>
                 {
                     new MissionUser
                     {
@@ -525,7 +541,7 @@ public class ApplicationDbContextInitializer
             {
                 Title = "Hãy hát",
                 Description = "Hát 1 bài hát",
-                MissionUsers = new MissionUser[]
+                MissionUsers = new List<MissionUser>
                 {
                     new MissionUser
                     {
@@ -538,7 +554,7 @@ public class ApplicationDbContextInitializer
             {
                 Title = "Hãy chạy",
                 Description = "Chạy đi!",
-                MissionUsers = new MissionUser[]
+                MissionUsers = new List<MissionUser>
                 {
                     new MissionUser
                     {
@@ -555,7 +571,7 @@ public class ApplicationDbContextInitializer
             {
                 Title = "Hãy nghĩ",
                 Description = "Nghĩ một lát",
-                MissionUsers = new MissionUser[]
+                MissionUsers = new List<MissionUser>
                 {
                     new MissionUser
                     {
