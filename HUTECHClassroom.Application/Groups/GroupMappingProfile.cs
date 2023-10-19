@@ -27,7 +27,8 @@ public class GroupMappingProfile : Profile
         CreateMap<GroupUser, MemberDTO>()
             .ConstructUsing(x => new MemberDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.User.Avatar == null ? "" : x.User.Avatar.Url));
         CreateMap<Project, GroupProjectDTO>();
-        CreateMap<Classroom, GroupClassroomDTO>();
+        CreateMap<Classroom, GroupClassroomDTO>()
+            .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class.Name));
 
         CreateMap<GroupUser, GroupUserDTO>()
             .ConstructUsing(x => new GroupUserDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.GroupRole.Name));

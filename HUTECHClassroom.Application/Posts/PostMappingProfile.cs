@@ -13,7 +13,8 @@ public class PostMappingProfile : Profile
         CreateMap<UpdatePostCommand, Post>()
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
-        CreateMap<Classroom, PostClassroomDTO>();
+        CreateMap<Classroom, PostClassroomDTO>()
+            .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class.Name));
         CreateMap<Comment, PostCommentDTO>();
     }
 }

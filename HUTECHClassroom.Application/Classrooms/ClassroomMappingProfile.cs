@@ -11,7 +11,8 @@ public class ClassroomMappingProfile : Profile
 {
     public ClassroomMappingProfile()
     {
-        CreateMap<Classroom, ClassroomDTO>();
+        CreateMap<Classroom, ClassroomDTO>()
+            .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class.Name));
         CreateMap<CreateClassroomCommand, Classroom>();
         CreateMap<UpdateClassroomCommand, Classroom>()
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));

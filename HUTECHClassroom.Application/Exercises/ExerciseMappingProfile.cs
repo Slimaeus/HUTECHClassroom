@@ -19,7 +19,8 @@ public class ExerciseMappingProfile : Profile
             .ConstructUsing(x => new MemberDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.User.Avatar == null ? "" : x.User.Avatar.Url));
         CreateMap<ExerciseUser, ExerciseUserDTO>()
             .ConstructUsing(x => new ExerciseUserDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.Exercise.Answers.Any(a => a.UserId == x.UserId)));
-        CreateMap<Classroom, ExerciseClassroomDTO>();
+        CreateMap<Classroom, ExerciseClassroomDTO>()
+            .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class.Name));
 
         CreateMap<AddExerciseUserCommand, ExerciseUser>();
     }
