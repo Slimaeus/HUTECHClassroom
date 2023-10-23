@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Account\Queries\" />
-    <Folder Include="Classes\" />
   </ItemGroup>
 
   <ItemGroup>
