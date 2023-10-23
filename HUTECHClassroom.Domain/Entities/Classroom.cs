@@ -30,4 +30,5 @@ public class Classroom : BaseEntity
     public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
     public virtual ICollection<ClassroomUser> ClassroomUsers { get; set; } = new HashSet<ClassroomUser>();
     public virtual ICollection<Exercise> Excercises { get; set; } = new HashSet<Exercise>();
+    public virtual ICollection<StudentScore> StudentScores { get; set; } = new HashSet<StudentScore>();
 }

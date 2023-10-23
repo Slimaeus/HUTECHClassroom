@@ -29,6 +29,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Comment> Comments { get; set; }
     public DbSet<GroupRole> GroupRoles { get; set; }
     public DbSet<Photo> Photos { get; set; }
+    public DbSet<ScoreType> ScoreTypes { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)

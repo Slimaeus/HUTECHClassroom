@@ -3,6 +3,7 @@ using System;
 using HUTECHClassroom.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HUTECHClassroom.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231023102259_AddScoreType")]
+    partial class AddScoreType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -339,7 +342,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<DateTime?>("Deadline")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2023, 10, 24, 10, 33, 53, 83, DateTimeKind.Utc).AddTicks(1646));
+                        .HasDefaultValue(new DateTime(2023, 10, 24, 10, 22, 59, 812, DateTimeKind.Utc).AddTicks(9393));
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -674,7 +677,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ScoreTypes");
+                    b.ToTable("ScoreType");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.StudentScore", b =>

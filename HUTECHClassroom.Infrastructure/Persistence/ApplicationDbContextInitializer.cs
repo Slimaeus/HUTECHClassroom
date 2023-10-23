@@ -59,7 +59,8 @@ public class ApplicationDbContextInitializer
             || _context.Missions.Any()
             || _context.Projects.Any()
             || _context.Groups.Any()
-            || _context.Roles.Any()) return;
+            || _context.Roles.Any()
+            || _context.ScoreTypes.Any()) return;
 
         var faculties = new List<Faculty>
         {
@@ -290,6 +291,20 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(subjects);
 
+        var scoreTypes = new List<ScoreType>
+        {
+            new ScoreType
+            {
+                Name = "Điểm cuối kì"
+            },
+            new ScoreType
+            {
+                Name = "Điểm giữa kì"
+            }
+        };
+
+        await _context.AddRangeAsync(scoreTypes);
+
         var classrooms = new List<Classroom>
         {
             new Classroom
@@ -312,6 +327,21 @@ public class ApplicationDbContextInitializer
                     new ClassroomUser
                     {
                         User = users[0]
+                    }
+                },
+                StudentScores = new List<StudentScore>
+                {
+                    new StudentScore
+                    {
+                        Student = users[0],
+                        ScoreType = scoreTypes[0],
+                        Score = 8
+                    },
+                    new StudentScore
+                    {
+                        Student = users[0],
+                        ScoreType = scoreTypes[1],
+                        Score = 9
                     }
                 }
             },
@@ -338,6 +368,33 @@ public class ApplicationDbContextInitializer
                     new ClassroomUser
                     {
                         User = users[1]
+                    }
+                },
+                StudentScores = new List<StudentScore>
+                {
+                    new StudentScore
+                    {
+                        Student = users[0],
+                        ScoreType = scoreTypes[0],
+                        Score = 9
+                    },
+                    new StudentScore
+                    {
+                        Student = users[0],
+                        ScoreType = scoreTypes[1],
+                        Score = 10
+                    },
+                    new StudentScore
+                    {
+                        Student = users[1],
+                        ScoreType = scoreTypes[0],
+                        Score = 10
+                    },
+                    new StudentScore
+                    {
+                        Student = users[1],
+                        ScoreType = scoreTypes[1],
+                        Score = 10
                     }
                 }
             }
