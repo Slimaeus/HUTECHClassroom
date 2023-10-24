@@ -108,5 +108,14 @@ public static partial class PolicyConstants
 
 public static partial class PolicyConstants
 {
+    public const string CreateClassPolicy = nameof(CreateClassPolicy);
+    public const string ReadClassPolicy = nameof(ReadClassPolicy);
+    public const string UpdateClassPolicy = nameof(UpdateClassPolicy);
+    public const string DeleteClassPolicy = nameof(DeleteClassPolicy);
+}
+
+
+public static partial class PolicyConstants
+{
     public const string NeedRolePolicy = nameof(NeedRolePolicy);
 }
