@@ -138,7 +138,6 @@ public class ApplicationDbContextInitializer
         //var deleteClassroomClaim = new Claim(classroomClaimName, deleteClaimValue);
         #endregion
 
-
         #region Student Role
         await _roleManager.AddClaimAsync(studentRole, readMissionClaim);
         await _roleManager.AddClaimAsync(studentRole, readProjectClaim);
@@ -293,6 +292,10 @@ public class ApplicationDbContextInitializer
 
         var scoreTypes = new List<ScoreType>
         {
+            new ScoreType
+            {
+                Name = "Điểm rèn luyện"
+            },
             new ScoreType
             {
                 Name = "Điểm cuối kì"
