@@ -14,7 +14,7 @@ public record RegisterCommand : IRequest<AccountDTO>
     public string LastName { get; set; }
     public string Password { get; set; }
     public Guid? FacultyId { get; set; }
-    public string ClassId { get; set; }
+    public Guid ClassId { get; set; }
 }
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDTO>
 {
@@ -58,7 +58,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
             }
         }
 
-        if (!string.IsNullOrEmpty(request.ClassId))
+        if (Guid.Empty != request.ClassId)
         {
             var classQuery = _classRepository
                 .SingleResultQuery()

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Classes.Queries.GetClassesWithPaginationn;
 
 public sealed record GetClassesWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<ClassDTO, PaginationParams>(Params);
-public sealed class GetClassesWithPaginationQueryHandler : GetWithPaginationQueryHandler<string, Class, GetClassesWithPaginationQuery, ClassDTO, PaginationParams>
+public sealed class GetClassesWithPaginationQueryHandler : GetWithPaginationQueryHandler<Class, GetClassesWithPaginationQuery, ClassDTO, PaginationParams>
 {
     public GetClassesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
@@ -15,7 +15,7 @@ public sealed class GetClassesWithPaginationQueryHandler : GetWithPaginationQuer
     protected override Expression<Func<Class, bool>> SearchStringPredicate(string searchString)
     {
         var toLowerSearchString = searchString.ToLower();
-        return x => x.Name.ToLower().Contains(toLowerSearchString) || x.Id.ToLower().Contains(toLowerSearchString);
+        return x => x.Name.ToLower().Contains(toLowerSearchString);
     }
     protected override IQuery<Class> Order(IMultipleResultQuery<Class> query) => query.OrderByDescending(x => x.CreateDate);
 

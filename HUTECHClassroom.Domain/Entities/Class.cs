@@ -2,8 +2,9 @@
 
 namespace HUTECHClassroom.Domain.Entities;
 
-public class Class : BaseEntity<string>
+public class Class : BaseEntity
 {
-    public string Name => Id;
+    public string Name { get; set; } = string.Empty;
     public ICollection<ApplicationUser> Users { get; set; } = new HashSet<ApplicationUser>();
+    public ICollection<Classroom> Classrooms { get; set; } = new HashSet<Classroom>();
 }

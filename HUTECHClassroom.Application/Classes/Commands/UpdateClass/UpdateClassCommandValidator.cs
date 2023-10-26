@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Application.Classs.Commands.UpdateClass;
 
-public class UpdateClassCommandValidator : UpdateCommandValidator<string, UpdateClassCommand>
+public class UpdateClassCommandValidator : UpdateCommandValidator<UpdateClassCommand>
 {
     public UpdateClassCommandValidator()
     {

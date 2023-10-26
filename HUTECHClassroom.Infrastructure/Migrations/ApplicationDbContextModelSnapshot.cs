@@ -99,8 +99,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Property<Guid?>("AvatarId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ClassId")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("ClassId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -190,11 +190,16 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Class", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -207,8 +212,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ClassId")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("ClassId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone");
@@ -337,9 +342,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.Property<DateTime?>("Deadline")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2023, 10, 24, 10, 33, 53, 83, DateTimeKind.Utc).AddTicks(1646));
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -894,7 +897,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Classroom", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.Class", "Class")
-                        .WithMany()
+                        .WithMany("Classrooms")
                         .HasForeignKey("ClassId");
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.Faculty", "Faculty")
@@ -1217,6 +1220,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Class", b =>
                 {
+                    b.Navigation("Classrooms");
+
                     b.Navigation("Users");
                 });
 

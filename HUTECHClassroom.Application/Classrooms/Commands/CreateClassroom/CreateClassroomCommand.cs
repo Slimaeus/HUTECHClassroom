@@ -18,7 +18,7 @@ public record CreateClassroomCommand : CreateCommand
     public Guid? FacultyId { get; set; }
     public Guid LecturerId { get; set; }
     public Guid? SubjectId { get; set; }
-    public string ClassId { get; set; }
+    public Guid? ClassId { get; set; }
 }
 public class CreateClassroomCommandHandler : CreateCommandHandler<Classroom, CreateClassroomCommand>
 {

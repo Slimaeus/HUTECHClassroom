@@ -27,6 +27,19 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Classes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Faculties",
                 columns: table => new
                 {
@@ -70,6 +83,20 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ScoreTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScoreTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -98,6 +125,8 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     FacultyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    AvatarId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ClassId = table.Column<Guid>(type: "uuid", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -116,6 +145,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Faculties_FacultyId",
                         column: x => x.FacultyId,
@@ -256,6 +290,27 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Photos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PublicId = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Photos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Photos_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Classrooms",
                 columns: table => new
                 {
@@ -265,7 +320,6 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     Room = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     StudyPeriod = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
-                    Class = table.Column<string>(type: "text", nullable: true),
                     SchoolYear = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     StudyGroup = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     PracticalStudyGroup = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
@@ -274,6 +328,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     LecturerId = table.Column<Guid>(type: "uuid", nullable: true),
                     FacultyId = table.Column<Guid>(type: "uuid", nullable: true),
                     SubjectId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ClassId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -285,6 +340,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Classrooms_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Classrooms_Faculties_FacultyId",
                         column: x => x.FacultyId,
@@ -332,7 +392,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     Instruction = table.Column<string>(type: "character varying(3000)", maxLength: 3000, nullable: false),
                     Link = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     TotalScore = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
-                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValue: new DateTime(2023, 6, 1, 8, 41, 47, 359, DateTimeKind.Utc).AddTicks(47)),
+                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Topic = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     Criteria = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ClassroomId = table.Column<Guid>(type: "uuid", nullable: true),
@@ -403,6 +463,38 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         principalTable: "Classrooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentScore",
+                columns: table => new
+                {
+                    StudentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClassroomId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ScoreTypeId = table.Column<int>(type: "integer", nullable: false),
+                    Score = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentScore", x => new { x.StudentId, x.ClassroomId, x.ScoreTypeId });
+                    table.ForeignKey(
+                        name: "FK_StudentScore_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentScore_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentScore_ScoreTypes_ScoreTypeId",
+                        column: x => x.ScoreTypeId,
+                        principalTable: "ScoreTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -624,6 +716,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ClassId",
+                table: "AspNetUsers",
+                column: "ClassId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_FacultyId",
                 table: "AspNetUsers",
                 column: "FacultyId");
@@ -633,6 +730,11 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Classrooms_ClassId",
+                table: "Classrooms",
+                column: "ClassId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Classrooms_FacultyId",
@@ -716,6 +818,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 column: "MissionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Photos_UserId",
+                table: "Photos",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_ClassroomId",
                 table: "Posts",
                 column: "ClassroomId");
@@ -729,6 +837,16 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "IX_Projects_GroupId",
                 table: "Projects",
                 column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentScore_ClassroomId",
+                table: "StudentScore",
+                column: "ClassroomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentScore_ScoreTypeId",
+                table: "StudentScore",
+                column: "ScoreTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subjects_Code",
@@ -779,6 +897,12 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                 name: "MissionUser");
 
             migrationBuilder.DropTable(
+                name: "Photos");
+
+            migrationBuilder.DropTable(
+                name: "StudentScore");
+
+            migrationBuilder.DropTable(
                 name: "Posts");
 
             migrationBuilder.DropTable(
@@ -792,6 +916,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Missions");
+
+            migrationBuilder.DropTable(
+                name: "ScoreTypes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -810,6 +937,9 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Subjects");
+
+            migrationBuilder.DropTable(
+                name: "Classes");
 
             migrationBuilder.DropTable(
                 name: "Faculties");

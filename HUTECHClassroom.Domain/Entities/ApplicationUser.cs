@@ -13,7 +13,7 @@ public class ApplicationUser : IdentityUser<Guid>, IEntity
     public virtual Faculty? Faculty { get; set; }
     public Guid? AvatarId { get; set; }
     public virtual Photo? Avatar { get; set; }
-    public string? ClassId { get; set; }
+    public Guid? ClassId { get; set; }
     public virtual Class? Class { get; set; }
     public virtual ICollection<Classroom> Classrooms { get; set; } = new HashSet<Classroom>();
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();

@@ -9,6 +9,7 @@ public sealed class ClassConfiguration : IEntityTypeConfiguration<Class>
     public void Configure(EntityTypeBuilder<Class> builder)
     {
         builder
-            .Ignore(x => x.Name);
+            .Property(x => x.Name)
+            .IsRequired();
     }
 }

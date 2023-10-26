@@ -4,8 +4,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Classes.Queries.GetClass;
 
-public record GetClassQuery(string Id) : GetQuery<ClassDTO>;
-public class GetClassQueryHandler : GetQueryHandler<string, Class, GetClassQuery, ClassDTO>
+public record GetClassQuery(Guid Id) : GetQuery<ClassDTO>;
+public class GetClassQueryHandler : GetQueryHandler<Class, GetClassQuery, ClassDTO>
 {
     public GetClassQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

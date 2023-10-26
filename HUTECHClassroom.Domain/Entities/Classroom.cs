@@ -23,7 +23,7 @@ public class Classroom : BaseEntity
     public virtual Faculty? Faculty { get; set; }
     public Guid? SubjectId { get; set; }
     public virtual Subject? Subject { get; set; }
-    public string? ClassId { get; set; }
+    public Guid? ClassId { get; set; }
     public virtual Class? Class { get; set; }
 
     public virtual ICollection<Group> Groups { get; set; } = new HashSet<Group>();

@@ -158,11 +158,11 @@ public class ApplicationDbContextInitializer
         {
             new Class
             {
-                Id = "20DTHD1"
+                Name = "20DTHD1"
             },
             new Class
             {
-                Id = "20DTHD3"
+                Name = "20DTHD3"
             }
         };
 

@@ -24,8 +24,7 @@ public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
             .HasDefaultValue(ExerciseConstants.TOTAL_SCORE_DEFAULT_VALUE)
             .IsRequired();
 
-        builder.Property(x => x.Deadline)
-            .HasDefaultValue(DateTime.UtcNow.AddDays(1));
+        builder.Property(x => x.Deadline);
 
         builder.Property(x => x.Topic)
             .HasMaxLength(ExerciseConstants.TOPIC_MAX_LENGTH);

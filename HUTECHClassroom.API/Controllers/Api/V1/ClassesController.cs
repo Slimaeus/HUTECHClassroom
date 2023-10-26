@@ -9,14 +9,14 @@ using HUTECHClassroom.Application.Classs.Commands.UpdateClass;
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class ClassesController : BaseEntityApiController<string, ClassDTO>
+public class ClassesController : BaseEntityApiController<ClassDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<ClassDTO>>> Get([FromQuery] PaginationParams paginationParams)
         => HandlePaginationQuery<GetClassesWithPaginationQuery, PaginationParams>(new GetClassesWithPaginationQuery(paginationParams));
 
     [HttpGet("{classId}")]
-    public Task<ActionResult<ClassDTO>> GetClassDetails(string classId)
+    public Task<ActionResult<ClassDTO>> GetClassDetails(Guid classId)
         => HandleGetQuery(new GetClassQuery(classId));
 
     [Authorize(CreateClassPolicy)]
@@ -26,16 +26,16 @@ public class ClassesController : BaseEntityApiController<string, ClassDTO>
 
     [Authorize(UpdateClassPolicy)]
     [HttpPut("{classId}")]
-    public Task<IActionResult> Put(string classId, UpdateClassCommand request)
+    public Task<IActionResult> Put(Guid classId, UpdateClassCommand request)
         => HandleUpdateCommand(classId, request);
 
     [Authorize(DeleteClassPolicy)]
     [HttpDelete("{classId}")]
-    public Task<ActionResult<ClassDTO>> Delete(string classId)
+    public Task<ActionResult<ClassDTO>> Delete(Guid classId)
         => HandleDeleteCommand(new DeleteClassCommand(classId));
 
     [Authorize(DeleteClassPolicy)]
     [HttpDelete]
-    public Task<IActionResult> DeleteRange(IList<string> classIds)
+    public Task<IActionResult> DeleteRange(IList<Guid> classIds)
         => HandleDeleteRangeCommand(new DeleteRangeClassCommand(classIds));
 }
