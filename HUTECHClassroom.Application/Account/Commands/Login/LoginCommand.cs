@@ -13,14 +13,16 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
     private readonly IMemoryCache _memoryCache;
+    private readonly IUserAccessor _userAccessor;
     private readonly IRepository<ApplicationUser> _userRepository;
 
-    public LoginCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper, IMemoryCache memoryCache)
+    public LoginCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper, IMemoryCache memoryCache, IUserAccessor userAccessor)
     {
         _userManger = userManger;
         _tokenService = tokenService;
         _mapper = mapper;
         _memoryCache = memoryCache;
+        _userAccessor = userAccessor;
         _userRepository = unitOfWork.Repository<ApplicationUser>();
     }
     public async Task<AccountDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -46,7 +48,6 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
         var accountDTO = _mapper
             .Map<AccountDTO>(user);
 
-
         var doesGetCacheTokenSuccess = _memoryCache
             .TryGetValue($"UserToken_{user.UserName}", out string memoryCacheToken);
 
@@ -56,6 +57,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
             if (expireDate >= DateTime.Now.ToUniversalTime().AddMinutes(10))
             {
                 accountDTO.Token = memoryCacheToken;
+                _userAccessor.AppendCookieAccessToken(memoryCacheToken);
                 return accountDTO;
             }
             _memoryCache.Remove($"UserToken_{user.UserName}");
@@ -63,6 +65,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 
         var token = _tokenService.CreateToken(user);
         accountDTO.Token = token;
+        _userAccessor.AppendCookieAccessToken(token);
         _memoryCache.Set($"UserToken_{user.UserName}", token);
 
         return accountDTO;

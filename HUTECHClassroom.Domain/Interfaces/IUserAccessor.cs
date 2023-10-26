@@ -9,4 +9,6 @@ public interface IUserAccessor
     string Jwt { get; }
     IList<string> Roles { get; }
     IDictionary<string, ImmutableArray<string>> EntityClaims { get; }
+
+    void AppendCookieAccessToken(string token);
 }

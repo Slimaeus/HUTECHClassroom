@@ -22,15 +22,17 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
     private readonly IMemoryCache _memoryCache;
+    private readonly IUserAccessor _userAccessor;
     private readonly IRepository<Faculty> _facultyRepository;
     private readonly IRepository<Class> _classRepository;
 
-    public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper, IMemoryCache memoryCache)
+    public RegisterCommandHandler(UserManager<ApplicationUser> userManger, IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper, IMemoryCache memoryCache, IUserAccessor userAccessor)
     {
         _userManger = userManger;
         _tokenService = tokenService;
         _mapper = mapper;
         _memoryCache = memoryCache;
+        _userAccessor = userAccessor;
         _facultyRepository = unitOfWork.Repository<Faculty>();
         _classRepository = unitOfWork.Repository<Class>();
     }
@@ -82,6 +84,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
 
         var accountDTO = _mapper.Map<AccountDTO>(user);
         var token = _tokenService.CreateToken(user);
+        _userAccessor.AppendCookieAccessToken(token);
         _memoryCache.Set($"UserToken_{user.UserName}", token);
         accountDTO.Token = token;
         return accountDTO;

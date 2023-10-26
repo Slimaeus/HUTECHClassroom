@@ -82,6 +82,25 @@ public static class ConfigureServices
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var hasCookieToken = context.Request.Cookies.TryGetValue(AuthenticationConstants.CookieAccessToken, out var cookieToken);
+                        if (hasCookieToken && cookieToken is { })
+                        {
+                            context.Token = cookieToken;
+                            return Task.CompletedTask;
+                        }
+                        var hasAccessToken = context.Request.Query.TryGetValue(AuthenticationConstants.WebSocketAccessToken, out var accessToken);
+                        if (hasAccessToken && accessToken is { })
+                        {
+                            context.Token = accessToken;
+                            return Task.CompletedTask;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
