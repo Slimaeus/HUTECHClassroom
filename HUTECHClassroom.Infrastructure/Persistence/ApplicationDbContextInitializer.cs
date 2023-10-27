@@ -294,14 +294,17 @@ public class ApplicationDbContextInitializer
         {
             new ScoreType
             {
-                Name = "Điểm rèn luyện"
+                Id = ScoreTypeConstants.AttendanceScoreId,
+                Name = "Điểm chuyên cần"
             },
             new ScoreType
             {
+                Id = ScoreTypeConstants.FinalScoreId,
                 Name = "Điểm cuối kì"
             },
             new ScoreType
             {
+                Id = ScoreTypeConstants.MidtermScoreId,
                 Name = "Điểm giữa kì"
             }
         };
