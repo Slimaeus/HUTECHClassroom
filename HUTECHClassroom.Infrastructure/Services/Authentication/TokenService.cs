@@ -1,7 +1,7 @@
 ﻿using HUTECHClassroom.Domain.Constants.Services;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
-using HUTECHClassroom.Infrastructure.Persistence;
+using HUTECHClassroom.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

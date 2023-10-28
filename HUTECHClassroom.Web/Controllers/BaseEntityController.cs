@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
-using HUTECHClassroom.Infrastructure.Persistence;
+using HUTECHClassroom.Persistence;
 using HUTECHClassroom.Web.ViewModels;
 using HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 using Microsoft.AspNetCore.Authorization;

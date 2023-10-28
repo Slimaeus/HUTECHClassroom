@@ -1,7 +1,7 @@
 ﻿using HUTECHClassroom.API.Authorization.GroupRoles;
 using HUTECHClassroom.Domain.Constants.HttpParams;
 using HUTECHClassroom.Domain.Interfaces;
-using HUTECHClassroom.Infrastructure.Persistence;
+using HUTECHClassroom.Persistence;
 using Newtonsoft.Json;
 using System.Text;
 

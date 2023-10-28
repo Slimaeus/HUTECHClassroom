@@ -1,7 +1,7 @@
 ﻿using HUTECHClassroom.Domain.Constants.HttpParams;
 using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Interfaces;
-using HUTECHClassroom.Infrastructure.Persistence;
+using HUTECHClassroom.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.API.Authorization.Classrooms;

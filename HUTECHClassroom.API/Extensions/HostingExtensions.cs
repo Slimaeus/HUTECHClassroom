@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application;
+﻿using HUTECHClassroom.API.Extensions.Configurations;
+using HUTECHClassroom.Application;
 using HUTECHClassroom.Infrastructure;
 
 namespace HUTECHClassroom.API.Extensions;
@@ -9,6 +10,7 @@ public static class HostingExtensions
     {
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);
+        builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddWebApiServices(builder.Configuration);
 
         return builder.Build();
@@ -17,6 +19,7 @@ public static class HostingExtensions
     {
         app.UseWebApi();
         await app.UseInfrastructureAsync();
+        await app.UsePersistenceAsync();
 
         return app;
     }

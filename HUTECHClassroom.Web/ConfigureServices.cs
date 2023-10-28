@@ -1,6 +1,6 @@
 ﻿using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Entities;
-using HUTECHClassroom.Infrastructure.Persistence;
+using HUTECHClassroom.Persistence;
 using System.Reflection;
 
 namespace HUTECHClassroom.Web;
