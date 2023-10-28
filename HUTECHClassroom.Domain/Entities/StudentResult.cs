@@ -1,6 +1,6 @@
 namespace HUTECHClassroom.Domain.Entities;
 
-public class StudentScore
+public class StudentResult
 {
     public Guid? StudentId { get; set; }
     public ApplicationUser? Student { get; set; }

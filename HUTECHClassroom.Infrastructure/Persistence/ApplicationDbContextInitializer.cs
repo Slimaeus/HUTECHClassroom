@@ -335,15 +335,15 @@ public class ApplicationDbContextInitializer
                         User = users[0]
                     }
                 },
-                StudentScores = new List<StudentScore>
+                StudentResults = new List<StudentResult>
                 {
-                    new StudentScore
+                    new StudentResult
                     {
                         Student = users[0],
                         ScoreType = scoreTypes[0],
                         Score = 8
                     },
-                    new StudentScore
+                    new StudentResult
                     {
                         Student = users[0],
                         ScoreType = scoreTypes[1],
@@ -376,27 +376,27 @@ public class ApplicationDbContextInitializer
                         User = users[1]
                     }
                 },
-                StudentScores = new List<StudentScore>
+                StudentResults = new List<StudentResult>
                 {
-                    new StudentScore
+                    new StudentResult
                     {
                         Student = users[0],
                         ScoreType = scoreTypes[0],
                         Score = 9
                     },
-                    new StudentScore
+                    new StudentResult
                     {
                         Student = users[0],
                         ScoreType = scoreTypes[1],
                         Score = 10
                     },
-                    new StudentScore
+                    new StudentResult
                     {
                         Student = users[1],
                         ScoreType = scoreTypes[0],
                         Score = 10
                     },
-                    new StudentScore
+                    new StudentResult
                     {
                         Student = users[1],
                         ScoreType = scoreTypes[1],

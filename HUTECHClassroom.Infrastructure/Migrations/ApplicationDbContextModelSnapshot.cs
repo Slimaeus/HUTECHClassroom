@@ -293,7 +293,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasIndex("ClassroomId");
 
-                    b.ToTable("ClassroomUser");
+                    b.ToTable("ClassroomUsers", (string)null);
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Comment", b =>
@@ -386,7 +386,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("ExerciseUser");
+                    b.ToTable("ExerciseUsers", (string)null);
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Faculty", b =>
@@ -480,7 +480,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasIndex("GroupRoleId");
 
-                    b.ToTable("GroupUser");
+                    b.ToTable("GroupUsers", (string)null);
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Major", b =>
@@ -563,7 +563,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasIndex("MissionId");
 
-                    b.ToTable("MissionUser");
+                    b.ToTable("MissionUsers", (string)null);
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Photo", b =>
@@ -680,7 +680,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.ToTable("ScoreTypes");
                 });
 
-            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.StudentScore", b =>
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.StudentResult", b =>
                 {
                     b.Property<Guid?>("StudentId")
                         .HasColumnType("uuid");
@@ -700,7 +700,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.HasIndex("ScoreTypeId");
 
-                    b.ToTable("StudentScore");
+                    b.ToTable("StudentResults", (string)null);
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Subject", b =>
@@ -1096,10 +1096,10 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.StudentScore", b =>
+            modelBuilder.Entity("HUTECHClassroom.Domain.Entities.StudentResult", b =>
                 {
                     b.HasOne("HUTECHClassroom.Domain.Entities.Classroom", "Classroom")
-                        .WithMany("StudentScores")
+                        .WithMany("StudentResults")
                         .HasForeignKey("ClassroomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1111,7 +1111,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("HUTECHClassroom.Domain.Entities.ApplicationUser", "Student")
-                        .WithMany("StudentScores")
+                        .WithMany("StudentResults")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1215,7 +1215,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.Navigation("Posts");
 
-                    b.Navigation("StudentScores");
+                    b.Navigation("StudentResults");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Class", b =>
@@ -1235,7 +1235,7 @@ namespace HUTECHClassroom.Infrastructure.Migrations
 
                     b.Navigation("Posts");
 
-                    b.Navigation("StudentScores");
+                    b.Navigation("StudentResults");
                 });
 
             modelBuilder.Entity("HUTECHClassroom.Domain.Entities.Exercise", b =>
