@@ -1,6 +1,4 @@
 ﻿using HUTECHClassroom.API.Extensions.Configurations;
-using HUTECHClassroom.Application;
-using HUTECHClassroom.Infrastructure;
 
 namespace HUTECHClassroom.API.Extensions;
 
@@ -18,7 +16,6 @@ public static class HostingExtensions
     public static async Task<WebApplication> ConfigurePipelineAsync(this WebApplication app)
     {
         app.UseWebApi();
-        await app.UseInfrastructureAsync();
         await app.UsePersistenceAsync();
 
         return app;

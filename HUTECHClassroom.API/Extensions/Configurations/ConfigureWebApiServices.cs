@@ -1,7 +1,6 @@
 ﻿using HUTECHClassroom.API.Authorization.GroupRoles;
 using HUTECHClassroom.API.Authorization.Missions;
 using HUTECHClassroom.API.Authorization.Projects;
-using HUTECHClassroom.API.Extensions;
 using HUTECHClassroom.API.Filters;
 using HUTECHClassroom.API.SignalR;
 using HUTECHClassroom.Persistence;
@@ -11,13 +10,14 @@ using Microsoft.OpenApi.Models;
 using System.IO.Compression;
 using System.Text.Json.Serialization;
 
-namespace HUTECHClassroom.API;
+namespace HUTECHClassroom.API.Extensions.Configurations;
 
-public static class ConfigureServices
+public static class ConfigureWebApiServices
 {
     public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
+        services.AddHealthChecks()
+            .AddDbContextCheck<ApplicationDbContext>();
 
         #region Compression
         services.AddResponseCompression(options =>

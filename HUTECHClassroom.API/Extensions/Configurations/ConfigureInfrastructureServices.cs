@@ -6,21 +6,17 @@ using HUTECHClassroom.Infrastructure.Services.Email;
 using HUTECHClassroom.Infrastructure.Services.Excel;
 using HUTECHClassroom.Infrastructure.Services.Photos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace HUTECHClassroom.Infrastructure;
+namespace HUTECHClassroom.API.Extensions.Configurations;
 
-public static class ConfigureServices
+public static class ConfigureInfrastructureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-
         #region Authentication
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[ServiceConstants.TOKEN_KEY]));
 
@@ -88,9 +84,5 @@ public static class ConfigureServices
         #endregion
 
         return services;
-    }
-    public static Task<WebApplication> UseInfrastructureAsync(this WebApplication app)
-    {
-        return Task.FromResult(app);
     }
 }
