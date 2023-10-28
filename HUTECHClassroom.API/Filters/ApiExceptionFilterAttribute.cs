@@ -16,7 +16,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             { typeof(ValidationException), HandleValidationException },
             { typeof(NotFoundException), HandleNotFoundException },
             { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
-            //{ typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+            { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
         };
 
     public override void OnException(ExceptionContext context)
@@ -125,6 +125,24 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.Result = new ObjectResult(details)
         {
             StatusCode = StatusCodes.Status401Unauthorized
+        };
+
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleForbiddenAccessException(ExceptionContext context)
+    {
+        Log.Error($"An Forbidden Access exception occurred: {context.Exception.Message}");
+        var details = new ProblemDetails
+        {
+            Status = StatusCodes.Status403Forbidden,
+            Title = "Forbidden",
+            Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
+        };
+
+        context.Result = new ObjectResult(details)
+        {
+            StatusCode = StatusCodes.Status403Forbidden
         };
 
         context.ExceptionHandled = true;
