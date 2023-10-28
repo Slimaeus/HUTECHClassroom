@@ -1,7 +1,9 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using HUTECHClassroom.Domain.Common;
+using HUTECHClassroom.Domain.Constants.Services;
 using HUTECHClassroom.Domain.Interfaces;
+using HUTECHClassroom.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -19,16 +21,16 @@ public class CloudinaryPhotoAccessor : IPhotoAccessor
         );
         _cloudinary = new Cloudinary(account);
     }
-    public async Task<PhotoUploadResult> AddPhoto(IFormFile file, string folder = "")
+    public async Task<ServiceResult<PhotoUploadResult>> AddPhoto(IFormFile file, string folder = "", double height = CloudinaryConstants.DEFAULT_HEIGHT, double width = CloudinaryConstants.DEFAULT_WIDTH)
     {
-        if (file is not null && file.Length > 0)
+        if (file is { Length: > 0 })
         {
             await using var stream = file.OpenReadStream();
             var uploadParams = new ImageUploadParams
             {
                 Folder = folder,
                 File = new FileDescription(file.FileName, stream),
-                Transformation = new Transformation().Height(500).Width(500).Crop("fill")
+                Transformation = new Transformation().Height(height).Width(width).Crop(CloudinaryConstants.FILL_CROP_MODE)
             };
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);
@@ -38,20 +40,22 @@ public class CloudinaryPhotoAccessor : IPhotoAccessor
                 throw new Exception(uploadResult.Error.Message);
             }
 
-            return new PhotoUploadResult
+            return ServiceResult<PhotoUploadResult>.Success(new PhotoUploadResult
             {
                 PublicId = uploadResult.PublicId,
                 Url = uploadResult.SecureUrl.ToString()
-            };
+            });
         }
 
-        return null;
+        return ServiceResult<PhotoUploadResult>.Error("Add Photo Failed");
     }
 
-    public async Task<string> DeletePhoto(string publicId)
+    public async Task<ServiceResult<string>> DeletePhoto(string publicId)
     {
         var deleteParams = new DeletionParams(publicId);
         var result = await _cloudinary.DestroyAsync(deleteParams);
-        return result.Result == "ok" ? result.Result : null;
+        return result.Result == CloudinaryConstants.OK_RESULT
+            ? ServiceResult<string>.Success(result.Result)
+            : ServiceResult<string>.Error("Delete Photo Failed");
     }
 }

@@ -47,14 +47,23 @@ public class ResultsController : BaseApiController
     public async Task<IActionResult> AddPhotoAsync(IFormFile file)
     {
         var result = await _photoAccessor.AddPhoto(file);
-        return Ok(result.PublicId);
+        return result switch
+        {
+            { IsSuccess: true } => Ok(result.Data.PublicId),
+            _ => BadRequest(result)
+        };
+        //return Ok(result.PublicId);
     }
 
     [HttpDelete("delete-photo")]
     public async Task<IActionResult> DeletePhotoAsync(string publicId)
     {
         var result = await _photoAccessor.DeletePhoto(publicId);
-        return Ok(result);
+        return result switch
+        {
+            { IsSuccess: true } => Ok(result),
+            _ => BadRequest(result)
+        };
     }
 
     [HttpGet("test")]

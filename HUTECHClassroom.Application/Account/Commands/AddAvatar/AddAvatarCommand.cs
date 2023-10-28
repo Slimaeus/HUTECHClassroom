@@ -46,12 +46,16 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
                 .Remove(user.Avatar);
         }
 
+        if (!result.IsSuccess)
+        {
+            throw new InvalidOperationException(result.Errors.FirstOrDefault());
+        }
 
         var avatar = await _photoRepository
             .AddAsync(new Photo
             {
-                PublicId = result.PublicId,
-                Url = result.Url,
+                PublicId = result.Data.PublicId,
+                Url = result.Data.Url,
                 Title = user.Id.ToString()
             }, cancellationToken);
 

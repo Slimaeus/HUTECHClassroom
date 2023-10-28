@@ -31,13 +31,14 @@ public class RemoveAvatarCommandHandler : IRequestHandler<RemoveAvatarCommand, U
             .SingleOrDefaultAsync(query, cancellationToken)
             ?? throw new UnauthorizedAccessException(typeof(ApplicationUser).Name);
 
-        if (user.Avatar is { })
-        {
-            await _photoAccessor.DeletePhoto(user.Avatar.PublicId).ConfigureAwait(false);
-            _photoRepository.Remove(user.Avatar);
-            user.Avatar = null;
-            await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);
-        }
+        if (user.Avatar is null) return Unit.Value;
+
+        var deleteResult = await _photoAccessor.DeletePhoto(user.Avatar.PublicId).ConfigureAwait(false);
+        if (!deleteResult.IsSuccess) return Unit.Value;
+
+        _photoRepository.Remove(user.Avatar);
+        user.Avatar = null;
+        await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);
 
 
         return Unit.Value;
