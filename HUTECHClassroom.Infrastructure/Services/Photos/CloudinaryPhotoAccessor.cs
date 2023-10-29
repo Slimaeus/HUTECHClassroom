@@ -5,22 +5,14 @@ using HUTECHClassroom.Domain.Constants.Services;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Domain.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 
 namespace HUTECHClassroom.Infrastructure.Services.Photos;
 
 public class CloudinaryPhotoAccessor : IPhotoAccessor
 {
     private readonly Cloudinary _cloudinary;
-    public CloudinaryPhotoAccessor(IOptions<CloudinarySettings> config)
-    {
-        var account = new Account(
-            config.Value.CloudName,
-            config.Value.ApiKey,
-            config.Value.ApiSecret
-        );
-        _cloudinary = new Cloudinary(account);
-    }
+    public CloudinaryPhotoAccessor(Cloudinary cloudinary)
+        => _cloudinary = cloudinary;
     public async Task<ServiceResult<PhotoUploadResult>> AddPhoto(IFormFile file, string folder = "", double height = CloudinaryConstants.DEFAULT_HEIGHT, double width = CloudinaryConstants.DEFAULT_WIDTH)
     {
         if (file is { Length: > 0 })

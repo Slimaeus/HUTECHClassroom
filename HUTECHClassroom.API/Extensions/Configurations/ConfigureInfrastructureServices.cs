@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Constants.Services;
+﻿using CloudinaryDotNet;
+using HUTECHClassroom.Domain.Constants.Services;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Infrastructure.Services.Authentication;
 using HUTECHClassroom.Infrastructure.Services.ComputerVision;
@@ -66,6 +67,17 @@ public static class ConfigureInfrastructureServices
             {
                 Endpoint = settings.Endpoint
             };
+        });
+
+        services.AddSingleton(sp =>
+        {
+            var settings = sp.GetRequiredService<IOptions<CloudinarySettings>>().Value;
+
+            return new Cloudinary(new Account(
+                settings.CloudName,
+                settings.ApiKey,
+                settings.ApiSecret
+            ));
         });
         #endregion
 

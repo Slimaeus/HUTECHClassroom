@@ -63,6 +63,7 @@ public static class ConfigurePersistenceServices
             .AddDefaultTokenProviders();
 
         #endregion
+
         return services;
     }
     public static async Task<WebApplication> UsePersistenceAsync(this WebApplication app)
