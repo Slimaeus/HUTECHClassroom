@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Folder Include="Account\Queries\" />
+    <Folder Include="Scores\Commands\" />
   </ItemGroup>
 
   <ItemGroup>

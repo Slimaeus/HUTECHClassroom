@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Web", "HUTECHClassroom.Web\HUTECHClassroom.Web.csproj", "{B2B735DB-DB6F-47CB-98C0-149D4F9EF1CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUTECHClassroom.Persistence", "HUTECHClassroom.Persistence\HUTECHClassroom.Persistence.csproj", "{F1A64575-A78F-4C97-9E64-058BD69E3941}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUTECHClassroom.Persistence", "HUTECHClassroom.Persistence\HUTECHClassroom.Persistence.csproj", "{F1A64575-A78F-4C97-9E64-058BD69E3941}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
