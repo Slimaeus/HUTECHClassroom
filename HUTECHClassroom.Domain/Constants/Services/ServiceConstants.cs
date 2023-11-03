@@ -9,4 +9,5 @@ public static class ServiceConstants
     public const string CLOUDINARY_SETTINGS_KEY = "Cloudinary";
     public const string ROOT_IMAGE_FOLDER = "hutech_classroom";
     public const string AVATAR_FOLDER = "avatars";
+    public const string TRANSCRIPT_FOLDER = "transcript";
 }
