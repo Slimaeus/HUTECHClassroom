@@ -11,23 +11,23 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 [Authorize(Roles = RoleConstants.ADMIN)]
-public class FeaturesController : BaseApiController
+public sealed class FeaturesController : BaseApiController
 {
     private readonly IAzureComputerVisionService _azureComputerVisionService;
     private static readonly string _resultFilePath = "output.json";
     public FeaturesController(IAzureComputerVisionService azureComputerVisionService)
         => _azureComputerVisionService = azureComputerVisionService;
 
-    [HttpGet("vision/read/{url}")]
-    public async Task<ActionResult<IEnumerable<OptimizedPage>>> Read(string url)
+    [HttpGet("vision/read")]
+    public async Task<ActionResult<IEnumerable<OptimizedPage>>> Read([FromQuery] string a)
     {
-        var decodedUrl = WebUtility.UrlDecode(url);
+        var decodedUrl = WebUtility.UrlDecode(a);
         var result = await _azureComputerVisionService.ReadFileUrl(decodedUrl);
         var serializedResult = JsonConvert.SerializeObject(result);
         await FileIO.WriteAllTextAsync(_resultFilePath, serializedResult);
         return Ok(result);
     }
-    private bool IsScore(string text)
+    private static bool IsScore(string text)
     {
         if (string.IsNullOrWhiteSpace(text)) return false;
         if (text.Any(x => (x < '0' || x > '9') && x != ',' && x != '.'))
@@ -54,7 +54,7 @@ public class FeaturesController : BaseApiController
             var ordinalNumberRegex = @"^\d+$";
             var idRegex = @"^\d{10}$";
             //var scoreRegex = @"^(?:10(?:[.,]0)?|[0-9](?:[.,]\d)?)$";
-            var scoreRegex = @"^(?:10(?:[.,]0)?|[1-9](?:\.\d|[0-9])?|100|10)$";
+            var scoreRegex = @"^(?:100(?:[.,]0)?|[1-9](?:\.\d|[0-9])?|0(?:[.,]0)?)$";
 
             int ordinalNumber = 0;
             int previousOrdinalNumber = -1;
@@ -77,10 +77,6 @@ public class FeaturesController : BaseApiController
                     if (!skipped)
                     {
                         continue;
-                    }
-                    if (text == "10")
-                    {
-                        var a = 1;
                     }
                     if (Regex.IsMatch(text, idRegex))
                     {
@@ -106,7 +102,7 @@ public class FeaturesController : BaseApiController
                             previousOrdinalNumber = newOrdinalNumber;
                             ordinalNumber = newOrdinalNumber;
                         }
-                        else if (IsScore(text))
+                        else if (Regex.IsMatch(text, scoreRegex))
                         {
                             var newScore = double.Parse(text.Replace(',', '.'));
                             if (newScore > 10)
@@ -116,11 +112,7 @@ public class FeaturesController : BaseApiController
                             score = newScore;
                         }
                     }
-                    //else if (Regex.IsMatch(text, scoreRegex))
-                    //{
-                    //    score = double.Parse(text.Replace(',', '.'));
-                    //}
-                    else if (IsScore(text))
+                    else if (Regex.IsMatch(text, scoreRegex))
                     {
                         var newScore = double.Parse(text.Replace(',', '.'));
                         if (newScore > 10)

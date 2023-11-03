@@ -16,10 +16,10 @@ public sealed class AzureComputerVisionService : IAzureComputerVisionService
     {
         var textHeaders = await _computerVisionClient.ReadAsync(url);
 
-        string operationLocation = textHeaders.OperationLocation;
+        var operationLocation = textHeaders.OperationLocation;
 
-        const int numberOfCharsInOperationId = 36;
-        string operationId = operationLocation[^numberOfCharsInOperationId..];
+        var numberOfCharsInOperationId = 36;
+        var operationId = operationLocation[^numberOfCharsInOperationId..];
 
         ReadOperationResult results;
         do

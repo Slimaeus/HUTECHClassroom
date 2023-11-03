@@ -58,6 +58,12 @@ public static class ConfigureInfrastructureServices
         services.AddScoped<IUserAccessor, UserAccessor>();
         #endregion
 
+        #region Settings
+        services.Configure<GmailSMTPSettings>(configuration.GetSection("EmailService:Gmail"));
+        services.Configure<CloudinarySettings>(configuration.GetSection(ServiceConstants.CLOUDINARY_SETTINGS_KEY));
+        services.Configure<AzureComputerVisionSettings>(configuration.GetSection("Azure:ComputerVision"));
+        #endregion
+
         #region Clients
         services.AddSingleton<IComputerVisionClient>(sp =>
         {
@@ -79,12 +85,6 @@ public static class ConfigureInfrastructureServices
                 settings.ApiSecret
             ));
         });
-        #endregion
-
-        #region Settings
-        services.Configure<GmailSMTPSettings>(configuration.GetSection("EmailService:Gmail"));
-        services.Configure<CloudinarySettings>(configuration.GetSection(ServiceConstants.CLOUDINARY_SETTINGS_KEY));
-        services.Configure<AzureComputerVisionSettings>(configuration.GetSection("Azure:ComputerVision"));
         #endregion
 
         #region Services
