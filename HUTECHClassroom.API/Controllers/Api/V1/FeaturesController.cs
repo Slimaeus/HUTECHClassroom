@@ -53,7 +53,6 @@ public sealed class FeaturesController : BaseApiController
         {
             var ordinalNumberRegex = @"^\d+$";
             var idRegex = @"^\d{10}$";
-            //var scoreRegex = @"^(?:10(?:[.,]0)?|[0-9](?:[.,]\d)?)$";
             var scoreRegex = @"^(?:100(?:[.,]0)?|[1-9](?:\.\d|[0-9])?|0(?:[.,]0)?)$";
 
             int ordinalNumber = 0;
@@ -66,18 +65,16 @@ public sealed class FeaturesController : BaseApiController
             foreach (var line in page.OptimizedLines)
             {
                 var texts = line.Text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
+                if (texts.Contains("Diem"))
+                {
+                    skipped = true;
+                }
+                if (!skipped)
+                {
+                    continue;
+                }
                 foreach (var text in texts)
                 {
-                    if (text == "Diem")
-                    {
-                        skipped = true;
-                        continue;
-                    }
-                    if (!skipped)
-                    {
-                        continue;
-                    }
                     if (Regex.IsMatch(text, idRegex))
                     {
                         id = text;
