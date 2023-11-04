@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Constants;
+﻿using HUTECHClassroom.Application.Scores.DTOs;
+using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Domain.Models.ComputerVision;
 using Newtonsoft.Json;
@@ -27,27 +28,14 @@ public sealed class FeaturesController : BaseApiController
         await FileIO.WriteAllTextAsync(_resultFilePath, serializedResult);
         return Ok(result);
     }
-    private static bool IsScore(string text)
-    {
-        if (string.IsNullOrWhiteSpace(text)) return false;
-        if (text.Any(x => (x < '0' || x > '9') && x != ',' && x != '.'))
-        {
-            return false;
-        }
-        var value = double.Parse(text);
-        if (value > 100 || value < 0)
-        {
-            return false;
-        }
-        return true;
-    }
+
     [HttpGet("vision/write")]
-    public async Task<ActionResult<IEnumerable<ResultDto>>> Write()
+    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> Write()
     {
         var str = await FileIO.ReadAllTextAsync(_resultFilePath);
         var pages = JsonConvert.DeserializeObject<IEnumerable<OptimizedPage>>(str);
 
-        var resultDtos = new List<ResultDto>();
+        var resultDtos = new List<StudentResultWithOrdinalDTO>();
 
         foreach (var page in pages)
         {
@@ -62,12 +50,14 @@ public sealed class FeaturesController : BaseApiController
 
             var skipped = false;
 
+
             foreach (var line in page.OptimizedLines)
             {
                 var texts = line.Text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (texts.Contains("Diem"))
                 {
                     skipped = true;
+                    continue;
                 }
                 if (!skipped)
                 {
@@ -90,7 +80,7 @@ public sealed class FeaturesController : BaseApiController
                         {
                             if (ordinalNumber != 0 && id != null)
                             {
-                                resultDtos.Add(new ResultDto(ordinalNumber, id, score));
+                                resultDtos.Add(new StudentResultWithOrdinalDTO(ordinalNumber, id, score));
 
                                 ordinalNumber = 0;
                                 id = null;
@@ -121,20 +111,16 @@ public sealed class FeaturesController : BaseApiController
 
                     if (ordinalNumber != 0 && id != null && score != null)
                     {
-                        resultDtos.Add(new ResultDto(ordinalNumber, id, score));
+                        resultDtos.Add(new StudentResultWithOrdinalDTO(ordinalNumber, id, score));
                         ordinalNumber = 0;
                         id = null;
                         score = null;
                     }
                 }
 
-
             }
         }
 
         return Ok(resultDtos);
     }
-
-    public sealed record ResultDto(int OrdinalNumber, string Id, double? Score);
-
 }
