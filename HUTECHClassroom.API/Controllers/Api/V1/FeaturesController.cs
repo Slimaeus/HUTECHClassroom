@@ -1,5 +1,6 @@
 ﻿using HUTECHClassroom.Application.Scores.DTOs;
 using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Domain.Constants.Services;
 using HUTECHClassroom.Domain.Interfaces;
 using HUTECHClassroom.Domain.Models.ComputerVision;
 using Newtonsoft.Json;
@@ -15,9 +16,13 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 public sealed class FeaturesController : BaseApiController
 {
     private readonly IAzureComputerVisionService _azureComputerVisionService;
+    private readonly IPhotoAccessor _photoAccessor;
     private static readonly string _resultFilePath = "output.json";
-    public FeaturesController(IAzureComputerVisionService azureComputerVisionService)
-        => _azureComputerVisionService = azureComputerVisionService;
+    public FeaturesController(IAzureComputerVisionService azureComputerVisionService, IPhotoAccessor photoAccessor)
+    {
+        _azureComputerVisionService = azureComputerVisionService;
+        _photoAccessor = photoAccessor;
+    }
 
     [HttpGet("vision/read")]
     public async Task<ActionResult<IEnumerable<OptimizedPage>>> Read([FromQuery] string a)
@@ -122,5 +127,24 @@ public sealed class FeaturesController : BaseApiController
         }
 
         return Ok(resultDtos);
+    }
+
+    [HttpPost("vision/read-file")]
+    public async Task<ActionResult> ReadFile(IFormFile file)
+    {
+        var result = await _photoAccessor.AddPhoto(file, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.TRANSCRIPT_FOLDER}");
+
+        if (!result.IsSuccess)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var url = result.Data.Url;
+        var fileData = await _azureComputerVisionService.ReadFileUrl(url);
+
+        await _photoAccessor
+                .DeletePhoto(result.Data.PublicId);
+
+        return Ok(fileData);
     }
 }
