@@ -1,55 +1,40 @@
-﻿using HUTECHClassroom.Application.Scores.DTOs;
-using HUTECHClassroom.Application.Scores.Queries.GetStudentScoresFromFile;
-using HUTECHClassroom.Domain.Constants;
+using HUTECHClassroom.Application.Scores.DTOs;
 using HUTECHClassroom.Domain.Constants.Services;
 using HUTECHClassroom.Domain.Interfaces;
-using HUTECHClassroom.Domain.Models.ComputerVision;
-using Newtonsoft.Json;
-using System.Net;
+using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
-using FileIO = System.IO.File;
 
+namespace HUTECHClassroom.Application.Scores.Queries.GetStudentScoresFromFile;
 
-namespace HUTECHClassroom.API.Controllers.Api.V1;
-
-[ApiVersion("1.0")]
-[Authorize(Roles = RoleConstants.ADMIN)]
-public sealed class FeaturesController : BaseApiController
+public sealed record GetStudentScoresFromFileQuery(IFormFile File) : IRequest<IEnumerable<StudentResultWithOrdinalDTO>>;
+public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEnumerable<StudentResultWithOrdinalDTO>>
 {
-    private readonly IAzureComputerVisionService _azureComputerVisionService;
     private readonly IPhotoAccessor _photoAccessor;
-    private static readonly string _resultFilePath = "output.json";
-    public FeaturesController(IAzureComputerVisionService azureComputerVisionService, IPhotoAccessor photoAccessor)
+    private readonly IAzureComputerVisionService _azureComputerVisionService;
+
+    public Handler(IPhotoAccessor photoAccessor, IAzureComputerVisionService azureComputerVisionService)
     {
-        _azureComputerVisionService = azureComputerVisionService;
         _photoAccessor = photoAccessor;
+        _azureComputerVisionService = azureComputerVisionService;
     }
-
-    [HttpPost("vision/test")]
-    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> Test(IFormFile file)
+    public async Task<IEnumerable<StudentResultWithOrdinalDTO>> Handle(GetStudentScoresFromFileQuery request, CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetStudentScoresFromFileQuery(file)));
-    }
+        var result = await _photoAccessor.AddPhoto(request.File, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.TRANSCRIPT_FOLDER}");
 
-    [HttpGet("vision/read")]
-    public async Task<ActionResult<IEnumerable<OptimizedPage>>> Read([FromQuery] string a)
-    {
-        var decodedUrl = WebUtility.UrlDecode(a);
-        var result = await _azureComputerVisionService.ReadFileUrl(decodedUrl);
-        var serializedResult = JsonConvert.SerializeObject(result);
-        await FileIO.WriteAllTextAsync(_resultFilePath, serializedResult);
-        return Ok(result);
-    }
+        if (!result.IsSuccess)
+        {
+            throw new InvalidOperationException();
+        }
 
-    [HttpGet("vision/write")]
-    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> Write()
-    {
-        var str = await FileIO.ReadAllTextAsync(_resultFilePath);
-        var pages = JsonConvert.DeserializeObject<IEnumerable<OptimizedPage>>(str);
+        var url = result.Data.Url;
+        var fileData = await _azureComputerVisionService.ReadFileUrl(url);
+
+        await _photoAccessor
+                .DeletePhoto(result.Data.PublicId);
 
         var resultDtos = new List<StudentResultWithOrdinalDTO>();
 
-        foreach (var page in pages)
+        foreach (var page in fileData)
         {
             var ordinalNumberRegex = @"^\d+$";
             var idRegex = @"^\d{10}$";
@@ -61,7 +46,6 @@ public sealed class FeaturesController : BaseApiController
             double? score = null;
 
             var skipped = false;
-
 
             foreach (var line in page.OptimizedLines)
             {
@@ -132,26 +116,6 @@ public sealed class FeaturesController : BaseApiController
 
             }
         }
-
-        return Ok(resultDtos);
-    }
-
-    [HttpPost("vision/read-file")]
-    public async Task<ActionResult> ReadFile(IFormFile file)
-    {
-        var result = await _photoAccessor.AddPhoto(file, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.TRANSCRIPT_FOLDER}");
-
-        if (!result.IsSuccess)
-        {
-            throw new InvalidOperationException();
-        }
-
-        var url = result.Data.Url;
-        var fileData = await _azureComputerVisionService.ReadFileUrl(url);
-
-        await _photoAccessor
-                .DeletePhoto(result.Data.PublicId);
-
-        return Ok(fileData);
+        return resultDtos;
     }
 }
