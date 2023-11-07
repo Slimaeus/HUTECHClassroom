@@ -1,6 +1,7 @@
 using HUTECHClassroom.Application.Common.Validators.Classrooms;
 using HUTECHClassroom.Application.Common.Validators.ScoreTypes;
 using HUTECHClassroom.Application.Common.Validators.Users;
+using HUTECHClassroom.Persistence;
 
 namespace HUTECHClassroom.Application.Scores.Commands.AddStudentResult;
 
@@ -8,16 +9,23 @@ public sealed record AddStudentResultCommand(Guid StudentId, Guid ClassroomId, i
 public sealed class Handler : IRequestHandler<AddStudentResultCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ApplicationDbContext _applicationDbContext;
     private readonly IMapper _mapper;
 
-    public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+    public Handler(IUnitOfWork unitOfWork, ApplicationDbContext applicationDbContext, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _applicationDbContext = applicationDbContext;
         _mapper = mapper;
     }
     public async Task<Unit> Handle(AddStudentResultCommand request, CancellationToken cancellationToken)
     {
+        if (_applicationDbContext.StudentResults.Any(x => x.StudentId == request.StudentId && x.ClassroomId == request.ClassroomId && x.ScoreTypeId == request.ScoreTypeId))
+        {
+            throw new InvalidOperationException("Result Existed");
+        }
         var studentResult = _mapper.Map<StudentResult>(request);
+
         await _unitOfWork.DbContext.AddAsync(studentResult, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);

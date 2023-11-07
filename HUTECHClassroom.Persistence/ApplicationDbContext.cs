@@ -30,6 +30,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Photo> Photos { get; set; }
     public DbSet<ScoreType> ScoreTypes { get; set; }
 
+    public DbSet<StudentResult> StudentResults { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
