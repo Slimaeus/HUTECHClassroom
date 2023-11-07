@@ -1,3 +1,4 @@
+using FluentValidation.Results;
 using HUTECHClassroom.Application.Common.Validators.Classrooms;
 using HUTECHClassroom.Application.Common.Validators.ScoreTypes;
 using HUTECHClassroom.Application.Common.Validators.Users;
@@ -22,7 +23,11 @@ public sealed class Handler : IRequestHandler<AddStudentResultCommand, Unit>
     {
         if (_applicationDbContext.StudentResults.Any(x => x.StudentId == request.StudentId && x.ClassroomId == request.ClassroomId && x.ScoreTypeId == request.ScoreTypeId))
         {
-            throw new InvalidOperationException("Result Existed");
+            var failures = new List<ValidationFailure>
+            {
+                new ValidationFailure("Result", "Result already existed")
+            };
+            throw new ValidationException(failures);
         }
         var studentResult = _mapper.Map<StudentResult>(request);
 

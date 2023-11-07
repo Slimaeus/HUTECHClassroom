@@ -2,7 +2,6 @@
 using HUTECHClassroom.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
-using System.Diagnostics;
 
 namespace HUTECHClassroom.API.Filters;
 
@@ -28,7 +27,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleException(ExceptionContext context)
     {
-        Type type = context.Exception.GetType();
+        var type = context.Exception.GetType();
         if (_exceptionHandlers.TryGetValue(type, out Action<ExceptionContext> value))
         {
             value.Invoke(context);
@@ -46,7 +45,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         var exception = (InvalidOperationException)context.Exception;
 
         // Log the exception details
-        Trace.TraceError($"An invalid operation exception occurred: {exception.Message}");
         Log.Error($"An invalid operation exception occurred: {exception.Message}");
 
         var details = new ProblemDetails
