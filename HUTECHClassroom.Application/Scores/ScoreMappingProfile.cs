@@ -1,3 +1,4 @@
+using HUTECHClassroom.Application.Scores.Commands.AddStudentResult;
 using HUTECHClassroom.Application.Scores.DTOs;
 
 namespace HUTECHClassroom.Application.Scores;
@@ -9,5 +10,7 @@ public sealed class ScoreMappingProfile : Profile
         CreateMap<ScoreType, ScoreTypeDTO>();
 
         CreateMap<StudentResult, StudentResultDTO>();
+
+        CreateMap<AddStudentResultCommand, StudentResult>();
     }
 }
