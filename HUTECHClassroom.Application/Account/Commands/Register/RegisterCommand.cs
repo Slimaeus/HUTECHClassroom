@@ -75,7 +75,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDT
         }
 
         var result = await _userManger.CreateAsync(user, request.Password).ConfigureAwait(false);
-        await _userManger.AddToRoleAsync(user, RoleConstants.STUDENT);
+        await _userManger.AddToRoleAsync(user, RoleConstants.Student);
 
         if (!result.Succeeded)
         {

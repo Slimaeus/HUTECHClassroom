@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HUTECHClassroom.Application\HUTECHClassroom.Application.csproj" />
     <ProjectReference Include="..\HUTECHClassroom.Infrastructure\HUTECHClassroom.Infrastructure.csproj" />
+    <ProjectReference Include="..\HUTECHClassroom.Persistence\HUTECHClassroom.Persistence.csproj" />
   </ItemGroup>
 	
 	<ItemGroup>

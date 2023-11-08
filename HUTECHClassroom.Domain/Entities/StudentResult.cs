@@ -3,11 +3,12 @@ namespace HUTECHClassroom.Domain.Entities;
 public class StudentResult
 {
     public Guid? StudentId { get; set; }
-    public ApplicationUser? Student { get; set; }
+    public virtual ApplicationUser? Student { get; set; }
     public Guid? ClassroomId { get; set; }
-    public Classroom? Classroom { get; set; }
+    public virtual Classroom? Classroom { get; set; }
     public int? ScoreTypeId { get; set; }
-    public ScoreType? ScoreType { get; set; }
+    public virtual ScoreType? ScoreType { get; set; }
 
+    public int OrdinalNumber { get; set; }
     public int Score { get; set; }
 }

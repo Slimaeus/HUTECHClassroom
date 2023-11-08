@@ -2,9 +2,10 @@
 
 public static class RoleConstants
 {
-    public const string ADMIN = "Administrator";
-    public const string DEAN = "Dean";
-    public const string TRAINING_OFFICE = "TrainingOffice";
-    public const string LECTURER = "Lecturer";
-    public const string STUDENT = "Student";
+    public const string Administrator = nameof(Administrator);
+    public const string Dean = nameof(Dean);
+    public const string TrainingOffice = nameof(TrainingOffice);
+    public const string Lecturer = nameof(Lecturer);
+    public const string Student = nameof(Student);
+    public const string DepartmentSecretary = nameof(DepartmentSecretary);
 }

@@ -13,7 +13,7 @@ using FileIO = System.IO.File;
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-[Authorize(Roles = RoleConstants.ADMIN)]
+[Authorize(Roles = RoleConstants.Administrator)]
 public sealed class FeaturesController : BaseApiController
 {
     private readonly IAzureComputerVisionService _azureComputerVisionService;

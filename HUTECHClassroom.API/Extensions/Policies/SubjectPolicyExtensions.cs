@@ -8,7 +8,7 @@ public static class SubjectPolicyExtensions
     {
         options.AddPolicy(CreateSubjectPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
         options.AddPolicy(ReadSubjectPolicy, policy =>
         {
@@ -16,12 +16,12 @@ public static class SubjectPolicyExtensions
         });
         options.AddPolicy(UpdateSubjectPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
 
         });
         options.AddPolicy(DeleteSubjectPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
     }
 }

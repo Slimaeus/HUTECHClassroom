@@ -9,7 +9,7 @@ public static class MissionPolicyExtensions
         options.AddPolicy(CreateMissionPolicy, policy =>
         {
             //policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer);
 
         });
         options.AddPolicy(ReadMissionPolicy, policy =>
@@ -19,13 +19,13 @@ public static class MissionPolicyExtensions
         options.AddPolicy(UpdateMissionPolicy, policy =>
         {
             //policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer);
 
         });
         options.AddPolicy(DeleteMissionPolicy, policy =>
         {
             //policy.AddRequirements(new GroupRoleFromMissionRequirement(GroupRoleConstants.LEADER));
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer);
 
         });
     }

@@ -8,7 +8,7 @@ public static class PostPolicyExtensions
     {
         options.AddPolicy(CreatePostPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
+            policy.RequireRole(RoleConstants.Lecturer, RoleConstants.Student);
         });
         options.AddPolicy(ReadPostPolicy, policy =>
         {
@@ -16,11 +16,11 @@ public static class PostPolicyExtensions
         });
         options.AddPolicy(UpdatePostPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
+            policy.RequireRole(RoleConstants.Lecturer, RoleConstants.Student);
         });
         options.AddPolicy(DeletePostPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER, RoleConstants.STUDENT);
+            policy.RequireRole(RoleConstants.Lecturer, RoleConstants.Student);
         });
     }
 }

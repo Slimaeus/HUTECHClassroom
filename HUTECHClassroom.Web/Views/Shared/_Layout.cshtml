@@ -32,14 +32,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.DEAN) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TRAINING_OFFICE) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.ADMIN))) {
+                        @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.Dean) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TrainingOffice) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.Administrator))) {
                         
                         <li class="nav-item dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 Entities
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.DEAN) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TRAINING_OFFICE)))
+                                @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.Dean) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TrainingOffice)))
                                 {
                                     
                                 <li class="nav-item">
@@ -76,7 +76,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Subjects</a>
                                 </li>
                                 }
-                                @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.ADMIN) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.DEAN) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TRAINING_OFFICE)))
+                                @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.Administrator) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.Dean) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TrainingOffice)))
                                 {
                                     
                                 <li class="nav-item">

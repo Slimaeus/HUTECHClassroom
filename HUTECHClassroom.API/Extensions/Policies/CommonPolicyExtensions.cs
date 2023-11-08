@@ -8,7 +8,7 @@ public static class CommonPolicyExtensions
     {
         options.AddPolicy(NeedRolePolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE, RoleConstants.ADMIN);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer, RoleConstants.Dean, RoleConstants.TrainingOffice, RoleConstants.Administrator);
         });
     }
 }

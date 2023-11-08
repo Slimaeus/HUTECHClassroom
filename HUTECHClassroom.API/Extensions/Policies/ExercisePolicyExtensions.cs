@@ -8,7 +8,7 @@ public static class ExercisePolicyExtensions
     {
         options.AddPolicy(CreateExercisePolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Lecturer);
         });
         options.AddPolicy(ReadExercisePolicy, policy =>
         {
@@ -16,11 +16,11 @@ public static class ExercisePolicyExtensions
         });
         options.AddPolicy(UpdateExercisePolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Lecturer);
         });
         options.AddPolicy(DeleteExercisePolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Lecturer);
         });
     }
 }

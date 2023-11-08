@@ -3,9 +3,9 @@ using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Persistence;
 using System.Reflection;
 
-namespace HUTECHClassroom.Web;
+namespace HUTECHClassroom.Web.Extensions.Configurations;
 
-public static class ConfigureServices
+public static class ConfigureWebApiServices
 {
     public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
     {

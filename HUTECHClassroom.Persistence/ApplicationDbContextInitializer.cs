@@ -87,18 +87,20 @@ public class ApplicationDbContextInitializer
 
         await _context.AddRangeAsync(groupRoles);
 
-        var studentRole = new ApplicationRole(RoleConstants.STUDENT);
-        var lecturerRole = new ApplicationRole(RoleConstants.LECTURER);
-        var deanRole = new ApplicationRole(RoleConstants.DEAN);
-        var trainingOfficeRole = new ApplicationRole(RoleConstants.TRAINING_OFFICE);
-        var administratorRole = new ApplicationRole(RoleConstants.ADMIN);
+        var studentRole = new ApplicationRole(RoleConstants.Student);
+        var lecturerRole = new ApplicationRole(RoleConstants.Lecturer);
+        var deanRole = new ApplicationRole(RoleConstants.Dean);
+        var trainingOfficeRole = new ApplicationRole(RoleConstants.TrainingOffice);
+        var administratorRole = new ApplicationRole(RoleConstants.Administrator);
+        var departmentSecretaryRole = new ApplicationRole(RoleConstants.DepartmentSecretary);
         var roles = new List<ApplicationRole>
         {
             studentRole,
             lecturerRole,
             deanRole,
             trainingOfficeRole,
-            administratorRole
+            administratorRole,
+            departmentSecretaryRole
         };
 
         foreach (var role in roles)
@@ -382,24 +384,28 @@ public class ApplicationDbContextInitializer
                     {
                         Student = users[0],
                         ScoreType = scoreTypes[0],
+                        OrdinalNumber = 1,
                         Score = 9
                     },
                     new StudentResult
                     {
                         Student = users[0],
                         ScoreType = scoreTypes[1],
+                        OrdinalNumber = 1,
                         Score = 10
                     },
                     new StudentResult
                     {
                         Student = users[1],
                         ScoreType = scoreTypes[0],
+                        OrdinalNumber = 2,
                         Score = 10
                     },
                     new StudentResult
                     {
                         Student = users[1],
                         ScoreType = scoreTypes[1],
+                        OrdinalNumber = 2,
                         Score = 10
                     }
                 }

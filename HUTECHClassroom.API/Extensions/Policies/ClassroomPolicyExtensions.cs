@@ -8,7 +8,7 @@ public static class ClassroomPolicyExtensions
     {
         options.AddPolicy(CreateClassroomPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
         options.AddPolicy(ReadClassroomPolicy, policy =>
         {
@@ -16,19 +16,19 @@ public static class ClassroomPolicyExtensions
         });
         options.AddPolicy(UpdateClassroomPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
         options.AddPolicy(DeleteClassroomPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
         options.AddPolicy(AddClassroomUserPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
         options.AddPolicy(RemoveClassroomUserPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
     }
 }

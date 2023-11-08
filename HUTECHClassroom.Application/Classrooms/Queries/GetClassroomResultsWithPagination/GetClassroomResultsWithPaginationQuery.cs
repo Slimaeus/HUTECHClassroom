@@ -26,7 +26,7 @@ public sealed class Handler : IRequestHandler<GetClassroomResultsWithPaginationQ
             .AndFilter(x => x.ClassroomId == request.ClassroomId)
             .AndFilter(x => x.ScoreTypeId == request.ScoreTypeId);
 
-        query = (IMultipleResultQuery<StudentResult>)query.OrderByDescending(x => x.Student.LastName);
+        query = (IMultipleResultQuery<StudentResult>)query.OrderBy(x => x.OrdinalNumber);
 
         if (string.IsNullOrEmpty(request.Params.SearchString) is false)
         {

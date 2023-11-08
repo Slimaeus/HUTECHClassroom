@@ -11,7 +11,7 @@ using X.PagedList;
 
 namespace HUTECHClassroom.Web.Controllers;
 
-[Authorize(Roles = $"{RoleConstants.DEAN},{RoleConstants.TRAINING_OFFICE},{RoleConstants.ADMIN}")]
+[Authorize(Roles = $"{RoleConstants.Dean},{RoleConstants.TrainingOffice},{RoleConstants.Administrator}")]
 public class UsersController : BaseEntityController<ApplicationUser>
 {
     public IActionResult Index(int? page, int? size)
@@ -151,7 +151,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name", viewModel.RoleName);
         return View(viewModel);
     }
-    [Authorize(Roles = RoleConstants.ADMIN)]
+    [Authorize(Roles = RoleConstants.Administrator)]
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null || DbContext.Users == null)
@@ -177,7 +177,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name");
         return View(viewModel);
     }
-    [Authorize(Roles = RoleConstants.ADMIN)]
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, EditUserViewModel viewModel)
@@ -227,7 +227,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         ViewData["RoleName"] = new SelectList(DbContext.Roles, "Name", "Name", viewModel.RoleName);
         return View(viewModel);
     }
-    [Authorize(Roles = RoleConstants.ADMIN)]
+    [Authorize(Roles = RoleConstants.Administrator)]
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null || DbContext.Users == null)
@@ -253,7 +253,7 @@ public class UsersController : BaseEntityController<ApplicationUser>
         };
         return View(viewModel);
     }
-    [Authorize(Roles = RoleConstants.ADMIN)]
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

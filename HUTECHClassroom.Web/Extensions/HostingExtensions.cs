@@ -1,5 +1,5 @@
-﻿using HUTECHClassroom.Infrastructure;
-using HUTECHClassroom.Persistence;
+﻿using HUTECHClassroom.Persistence;
+using HUTECHClassroom.Web.Extensions.Configurations;
 
 namespace HUTECHClassroom.Web.Extensions;
 

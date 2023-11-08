@@ -9,7 +9,7 @@ public static class ProjectPolicyExtensions
         options.AddPolicy(CreateProjectPolicy, policy =>
         {
             //policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer);
         });
         options.AddPolicy(ReadProjectPolicy, policy =>
         {
@@ -19,12 +19,12 @@ public static class ProjectPolicyExtensions
         options.AddPolicy(UpdateProjectPolicy, policy =>
         {
             //policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer);
         });
         options.AddPolicy(DeleteProjectPolicy, policy =>
         {
             //policy.AddRequirements(new GroupRoleFromProjectRequirement(GroupRoleConstants.LEADER));
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer);
         });
     }
 }

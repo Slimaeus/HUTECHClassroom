@@ -6,7 +6,7 @@ using HUTECHClassroom.Persistence;
 
 namespace HUTECHClassroom.Application.Scores.Commands.AddStudentResult;
 
-public sealed record AddStudentResultCommand(Guid StudentId, Guid ClassroomId, int ScoreTypeId, int Score) : IRequest<Unit>;
+public sealed record AddStudentResultCommand(Guid StudentId, Guid ClassroomId, int ScoreTypeId, int OrdinalNumber, int Score) : IRequest<Unit>;
 public sealed class Handler : IRequestHandler<AddStudentResultCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;

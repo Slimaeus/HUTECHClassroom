@@ -111,7 +111,7 @@ public class GroupsController : BaseEntityController<Group>
         {
             var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             if (result.Succeeded)
-                await UserManager.AddToRoleAsync(user, RoleConstants.STUDENT).ConfigureAwait(false);
+                await UserManager.AddToRoleAsync(user, RoleConstants.Student).ConfigureAwait(false);
             dbUsers.Add(user);
         }
 

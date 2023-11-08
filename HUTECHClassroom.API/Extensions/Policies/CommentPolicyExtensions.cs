@@ -8,7 +8,7 @@ public static class CommentPolicyExtensions
     {
         options.AddPolicy(CreateCommentPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer, RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
         options.AddPolicy(ReadCommentPolicy, policy =>
         {
@@ -16,12 +16,12 @@ public static class CommentPolicyExtensions
         });
         options.AddPolicy(UpdateCommentPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer, RoleConstants.Dean, RoleConstants.TrainingOffice);
 
         });
         options.AddPolicy(DeleteCommentPolicy, policy =>
         {
-            policy.RequireRole(RoleConstants.STUDENT, RoleConstants.LECTURER, RoleConstants.DEAN, RoleConstants.TRAINING_OFFICE);
+            policy.RequireRole(RoleConstants.Student, RoleConstants.Lecturer, RoleConstants.Dean, RoleConstants.TrainingOffice);
         });
     }
 }
