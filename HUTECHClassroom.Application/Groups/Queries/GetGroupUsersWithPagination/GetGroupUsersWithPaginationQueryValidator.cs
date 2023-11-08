@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Groups.DTOs;
 
 namespace HUTECHClassroom.Application.Groups.Queries.GetGroupUsersWithPagination;
 
-public class GetGroupUsersWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetGroupUsersWithPaginationQuery, GroupUserDTO, PaginationParams>
+public sealed class GetGroupUsersWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetGroupUsersWithPaginationQuery, GroupUserDTO, PaginationParams>
 {
     public GetGroupUsersWithPaginationQueryValidator() : base()
     {

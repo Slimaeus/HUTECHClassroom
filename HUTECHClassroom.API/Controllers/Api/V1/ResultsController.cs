@@ -4,7 +4,7 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 [AllowAnonymous]
-public class ResultsController : BaseApiController
+public sealed class ResultsController : BaseApiController
 {
     private readonly IPhotoAccessor _photoAccessor;
 

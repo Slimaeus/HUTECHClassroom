@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 
-public class EditUserViewModel
+public sealed class EditUserViewModel
 {
     public Guid Id { get; set; }
     public string UserName { get; set; }

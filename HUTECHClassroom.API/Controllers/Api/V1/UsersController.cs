@@ -2,7 +2,7 @@
 
 [ApiVersion("1.0")]
 [Authorize]
-public class UsersController : BaseEntityApiController<UserDTO>
+public sealed class UsersController : BaseEntityApiController<UserDTO>
 {
     [AllowAnonymous]
     [HttpGet("{userId}")]

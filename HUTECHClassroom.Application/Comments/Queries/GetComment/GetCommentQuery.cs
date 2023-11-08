@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Comments.Queries.GetComment;
 
 public record GetCommentQuery(Guid Id) : GetQuery<CommentDTO>;
-public class GetCommentQueryHandler : GetQueryHandler<Comment, GetCommentQuery, CommentDTO>
+public sealed class GetCommentQueryHandler : GetQueryHandler<Comment, GetCommentQuery, CommentDTO>
 {
     public GetCommentQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     public override Expression<Func<Comment, bool>> FilterPredicate(GetCommentQuery query)

@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Web.ViewModels.Classrooms;
 
-public class ImportedClassroomViewModel
+public sealed class ImportedClassroomViewModel
 {
     public string Title { get; set; } = string.Empty;
     public string? Topic { get; set; } = string.Empty;

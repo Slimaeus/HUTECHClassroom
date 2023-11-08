@@ -2,12 +2,12 @@
 
 namespace HUTECHClassroom.Application.Projects.Commands.UpdateProject;
 
-public record UpdateProjectCommand(Guid Id) : UpdateCommand(Id)
+public sealed record UpdateProjectCommand(Guid Id) : UpdateCommand(Id)
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
 }
-public class UpdateProjectCommandHandler : UpdateCommandHandler<Project, UpdateProjectCommand>
+public sealed class UpdateProjectCommandHandler : UpdateCommandHandler<Project, UpdateProjectCommand>
 {
     public UpdateProjectCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

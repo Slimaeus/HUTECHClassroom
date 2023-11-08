@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Projects.Queries.GetProject;
 
-public class GetProjectQueryValidator : AbstractValidator<GetProjectQuery>
+public sealed class GetProjectQueryValidator : AbstractValidator<GetProjectQuery>
 {
     public GetProjectQueryValidator()
     {

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Exercises.Queries.GetExercise;
 
 public record GetExerciseQuery(Guid Id) : GetQuery<ExerciseDTO>;
-public class GetExerciseQueryHandler : GetQueryHandler<Exercise, GetExerciseQuery, ExerciseDTO>
+public sealed class GetExerciseQueryHandler : GetQueryHandler<Exercise, GetExerciseQuery, ExerciseDTO>
 {
     public GetExerciseQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

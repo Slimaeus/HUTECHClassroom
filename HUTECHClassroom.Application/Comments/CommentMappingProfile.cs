@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Comments.DTOs;
 
 namespace HUTECHClassroom.Application.Comments;
 
-public class CommentMappingProfile : Profile
+public sealed class CommentMappingProfile : Profile
 {
     public CommentMappingProfile()
     {

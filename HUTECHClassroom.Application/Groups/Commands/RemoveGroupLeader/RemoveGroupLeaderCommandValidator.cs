@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.Validators.Users;
 
 namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupLeader;
 
-public class RemoveGroupLeaderCommandValidator : AbstractValidator<RemoveGroupLeaderCommand>
+public sealed class RemoveGroupLeaderCommandValidator : AbstractValidator<RemoveGroupLeaderCommand>
 {
     public RemoveGroupLeaderCommandValidator(GroupExistenceByNotNullIdValidator groupIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
     {

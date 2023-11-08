@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Application.GroupRoles;
 
-public class GroupRoleMappingProfile : Profile
+public sealed class GroupRoleMappingProfile : Profile
 {
     public GroupRoleMappingProfile()
     {

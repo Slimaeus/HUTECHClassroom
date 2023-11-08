@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.API.Authorization.Projects;
 
-public class GroupRoleFromProjectRequirement : GroupRoleRequirement
+public sealed class GroupRoleFromProjectRequirement : GroupRoleRequirement
 {
     public GroupRoleFromProjectRequirement(string roleName) : base(roleName)
     {

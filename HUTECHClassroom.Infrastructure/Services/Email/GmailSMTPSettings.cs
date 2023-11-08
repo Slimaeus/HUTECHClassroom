@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Infrastructure.Services.Email;
 
-public class GmailSMTPSettings
+public sealed class GmailSMTPSettings
 {
     public string Host { get; set; } = string.Empty;
     public int Port { get; set; }

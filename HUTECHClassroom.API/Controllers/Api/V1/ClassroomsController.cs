@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Scores.DTOs;
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class ClassroomsController : BaseEntityApiController<ClassroomDTO>
+public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
 {
     [Authorize(ReadClassroomPolicy)]
     [HttpGet]

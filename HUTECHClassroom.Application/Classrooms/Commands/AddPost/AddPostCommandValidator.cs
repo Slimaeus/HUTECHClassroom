@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.Validators.Posts;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.AddPost;
 
-public class AddPostCommandValidator : AbstractValidator<AddPostCommand>
+public sealed class AddPostCommandValidator : AbstractValidator<AddPostCommand>
 {
     public AddPostCommandValidator(ClassroomExistenceByNotNullIdValidator classroomIdValidator, PostExistenceByNotNullIdValidator postIdValidator)
     {

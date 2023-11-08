@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Roles.Commands.CreateRole;
 
-public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
+public sealed class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
 {
     public CreateRoleCommandValidator()
     {

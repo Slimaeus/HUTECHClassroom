@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class StudentResultConfiguration : IEntityTypeConfiguration<StudentResult>
+public sealed class StudentResultConfiguration : IEntityTypeConfiguration<StudentResult>
 {
     public void Configure(EntityTypeBuilder<StudentResult> builder)
     {

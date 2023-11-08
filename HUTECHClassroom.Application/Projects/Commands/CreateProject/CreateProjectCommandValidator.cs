@@ -3,7 +3,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Projects.Commands.CreateProject;
 
-public class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
+public sealed class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
 {
     public CreateProjectCommandValidator(GroupExistenceByNotNullIdValidator groupIdValidator)
     {

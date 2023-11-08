@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 
-public class ImportedUserViewModel
+public sealed class ImportedUserViewModel
 {
     public string UserName { get; set; }
     public string FirstName { get; set; } = string.Empty;

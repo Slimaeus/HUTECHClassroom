@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
+public sealed class AnswerConfiguration : IEntityTypeConfiguration<Answer>
 {
     public void Configure(EntityTypeBuilder<Answer> builder)
     {

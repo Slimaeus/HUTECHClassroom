@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Application.Majors.Commands.CreateMajor;
 
-public class CreateMajorCommandValidator : AbstractValidator<CreateMajorCommand>
+public sealed class CreateMajorCommandValidator : AbstractValidator<CreateMajorCommand>
 {
     public CreateMajorCommandValidator()
     {

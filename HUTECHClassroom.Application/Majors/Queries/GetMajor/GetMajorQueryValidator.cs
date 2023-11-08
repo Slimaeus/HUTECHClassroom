@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Majors.Queries.GetMajor;
 
-public class GetMajorQueryValidator : AbstractValidator<GetMajorQuery>
+public sealed class GetMajorQueryValidator : AbstractValidator<GetMajorQuery>
 {
     public GetMajorQueryValidator()
     {

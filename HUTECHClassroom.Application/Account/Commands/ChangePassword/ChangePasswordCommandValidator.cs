@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Account.Commands.ChangePassword;
 
-public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommand>
+public sealed class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommand>
 {
     public ChangePasswordCommandValidator()
     {

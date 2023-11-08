@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class GroupUserConfiguration : IEntityTypeConfiguration<GroupUser>
+public sealed class GroupUserConfiguration : IEntityTypeConfiguration<GroupUser>
 {
     public void Configure(EntityTypeBuilder<GroupUser> builder)
     {

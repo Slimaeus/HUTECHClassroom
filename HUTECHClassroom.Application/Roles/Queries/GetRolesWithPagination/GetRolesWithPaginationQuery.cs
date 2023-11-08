@@ -6,13 +6,14 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Roles.Queries.GetRolesWithPagination;
 
-public record GetRolesWithPaginationQuery(RolePaginationParams Params) : GetWithPaginationQuery<RoleDTO, RolePaginationParams>(Params);
-public class GetRolesWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationRole, GetRolesWithPaginationQuery, RoleDTO, RolePaginationParams>
+public sealed record GetRolesWithPaginationQuery(RolePaginationParams Params) : GetWithPaginationQuery<RoleDTO, RolePaginationParams>(Params);
+public sealed class GetRolesWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationRole, GetRolesWithPaginationQuery, RoleDTO, RolePaginationParams>
 {
     public GetRolesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<ApplicationRole, bool>> SearchStringPredicate(string searchString)
-        => x => x.Name.ToLower().Contains(searchString.ToLower());
-    protected override IQuery<ApplicationRole> Order(IMultipleResultQuery<ApplicationRole> query) => query.OrderBy(x => x.Name);
+        => x => x.Name != null && x.Name.ToLower().Contains(searchString.ToLower());
+    protected override IQuery<ApplicationRole> Order(IMultipleResultQuery<ApplicationRole> query)
+        => query.OrderBy(x => x.Name);
     protected override IMultipleResultQuery<ApplicationRole> SortingQuery(IMultipleResultQuery<ApplicationRole> query, GetRolesWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.NameOrder, x => x.Name);
 }

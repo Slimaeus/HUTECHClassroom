@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Projects.DTOs;
 
 namespace HUTECHClassroom.Application.Groups.Queries.GetGroupProjectsWithPagination;
 
-public class GetGroupProjectsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetGroupProjectsWithPaginationQuery, ProjectDTO, GroupPaginationParams>
+public sealed class GetGroupProjectsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetGroupProjectsWithPaginationQuery, ProjectDTO, GroupPaginationParams>
 {
     public GetGroupProjectsWithPaginationQueryValidator()
     {

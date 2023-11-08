@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class ScoreTypeConfiguration : IEntityTypeConfiguration<ScoreType>
+public sealed class ScoreTypeConfiguration : IEntityTypeConfiguration<ScoreType>
 {
     public void Configure(EntityTypeBuilder<ScoreType> builder)
     {

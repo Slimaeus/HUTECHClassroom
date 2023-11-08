@@ -2,4 +2,4 @@
 
 namespace HUTECHClassroom.Application.Comments.Commands.DeleteRangeComment;
 
-public class DeleteRangeCommentCommandValidator : DeleteRangeCommandValidator<DeleteRangeCommentCommand> { }
+public sealed class DeleteRangeCommentCommandValidator : DeleteRangeCommandValidator<DeleteRangeCommentCommand> { }

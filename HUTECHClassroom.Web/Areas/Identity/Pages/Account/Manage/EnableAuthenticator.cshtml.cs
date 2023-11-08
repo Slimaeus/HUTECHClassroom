@@ -13,7 +13,7 @@ using System.Text.Encodings.Web;
 
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account.Manage;
 
-public class EnableAuthenticatorModel : PageModel
+public sealed class EnableAuthenticatorModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<EnableAuthenticatorModel> _logger;
@@ -68,7 +68,7 @@ public class EnableAuthenticatorModel : PageModel
     ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
-    public class InputModel
+    public sealed class InputModel
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

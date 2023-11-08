@@ -7,7 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace HUTECHClassroom.Application.Users.Queries.GetCurrentUser;
 
 public record GetCurrentUserQuery : IRequest<AccountDTO>;
-public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, AccountDTO>
+public sealed class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, AccountDTO>
 {
     private readonly IMapper _mapper;
     private readonly IUserAccessor _userAccessor;
@@ -41,9 +41,9 @@ public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, A
 
         var accountDTO = _mapper.Map<AccountDTO>(user);
 
-        var doesGetCacheTokenSuccess = _memoryCache.TryGetValue($"UserToken_{user.UserName}", out string memoryCacheToken);
+        var doesGetCacheTokenSuccess = _memoryCache.TryGetValue($"UserToken_{user.UserName}", out string? memoryCacheToken);
 
-        if (doesGetCacheTokenSuccess)
+        if (doesGetCacheTokenSuccess && memoryCacheToken is { })
         {
             var expireDate = _tokenService.GetExpireDate(memoryCacheToken);
             if (expireDate >= DateTime.Now.ToUniversalTime().AddMinutes(10))

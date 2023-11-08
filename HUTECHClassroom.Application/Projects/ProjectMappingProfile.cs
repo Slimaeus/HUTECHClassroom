@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Projects.DTOs;
 
 namespace HUTECHClassroom.Application.Projects;
 
-public class ProjectMappingProfile : Profile
+public sealed class ProjectMappingProfile : Profile
 {
     public ProjectMappingProfile()
     {

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace HUTECHClassroom.API.Authorization.Missions;
 
-public class GroupRoleFromMissionAuthorizationHandler : GroupRoleAuthorizationHandler<GroupRoleFromMissionRequirement>
+public sealed class GroupRoleFromMissionAuthorizationHandler : GroupRoleAuthorizationHandler<GroupRoleFromMissionRequirement>
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IHttpContextAccessor _httpContextAccessor;

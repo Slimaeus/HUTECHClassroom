@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 namespace HUTECHClassroom.Application.Account.Commands.ResetPassword;
 
 public record ResetPasswordCommand(string Email, string Code, string Password) : IRequest<Unit>;
-public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand, Unit>
+public sealed class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand, Unit>
 {
     private readonly UserManager<ApplicationUser> _userManager;
 

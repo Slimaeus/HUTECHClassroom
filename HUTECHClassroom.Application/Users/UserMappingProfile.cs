@@ -2,10 +2,11 @@
 
 namespace HUTECHClassroom.Application.Users;
 
-public class UserMappingProfile : Profile
+public sealed class UserMappingProfile : Profile
 {
     public UserMappingProfile()
     {
-        CreateMap<ApplicationUser, UserDTO>();
+        CreateMap<ApplicationUser, UserDTO>()
+            .ForMember(x => x.Class, o => o.MapFrom(x => x.Class != null ? x.Class.Name : null));
     }
 }

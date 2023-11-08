@@ -1,7 +1,7 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class FacultiesController : BaseEntityApiController<FacultyDTO>
+public sealed class FacultiesController : BaseEntityApiController<FacultyDTO>
 {
     [Authorize(ReadFacultyPolicy)]
     [HttpGet]

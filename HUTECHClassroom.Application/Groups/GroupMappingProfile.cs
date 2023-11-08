@@ -8,7 +8,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Groups;
 
-public class GroupMappingProfile : Profile
+public sealed class GroupMappingProfile : Profile
 {
     public GroupMappingProfile()
     {
@@ -25,13 +25,13 @@ public class GroupMappingProfile : Profile
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
         CreateMap<GroupUser, MemberDTO>()
-            .ConstructUsing(x => new MemberDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.User.Avatar == null ? "" : x.User.Avatar.Url));
+            .ConstructUsing(x => new MemberDTO(x.UserId, x.User != null ? x.User.UserName : null, x.User != null ? x.User.Email : null, x.User != null ? x.User.FirstName : null, x.User != null ? x.User.LastName : null, x.User != null && x.User.Class != null ? x.User.Class.Name : null, x.User != null && x.User.Avatar != null ? x.User.Avatar.Url : string.Empty));
         CreateMap<Project, GroupProjectDTO>();
         CreateMap<Classroom, GroupClassroomDTO>()
-            .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class.Name));
+            .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class != null ? u.Class.Name : null));
 
         CreateMap<GroupUser, GroupUserDTO>()
-            .ConstructUsing(x => new GroupUserDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.GroupRole.Name));
+            .ConstructUsing(x => new GroupUserDTO(x.UserId, x.User != null ? x.User.UserName : null, x.User != null ? x.User.Email : null, x.User != null ? x.User.FirstName : null, x.User != null ? x.User.LastName : null, x.GroupRole != null ? x.GroupRole.Name : null));
 
         CreateMap<AddGroupUserCommand, GroupUser>();
         CreateMap<AddGroupLeaderCommand, GroupUser>();

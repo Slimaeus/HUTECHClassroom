@@ -6,21 +6,20 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Missions.Queries.GetMissionUsersWithPagination;
 
-public record GetMissionUsersWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<MemberDTO, PaginationParams>(Params);
-public class GetMissionUsersWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationUser, GetMissionUsersWithPaginationQuery, MemberDTO, PaginationParams>
+public sealed record GetMissionUsersWithPaginationQuery(Guid Id, PaginationParams Params) : GetWithPaginationQuery<MemberDTO, PaginationParams>(Params);
+public sealed class GetMissionUsersWithPaginationQueryHandler : GetWithPaginationQueryHandler<ApplicationUser, GetMissionUsersWithPaginationQuery, MemberDTO, PaginationParams>
 {
     public GetMissionUsersWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
     protected override Expression<Func<ApplicationUser, bool>> FilterPredicate(GetMissionUsersWithPaginationQuery query)
-    {
-        return x => x.MissionUsers.Any(x => x.MissionId == query.Id);
-    }
+        => x => x.MissionUsers.Any(x => x.MissionId == query.Id);
     protected override Expression<Func<ApplicationUser, bool>> SearchStringPredicate(string searchString)
     {
         var toLowerSearchString = searchString.ToLower();
-        return x => x.UserName.ToLower().Contains(toLowerSearchString) || x.Email.ToLower().Contains(toLowerSearchString);
+        return x => (x.UserName != null && x.UserName.ToLower().Contains(toLowerSearchString)) || (x.Email != null && x.Email.ToLower().Contains(toLowerSearchString));
     }
-    protected override IQuery<ApplicationUser> Order(IMultipleResultQuery<ApplicationUser> query) => query.OrderBy(x => x.UserName);
+    protected override IQuery<ApplicationUser> Order(IMultipleResultQuery<ApplicationUser> query)
+        => query.OrderBy(x => x.UserName);
 
 }

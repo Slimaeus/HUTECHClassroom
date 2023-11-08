@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Web.ViewModels.Missions;
 
-public class ImportUsersToMissionViewModel
+public sealed class ImportUsersToMissionViewModel
 {
     public Guid MissionId { get; set; }
     public string MissionTitle { get; set; }

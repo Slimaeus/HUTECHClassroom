@@ -1,7 +1,7 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class GroupsController : BaseEntityApiController<GroupDTO>
+public sealed class GroupsController : BaseEntityApiController<GroupDTO>
 {
     [Authorize(Policy = ReadGroupPolicy)]
     [HttpGet]

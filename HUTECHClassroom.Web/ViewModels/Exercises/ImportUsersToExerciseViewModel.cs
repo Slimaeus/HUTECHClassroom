@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Web.ViewModels.Exercises;
 
-public class ImportUsersToExerciseViewModel
+public sealed class ImportUsersToExerciseViewModel
 {
     public Guid ExerciseId { get; set; }
     public string ExerciseTitle { get; set; }

@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 
-public class ImportUsersFromExcelViewModel
+public sealed class ImportUsersFromExcelViewModel
 {
     public IFormFile File { get; set; }
     public string RoleName { get; set; } = RoleConstants.Student;

@@ -1,5 +1,5 @@
 namespace HUTECHClassroom.Application.Common.Exceptions;
 
-public class ForbiddenAccessException : Exception
+public sealed class ForbiddenAccessException : Exception
 {
 }

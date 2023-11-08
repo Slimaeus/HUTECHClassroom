@@ -6,7 +6,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.CreateClassroom;
 
-public class CreateClassroomCommandValidator : AbstractValidator<CreateClassroomCommand>
+public sealed class CreateClassroomCommandValidator : AbstractValidator<CreateClassroomCommand>
 {
     public CreateClassroomCommandValidator(
         UserExistenceByNotNullIdValidator userIdValidator,

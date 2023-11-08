@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Groups.Queries.GetGroup;
 
-public class GetGroupQueryValidator : AbstractValidator<GetGroupQuery>
+public sealed class GetGroupQueryValidator : AbstractValidator<GetGroupQuery>
 {
     public GetGroupQueryValidator()
     {

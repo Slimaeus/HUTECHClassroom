@@ -14,7 +14,7 @@ using System.Text;
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class RegisterConfirmationModel : PageModel
+public sealed class RegisterConfirmationModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IEmailSender _sender;

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.API.Authorization.Classrooms;
 
-public class AddOrRemoveClassroomUserAuthorizationHandler : AuthorizationHandler<AddOrRemoveClassroomUserRequirement>
+public sealed class AddOrRemoveClassroomUserAuthorizationHandler : AuthorizationHandler<AddOrRemoveClassroomUserRequirement>
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IUserAccessor _userAccessor;

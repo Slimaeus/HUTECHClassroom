@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Web.ViewModels.Groups;
 
-public class ImportUsersToGroupViewModel
+public sealed class ImportUsersToGroupViewModel
 {
     public Guid GroupId { get; set; }
     public string GroupName { get; set; }

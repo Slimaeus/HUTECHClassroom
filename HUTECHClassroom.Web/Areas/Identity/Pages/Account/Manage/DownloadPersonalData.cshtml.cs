@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account.Manage;
 
-public class DownloadPersonalDataModel : PageModel
+public sealed class DownloadPersonalDataModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<DownloadPersonalDataModel> _logger;

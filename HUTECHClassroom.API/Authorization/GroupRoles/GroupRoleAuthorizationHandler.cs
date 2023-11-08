@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.API.Authorization.GroupRoles;
 
-public abstract class GroupRoleAuthorizationHandler<TRequiremt> : AuthorizationHandler<TRequiremt>
+public class GroupRoleAuthorizationHandler<TRequiremt> : AuthorizationHandler<TRequiremt>
     where TRequiremt : GroupRoleRequirement
 {
     private readonly ApplicationDbContext _dbContext;
@@ -97,7 +97,7 @@ public abstract class GroupRoleAuthorizationHandler<TRequiremt> : AuthorizationH
     protected record ProjectIdBody(Guid ProjectId);
 }
 
-public class GroupRoleAuthorizationHandler : GroupRoleAuthorizationHandler<GroupRoleRequirement>
+public sealed class GroupRoleAuthorizationHandler : GroupRoleAuthorizationHandler<GroupRoleRequirement>
 {
     public GroupRoleAuthorizationHandler(ApplicationDbContext dbContext, IUserAccessor userAccessor, IHttpContextAccessor httpContextAccessor) : base(dbContext, userAccessor, httpContextAccessor)
     {

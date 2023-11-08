@@ -4,4 +4,4 @@ using HUTECHClassroom.Application.Roles.DTOs;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserRolesWithPagination;
 
-public class GetUserRolesWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserRolesWithPaginationQuery, RoleDTO, PaginationParams> { }
+public sealed class GetUserRolesWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserRolesWithPaginationQuery, RoleDTO, PaginationParams> { }

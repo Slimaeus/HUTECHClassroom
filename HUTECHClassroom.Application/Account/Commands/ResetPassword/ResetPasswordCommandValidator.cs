@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Account.Commands.ResetPassword;
 
-public class ResetPasswordCommandValidator : AbstractValidator<ResetPasswordCommand>
+public sealed class ResetPasswordCommandValidator : AbstractValidator<ResetPasswordCommand>
 {
     public ResetPasswordCommandValidator()
     {

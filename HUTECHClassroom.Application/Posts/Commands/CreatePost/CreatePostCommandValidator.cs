@@ -4,7 +4,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Posts.Commands.CreatePost;
 
-public class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
+public sealed class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
 {
     public CreatePostCommandValidator(UserExistenceByNotNullIdValidator userIdValidator, ClassroomExistenceByNotNullIdValidator classroomIdValidator)
     {

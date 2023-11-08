@@ -2,8 +2,8 @@
 
 namespace HUTECHClassroom.Application.Projects.DTOs;
 
-public record ProjectGroupDTO : BaseEntityDTO
+public sealed record ProjectGroupDTO : BaseEntityDTO
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
 }

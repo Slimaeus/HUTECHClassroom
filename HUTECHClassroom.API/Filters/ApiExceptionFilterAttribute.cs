@@ -5,7 +5,7 @@ using Serilog;
 
 namespace HUTECHClassroom.API.Filters;
 
-public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
     private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
     public ApiExceptionFilterAttribute()

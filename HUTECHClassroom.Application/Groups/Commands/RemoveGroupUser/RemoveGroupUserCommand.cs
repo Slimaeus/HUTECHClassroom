@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupUser;
 
 public record RemoveGroupUserCommand(Guid GroupId, Guid UserId) : IRequest<Unit>;
-public class RemoveGroupUserCommandHandler : IRequestHandler<RemoveGroupUserCommand, Unit>
+public sealed class RemoveGroupUserCommandHandler : IRequestHandler<RemoveGroupUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Group> _repository;

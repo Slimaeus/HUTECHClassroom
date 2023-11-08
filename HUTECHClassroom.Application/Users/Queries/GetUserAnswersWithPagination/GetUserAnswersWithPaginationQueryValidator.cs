@@ -4,6 +4,6 @@ using HUTECHClassroom.Application.Common.Validators;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserAnswersWithPagination;
 
-public class GetUserAnswersWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserAnswersWithPaginationQuery, AnswerDTO, PaginationParams>
+public sealed class GetUserAnswersWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserAnswersWithPaginationQuery, AnswerDTO, PaginationParams>
 {
 }

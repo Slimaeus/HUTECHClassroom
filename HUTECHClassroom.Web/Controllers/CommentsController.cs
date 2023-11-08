@@ -8,7 +8,7 @@ using X.PagedList;
 namespace HUTECHClassroom.Web.Controllers;
 
 [Authorize(DeanOrTrainingOfficePolicy)]
-public class CommentsController : BaseEntityController<Comment>
+public sealed class CommentsController : BaseEntityController<Comment>
 {
     public IActionResult Index(int? page, int? size)
     {

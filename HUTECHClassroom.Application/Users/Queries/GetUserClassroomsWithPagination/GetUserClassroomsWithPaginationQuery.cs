@@ -7,8 +7,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserClassroomsWithPagination;
 
-public record GetUserClassroomsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<ClassroomDTO, PaginationParams>(Params);
-public class GetUserClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Classroom, GetUserClassroomsWithPaginationQuery, ClassroomDTO, PaginationParams>
+public sealed record GetUserClassroomsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<ClassroomDTO, PaginationParams>(Params);
+public sealed class GetUserClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Classroom, GetUserClassroomsWithPaginationQuery, ClassroomDTO, PaginationParams>
 {
     private readonly IUserAccessor _userAccessor;
 

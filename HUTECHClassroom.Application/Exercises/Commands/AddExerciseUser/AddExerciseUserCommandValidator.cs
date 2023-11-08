@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.Validators.Users;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.AddExerciseUser;
 
-public class AddExerciseUserCommandValidator : AbstractValidator<AddExerciseUserCommand>
+public sealed class AddExerciseUserCommandValidator : AbstractValidator<AddExerciseUserCommand>
 {
     public AddExerciseUserCommandValidator(ExerciseExistenceByNotNullIdValidator exerciseIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
     {

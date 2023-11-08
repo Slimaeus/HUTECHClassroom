@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.Validators.Users;
 
 namespace HUTECHClassroom.Application.Missions.Commands.RemoveRangeMissionUser;
 
-public class RemoveRangeMissionUserCommandValidator : AbstractValidator<RemoveRangeMissionUserCommand>
+public sealed class RemoveRangeMissionUserCommandValidator : AbstractValidator<RemoveRangeMissionUserCommand>
 {
     public RemoveRangeMissionUserCommandValidator(MissionExistenceByNotNullIdValidator missionIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
     {

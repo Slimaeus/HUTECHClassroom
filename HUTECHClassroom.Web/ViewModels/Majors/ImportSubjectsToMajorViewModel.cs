@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Web.ViewModels.Majors;
 
-public class ImportSubjectsToMajorViewModel
+public sealed class ImportSubjectsToMajorViewModel
 {
     public Guid MajorId { get; set; }
     public string MajorTitle { get; set; }

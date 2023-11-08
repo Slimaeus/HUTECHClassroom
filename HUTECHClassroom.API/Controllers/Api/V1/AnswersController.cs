@@ -1,7 +1,7 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class AnswersController : BaseEntityApiController<AnswerDTO>
+public sealed class AnswersController : BaseEntityApiController<AnswerDTO>
 {
     [Authorize(ReadAnswerPolicy)]
     [HttpGet]

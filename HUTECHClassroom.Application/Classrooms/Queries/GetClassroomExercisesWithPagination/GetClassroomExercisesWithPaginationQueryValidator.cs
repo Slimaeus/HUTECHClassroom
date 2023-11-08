@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Exercises.DTOs;
 
 namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroomExercisesWithPagination;
 
-public class GetClassroomExercisesWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetClassroomExercisesWithPaginationQuery, ExerciseDTO, ClassroomPaginationParams>
+public sealed class GetClassroomExercisesWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetClassroomExercisesWithPaginationQuery, ExerciseDTO, ClassroomPaginationParams>
 {
     public GetClassroomExercisesWithPaginationQueryValidator() : base()
     {

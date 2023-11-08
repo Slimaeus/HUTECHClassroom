@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Faculties.Queries.GetFaculty;
 
-public class GetFacultyQueryValidator : AbstractValidator<GetFacultyQuery>
+public sealed class GetFacultyQueryValidator : AbstractValidator<GetFacultyQuery>
 {
     public GetFacultyQueryValidator()
     {

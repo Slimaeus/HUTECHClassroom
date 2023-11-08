@@ -4,6 +4,6 @@ using HUTECHClassroom.Application.Posts.DTOs;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserPostsWithPagination;
 
-public class GetUserPostsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserPostsWithPaginationQuery, PostDTO, PaginationParams>
+public sealed class GetUserPostsWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetUserPostsWithPaginationQuery, PostDTO, PaginationParams>
 {
 }

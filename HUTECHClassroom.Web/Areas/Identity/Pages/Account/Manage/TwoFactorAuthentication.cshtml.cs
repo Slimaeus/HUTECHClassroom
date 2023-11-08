@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account.Manage;
 
-public class TwoFactorAuthenticationModel : PageModel
+public sealed class TwoFactorAuthenticationModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;

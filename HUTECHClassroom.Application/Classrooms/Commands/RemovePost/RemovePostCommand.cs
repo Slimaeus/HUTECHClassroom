@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Classrooms.Commands.RemovePost;
 
 public record RemovePostCommand(Guid Id, Guid PostId) : IRequest<Unit>;
-public class RemovePostCommandHandler : IRequestHandler<RemovePostCommand, Unit>
+public sealed class RemovePostCommandHandler : IRequestHandler<RemovePostCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Classroom> _repository;

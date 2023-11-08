@@ -2,8 +2,8 @@
 
 namespace HUTECHClassroom.Application.Posts.DTOs;
 
-public record PostCommentDTO : BaseEntityDTO
+public sealed record PostCommentDTO : BaseEntityDTO
 {
-    public string Content { get; set; }
-    public MemberDTO User { get; set; }
+    public string? Content { get; set; }
+    public MemberDTO? User { get; set; }
 }

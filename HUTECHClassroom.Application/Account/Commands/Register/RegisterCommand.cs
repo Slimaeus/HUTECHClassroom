@@ -8,15 +8,15 @@ namespace HUTECHClassroom.Application.Account.Commands.Register;
 
 public record RegisterCommand : IRequest<AccountDTO>
 {
-    public string UserName { get; set; }
-    public string Email { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Password { get; set; }
+    public required string UserName { get; set; }
+    public required string Email { get; set; }
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public required string Password { get; set; }
     public Guid? FacultyId { get; set; }
-    public Guid ClassId { get; set; }
+    public Guid? ClassId { get; set; }
 }
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDTO>
+public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccountDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;
     private readonly ITokenService _tokenService;

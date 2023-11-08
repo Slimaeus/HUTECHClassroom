@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid,
+public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid,
     IdentityUserClaim<Guid>,
     ApplicationUserRole,
     IdentityUserLogin<Guid>,

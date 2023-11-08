@@ -3,6 +3,6 @@ using HUTECHClassroom.Application.Exercises.DTOs;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.DeleteExercise;
 
-public class DeleteExerciseCommandValidator : DeleteCommandValidator<DeleteExerciseCommand, ExerciseDTO>
+public sealed class DeleteExerciseCommandValidator : DeleteCommandValidator<DeleteExerciseCommand, ExerciseDTO>
 {
 }

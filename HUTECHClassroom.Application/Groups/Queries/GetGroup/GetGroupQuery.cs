@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Groups.Queries.GetGroup;
 
 public record GetGroupQuery(Guid Id) : GetQuery<GroupDTO>;
-public class GetGroupQueryHandler : GetQueryHandler<Group, GetGroupQuery, GroupDTO>
+public sealed class GetGroupQueryHandler : GetQueryHandler<Group, GetGroupQuery, GroupDTO>
 {
     private readonly IUserAccessor _userAccessor;
 

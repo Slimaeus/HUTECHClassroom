@@ -2,9 +2,9 @@
 
 namespace HUTECHClassroom.Application.Projects.DTOs;
 
-public record ProjectMissionDTO : BaseEntityDTO
+public sealed record ProjectMissionDTO : BaseEntityDTO
 {
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public bool IsDone { get; set; } = false;
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public bool? IsDone { get; set; } = false;
 }

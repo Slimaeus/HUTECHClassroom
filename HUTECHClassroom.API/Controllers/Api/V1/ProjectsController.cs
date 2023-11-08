@@ -1,7 +1,7 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class ProjectsController : BaseEntityApiController<ProjectDTO>
+public sealed class ProjectsController : BaseEntityApiController<ProjectDTO>
 {
     [Authorize(ReadProjectPolicy)]
     [HttpGet]

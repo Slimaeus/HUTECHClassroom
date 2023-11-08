@@ -3,7 +3,7 @@
 namespace HUTECHClassroom.Application.Groups.Commands.DeleteRangeGroup;
 
 public record DeleteRangeGroupCommand(IList<Guid> Ids) : DeleteRangeCommand(Ids);
-public class DeleteRangeGroupCommandHandler : DeleteRangeCommandHandler<Group, DeleteRangeGroupCommand>
+public sealed class DeleteRangeGroupCommandHandler : DeleteRangeCommandHandler<Group, DeleteRangeGroupCommand>
 {
     public DeleteRangeGroupCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

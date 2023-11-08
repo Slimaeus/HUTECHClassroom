@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Account.Commands.RemoveAvatar;
 
 public record RemoveAvatarCommand : IRequest<Unit>;
-public class RemoveAvatarCommandHandler : IRequestHandler<RemoveAvatarCommand, Unit>
+public sealed class RemoveAvatarCommandHandler : IRequestHandler<RemoveAvatarCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<ApplicationUser> _userRepository;

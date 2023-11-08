@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.Validators.Users;
 
 namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 
-public class AddMissionUserCommandValidator : AbstractValidator<AddMissionUserCommand>
+public sealed class AddMissionUserCommandValidator : AbstractValidator<AddMissionUserCommand>
 {
     public AddMissionUserCommandValidator(MissionExistenceByNotNullIdValidator missionIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
     {

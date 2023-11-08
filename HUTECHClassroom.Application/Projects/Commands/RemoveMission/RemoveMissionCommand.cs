@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Projects.Commands.RemoveMission;
 
 public record RemoveMissionCommand(Guid Id, Guid MissionId) : IRequest<Unit>;
-public class RemoveMissionCommandHandler : IRequestHandler<RemoveMissionCommand, Unit>
+public sealed class RemoveMissionCommandHandler : IRequestHandler<RemoveMissionCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Project> _repository;

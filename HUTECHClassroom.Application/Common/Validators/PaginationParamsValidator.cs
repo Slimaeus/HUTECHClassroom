@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Application.Common.Validators;
 
-public class PaginationParamsValidator : AbstractValidator<PaginationParams>
+public sealed class PaginationParamsValidator : AbstractValidator<PaginationParams>
 {
     public PaginationParamsValidator()
     {

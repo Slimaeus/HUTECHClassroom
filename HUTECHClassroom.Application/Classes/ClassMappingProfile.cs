@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Classs.Commands.UpdateClass;
 
 namespace HUTECHClassroom.Application.Classrooms;
 
-public class ClassMappingProfile : Profile
+public sealed class ClassMappingProfile : Profile
 {
     public ClassMappingProfile()
     {

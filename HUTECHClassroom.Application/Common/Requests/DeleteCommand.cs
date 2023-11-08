@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Common.Requests;
 
-public record DeleteCommand<TKey, TDTO>(TKey Id) : IRequest<TDTO> where TDTO : class;
+public record DeleteCommand<TKey, TDTO>(TKey Id) : IRequest<TDTO> where TKey : notnull where TDTO : class;
 public abstract class DeleteCommandHandler<TKey, TEntity, TCommand, TDTO> : IRequestHandler<TCommand, TDTO>
+    where TKey : notnull
     where TEntity : class, IEntity<TKey>
     where TCommand : DeleteCommand<TKey, TDTO>
     where TDTO : class

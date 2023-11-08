@@ -3,6 +3,6 @@
 public record UserPaginationParams(
     int? PageNumber,
     int? PageSize,
-    string SearchString,
+    string? SearchString,
     Guid? UserId = null
 ) : PaginationParams(PageNumber, PageSize, SearchString);

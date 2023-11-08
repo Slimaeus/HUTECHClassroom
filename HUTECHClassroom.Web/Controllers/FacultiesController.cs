@@ -14,7 +14,7 @@ namespace HUTECHClassroom.Web.Controllers;
 
 [Authorize(DeanOrTrainingOfficePolicy)]
 
-public class FacultiesController : BaseEntityController<Faculty>
+public sealed class FacultiesController : BaseEntityController<Faculty>
 {
     // GET: Faculties
     public IActionResult Index(int? page, int? size)

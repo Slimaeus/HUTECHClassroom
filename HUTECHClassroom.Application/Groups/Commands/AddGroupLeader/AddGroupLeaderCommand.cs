@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.AddGroupLeader;
 public record AddGroupLeaderCommand(Guid GroupId, Guid UserId) : IRequest<Unit>;
-public class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderCommand, Unit>
+public sealed class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -34,7 +34,7 @@ public class AddGroupLeaderCommandHandler : IRequestHandler<AddGroupLeaderComman
         var leaderRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == GroupRoleConstants.LEADER), cancellationToken);
         var memberRole = await _groupRoleRepository.SingleOrDefaultAsync(_groupRoleRepository.SingleResultQuery().AndFilter(x => x.Name == GroupRoleConstants.MEMBER), cancellationToken);
 
-        var currentLeaderGroupUser = group.GroupUsers.SingleOrDefault(x => x.GroupRole.Name == leaderRole.Name);
+        var currentLeaderGroupUser = group.GroupUsers.SingleOrDefault(x => x.GroupRole != null && x.GroupRole.Name == leaderRole.Name);
 
         if (currentLeaderGroupUser != null && currentLeaderGroupUser.UserId == request.UserId)
         {

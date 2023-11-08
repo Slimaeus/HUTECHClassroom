@@ -4,7 +4,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Comments.Commands.CreateComment;
 
-public class CreateCommentCommandValidator : AbstractValidator<CreateCommentCommand>
+public sealed class CreateCommentCommandValidator : AbstractValidator<CreateCommentCommand>
 {
     public CreateCommentCommandValidator(UserExistenceByNotNullIdValidator userIdValidator, PostExistenceByNotNullIdValidator postIdValidator)
     {

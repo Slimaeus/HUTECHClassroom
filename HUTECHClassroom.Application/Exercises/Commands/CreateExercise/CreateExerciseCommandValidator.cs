@@ -3,7 +3,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.CreateExercise;
 
-public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCommand>
+public sealed class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCommand>
 {
     public CreateExerciseCommandValidator(ClassroomExistenceByNotNullIdValidator classroomIdValidator)
     {

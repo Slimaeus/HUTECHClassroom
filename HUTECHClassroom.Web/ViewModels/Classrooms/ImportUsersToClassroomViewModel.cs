@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Web.ViewModels.Classrooms;
 
-public class ImportUsersToClassroomViewModel
+public sealed class ImportUsersToClassroomViewModel
 {
     public Guid ClassroomId { get; set; }
     public string ClassroomTitle { get; set; }

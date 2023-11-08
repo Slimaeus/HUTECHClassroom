@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account.Manage;
 
-public class GenerateRecoveryCodesModel : PageModel
+public sealed class GenerateRecoveryCodesModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<GenerateRecoveryCodesModel> _logger;

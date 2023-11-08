@@ -4,7 +4,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Answers.Commands.CreateAnswer;
 
-public class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerCommand>
+public sealed class CreateAnswerCommandValidator : AbstractValidator<CreateAnswerCommand>
 {
     public CreateAnswerCommandValidator(UserExistenceByNotNullIdValidator userIdValidator, ExerciseExistenceByNotNullIdValidator exerciseIdVaidator)
     {

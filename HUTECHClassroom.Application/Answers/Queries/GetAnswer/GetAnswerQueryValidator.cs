@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Answers.Queries.GetAnswer;
 
-public class GetAnswerQueryValidator : AbstractValidator<GetAnswerQuery>
+public sealed class GetAnswerQueryValidator : AbstractValidator<GetAnswerQuery>
 {
     public GetAnswerQueryValidator()
     {

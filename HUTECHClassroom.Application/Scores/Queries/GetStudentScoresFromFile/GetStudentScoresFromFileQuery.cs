@@ -21,7 +21,7 @@ public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEn
     {
         var result = await _photoAccessor.AddPhoto(request.File, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.TRANSCRIPT_FOLDER}");
 
-        if (!result.IsSuccess)
+        if (!result.IsSuccess || result.Data is null)
         {
             throw new InvalidOperationException();
         }
@@ -42,7 +42,7 @@ public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEn
 
             int ordinalNumber = 0;
             int previousOrdinalNumber = -1;
-            string id = null;
+            string? id = null;
             double? score = null;
 
             var skipped = false;

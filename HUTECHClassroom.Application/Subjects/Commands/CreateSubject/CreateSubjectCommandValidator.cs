@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Application.Subjects.Commands.CreateSubject;
 
-public class CreateSubjectCommandValidator : AbstractValidator<CreateSubjectCommand>
+public sealed class CreateSubjectCommandValidator : AbstractValidator<CreateSubjectCommand>
 {
     public CreateSubjectCommandValidator()
     {

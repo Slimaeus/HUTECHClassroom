@@ -2,7 +2,7 @@
 
 [ApiVersion("1.0")]
 [AllowAnonymous]
-public class AccountController : BaseApiController
+public sealed class AccountController : BaseApiController
 {
     [HttpPost("login")]
     public async Task<ActionResult<AccountDTO>> Login(LoginCommand request)

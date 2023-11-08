@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Answers.DTOs;
 
 namespace HUTECHClassroom.Application.Answers;
 
-public class AnswerMappingProfile : Profile
+public sealed class AnswerMappingProfile : Profile
 {
     public AnswerMappingProfile()
     {

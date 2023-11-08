@@ -12,7 +12,7 @@ using X.PagedList;
 namespace HUTECHClassroom.Web.Controllers;
 
 [Authorize(Roles = $"{RoleConstants.Dean},{RoleConstants.TrainingOffice},{RoleConstants.Administrator}")]
-public class UsersController : BaseEntityController<ApplicationUser>
+public sealed class UsersController : BaseEntityController<ApplicationUser>
 {
     public IActionResult Index(int? page, int? size)
     {

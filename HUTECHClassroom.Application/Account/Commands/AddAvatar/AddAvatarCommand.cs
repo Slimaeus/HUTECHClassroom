@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Account.Commands.AddAvatar;
 
 public record AddAvatarCommand(IFormFile File) : IRequest<Unit>;
-public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
+public sealed class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPhotoAccessor _photoAccessor;
@@ -50,6 +50,8 @@ public class AddAvatarCommandHandler : IRequestHandler<AddAvatarCommand, Unit>
         {
             throw new InvalidOperationException(result.Errors.FirstOrDefault());
         }
+
+        if (result.Data is null) return Unit.Value;
 
         var avatar = await _photoRepository
             .AddAsync(new Photo

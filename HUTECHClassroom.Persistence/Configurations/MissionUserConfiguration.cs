@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class MissionUserConfiguration : IEntityTypeConfiguration<MissionUser>
+public sealed class MissionUserConfiguration : IEntityTypeConfiguration<MissionUser>
 {
     public void Configure(EntityTypeBuilder<MissionUser> builder)
     {

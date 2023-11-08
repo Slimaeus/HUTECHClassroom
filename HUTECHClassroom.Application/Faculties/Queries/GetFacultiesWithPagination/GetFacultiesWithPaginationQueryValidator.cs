@@ -3,4 +3,4 @@ using HUTECHClassroom.Application.Faculties.DTOs;
 
 namespace HUTECHClassroom.Application.Faculties.Queries.GetFacultiesWithPagination;
 
-public class GetFacultiesWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetFacultiesWithPaginationQuery, FacultyDTO, FacultyPaginationParams> { }
+public sealed class GetFacultiesWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetFacultiesWithPaginationQuery, FacultyDTO, FacultyPaginationParams> { }

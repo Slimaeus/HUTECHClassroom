@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
-public class SubjectsController : BaseEntityApiController<SubjectDTO>
+public sealed class SubjectsController : BaseEntityApiController<SubjectDTO>
 {
     [Authorize(ReadSubjectPolicy)]
     [HttpGet]

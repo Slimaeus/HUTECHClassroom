@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace HUTECHClassroom.Infrastructure.Services.Photos;
 
-public class CloudinaryPhotoAccessor : IPhotoAccessor
+public sealed class CloudinaryPhotoAccessor : IPhotoAccessor
 {
     private readonly Cloudinary _cloudinary;
     public CloudinaryPhotoAccessor(Cloudinary cloudinary)

@@ -4,7 +4,7 @@ namespace HUTECHClassroom.Application.Classrooms.DTOs;
 
 public record ClassroomGroupDTO : BaseEntityDTO
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public MemberDTO Leader { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public MemberDTO? Leader { get; set; }
 }

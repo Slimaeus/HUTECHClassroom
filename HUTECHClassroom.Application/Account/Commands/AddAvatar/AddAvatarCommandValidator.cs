@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Account.Commands.AddAvatar;
 
-public class AddAvatarCommandValidator : AbstractValidator<AddAvatarCommand>
+public sealed class AddAvatarCommandValidator : AbstractValidator<AddAvatarCommand>
 {
     public AddAvatarCommandValidator()
     {

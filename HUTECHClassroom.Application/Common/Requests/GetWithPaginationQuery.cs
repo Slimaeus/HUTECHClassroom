@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Common.Requests;
 
 public record GetWithPaginationQuery<TDTO, TPaginationParams>(
-        TPaginationParams Params = default
+        TPaginationParams Params = default!
     ) : IRequest<IPagedList<TDTO>>
         where TDTO : class
         where TPaginationParams : PaginationParams;
@@ -63,12 +63,12 @@ public abstract class GetWithPaginationQueryHandler<TKey, TEntity, TQuery, TDTO,
 
         return pagedList;
     }
-    protected virtual IMappingParams GetMappingParameters() => default;
+    protected virtual IMappingParams GetMappingParameters() => default!;
     protected virtual Expression<Func<TEntity, bool>> SearchStringPredicate(string searchString)
         => x => true;
     protected virtual Expression<Func<TEntity, bool>> FilterPredicate(TQuery query)
         => x => true;
-    protected virtual IQuery<TEntity> Order(IMultipleResultQuery<TEntity> query) => query;
+    protected virtual IQuery<TEntity> Order(IMultipleResultQuery<TEntity> query) => query.OrderBy(x => x.ToString());
     protected virtual IMultipleResultQuery<TEntity> SortingQuery(IMultipleResultQuery<TEntity> query, TQuery request) => query;
 }
 public abstract class GetWithPaginationQueryHandler<TEntity, TQuery, TDTO, TPaginationParams> : GetWithPaginationQueryHandler<Guid, TEntity, TQuery, TDTO, TPaginationParams>

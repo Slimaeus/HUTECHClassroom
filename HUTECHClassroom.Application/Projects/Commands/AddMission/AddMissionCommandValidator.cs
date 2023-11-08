@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Projects.Commands.AddMission;
 
-public class AddMissionCommandValidator : AbstractValidator<AddMissionCommand>
+public sealed class AddMissionCommandValidator : AbstractValidator<AddMissionCommand>
 {
     public AddMissionCommandValidator()
     {

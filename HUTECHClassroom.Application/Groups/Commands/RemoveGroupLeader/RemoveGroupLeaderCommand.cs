@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Groups.Commands.RemoveGroupLeader;
 public record RemoveGroupLeaderCommand(Guid GroupId, Guid UserId) : IRequest<Unit>;
-public class RemoveGroupLeaderCommandHandler : IRequestHandler<RemoveGroupLeaderCommand, Unit>
+public sealed class RemoveGroupLeaderCommandHandler : IRequestHandler<RemoveGroupLeaderCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Group> _groupRepository;
@@ -34,7 +34,9 @@ public class RemoveGroupLeaderCommandHandler : IRequestHandler<RemoveGroupLeader
                 .SingleResultQuery()
                 .AndFilter(x => x.Name == GroupRoleConstants.MEMBER), cancellationToken);
 
-        var groupUser = group.GroupUsers.SingleOrDefault(x => x.UserId == request.UserId && x.GroupRole.Name == GroupRoleConstants.LEADER);
+        var groupUser = group.GroupUsers
+            .SingleOrDefault(x => x.UserId == request.UserId
+            && x.GroupRole != null && x.GroupRole.Name == GroupRoleConstants.LEADER);
 
         if (groupUser != null)
         {

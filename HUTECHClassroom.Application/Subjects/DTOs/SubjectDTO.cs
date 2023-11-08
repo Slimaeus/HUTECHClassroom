@@ -2,11 +2,11 @@
 
 namespace HUTECHClassroom.Application.Subjects.DTOs;
 
-public record SubjectDTO : BaseEntityDTO
+public sealed record SubjectDTO : BaseEntityDTO
 {
-    public string Code { get; set; }
-    public string Title { get; set; }
-    public int TotalCredits { get; set; }
+    public string? Code { get; set; }
+    public string? Title { get; set; }
+    public int? TotalCredits { get; set; }
 
-    public SubjectMajorDTO Major { get; set; }
+    public SubjectMajorDTO? Major { get; set; }
 }

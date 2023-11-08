@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account.Manage;
 
-public class ExternalLoginsModel : PageModel
+public sealed class ExternalLoginsModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;

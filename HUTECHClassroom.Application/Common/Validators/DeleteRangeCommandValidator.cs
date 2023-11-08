@@ -6,9 +6,7 @@ public class DeleteRangeCommandValidator<TKey, TCommand> : AbstractValidator<TCo
     where TCommand : DeleteRangeCommand<TKey>
 {
     public DeleteRangeCommandValidator()
-    {
-        RuleFor(x => x.Ids).NotEmpty().NotNull();
-    }
+        => RuleFor(x => x.Ids).NotEmpty().NotNull();
 }
 public class DeleteRangeCommandValidator<TCommand> : DeleteRangeCommandValidator<Guid, TCommand>
     where TCommand : DeleteRangeCommand<Guid>

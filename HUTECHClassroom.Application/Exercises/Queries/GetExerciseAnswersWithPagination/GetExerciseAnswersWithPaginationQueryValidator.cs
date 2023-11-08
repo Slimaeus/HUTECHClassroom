@@ -3,5 +3,5 @@ using HUTECHClassroom.Application.Common.Validators;
 
 namespace HUTECHClassroom.Application.Exercises.Queries.GetExerciseAnswersWithPagination;
 
-public class GetExerciseAnswersWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetExerciseAnswersWithPaginationQuery, AnswerDTO, ExercisePaginationParams>
+public sealed class GetExerciseAnswersWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetExerciseAnswersWithPaginationQuery, AnswerDTO, ExercisePaginationParams>
 { }

@@ -2,9 +2,9 @@
 
 namespace HUTECHClassroom.Application.Comments.DTOs;
 
-public record CommentDTO : BaseEntityDTO
+public sealed record CommentDTO : BaseEntityDTO
 {
-    public string Content { get; set; }
-    public MemberDTO User { get; set; }
-    public CommentPostDTO Post { get; set; }
+    public string? Content { get; set; }
+    public MemberDTO? User { get; set; }
+    public CommentPostDTO? Post { get; set; }
 }

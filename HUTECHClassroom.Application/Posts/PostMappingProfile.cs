@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Posts.DTOs;
 
 namespace HUTECHClassroom.Application.Posts;
 
-public class PostMappingProfile : Profile
+public sealed class PostMappingProfile : Profile
 {
     public PostMappingProfile()
     {
@@ -14,7 +14,7 @@ public class PostMappingProfile : Profile
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
         CreateMap<Classroom, PostClassroomDTO>()
-            .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class.Name));
+            .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class != null ? u.Class.Name : null));
         CreateMap<Comment, PostCommentDTO>();
     }
 }

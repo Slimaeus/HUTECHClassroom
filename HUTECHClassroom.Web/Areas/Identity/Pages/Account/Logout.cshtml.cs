@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account;
 
-public class LogoutModel : PageModel
+public sealed class LogoutModel : PageModel
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<LogoutModel> _logger;

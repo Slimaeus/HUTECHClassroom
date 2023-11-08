@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 namespace HUTECHClassroom.Application.Account.Commands.ChangePassword;
 
 public record ChangePasswordCommand(string Password, string NewPassword) : IRequest<Unit>;
-public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
+public sealed class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserAccessor _userAccessor;

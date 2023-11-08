@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Application.Roles;
 
-public class RoleMappingProfile : Profile
+public sealed class RoleMappingProfile : Profile
 {
     public RoleMappingProfile()
     {

@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Posts.Queries.GetPost;
 
-public class GetPostQueryValidator : AbstractValidator<GetPostQuery>
+public sealed class GetPostQueryValidator : AbstractValidator<GetPostQuery>
 {
     public GetPostQueryValidator()
     {

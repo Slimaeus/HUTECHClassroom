@@ -4,7 +4,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.UpdateExercise;
 
-public class UpdateExerciseCommandValidator : UpdateCommandValidator<UpdateExerciseCommand>
+public sealed class UpdateExerciseCommandValidator : UpdateCommandValidator<UpdateExerciseCommand>
 {
     public UpdateExerciseCommandValidator()
     {

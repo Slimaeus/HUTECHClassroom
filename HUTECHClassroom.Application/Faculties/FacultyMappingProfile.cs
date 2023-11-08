@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Faculties.DTOs;
 
 namespace HUTECHClassroom.Application.Faculties;
 
-public class FacultyMappingProfile : Profile
+public sealed class FacultyMappingProfile : Profile
 {
     public FacultyMappingProfile()
     {

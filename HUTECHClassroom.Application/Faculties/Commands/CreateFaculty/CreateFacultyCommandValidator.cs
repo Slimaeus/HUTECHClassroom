@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Application.Faculties.Commands.CreateFaculty;
 
-public class CreateFacultyCommandValidator : AbstractValidator<CreateFacultyCommand>
+public sealed class CreateFacultyCommandValidator : AbstractValidator<CreateFacultyCommand>
 {
     public CreateFacultyCommandValidator()
     {

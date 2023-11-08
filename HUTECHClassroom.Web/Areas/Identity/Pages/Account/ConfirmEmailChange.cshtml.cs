@@ -11,7 +11,7 @@ using System.Text;
 
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account;
 
-public class ConfirmEmailChangeModel : PageModel
+public sealed class ConfirmEmailChangeModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;

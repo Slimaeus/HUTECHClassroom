@@ -3,4 +3,4 @@ using HUTECHClassroom.Application.Faculties.DTOs;
 
 namespace HUTECHClassroom.Application.Users.DTOs;
 
-public record UserDTO(Guid Id, string UserName, string Email, string FirstName, string LastName, FacultyDTO Faculty) : IEntityDTO;
+public record UserDTO(Guid Id, string UserName, string Email, string FirstName, string LastName, string Class, FacultyDTO Faculty) : IEntityDTO;

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Projects.Commands.AddMission;
 
 public record AddMissionCommand(Guid Id, Guid MissionId) : IRequest<Unit>;
-public class AddMissionCommandHandler : IRequestHandler<AddMissionCommand, Unit>
+public sealed class AddMissionCommandHandler : IRequestHandler<AddMissionCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Project> _repository;

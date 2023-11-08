@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class GroupRoleConfiguration : IEntityTypeConfiguration<GroupRole>
+public sealed class GroupRoleConfiguration : IEntityTypeConfiguration<GroupRole>
 {
     public void Configure(EntityTypeBuilder<GroupRole> builder)
     {

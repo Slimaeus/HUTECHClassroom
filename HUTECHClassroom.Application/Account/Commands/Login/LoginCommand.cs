@@ -7,7 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace HUTECHClassroom.Application.Account.Commands.Login;
 
 public record LoginCommand(string UserName, string Password) : IRequest<AccountDTO>;
-public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
+public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;
     private readonly ITokenService _tokenService;
@@ -49,9 +49,9 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
             .Map<AccountDTO>(user);
 
         var doesGetCacheTokenSuccess = _memoryCache
-            .TryGetValue($"UserToken_{user.UserName}", out string memoryCacheToken);
+            .TryGetValue($"UserToken_{user.UserName}", out string? memoryCacheToken);
 
-        if (doesGetCacheTokenSuccess)
+        if (doesGetCacheTokenSuccess && memoryCacheToken is { })
         {
             var expireDate = _tokenService.GetExpireDate(memoryCacheToken);
             if (expireDate >= DateTime.Now.ToUniversalTime().AddMinutes(10))

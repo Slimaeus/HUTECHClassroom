@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class PhotoConfiguration : IEntityTypeConfiguration<Photo>
+public sealed class PhotoConfiguration : IEntityTypeConfiguration<Photo>
 {
     public void Configure(EntityTypeBuilder<Photo> builder)
     {

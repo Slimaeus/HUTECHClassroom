@@ -6,8 +6,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Faculties.Queries.GetFacultiesWithPagination;
 
-public record GetFacultiesWithPaginationQuery(FacultyPaginationParams Params) : GetWithPaginationQuery<FacultyDTO, FacultyPaginationParams>(Params);
-public class GetFacultiesWithPaginationQueryHandler : GetWithPaginationQueryHandler<Faculty, GetFacultiesWithPaginationQuery, FacultyDTO, FacultyPaginationParams>
+public sealed record GetFacultiesWithPaginationQuery(FacultyPaginationParams Params) : GetWithPaginationQuery<FacultyDTO, FacultyPaginationParams>(Params);
+public sealed class GetFacultiesWithPaginationQueryHandler : GetWithPaginationQueryHandler<Faculty, GetFacultiesWithPaginationQuery, FacultyDTO, FacultyPaginationParams>
 {
     public GetFacultiesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Faculty, bool>> SearchStringPredicate(string searchString)

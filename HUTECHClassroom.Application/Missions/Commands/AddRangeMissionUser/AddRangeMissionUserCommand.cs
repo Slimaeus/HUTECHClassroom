@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Missions.Commands.AddRangeMissionUser;
 
 public record AddRangeMissionUserCommand(Guid MissionId, IList<Guid> UserIds) : IRequest<Unit>;
-public class AddMissionUsersCommandHandler : IRequestHandler<AddRangeMissionUserCommand, Unit>
+public sealed class AddMissionUsersCommandHandler : IRequestHandler<AddRangeMissionUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Mission> _repository;

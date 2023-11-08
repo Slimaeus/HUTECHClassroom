@@ -2,7 +2,7 @@
 
 public interface IEntityDTO<TKey>
 {
-    TKey Id { get; init; }
+    TKey? Id { get; init; }
 }
 
 public interface IEntityDTO : IEntityDTO<Guid> { }

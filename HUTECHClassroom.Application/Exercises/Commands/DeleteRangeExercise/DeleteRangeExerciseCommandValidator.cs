@@ -2,4 +2,4 @@
 
 namespace HUTECHClassroom.Application.Exercises.Commands.DeleteRangeExercise;
 
-public class DeleteRangeExerciseCommandValidator : DeleteRangeCommandValidator<DeleteRangeExerciseCommand> { }
+public sealed class DeleteRangeExerciseCommandValidator : DeleteRangeCommandValidator<DeleteRangeExerciseCommand> { }

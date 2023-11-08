@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Missions.Commands.AddMissionUser;
 
 public record AddMissionUserCommand(Guid MissionId, Guid UserId) : IRequest<Unit>;
-public class AddMissionUserCommandHandler : IRequestHandler<AddMissionUserCommand, Unit>
+public sealed class AddMissionUserCommandHandler : IRequestHandler<AddMissionUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;

@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
-public class MajorsController : BaseEntityApiController<MajorDTO>
+public sealed class MajorsController : BaseEntityApiController<MajorDTO>
 {
     [Authorize(ReadMajorPolicy)]
     [HttpGet]

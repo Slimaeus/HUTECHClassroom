@@ -2,12 +2,12 @@
 
 namespace HUTECHClassroom.Application.Groups.Commands.UpdateGroup;
 
-public record UpdateGroupCommand(Guid Id) : UpdateCommand(Id)
+public sealed record UpdateGroupCommand(Guid Id) : UpdateCommand(Id)
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
 }
-public class UpdateGroupCommandHandler : UpdateCommandHandler<Group, UpdateGroupCommand>
+public sealed class UpdateGroupCommandHandler : UpdateCommandHandler<Group, UpdateGroupCommand>
 {
     public UpdateGroupCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

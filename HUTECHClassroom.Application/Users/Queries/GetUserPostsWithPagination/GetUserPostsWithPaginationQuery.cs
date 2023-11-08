@@ -7,8 +7,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserPostsWithPagination;
 
-public record GetUserPostsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<PostDTO, PaginationParams>(Params);
-public class GetUserPostsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Post, GetUserPostsWithPaginationQuery, PostDTO, PaginationParams>
+public sealed record GetUserPostsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<PostDTO, PaginationParams>(Params);
+public sealed class GetUserPostsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Post, GetUserPostsWithPaginationQuery, PostDTO, PaginationParams>
 {
     private readonly IUserAccessor _userAccessor;
 

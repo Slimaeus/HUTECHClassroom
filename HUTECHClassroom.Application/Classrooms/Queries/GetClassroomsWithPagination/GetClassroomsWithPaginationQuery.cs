@@ -6,22 +6,21 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroomsWithPagination;
 
-public record GetClassroomsWithPaginationQuery(ClassroomPaginationParams Params) : GetWithPaginationQuery<ClassroomDTO, ClassroomPaginationParams>(Params);
-public class GetClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Classroom, GetClassroomsWithPaginationQuery, ClassroomDTO, ClassroomPaginationParams>
+public sealed record GetClassroomsWithPaginationQuery(ClassroomPaginationParams Params) : GetWithPaginationQuery<ClassroomDTO, ClassroomPaginationParams>(Params);
+public sealed class GetClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Classroom, GetClassroomsWithPaginationQuery, ClassroomDTO, ClassroomPaginationParams>
 {
     public GetClassroomsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
     protected override Expression<Func<Classroom, bool>> FilterPredicate(GetClassroomsWithPaginationQuery query)
-    {
-        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || x.LecturerId == query.Params.UserId || x.ClassroomUsers.Any(cu => cu.UserId == query.Params.UserId);
-    }
+        => x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || x.LecturerId == query.Params.UserId || x.ClassroomUsers.Any(cu => cu.UserId == query.Params.UserId);
     protected override Expression<Func<Classroom, bool>> SearchStringPredicate(string searchString)
     {
         var toLowerSearchString = searchString.ToLower();
-        return x => x.Title.ToLower().Contains(toLowerSearchString) || x.Description.ToLower().Contains(toLowerSearchString);
+        return x => x.Title.ToLower().Contains(toLowerSearchString) || (x.Description != null && x.Description.ToLower().Contains(toLowerSearchString));
     }
-    protected override IQuery<Classroom> Order(IMultipleResultQuery<Classroom> query) => query.OrderByDescending(x => x.CreateDate);
+    protected override IQuery<Classroom> Order(IMultipleResultQuery<Classroom> query)
+        => query.OrderByDescending(x => x.CreateDate);
 
     protected override IMultipleResultQuery<Classroom> SortingQuery(IMultipleResultQuery<Classroom> query, GetClassroomsWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.TitleOrder, x => x.Title)
@@ -34,6 +33,5 @@ public class GetClassroomsWithPaginationQueryHandler : GetWithPaginationQueryHan
                 .SortEntityQuery(request.Params.StudyGroupOrder, x => x.StudyGroup)
                 .SortEntityQuery(request.Params.PracticalStudyGroupOrder, x => x.PracticalStudyGroup)
                 .SortEntityQuery(request.Params.SemesterOrder, x => x.Semester)
-                .SortEntityQuery(request.Params.TypeOrder, x => x.Type)
-        ;
+                .SortEntityQuery(request.Params.TypeOrder, x => x.Type);
 }

@@ -2,13 +2,13 @@
 
 namespace HUTECHClassroom.Application.Missions.Commands.UpdateMission;
 
-public record UpdateMissionCommand(Guid Id) : UpdateCommand(Id)
+public sealed record UpdateMissionCommand(Guid Id) : UpdateCommand(Id)
 {
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public bool IsDone { get; set; }
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public bool? IsDone { get; set; }
 }
-public class UpdateMissionCommandHandler : UpdateCommandHandler<Mission, UpdateMissionCommand>
+public sealed class UpdateMissionCommandHandler : UpdateCommandHandler<Mission, UpdateMissionCommand>
 {
     public UpdateMissionCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

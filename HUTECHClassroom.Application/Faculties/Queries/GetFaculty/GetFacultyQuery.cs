@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Faculties.Queries.GetFaculty;
 
 public record GetFacultyQuery(Guid Id) : GetQuery<FacultyDTO>;
-public class GetFacultyQueryHandler : GetQueryHandler<Faculty, GetFacultyQuery, FacultyDTO>
+public sealed class GetFacultyQueryHandler : GetQueryHandler<Faculty, GetFacultyQuery, FacultyDTO>
 {
     public GetFacultyQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     public override Expression<Func<Faculty, bool>> FilterPredicate(GetFacultyQuery query)

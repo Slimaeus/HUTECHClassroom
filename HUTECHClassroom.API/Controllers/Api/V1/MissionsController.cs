@@ -1,7 +1,7 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class MissionsController : BaseEntityApiController<MissionDTO>
+public sealed class MissionsController : BaseEntityApiController<MissionDTO>
 {
     [Authorize(ReadMissionPolicy)]
     [HttpGet]

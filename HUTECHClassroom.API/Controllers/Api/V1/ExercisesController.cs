@@ -1,7 +1,7 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class ExercisesController : BaseEntityApiController<ExerciseDTO>
+public sealed class ExercisesController : BaseEntityApiController<ExerciseDTO>
 {
     [Authorize(ReadExercisePolicy)]
     [HttpGet]

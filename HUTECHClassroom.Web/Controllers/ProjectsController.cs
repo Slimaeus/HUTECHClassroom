@@ -8,7 +8,7 @@ using X.PagedList;
 namespace HUTECHClassroom.Web.Controllers;
 
 [Authorize(DeanOrTrainingOfficePolicy)]
-public class ProjectsController : BaseEntityController<Project>
+public sealed class ProjectsController : BaseEntityController<Project>
 {
     public IActionResult Index(int? page, int? size)
     {

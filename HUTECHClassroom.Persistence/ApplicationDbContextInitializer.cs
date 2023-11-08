@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace HUTECHClassroom.Persistence;
 
-public class ApplicationDbContextInitializer
+public sealed class ApplicationDbContextInitializer
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;

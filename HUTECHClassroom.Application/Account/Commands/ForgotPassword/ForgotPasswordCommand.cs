@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 namespace HUTECHClassroom.Application.Account.Commands.ForgotPassword;
 
 public record ForgotPasswordCommand(string Email) : IRequest<string>;
-public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, string>
+public sealed class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, string>
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IEmailService _emailService;
@@ -24,9 +24,14 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
         var token = await _userManager
             .GeneratePasswordResetTokenAsync(user);
 
-        await _emailService
-            .SendEmailAsync(user.Email, "Reset Password Code", $"This is reset password code: {token}");
+        if (user.Email is { })
+        {
+            await _emailService
+                .SendEmailAsync(user.Email, "Reset Password Code", $"This is reset password code: {token}");
 
-        return token;
+            return token;
+        }
+
+        return string.Empty;
     }
 }

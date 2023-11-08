@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Groups.Commands.AddRangeGroupUser;
 
 public record AddRangeGroupUserCommand(Guid GroupId, IList<Guid> UserIds) : IRequest<Unit>;
-public class AddGroupUsersCommandHandler : IRequestHandler<AddRangeGroupUserCommand, Unit>
+public sealed class AddGroupUsersCommandHandler : IRequestHandler<AddRangeGroupUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Group> _repository;

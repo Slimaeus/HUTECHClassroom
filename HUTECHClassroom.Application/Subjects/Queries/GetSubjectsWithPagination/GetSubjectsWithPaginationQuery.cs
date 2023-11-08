@@ -6,14 +6,15 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Subjects.Queries.GetSubjectsWithPagination;
 
-public record GetSubjectsWithPaginationQuery(SubjectPaginationParams Params) : GetWithPaginationQuery<SubjectDTO, SubjectPaginationParams>(Params);
-public class GetSubjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Subject, GetSubjectsWithPaginationQuery, SubjectDTO, SubjectPaginationParams>
+public sealed record GetSubjectsWithPaginationQuery(SubjectPaginationParams Params) : GetWithPaginationQuery<SubjectDTO, SubjectPaginationParams>(Params);
+public sealed class GetSubjectsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Subject, GetSubjectsWithPaginationQuery, SubjectDTO, SubjectPaginationParams>
 {
     public GetSubjectsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     protected override Expression<Func<Subject, bool>> SearchStringPredicate(string searchString)
         => x => x.Code.ToLower().Contains(searchString.ToLower()) || x.Title.ToLower().Contains(searchString.ToLower());
 
-    protected override IQuery<Subject> Order(IMultipleResultQuery<Subject> query) => query.OrderByDescending(x => x.CreateDate);
+    protected override IQuery<Subject> Order(IMultipleResultQuery<Subject> query)
+        => query.OrderByDescending(x => x.CreateDate);
 
     protected override IMultipleResultQuery<Subject> SortingQuery(IMultipleResultQuery<Subject> query, GetSubjectsWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.CodeOrder, x => x.Code)

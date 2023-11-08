@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Common.Requests;
 
-public record UpdateCommand<TKey>(TKey Id) : IRequest<Unit>;
+public record UpdateCommand<TKey>(TKey Id) : IRequest<Unit>
+    where TKey : notnull;
 public abstract class UpdateCommandHandler<TKey, TEntity, TCommand> : IRequestHandler<TCommand, Unit>
+    where TKey : notnull
     where TEntity : class, IEntity<TKey>
     where TCommand : UpdateCommand<TKey>
 {

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Posts.Queries.GetPost;
 
 public record GetPostQuery(Guid Id) : GetQuery<PostDTO>;
-public class GetPostQueryHandler : GetQueryHandler<Post, GetPostQuery, PostDTO>
+public sealed class GetPostQueryHandler : GetQueryHandler<Post, GetPostQuery, PostDTO>
 {
     public GetPostQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     public override Expression<Func<Post, bool>> FilterPredicate(GetPostQuery query)

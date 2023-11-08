@@ -2,7 +2,7 @@
 
 [Authorize]
 [ApiVersion("1.0")]
-public class RolesController : BaseEntityApiController<RoleDTO>
+public sealed class RolesController : BaseEntityApiController<RoleDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<RoleDTO>>> Get([FromQuery] PaginationParams @params)

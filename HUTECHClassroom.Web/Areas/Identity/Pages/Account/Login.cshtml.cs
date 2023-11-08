@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HUTECHClassroom.Web.Areas.Identity.Pages.Account;
 
-public class LoginModel : PageModel
+public sealed class LoginModel : PageModel
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<LoginModel> _logger;
@@ -52,7 +52,7 @@ public class LoginModel : PageModel
     ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
-    public class InputModel
+    public sealed class InputModel
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

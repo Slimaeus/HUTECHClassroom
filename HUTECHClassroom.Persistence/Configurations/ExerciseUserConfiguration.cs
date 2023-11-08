@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class ExerciseUserConfiguration : IEntityTypeConfiguration<ExerciseUser>
+public sealed class ExerciseUserConfiguration : IEntityTypeConfiguration<ExerciseUser>
 {
     public void Configure(EntityTypeBuilder<ExerciseUser> builder)
     {

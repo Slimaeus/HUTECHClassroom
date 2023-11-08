@@ -3,6 +3,6 @@ using HUTECHClassroom.Application.Posts.DTOs;
 
 namespace HUTECHClassroom.Application.Posts.Commands.DeletePost;
 
-public class DeletePostCommandValidator : DeleteCommandValidator<DeletePostCommand, PostDTO>
+public sealed class DeletePostCommandValidator : DeleteCommandValidator<DeletePostCommand, PostDTO>
 {
 }

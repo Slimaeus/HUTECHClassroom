@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Missions.Queries.GetMission;
 
-public class GetMissionQueryValidator : AbstractValidator<GetMissionQuery>
+public sealed class GetMissionQueryValidator : AbstractValidator<GetMissionQuery>
 {
     public GetMissionQueryValidator()
     {

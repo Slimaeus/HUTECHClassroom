@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.Validators.Users;
 
 namespace HUTECHClassroom.Application.Exercises.Commands.RemoveExerciseUser;
 
-public class RemoveExerciseUserCommandValidator : AbstractValidator<RemoveExerciseUserCommand>
+public sealed class RemoveExerciseUserCommandValidator : AbstractValidator<RemoveExerciseUserCommand>
 {
     public RemoveExerciseUserCommandValidator(ExerciseExistenceByNotNullIdValidator exerciseIdValidator, UserExistenceByNotNullIdValidator userIdValidator)
     {

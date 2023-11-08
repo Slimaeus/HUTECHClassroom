@@ -3,7 +3,7 @@ using HUTECHClassroom.Application.Common.Validators.Users;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.AddClassroomUser;
 
-public class AddClassroomUserCommandValidator : AbstractValidator<AddClassroomUserCommand>
+public sealed class AddClassroomUserCommandValidator : AbstractValidator<AddClassroomUserCommand>
 {
     public AddClassroomUserCommandValidator(UserExistenceByNotNullIdValidator userIdValidator, ClassroomExistenceByNotNullIdValidator classroomIdValidator)
     {

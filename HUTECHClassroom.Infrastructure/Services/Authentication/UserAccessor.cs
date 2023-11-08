@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace HUTECHClassroom.Infrastructure.Services.Authentication;
 
-public class UserAccessor : IUserAccessor
+public sealed class UserAccessor : IUserAccessor
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

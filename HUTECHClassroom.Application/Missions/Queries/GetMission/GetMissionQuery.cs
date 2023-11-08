@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 namespace HUTECHClassroom.Application.Missions.Queries.GetMission;
 
 public record GetMissionQuery(Guid Id) : GetQuery<MissionDTO>;
-public class GetMissionQueryHandler : GetQueryHandler<Mission, GetMissionQuery, MissionDTO>
+public sealed class GetMissionQueryHandler : GetQueryHandler<Mission, GetMissionQuery, MissionDTO>
 {
     private readonly IUserAccessor _userAccessor;
 

@@ -1,7 +1,7 @@
 ﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class CommentsController : BaseEntityApiController<CommentDTO>
+public sealed class CommentsController : BaseEntityApiController<CommentDTO>
 {
     [Authorize(ReadCommentPolicy)]
     [HttpGet]

@@ -2,4 +2,4 @@
 
 namespace HUTECHClassroom.Application.Missions.Commands.DeleteRangeMission;
 
-public class DeleteRangeMissionCommandValidator : DeleteRangeCommandValidator<DeleteRangeMissionCommand> { }
+public sealed class DeleteRangeMissionCommandValidator : DeleteRangeCommandValidator<DeleteRangeMissionCommand> { }

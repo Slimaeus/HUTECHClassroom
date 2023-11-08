@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace HUTECHClassroom.API.SignalR;
 
-public class CommentHub : Hub<ICommentClientHub>
+public sealed class CommentHub : Hub<ICommentClientHub>
 {
     private readonly IMediator _mediator;
 

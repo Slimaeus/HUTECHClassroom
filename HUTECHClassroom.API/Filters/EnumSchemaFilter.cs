@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace HUTECHClassroom.API.Filters;
 
-public class EnumSchemaFilter : ISchemaFilter
+public sealed class EnumSchemaFilter : ISchemaFilter
 {
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {

@@ -32,7 +32,7 @@ public sealed class Handler : IRequestHandler<GetClassroomResultsWithPaginationQ
         {
             var searchString = request.Params.SearchString.ToLowerInvariant();
             query = (IMultipleResultQuery<StudentResult>)query
-                .AndFilter(x => x.Student.FirstName.Contains(searchString) || x.Student.LastName.Contains(searchString));
+                .AndFilter(x => x.Student != null && (x.Student.FirstName.Contains(searchString) || x.Student.LastName.Contains(searchString)));
         }
 
         var pagedListQueryable = _classroomRepository

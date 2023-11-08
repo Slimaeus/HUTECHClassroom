@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Web.ViewModels.ApplicationUsers;
 
-public class CreateUserViewModel
+public sealed class CreateUserViewModel
 {
     public string UserName { get; set; }
     [EmailAddress]

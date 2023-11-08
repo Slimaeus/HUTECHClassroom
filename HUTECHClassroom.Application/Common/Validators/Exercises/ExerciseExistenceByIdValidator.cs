@@ -1,6 +1,6 @@
 ﻿namespace HUTECHClassroom.Application.Common.Validators.Exercises;
 
-public class ExerciseExistenceByIdValidator : EntityExistenceByIdValidator<Exercise>
+public sealed class ExerciseExistenceByIdValidator : EntityExistenceByIdValidator<Exercise>
 {
     public ExerciseExistenceByIdValidator(IUnitOfWork unitOfWork) : base(unitOfWork)
     {

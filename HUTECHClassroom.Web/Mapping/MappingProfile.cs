@@ -5,7 +5,7 @@ using HUTECHClassroom.Web.ViewModels.Classrooms;
 
 namespace HUTECHClassroom.Web.Mapping;
 
-public class MappingProfile : Profile
+public sealed class MappingProfile : Profile
 {
     public MappingProfile()
     {

@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.Application.Faculties.DTOs;
 
-public record FacultyDTO : BaseEntityDTO
+public sealed record FacultyDTO : BaseEntityDTO
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }

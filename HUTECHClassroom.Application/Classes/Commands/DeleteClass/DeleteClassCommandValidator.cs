@@ -3,6 +3,6 @@ using HUTECHClassroom.Application.Common.Validators;
 
 namespace HUTECHClassroom.Application.Classs.Commands.DeleteClass;
 
-public class DeleteClassCommandValidator : DeleteCommandValidator<DeleteClassCommand, ClassDTO>
+public sealed class DeleteClassCommandValidator : DeleteCommandValidator<DeleteClassCommand, ClassDTO>
 {
 }

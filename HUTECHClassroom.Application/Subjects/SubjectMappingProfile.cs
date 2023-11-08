@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Subjects.DTOs;
 
 namespace HUTECHClassroom.Application.Subjects;
 
-public class SubjectMappingProfile : Profile
+public sealed class SubjectMappingProfile : Profile
 {
     public SubjectMappingProfile()
     {

@@ -6,22 +6,21 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Exercises.Queries.GetExercisesWithPagination;
 
-public record GetExercisesWithPaginationQuery(ExercisePaginationParams Params) : GetWithPaginationQuery<ExerciseDTO, ExercisePaginationParams>(Params);
-public class GetExercisesWithPaginationQueryHandler : GetWithPaginationQueryHandler<Exercise, GetExercisesWithPaginationQuery, ExerciseDTO, ExercisePaginationParams>
+public sealed record GetExercisesWithPaginationQuery(ExercisePaginationParams Params) : GetWithPaginationQuery<ExerciseDTO, ExercisePaginationParams>(Params);
+public sealed class GetExercisesWithPaginationQueryHandler : GetWithPaginationQueryHandler<Exercise, GetExercisesWithPaginationQuery, ExerciseDTO, ExercisePaginationParams>
 {
     public GetExercisesWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
     protected override Expression<Func<Exercise, bool>> FilterPredicate(GetExercisesWithPaginationQuery query)
-    {
-        return x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || x.ExerciseUsers.Any(eu => eu.UserId == query.Params.UserId);
-    }
+        => x => query.Params.UserId == null || query.Params.UserId == Guid.Empty || x.ExerciseUsers.Any(eu => eu.UserId == query.Params.UserId);
     protected override Expression<Func<Exercise, bool>> SearchStringPredicate(string searchString)
         => x => x.Title.ToLower().Equals(searchString.ToLower())
-                || x.Instruction.ToLower().Equals(searchString.ToLower())
-                || x.Link.ToLower().Equals(searchString.ToLower())
-                || x.Topic.ToLower().Equals(searchString.ToLower());
-    protected override IQuery<Exercise> Order(IMultipleResultQuery<Exercise> query) => query.OrderByDescending(x => x.CreateDate);
+                || (x.Instruction != null && x.Instruction.ToLower().Equals(searchString.ToLower()))
+                || (x.Link != null && x.Link.ToLower().Equals(searchString.ToLower()))
+                || (x.Topic != null && x.Topic.ToLower().Equals(searchString.ToLower()));
+    protected override IQuery<Exercise> Order(IMultipleResultQuery<Exercise> query)
+        => query.OrderByDescending(x => x.CreateDate);
     protected override IMultipleResultQuery<Exercise> SortingQuery(IMultipleResultQuery<Exercise> query, GetExercisesWithPaginationQuery request)
         => query.SortEntityQuery(request.Params.TitleOrder, x => x.Title)
                 .SortEntityQuery(request.Params.InstructionOrder, x => x.Instruction)

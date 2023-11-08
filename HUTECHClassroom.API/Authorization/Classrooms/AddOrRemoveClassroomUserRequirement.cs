@@ -1,5 +1,5 @@
 ﻿namespace HUTECHClassroom.API.Authorization.Classrooms;
 
-public class AddOrRemoveClassroomUserRequirement : IAuthorizationRequirement
+public sealed class AddOrRemoveClassroomUserRequirement : IAuthorizationRequirement
 {
 }

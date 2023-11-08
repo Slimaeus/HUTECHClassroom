@@ -17,6 +17,7 @@ public sealed class GetClassesWithPaginationQueryHandler : GetWithPaginationQuer
         var toLowerSearchString = searchString.ToLower();
         return x => x.Name.ToLower().Contains(toLowerSearchString);
     }
-    protected override IQuery<Class> Order(IMultipleResultQuery<Class> query) => query.OrderByDescending(x => x.CreateDate);
+    protected override IQuery<Class> Order(IMultipleResultQuery<Class> query)
+        => query.OrderByDescending(x => x.CreateDate);
 
 }

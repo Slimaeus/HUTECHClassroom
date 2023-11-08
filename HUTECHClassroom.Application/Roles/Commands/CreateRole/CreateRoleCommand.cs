@@ -2,11 +2,11 @@
 
 namespace HUTECHClassroom.Application.Roles.Commands.CreateRole;
 
-public record CreateRoleCommand : CreateCommand
+public sealed record CreateRoleCommand : CreateCommand
 {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 }
-public class CreateRoleCommandHandler : CreateCommandHandler<ApplicationRole, CreateRoleCommand>
+public sealed class CreateRoleCommandHandler : CreateCommandHandler<ApplicationRole, CreateRoleCommand>
 {
     public CreateRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {

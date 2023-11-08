@@ -10,7 +10,7 @@ public abstract record BaseEntityDTO<TKey> : IEntityDTO<TKey>, IAuditableEntity
     }
     public BaseEntityDTO(TKey id)
         => Id = id;
-    public TKey Id { get; init; }
+    public TKey? Id { get; init; }
     public DateTime CreateDate { get; init; }
 }
 

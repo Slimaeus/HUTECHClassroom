@@ -3,7 +3,7 @@ using HUTECHClassroom.Domain.Enums;
 
 namespace HUTECHClassroom.Application.Majors;
 
-public record MajorPaginationParams(int? PageNumber, int? PageSize, string SearchString) : PaginationParams(PageNumber, PageSize, SearchString)
+public record MajorPaginationParams(int? PageNumber, int? PageSize, string? SearchString) : PaginationParams(PageNumber, PageSize, SearchString)
 {
     public SortingOrder CodeOrder { get; set; }
     public SortingOrder TitleOrder { get; set; }

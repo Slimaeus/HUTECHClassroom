@@ -8,8 +8,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserGroupsWithPagination;
 
-public record GetUserGroupsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<GroupDTO, PaginationParams>(Params);
-public class GetUserGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Group, GetUserGroupsWithPaginationQuery, GroupDTO, PaginationParams>
+public sealed record GetUserGroupsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<GroupDTO, PaginationParams>(Params);
+public sealed class GetUserGroupsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Group, GetUserGroupsWithPaginationQuery, GroupDTO, PaginationParams>
 {
     private readonly IUserAccessor _userAccessor;
 

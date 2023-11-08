@@ -2,7 +2,7 @@
 
 namespace HUTECHClassroom.API.Authorization.Missions;
 
-public class GroupRoleFromMissionRequirement : GroupRoleRequirement
+public sealed class GroupRoleFromMissionRequirement : GroupRoleRequirement
 {
     public GroupRoleFromMissionRequirement(string roleName) : base(roleName)
     {

@@ -2,4 +2,4 @@
 
 namespace HUTECHClassroom.Application.Majors.Commands.DeleteRangeMajor;
 
-public class DeleteRangeMajorCommandValidator : DeleteRangeCommandValidator<DeleteRangeMajorCommand> { }
+public sealed class DeleteRangeMajorCommandValidator : DeleteRangeCommandValidator<DeleteRangeMajorCommand> { }

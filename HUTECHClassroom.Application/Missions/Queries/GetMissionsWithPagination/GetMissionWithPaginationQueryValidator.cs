@@ -3,6 +3,6 @@ using HUTECHClassroom.Application.Missions.DTOs;
 
 namespace HUTECHClassroom.Application.Missions.Queries.GetMissionsWithPagination;
 
-public class GetMissionWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetMissionsWithPaginationQuery, MissionDTO, MissionPaginationParams>
+public sealed class GetMissionWithPaginationQueryValidator : GetWithPaginationQueryValidator<GetMissionsWithPaginationQuery, MissionDTO, MissionPaginationParams>
 {
 }

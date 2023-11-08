@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HUTECHClassroom.Persistence.Configurations;
 
-public class ApplicationUserRoleConfiguration : IEntityTypeConfiguration<ApplicationUserRole>
+public sealed class ApplicationUserRoleConfiguration : IEntityTypeConfiguration<ApplicationUserRole>
 {
     public void Configure(EntityTypeBuilder<ApplicationUserRole> builder)
     {

@@ -4,7 +4,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Groups.Commands.CreateGroup;
 
-public class CreateGroupCommandValidator : AbstractValidator<CreateGroupCommand>
+public sealed class CreateGroupCommandValidator : AbstractValidator<CreateGroupCommand>
 {
     public CreateGroupCommandValidator(UserExistenceByNotNullIdValidator userIdValidator, ClassroomExistenceByNotNullIdValidator classroomValidator)
     {

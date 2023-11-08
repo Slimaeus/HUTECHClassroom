@@ -9,7 +9,7 @@ public static class MultipleResultQueryExtensions
     public static IMultipleResultQuery<TEntity> SortEntityQuery<TEntity>(
         this IMultipleResultQuery<TEntity> query,
         SortingOrder sortingOrder,
-        Expression<Func<TEntity, object>> keySelector)
+        Expression<Func<TEntity, object?>> keySelector)
         where TEntity : class
         => sortingOrder switch
         {

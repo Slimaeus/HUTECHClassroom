@@ -9,7 +9,7 @@ using HUTECHClassroom.Application.Classs.Commands.UpdateClass;
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
-public class ClassesController : BaseEntityApiController<ClassDTO>
+public sealed class ClassesController : BaseEntityApiController<ClassDTO>
 {
     [HttpGet]
     public Task<ActionResult<IEnumerable<ClassDTO>>> Get([FromQuery] PaginationParams paginationParams)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Groups.Commands.AddGroupUser;
 
 public record AddGroupUserCommand(Guid GroupId, Guid UserId) : IRequest<Unit>;
-public class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, Unit>
+public sealed class AddGroupUserCommandHandler : IRequestHandler<AddGroupUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;

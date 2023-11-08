@@ -3,7 +3,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Subjects.Commands.UpdateSubject;
 
-public class UpdateSubjectCommandValidator : UpdateCommandValidator<UpdateSubjectCommand>
+public sealed class UpdateSubjectCommandValidator : UpdateCommandValidator<UpdateSubjectCommand>
 {
     public UpdateSubjectCommandValidator()
     {

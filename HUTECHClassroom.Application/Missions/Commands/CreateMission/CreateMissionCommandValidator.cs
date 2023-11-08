@@ -3,7 +3,7 @@ using HUTECHClassroom.Domain.Constants;
 
 namespace HUTECHClassroom.Application.Missions.Commands.CreateMission;
 
-public class CreateMissionCommandValidator : AbstractValidator<CreateMissionCommand>
+public sealed class CreateMissionCommandValidator : AbstractValidator<CreateMissionCommand>
 {
     public CreateMissionCommandValidator(ProjectExistenceByNotNullIdValidator projectIdValidator)
     {

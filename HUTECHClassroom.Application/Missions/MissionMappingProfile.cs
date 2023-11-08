@@ -6,7 +6,7 @@ using HUTECHClassroom.Application.Missions.DTOs;
 
 namespace HUTECHClassroom.Application.Missions;
 
-public class MissionMappingProfile : Profile
+public sealed class MissionMappingProfile : Profile
 {
     public MissionMappingProfile()
     {
@@ -19,7 +19,7 @@ public class MissionMappingProfile : Profile
         CreateMap<Project, MissionProjectDTO>();
 
         CreateMap<MissionUser, MemberDTO>()
-            .ConstructUsing(x => new MemberDTO(x.UserId, x.User.UserName, x.User.Email, x.User.FirstName, x.User.LastName, x.User.Avatar == null ? "" : x.User.Avatar.Url));
+            .ConstructUsing(x => new MemberDTO(x.UserId, x.User != null ? x.User.UserName : null, x.User != null ? x.User.Email : null, x.User != null ? x.User.FirstName : null, x.User != null ? x.User.LastName : null, x.User != null && x.User.Class != null ? x.User.Class.Name : null!, x.User != null && x.User.Avatar != null ? x.User.Avatar.Url : string.Empty));
 
         CreateMap<AddMissionUserCommand, MissionUser>();
     }

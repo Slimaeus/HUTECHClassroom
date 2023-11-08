@@ -1,13 +1,17 @@
-﻿using HUTECHClassroom.Application.Common.Validators.Faculties;
+﻿using HUTECHClassroom.Application.Common.Validators.Classs;
+using HUTECHClassroom.Application.Common.Validators.Faculties;
 using Microsoft.AspNetCore.Identity;
 
 namespace HUTECHClassroom.Application.Account.Commands.Register;
 
-public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+public sealed class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public RegisterCommandValidator(UserManager<ApplicationUser> userManager, FacultyExistenceByIdValidator facultyIdValidator)
+    public RegisterCommandValidator(
+        UserManager<ApplicationUser> userManager,
+        FacultyExistenceByIdValidator facultyIdValidator,
+        ClassExistenceByIdValidator classIdValidator)
     {
         _userManager = userManager;
 
@@ -33,6 +37,9 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 
         RuleFor(x => x.FacultyId)
             .SetValidator(facultyIdValidator);
+
+        RuleFor(x => x.ClassId)
+            .SetValidator(classIdValidator);
     }
 
     private async Task<bool> IsUniqueUserName(string userName, CancellationToken cancellationToken)

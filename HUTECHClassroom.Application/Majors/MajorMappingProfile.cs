@@ -4,7 +4,7 @@ using HUTECHClassroom.Application.Majors.DTOs;
 
 namespace HUTECHClassroom.Application.Majors;
 
-public class MajorMappingProfile : Profile
+public sealed class MajorMappingProfile : Profile
 {
     public MajorMappingProfile()
     {

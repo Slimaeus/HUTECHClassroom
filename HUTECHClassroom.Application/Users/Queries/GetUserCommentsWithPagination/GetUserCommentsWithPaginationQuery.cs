@@ -7,8 +7,8 @@ using System.Linq.Expressions;
 
 namespace HUTECHClassroom.Application.Users.Queries.GetUserCommentsWithPagination;
 
-public record GetUserCommentsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<CommentDTO, PaginationParams>(Params);
-public class GetUserCommentsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Comment, GetUserCommentsWithPaginationQuery, CommentDTO, PaginationParams>
+public sealed record GetUserCommentsWithPaginationQuery(PaginationParams Params) : GetWithPaginationQuery<CommentDTO, PaginationParams>(Params);
+public sealed class GetUserCommentsWithPaginationQueryHandler : GetWithPaginationQueryHandler<Comment, GetUserCommentsWithPaginationQuery, CommentDTO, PaginationParams>
 {
     private readonly IUserAccessor _userAccessor;
 

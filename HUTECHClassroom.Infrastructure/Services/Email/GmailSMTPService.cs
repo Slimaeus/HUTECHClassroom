@@ -6,7 +6,7 @@ using System.Net.Mail;
 
 namespace HUTECHClassroom.Infrastructure.Services.Email;
 
-public class GmailSMTPService : IEmailService
+public sealed class GmailSMTPService : IEmailService
 {
     private readonly string _smtpHost;
     private readonly int _smtpPort;

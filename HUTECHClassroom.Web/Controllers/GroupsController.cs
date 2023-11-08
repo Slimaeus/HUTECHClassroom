@@ -13,7 +13,7 @@ using X.PagedList;
 namespace HUTECHClassroom.Web.Controllers;
 
 [Authorize(DeanOrTrainingOfficePolicy)]
-public class GroupsController : BaseEntityController<Group>
+public sealed class GroupsController : BaseEntityController<Group>
 {
     public IActionResult Index(int? page, int? size)
     {

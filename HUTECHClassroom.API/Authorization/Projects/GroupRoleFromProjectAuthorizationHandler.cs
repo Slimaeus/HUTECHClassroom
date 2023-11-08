@@ -7,7 +7,7 @@ using System.Text;
 
 namespace HUTECHClassroom.API.Authorization.Projects;
 
-public class GroupRoleFromProjectAuthorizationHandler : GroupRoleAuthorizationHandler<GroupRoleFromProjectRequirement>
+public sealed class GroupRoleFromProjectAuthorizationHandler : GroupRoleAuthorizationHandler<GroupRoleFromProjectRequirement>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HUTECHClassroom.Application.Exercises.Commands.RemoveExerciseUser;
 
 public record RemoveExerciseUserCommand(Guid ExerciseId, Guid UserId) : IRequest<Unit>;
-public class RemoveExerciseUserCommandHandler : IRequestHandler<RemoveExerciseUserCommand, Unit>
+public sealed class RemoveExerciseUserCommandHandler : IRequestHandler<RemoveExerciseUserCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<Exercise> _repository;
