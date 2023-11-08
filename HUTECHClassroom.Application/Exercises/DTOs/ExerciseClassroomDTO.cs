@@ -1,9 +1,10 @@
-﻿using HUTECHClassroom.Application.Common.DTOs;
+﻿using HUTECHClassroom.Application.Classrooms.DTOs;
+using HUTECHClassroom.Application.Common.DTOs;
 using HUTECHClassroom.Domain.Enums;
 
 namespace HUTECHClassroom.Application.Exercises.DTOs;
 
-public record ExerciseClassroomDTO : BaseEntityDTO
+public sealed record ExerciseClassroomDTO : BaseEntityDTO
 {
     public string? Title { get; set; }
     public string? Description { get; set; }
@@ -17,8 +18,8 @@ public record ExerciseClassroomDTO : BaseEntityDTO
     public Semester? Semester { get; set; }
     public ClassroomType? Type { get; set; }
 
-    public ClassroomType? Faculty { get; set; }
-    public ClassroomType? Subject { get; set; }
+    public ClassroomFacultyDTO? Faculty { get; set; }
+    public ClassroomSubjectDTO? Subject { get; set; }
 
 
     public MemberDTO? Lecturer { get; set; }
