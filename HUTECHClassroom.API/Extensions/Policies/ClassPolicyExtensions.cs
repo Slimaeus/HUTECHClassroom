@@ -17,7 +17,6 @@ public static class ClassPolicyExtensions
         options.AddPolicy(UpdateClassPolicy, policy =>
         {
             policy.RequireRole(RoleConstants.Dean, RoleConstants.TrainingOffice);
-
         });
         options.AddPolicy(DeleteClassPolicy, policy =>
         {

@@ -114,6 +114,14 @@ public static partial class PolicyConstants
     public const string DeleteClassPolicy = nameof(DeleteClassPolicy);
 }
 
+public static partial class PolicyConstants
+{
+    public const string CreateScoreTypePolicy = nameof(CreateScoreTypePolicy);
+    public const string ReadScoreTypePolicy = nameof(ReadScoreTypePolicy);
+    public const string UpdateScoreTypePolicy = nameof(UpdateScoreTypePolicy);
+    public const string DeleteScoreTypePolicy = nameof(DeleteScoreTypePolicy);
+}
+
 
 public static partial class PolicyConstants
 {

@@ -11,6 +11,7 @@ public static class AuthorizationOptionsExtensions
         options.AddProjectPolicies();
         options.AddGroupPolicies();
         options.AddGroupRolePolicies();
+        options.AddClassPolicies();
         options.AddClassroomPolicies();
         options.AddExercisePolicies();
         options.AddMajorPolicies();
@@ -18,6 +19,7 @@ public static class AuthorizationOptionsExtensions
         options.AddPostPolicies();
         options.AddCommentPolicies();
         options.AddAnswerPolicies();
+        options.AddScoreTypePolicies();
         options.AddCommonPolicies();
     }
 }
