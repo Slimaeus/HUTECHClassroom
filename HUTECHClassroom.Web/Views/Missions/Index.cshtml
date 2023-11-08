@@ -51,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.IsDone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Project.Name)
+                @Html.DisplayFor(modelItem => item.Project != null ? item.Project.Name : string.Empty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)

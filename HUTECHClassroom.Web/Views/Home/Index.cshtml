@@ -9,12 +9,13 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>HUTECH Classroom Admin website.</p>
-    @if (SignInManager.IsSignedIn(User) && await UserManager.GetUserAsync(User) is not null && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.Administrator) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.Dean) || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RoleConstants.TrainingOffice)))
+    @if (SignInManager.IsSignedIn(User) && user is not null && (await UserManager.IsInRoleAsync(user, RoleConstants.Administrator) || await UserManager.IsInRoleAsync(user, RoleConstants.Dean) || await UserManager.IsInRoleAsync(user, RoleConstants.TrainingOffice)))
         {
         <div class="row row-cols-1 row-cols-md-4 g-4" role="group" aria-label="Entities">
             <div class="col">

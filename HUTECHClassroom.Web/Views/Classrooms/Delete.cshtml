@@ -39,19 +39,19 @@
             @Html.DisplayNameFor(model => model.Lecturer)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Lecturer.UserName)
+            @Html.DisplayFor(model => model.Lecturer != null ? model.Lecturer.UserName: string.Empty)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Faculty)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Faculty.Name)
+            @Html.DisplayFor(model => model.Faculty != null ? model.Faculty.Name : string.Empty)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Subject)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Subject.Title)
+            @Html.DisplayFor(model => model.Subject != null ? model.Subject.Title : string.Empty)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDate)

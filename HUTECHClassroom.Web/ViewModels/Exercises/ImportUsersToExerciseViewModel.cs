@@ -3,6 +3,6 @@
 public sealed class ImportUsersToExerciseViewModel
 {
     public Guid ExerciseId { get; set; }
-    public string ExerciseTitle { get; set; }
-    public IFormFile File { get; set; }
+    public string? ExerciseTitle { get; set; }
+    public IFormFile? File { get; set; }
 }

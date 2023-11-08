@@ -51,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.TotalCredits)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Major.Code)
+                    @Html.DisplayFor(modelItem => item.Major != null ? item.Major.Code : string.Empty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)

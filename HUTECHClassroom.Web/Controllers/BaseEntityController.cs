@@ -16,10 +16,10 @@ namespace HUTECHClassroom.Web.Controllers;
 public class BaseEntityController<T> : Controller
     where T : class, new()
 {
-    protected ApplicationDbContext DbContext => HttpContext.RequestServices.GetService<ApplicationDbContext>();
-    protected UserManager<ApplicationUser> UserManager => HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
-    protected IExcelServie ExcelService => HttpContext.RequestServices.GetService<IExcelServie>();
-    protected IMapper Mapper => HttpContext.RequestServices.GetService<IMapper>();
+    protected ApplicationDbContext DbContext => HttpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
+    protected UserManager<ApplicationUser> UserManager => HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+    protected IExcelServie ExcelService => HttpContext.RequestServices.GetRequiredService<IExcelServie>();
+    protected IMapper Mapper => HttpContext.RequestServices.GetRequiredService<IMapper>();
     public IActionResult Import()
     {
         var viewModel = new ImportEntitiesFromExcelViewModel();

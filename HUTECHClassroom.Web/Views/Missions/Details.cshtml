@@ -32,7 +32,7 @@
             @Html.DisplayNameFor(model => model.Project)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Project.Name)
+            @Html.DisplayFor(model => model.Project != null ? model.Project.Name : string.Empty)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDate)
@@ -46,13 +46,13 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.MissionUsers.First().User.UserName)
+                    @Html.DisplayNameFor(model => model.MissionUsers.First().User!.UserName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MissionUsers.First().User.FirstName)
+                    @Html.DisplayNameFor(model => model.MissionUsers.First().User!.FirstName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MissionUsers.First().User.LastName)
+                    @Html.DisplayNameFor(model => model.MissionUsers.First().User!.LastName)
                 </th>
             </tr>
         </thead>
@@ -60,9 +60,9 @@
             @foreach (var item in Model.MissionUsers)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User.FirstName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.UserName : string.Empty)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.FirstName : string.Empty)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.LastName : string.Empty)</td>
                 </tr>
             }
         </tbody>

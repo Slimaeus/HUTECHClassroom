@@ -109,6 +109,7 @@ public sealed class GroupsController : BaseEntityController<Group>
 
         foreach (var user in newUsers)
         {
+            if (user.UserName is null) continue;
             var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             if (result.Succeeded)
                 await UserManager.AddToRoleAsync(user, RoleConstants.Student).ConfigureAwait(false);

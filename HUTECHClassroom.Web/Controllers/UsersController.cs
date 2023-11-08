@@ -38,7 +38,7 @@ public sealed class UsersController : BaseEntityController<ApplicationUser>
             .Include(a => a.ApplicationUserRoles)
             .ThenInclude(a => a.Role)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (applicationUser == null)
+        if (applicationUser is null || applicationUser.UserName is null || applicationUser.Email is null)
         {
             return NotFound();
         }
@@ -103,13 +103,15 @@ public sealed class UsersController : BaseEntityController<ApplicationUser>
             DbContext.Entry(user).State = EntityState.Modified;
             foreach (var applicationUserRole in user.ApplicationUserRoles)
             {
-                await UserManager.RemoveFromRoleAsync(user, applicationUserRole.Role.Name).ConfigureAwait(false);
+                if (applicationUserRole.Role is { Name: { } })
+                    await UserManager.RemoveFromRoleAsync(user, applicationUserRole.Role.Name).ConfigureAwait(false);
             }
             await UserManager.AddToRoleAsync(user, viewModel.RoleName).ConfigureAwait(false);
         }
 
         foreach (var user in newUsers)
         {
+            if (string.IsNullOrEmpty(user.UserName)) continue;
             var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             if (result.Succeeded)
             {
@@ -133,7 +135,7 @@ public sealed class UsersController : BaseEntityController<ApplicationUser>
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateUserViewModel viewModel)
     {
-        if (ModelState.IsValid)
+        if (ModelState.IsValid && viewModel.RoleName is { })
         {
             var applicationUser = new ApplicationUser
             {
@@ -160,7 +162,7 @@ public sealed class UsersController : BaseEntityController<ApplicationUser>
         }
 
         var applicationUser = await DbContext.Users.FindAsync(id);
-        if (applicationUser == null)
+        if (applicationUser is null || applicationUser.UserName is null || applicationUser.Email is null)
         {
             return NotFound();
         }
@@ -193,11 +195,15 @@ public sealed class UsersController : BaseEntityController<ApplicationUser>
                 .Include(u => u.ApplicationUserRoles)
                 .ThenInclude(ar => ar.Role)
                 .SingleOrDefaultAsync(u => u.Id == viewModel.Id);
+            if (applicationUser is null)
+            {
+                return NotFound();
+            }
             applicationUser.Id = viewModel.Id;
             applicationUser.UserName = viewModel.UserName;
             applicationUser.Email = viewModel.Email;
-            applicationUser.FirstName = viewModel.FirstName;
-            applicationUser.LastName = viewModel.LastName;
+            applicationUser.FirstName = viewModel.FirstName ?? applicationUser.FirstName;
+            applicationUser.LastName = viewModel.LastName ?? applicationUser.LastName;
             applicationUser.FacultyId = viewModel.FacultyId != Guid.Empty ? viewModel.FacultyId : null;
 
             try
@@ -205,9 +211,10 @@ public sealed class UsersController : BaseEntityController<ApplicationUser>
                 DbContext.Update(applicationUser);
                 foreach (var applicationUserRole in applicationUser.ApplicationUserRoles)
                 {
-                    await UserManager.RemoveFromRoleAsync(applicationUser, applicationUserRole.Role.Name);
+                    if (applicationUserRole.Role is { Name: { } })
+                        await UserManager.RemoveFromRoleAsync(applicationUser, applicationUserRole.Role.Name);
                 }
-                await UserManager.AddToRoleAsync(applicationUser, viewModel.RoleName);
+                await UserManager.AddToRoleAsync(applicationUser, viewModel.RoleName ?? RoleConstants.Student);
                 await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -238,7 +245,7 @@ public sealed class UsersController : BaseEntityController<ApplicationUser>
         var applicationUser = await DbContext.Users
             .Include(a => a.Faculty)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (applicationUser == null)
+        if (applicationUser is null || applicationUser.UserName is null || applicationUser.Email is null)
         {
             return NotFound();
         }

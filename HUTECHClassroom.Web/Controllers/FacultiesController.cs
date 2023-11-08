@@ -102,7 +102,8 @@ public sealed class FacultiesController : BaseEntityController<Faculty>
             DbContext.Entry(user).State = EntityState.Modified;
             foreach (var applicationUserRole in user.ApplicationUserRoles)
             {
-                await UserManager.RemoveFromRoleAsync(user, applicationUserRole.Role.Name).ConfigureAwait(false);
+                if (applicationUserRole.Role is { Name: { } })
+                    await UserManager.RemoveFromRoleAsync(user, applicationUserRole.Role.Name).ConfigureAwait(false);
             }
             await UserManager.AddToRoleAsync(user, viewModel.RoleName).ConfigureAwait(false);
             DbContext.Update(user);
@@ -112,6 +113,7 @@ public sealed class FacultiesController : BaseEntityController<Faculty>
 
         foreach (var user in newSubjects)
         {
+            if (user.UserName is null) continue;
             user.FacultyId = viewModel.FacultyId;
             var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             if (result.Succeeded)
@@ -169,12 +171,14 @@ public sealed class FacultiesController : BaseEntityController<Faculty>
 
         var lecturerIds = DbContext.Users
             .Where(u => classroomViewModels.Select(vm => vm.LecturerName).Contains(u.UserName))
-            .ToDictionary(u => u.UserName, u => u.Id);
+            .ToDictionary(u => u.UserName!, u => u.Id);
 
         foreach (var classroomViewModel in classroomViewModels)
         {
             var classroom = Mapper.Map<Classroom>(classroomViewModel);
             classroom.FacultyId = viewModel.FacultyId;
+            if (classroomViewModel.SubjectCode is null || classroomViewModel.LecturerName is null)
+                continue;
             if (subjectIds.TryGetValue(classroomViewModel.SubjectCode, out var subjectId))
             {
                 classroom.SubjectId = subjectId;

@@ -57,7 +57,7 @@
             @Html.DisplayNameFor(model => model.Classroom)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Classroom.Title)
+            @Html.DisplayFor(model => model.Classroom != null ? model.Classroom.Title : string.Empty)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDate)

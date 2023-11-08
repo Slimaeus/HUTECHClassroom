@@ -7,7 +7,7 @@ namespace HUTECHClassroom.Infrastructure.Services.Excel;
 
 public sealed class ExcelSerive : IExcelServie
 {
-    public List<T> ReadExcelFileWithoutColumnNames<T>(Stream stream, string sheetName) where T : class, new()
+    public List<T> ReadExcelFileWithoutColumnNames<T>(Stream stream, string? sheetName) where T : class, new()
     {
         var workbook = new XLWorkbook(stream);
         var worksheet = sheetName != null ? workbook.Worksheet(sheetName) : workbook.Worksheet(1);
@@ -58,7 +58,7 @@ public sealed class ExcelSerive : IExcelServie
 
         return objects;
     }
-    public List<T> ReadExcelFileIgnoreColumnNames<T>(Stream stream, string sheetName) where T : class, new()
+    public List<T> ReadExcelFileIgnoreColumnNames<T>(Stream stream, string? sheetName) where T : class, new()
     {
         var workbook = new XLWorkbook(stream);
         var worksheet = sheetName != null ? workbook.Worksheet(sheetName) : workbook.Worksheet(1);
@@ -109,7 +109,7 @@ public sealed class ExcelSerive : IExcelServie
 
         return objects;
     }
-    public List<T> ReadExcelFileWithColumnNames<T>(Stream stream, string sheetName) where T : class, new()
+    public List<T> ReadExcelFileWithColumnNames<T>(Stream stream, string? sheetName) where T : class, new()
     {
         var workbook = new XLWorkbook(stream);
         var worksheet = sheetName != null ? workbook.Worksheet(sheetName) : workbook.Worksheet(1);
@@ -186,11 +186,11 @@ public sealed class ExcelSerive : IExcelServie
         for (int i = 0; i < data.Count(); i++)
         {
             var obj = data.ElementAt(i);
-
+            if (obj is null) continue;
             for (int j = 0; j < propertyNames.Count(); j++)
             {
                 var propertyName = propertyNames.ElementAt(j);
-                var propertyValue = obj.GetType().GetProperty(propertyName).GetValue(obj, null)?.ToString();
+                var propertyValue = obj.GetType().GetProperty(propertyName)!.GetValue(obj, null)?.ToString();
 
                 worksheet.Cell(i + 2, j + 1).Value = propertyValue;
             }

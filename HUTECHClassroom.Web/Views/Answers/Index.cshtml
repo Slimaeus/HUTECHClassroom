@@ -54,10 +54,10 @@
                 @Html.DisplayFor(modelItem => item.Score)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
+                @Html.DisplayFor(modelItem => item.User != null ? item.User.UserName : string.Empty)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Exercise.Title)
+                    @Html.DisplayFor(modelItem => item.Exercise != null ? item.Exercise.Title: string.Empty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)

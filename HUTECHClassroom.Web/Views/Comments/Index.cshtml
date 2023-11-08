@@ -42,10 +42,10 @@
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Post.Content)
+                    @Html.DisplayFor(modelItem => item.Post != null ? item.Post.Content : string.Empty)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
+                    @Html.DisplayFor(modelItem => item.User != null ? item.User.UserName : string.Empty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)

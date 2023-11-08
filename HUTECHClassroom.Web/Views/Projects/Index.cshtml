@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Group.Name)
+                    @Html.DisplayFor(modelItem => item.Group != null ? item.Group.Name : string.Empty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)

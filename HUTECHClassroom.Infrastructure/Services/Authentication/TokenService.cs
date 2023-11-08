@@ -19,7 +19,7 @@ public sealed class TokenService : ITokenService
 
     public TokenService(IConfiguration configuration, ApplicationDbContext context)
     {
-        _tokenKey = configuration[ServiceConstants.TOKEN_KEY];
+        _tokenKey = configuration[ServiceConstants.TOKEN_KEY]!;
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenKey));
         _signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
         _tokenLifespan = TimeSpan.FromHours(5);
@@ -32,8 +32,8 @@ public sealed class TokenService : ITokenService
         {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.GivenName, $"{user.FirstName} {user.LastName}"),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+                new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
         };
 
         tokenClaims.AddRange(GetRoleClaims(user));
@@ -73,7 +73,8 @@ public sealed class TokenService : ITokenService
 
         foreach (var role in roles)
         {
-            roleClaims.Add(new Claim(ClaimTypes.Role, role.Name));
+            if (role.Name is { })
+                roleClaims.Add(new Claim(ClaimTypes.Role, role.Name));
         }
 
         return roleClaims;

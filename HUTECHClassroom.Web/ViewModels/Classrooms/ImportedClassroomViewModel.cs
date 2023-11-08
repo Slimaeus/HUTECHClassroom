@@ -15,6 +15,6 @@ public sealed class ImportedClassroomViewModel
     public string? PracticalStudyGroup { get; set; }
     public Semester Semester { get; set; } = Semester.I;
     public ClassroomType Type { get; set; } = ClassroomType.TheoryRoom;
-    public string LecturerName { get; set; }
-    public string SubjectCode { get; set; }
+    public string? LecturerName { get; set; }
+    public string? SubjectCode { get; set; }
 }

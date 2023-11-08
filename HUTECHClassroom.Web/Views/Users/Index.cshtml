@@ -50,7 +50,7 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Faculty.Name)
+                    @Html.DisplayFor(modelItem => item.Faculty != null ? item.Faculty.Name : string.Empty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)

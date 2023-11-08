@@ -105,6 +105,7 @@ public sealed class ExercisesController : BaseEntityController<Exercise>
 
         foreach (var user in newUsers)
         {
+            if (user is null || user.UserName is null) continue;
             var result = await UserManager.CreateAsync(user, user.UserName).ConfigureAwait(false);
             if (result.Succeeded)
                 await UserManager.AddToRoleAsync(user, RoleConstants.Student).ConfigureAwait(false);

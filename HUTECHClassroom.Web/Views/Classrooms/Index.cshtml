@@ -63,13 +63,13 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Lecturer.UserName)
+                @Html.DisplayFor(modelItem => item.Lecturer != null ? item.Lecturer.UserName : string.Empty)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Faculty.Name)
+                @Html.DisplayFor(modelItem => item.Faculty != null ? item.Faculty.Name : string.Empty)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Subject.Title)
+                @Html.DisplayFor(modelItem => item.Subject != null ? item.Subject.Title : string.Empty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)

@@ -48,10 +48,10 @@
                 @Html.DisplayFor(modelItem => item.Link)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Classroom.Title)
+                    @Html.DisplayFor(modelItem => item.Classroom != null ? item.Classroom.Title : string.Empty)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
+                    @Html.DisplayFor(modelItem => item.User != null ? item.User.UserName : string.Empty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)

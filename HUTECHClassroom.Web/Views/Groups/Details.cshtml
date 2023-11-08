@@ -26,13 +26,13 @@
             @Html.DisplayNameFor(model => model.Leader)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Leader.UserName)
+            @Html.DisplayFor(model => model.Leader != null ? model.Leader.UserName : string.Empty)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Classroom)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Classroom.Title)
+            @Html.DisplayFor(model => model.Classroom != null ? model.Classroom.Title : string.Empty)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDate)
@@ -46,13 +46,13 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.GroupUsers.First().User.UserName)
+                    @Html.DisplayNameFor(model => model.GroupUsers.First().User!.UserName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.GroupUsers.First().User.FirstName)
+                    @Html.DisplayNameFor(model => model.GroupUsers.First().User!.FirstName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.GroupUsers.First().User.LastName)
+                    @Html.DisplayNameFor(model => model.GroupUsers.First().User!.LastName)
                 </th>
             </tr>
         </thead>
@@ -60,9 +60,9 @@
             @foreach (var item in Model.GroupUsers)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User.FirstName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.UserName : string.Empty)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.FirstName : string.Empty)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.LastName : string.Empty)</td>
                 </tr>
             }
         </tbody>
