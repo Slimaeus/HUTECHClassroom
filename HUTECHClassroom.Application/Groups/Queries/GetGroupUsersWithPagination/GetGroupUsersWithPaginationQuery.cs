@@ -20,6 +20,6 @@ public sealed class GetGroupUsersWithPaginationQueryHandler : GetWithPaginationQ
         return x => x.User != null && (x.User.UserName != null && x.User.UserName.ToLower().Contains(toLowerSearchString) || x.User.Email != null && x.User.Email.ToLower().Contains(toLowerSearchString));
     }
     protected override IQuery<GroupUser> Order(IMultipleResultQuery<GroupUser> query)
-        => query.OrderBy(x => x.User != null ? x.User.UserName : x.ToString());
+        => query.OrderBy(x => x.User!.UserName);
 
 }

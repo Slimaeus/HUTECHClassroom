@@ -26,6 +26,7 @@ public sealed class GroupMappingProfile : Profile
 
         CreateMap<GroupUser, MemberDTO>()
             .ConstructUsing(x => new MemberDTO(x.UserId, x.User != null ? x.User.UserName : null, x.User != null ? x.User.Email : null, x.User != null ? x.User.FirstName : null, x.User != null ? x.User.LastName : null, x.User != null && x.User.Class != null ? x.User.Class.Name : null, x.User != null && x.User.Avatar != null ? x.User.Avatar.Url : string.Empty));
+
         CreateMap<Project, GroupProjectDTO>();
         CreateMap<Classroom, GroupClassroomDTO>()
             .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class != null ? u.Class.Name : null));
