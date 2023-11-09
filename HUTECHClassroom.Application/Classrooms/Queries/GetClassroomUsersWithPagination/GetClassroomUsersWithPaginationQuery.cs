@@ -20,6 +20,6 @@ public sealed class GetClassroomUsersWithPaginationQueryHandler : GetWithPaginat
         return x => x.User != null && (x.User.UserName != null && x.User.UserName.ToLower().Contains(toLowerSearchString) || x.User.Email != null && x.User.Email.ToLower().Contains(toLowerSearchString));
     }
     protected override IQuery<ClassroomUser> Order(IMultipleResultQuery<ClassroomUser> query)
-        => query.OrderBy(x => x.User!.UserName);
+        => query.OrderBy(x => x.User!.FirstName);
 
 }

@@ -20,6 +20,6 @@ public sealed class GetExerciseUsersWithPaginationQueryHandler : GetWithPaginati
         return x => x.User != null && ((x.User.UserName != null && x.User.UserName.ToLower().Contains(toLowerSearchString)) || (x.User.Email != null && x.User.Email.ToLower().Contains(toLowerSearchString)));
     }
     protected override IQuery<ExerciseUser> Order(IMultipleResultQuery<ExerciseUser> query)
-        => query.OrderBy(x => x.User!.UserName);
+        => query.OrderBy(x => x.User!.FirstName);
 
 }
