@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Classrooms.Queries.GetClassroomResultsWithPagination;
 
-public sealed record GetClassroomResultsWithPaginationQuery(Guid ClassroomId, int ScoreTypeId, PaginationParams Params) : IRequest<IPagedList<StudentResultDTO>>;
+public sealed record GetClassroomResultsWithPaginationQuery(Guid ClassroomId, int? ScoreTypeId, PaginationParams Params) : IRequest<IPagedList<StudentResultDTO>>;
 public sealed class Handler : IRequestHandler<GetClassroomResultsWithPaginationQuery, IPagedList<StudentResultDTO>>
 {
     private readonly IRepository<StudentResult> _classroomRepository;
@@ -23,8 +23,10 @@ public sealed class Handler : IRequestHandler<GetClassroomResultsWithPaginationQ
     {
         var query = (IMultipleResultQuery<StudentResult>)_classroomRepository
             .MultipleResultQuery()
-            .AndFilter(x => x.ClassroomId == request.ClassroomId)
-            .AndFilter(x => x.ScoreTypeId == request.ScoreTypeId);
+            .AndFilter(x => x.ClassroomId == request.ClassroomId);
+
+        if (request.ScoreTypeId is { })
+            query = (IMultipleResultQuery<StudentResult>)query.AndFilter(x => x.ScoreTypeId == request.ScoreTypeId);
 
         query = (IMultipleResultQuery<StudentResult>)query.OrderBy(x => x.OrdinalNumber);
 

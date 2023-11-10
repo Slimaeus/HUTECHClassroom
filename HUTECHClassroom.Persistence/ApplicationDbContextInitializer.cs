@@ -195,6 +195,14 @@ public sealed class ApplicationDbContextInitializer
             Email = "trainingOffice@gmail.com",
         };
 
+        var departmentSecretary = new ApplicationUser
+        {
+            UserName = "departmentSecretary",
+            FirstName = "departmentSecretary",
+            LastName = "departmentSecretary",
+            Email = "departmentSecretary@gmail.com",
+        };
+
         var lecturer1 = new ApplicationUser
         {
             UserName = "lecturer1",
@@ -235,27 +243,31 @@ public sealed class ApplicationDbContextInitializer
             }
         };
 
+        var password = "P@ssw0rd";
 
         foreach (var user in users)
         {
-            await _userManager.CreateAsync(user, "P@ssw0rd").ConfigureAwait(false);
+            await _userManager.CreateAsync(user, password);
             await _userManager.AddToRoleAsync(user, studentRole.Name!);
             await _userManager.AddToRoleAsync(user, lecturerRole.Name!);
         }
 
-        await _userManager.CreateAsync(admin, "P@ssw0rd").ConfigureAwait(false);
+        await _userManager.CreateAsync(admin, password);
         await _userManager.AddToRoleAsync(admin, administratorRole.Name!);
 
-        await _userManager.CreateAsync(dean, "P@ssw0rd").ConfigureAwait(false);
+        await _userManager.CreateAsync(dean, password);
         await _userManager.AddToRoleAsync(dean, deanRole.Name!);
 
-        await _userManager.CreateAsync(trainingOffice, "P@ssw0rd").ConfigureAwait(false);
+        await _userManager.CreateAsync(trainingOffice, password);
         await _userManager.AddToRoleAsync(trainingOffice, trainingOfficeRole.Name!);
 
-        await _userManager.CreateAsync(lecturer1, "P@ssw0rd").ConfigureAwait(false);
+        await _userManager.CreateAsync(departmentSecretary, password);
+        await _userManager.AddToRoleAsync(departmentSecretary, departmentSecretaryRole.Name!);
+
+        await _userManager.CreateAsync(lecturer1, password);
         await _userManager.AddToRoleAsync(lecturer1, lecturerRole.Name!);
 
-        await _userManager.CreateAsync(lecturer2, "P@ssw0rd").ConfigureAwait(false);
+        await _userManager.CreateAsync(lecturer2, password);
         await _userManager.AddToRoleAsync(lecturer2, lecturerRole.Name!);
 
 
@@ -541,7 +553,7 @@ public sealed class ApplicationDbContextInitializer
             }
         };
 
-        await _context.AddRangeAsync(groups).ConfigureAwait(false);
+        await _context.AddRangeAsync(groups);
 
         var projects = new List<Project>
         {
@@ -559,7 +571,7 @@ public sealed class ApplicationDbContextInitializer
             }
         };
 
-        await _context.AddRangeAsync(projects).ConfigureAwait(false);
+        await _context.AddRangeAsync(projects);
 
         var missions = new List<Mission>
         {
@@ -651,7 +663,7 @@ public sealed class ApplicationDbContextInitializer
             }
         };
 
-        await _context.AddRangeAsync(missions).ConfigureAwait(false);
+        await _context.AddRangeAsync(missions);
 
         await _context.SaveChangesAsync();
     }
