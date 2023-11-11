@@ -51,6 +51,62 @@ public sealed class FeaturesController : BaseApiController
 
         foreach (var page in pages)
         {
+            bool hasSubject = false;
+
+
+            foreach (var line in page.OptimizedLines)
+            {
+
+                var texts = line.Text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var text in texts)
+                {
+                    if (text.StartsWith('('))
+                    {
+                        var subject = text[1..^1];
+                        await Console.Out.WriteLineAsync(subject);
+                    }
+
+
+                }
+
+            }
+        }
+
+        return Ok(resultDtos);
+    }
+
+    public record TranscriptDTO(string SubjectCode);
+
+    [HttpPost("vision/read-file")]
+    public async Task<ActionResult> ReadFile(IFormFile file)
+    {
+        var result = await _photoAccessor.AddPhoto(file, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.TRANSCRIPT_FOLDER}");
+
+        if (!result.IsSuccess)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var url = result.Data.Url;
+        var fileData = await _azureComputerVisionService.ReadFileUrl(url);
+
+        await _photoAccessor
+                .DeletePhoto(result.Data.PublicId);
+
+        return Ok(fileData);
+    }
+
+    [HttpGet("vision/cut-write")]
+    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> CutWrite()
+    {
+        var str = await FileIO.ReadAllTextAsync(_resultFilePath);
+        var pages = JsonConvert.DeserializeObject<IEnumerable<OptimizedPage>>(str);
+
+        var resultDtos = new List<StudentResultWithOrdinalDTO>();
+
+        foreach (var page in pages)
+        {
             var ordinalNumberRegex = @"^\d+$";
             var idRegex = @"^\d{10}$";
             var scoreRegex = @"^(?:100(?:[.,]0)?|[1-9](?:\.\d|[0-9])?|0(?:[.,]0)?)$";
@@ -134,24 +190,5 @@ public sealed class FeaturesController : BaseApiController
         }
 
         return Ok(resultDtos);
-    }
-
-    [HttpPost("vision/read-file")]
-    public async Task<ActionResult> ReadFile(IFormFile file)
-    {
-        var result = await _photoAccessor.AddPhoto(file, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.TRANSCRIPT_FOLDER}");
-
-        if (!result.IsSuccess)
-        {
-            throw new InvalidOperationException();
-        }
-
-        var url = result.Data.Url;
-        var fileData = await _azureComputerVisionService.ReadFileUrl(url);
-
-        await _photoAccessor
-                .DeletePhoto(result.Data.PublicId);
-
-        return Ok(fileData);
     }
 }
