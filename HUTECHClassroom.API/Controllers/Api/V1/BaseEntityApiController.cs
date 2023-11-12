@@ -5,6 +5,7 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [Authorize(Policy = NeedRolePolicy)]
 public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
+    where TKey : notnull
     where TEntityDTO : class, IEntityDTO<TKey>
 {
     protected async Task<ActionResult<IEnumerable<TEntityDTO>>> HandlePaginationQuery<TPaginationQuery, TPaginationParams>(TPaginationQuery query)
@@ -26,10 +27,10 @@ public class BaseEntityApiController<TKey, TEntityDTO> : BaseApiController
         var dto = await Mediator.Send(query);
 
         var domain = HttpContext.Request.GetDisplayUrl();
-        var routeTemplate = ControllerContext.ActionDescriptor.AttributeRouteInfo.Template;
-        var apiVersion = HttpContext.GetRequestedApiVersion().ToString();
+        var routeTemplate = ControllerContext.ActionDescriptor.AttributeRouteInfo!.Template;
+        var apiVersion = HttpContext.GetRequestedApiVersion()!.ToString();
 
-        return Created($"{domain}/{routeTemplate.Replace("{version:apiVersion}", apiVersion)}/{id}", dto);
+        return Created($"{domain}/{routeTemplate!.Replace("{version:apiVersion}", apiVersion)}/{id}", dto);
     }
 
     protected async Task<IActionResult> HandleUpdateCommand<TUpdateCommand>(TKey id, TUpdateCommand command)

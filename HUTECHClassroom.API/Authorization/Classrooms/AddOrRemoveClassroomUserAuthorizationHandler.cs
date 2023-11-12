@@ -45,7 +45,7 @@ public sealed class AddOrRemoveClassroomUserAuthorizationHandler : Authorization
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
         if (routeData != null && routeData.Values.TryGetValue(ClassroomParamsConstants.CLASSROOM_ID, out var idValue))
         {
-            if (Guid.TryParse(idValue.ToString(), out var classroomId))
+            if (idValue is { } && Guid.TryParse(idValue.ToString(), out var classroomId))
             {
                 return classroomId;
             }

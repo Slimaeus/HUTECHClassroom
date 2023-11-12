@@ -28,7 +28,7 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private void HandleException(ExceptionContext context)
     {
         var type = context.Exception.GetType();
-        if (_exceptionHandlers.TryGetValue(type, out Action<ExceptionContext> value))
+        if (_exceptionHandlers.TryGetValue(type, out Action<ExceptionContext>? value))
         {
             value.Invoke(context);
             return;

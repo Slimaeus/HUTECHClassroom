@@ -33,10 +33,10 @@ public abstract class BaseApiController : ControllerBase
 
         foreach (var actionDescriptor in controllerActions)
         {
-            var httpMethods = string.Join(", ", actionDescriptor.ActionConstraints.OfType<HttpMethodActionConstraint>().SelectMany(x => x.HttpMethods));
-            var routeTemplate = actionDescriptor.AttributeRouteInfo?.Template;
+            var httpMethods = string.Join(", ", actionDescriptor.ActionConstraints!.OfType<HttpMethodActionConstraint>().SelectMany(x => x.HttpMethods));
+            var routeTemplate = actionDescriptor.AttributeRouteInfo!.Template!;
 
-            var apiVersion = HttpContext.GetRequestedApiVersion().ToString();
+            var apiVersion = HttpContext.GetRequestedApiVersion()!.ToString();
 
             var domain = HttpContext.Request.Host;
 

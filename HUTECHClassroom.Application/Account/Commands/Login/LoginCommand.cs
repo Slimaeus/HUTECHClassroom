@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace HUTECHClassroom.Application.Account.Commands.Login;
 
-public sealed record LoginCommand(string UserName = "admin", string Password = "password") : IRequest<AccountDTO>;
+public sealed record LoginCommand(string UserName = "userName", string Password = "password") : IRequest<AccountDTO>;
 public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, AccountDTO>
 {
     private readonly UserManager<ApplicationUser> _userManger;

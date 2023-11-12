@@ -31,8 +31,9 @@ public sealed class CommentHub : Hub<ICommentClientHub>
 
     public override async Task OnConnectedAsync()
     {
-        var httpContext = Context.GetHttpContext();
+        var httpContext = Context.GetHttpContext() ?? throw new NullReferenceException();
         var postId = httpContext.Request.Query[PostParamsConstants.POST_ID];
+        if (postId is { }) return;
         var isParsePageNumberSuccess = int.TryParse(httpContext.Request.Query[PaginationParamsConstants.PAGE_NUMBER], out int pageNumber);
         var isParsePageSizeSuccess = int.TryParse(httpContext.Request.Query[PaginationParamsConstants.PAGE_SIZE], out int pageSize);
         if (!isParsePageNumberSuccess) pageNumber = 1;

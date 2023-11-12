@@ -49,7 +49,7 @@ public sealed class ResultsController : BaseApiController
         var result = await _photoAccessor.AddPhoto(file);
         return result switch
         {
-            { IsSuccess: true } => Ok(result.Data.PublicId),
+            { IsSuccess: true } => Ok(result.Data!.PublicId),
             _ => BadRequest(result)
         };
         //return Ok(result.PublicId);

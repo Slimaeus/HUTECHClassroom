@@ -31,7 +31,8 @@ public sealed class GroupRoleFromProjectAuthorizationHandler : GroupRoleAuthoriz
 
     private async Task<Guid?> GetGroupIdFromResponseBodyAsync()
     {
-        using var requestReader = new StreamReader(_httpContextAccessor.HttpContext?.Request.Body);
+        if (_httpContextAccessor.HttpContext?.Request is null && _httpContextAccessor.HttpContext?.Request.Body is null) return null;
+        using var requestReader = new StreamReader(_httpContextAccessor.HttpContext.Request.Body);
         var body = await requestReader.ReadToEndAsync();
         var groupIdBody = JsonConvert.DeserializeObject<GroupIdBody>(body);
         _httpContextAccessor.HttpContext.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(body));
@@ -46,8 +47,9 @@ public sealed class GroupRoleFromProjectAuthorizationHandler : GroupRoleAuthoriz
     {
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
 
-        if (routeData != null && routeData.Values.TryGetValue(ProjectParamsConstants.PROJECT_ID, out var idValue))
+        if (routeData is { } && routeData.Values.TryGetValue(ProjectParamsConstants.PROJECT_ID, out var idValue))
         {
+            if (idValue is null) return null;
             var doesParseProjectIdSuccess = Guid.TryParse(idValue.ToString(), out var projectId);
 
             if (!doesParseProjectIdSuccess) return null;

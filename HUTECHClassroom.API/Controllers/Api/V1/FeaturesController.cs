@@ -45,7 +45,7 @@ public sealed class FeaturesController : BaseApiController
     public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> Write()
     {
         var str = await FileIO.ReadAllTextAsync(_resultFilePath);
-        var pages = JsonConvert.DeserializeObject<IEnumerable<OptimizedPage>>(str);
+        var pages = JsonConvert.DeserializeObject<IEnumerable<OptimizedPage>>(str) ?? new List<OptimizedPage>();
 
         var subjectRegex = @"^(?=.*[A-Z])(?=.*\d)[A-Z\d]+$";
 
@@ -54,6 +54,7 @@ public sealed class FeaturesController : BaseApiController
         foreach (var page in pages)
         {
             bool hasSubject = false;
+            string? subject;
 
 
             foreach (var line in page.OptimizedLines)
@@ -63,11 +64,14 @@ public sealed class FeaturesController : BaseApiController
 
                 foreach (var text in texts)
                 {
-                    if (text.StartsWith('('))
+                    if (!hasSubject && text.StartsWith('('))
                     {
-                        var subject = text[1..^1];
-                        if (Regex.IsMatch(subject, subjectRegex))
-                            await Console.Out.WriteLineAsync(subject);
+                        var analyzedText = text[1..^1];
+                        if (Regex.IsMatch(analyzedText, subjectRegex))
+                        {
+                            subject = analyzedText;
+                            hasSubject = true;
+                        }
                     }
 
 
@@ -79,7 +83,7 @@ public sealed class FeaturesController : BaseApiController
         return Ok(resultDtos);
     }
 
-    public record TranscriptDTO(string SubjectCode);
+    public record TranscriptDTO(string SubjectCode, List<StudentResultDTO> StudentResults);
 
     [HttpPost("vision/read-file")]
     public async Task<ActionResult> ReadFile(IFormFile file)
@@ -91,7 +95,7 @@ public sealed class FeaturesController : BaseApiController
             throw new InvalidOperationException();
         }
 
-        var url = result.Data.Url;
+        var url = result.Data!.Url;
         var fileData = await _azureComputerVisionService.ReadFileUrl(url);
 
         await _photoAccessor
@@ -104,7 +108,7 @@ public sealed class FeaturesController : BaseApiController
     public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> CutWrite()
     {
         var str = await FileIO.ReadAllTextAsync(_resultFilePath);
-        var pages = JsonConvert.DeserializeObject<IEnumerable<OptimizedPage>>(str);
+        var pages = JsonConvert.DeserializeObject<IEnumerable<OptimizedPage>>(str)!;
 
         var resultDtos = new List<StudentResultWithOrdinalDTO>();
 
@@ -116,7 +120,7 @@ public sealed class FeaturesController : BaseApiController
 
             int ordinalNumber = 0;
             int previousOrdinalNumber = -1;
-            string id = null;
+            string? id = null;
             double? score = null;
 
             var skipped = false;
@@ -149,7 +153,7 @@ public sealed class FeaturesController : BaseApiController
                         }
                         if (newOrdinalNumber == previousOrdinalNumber + 1)
                         {
-                            if (ordinalNumber != 0 && id != null)
+                            if (ordinalNumber != 0 && id is { })
                             {
                                 resultDtos.Add(new StudentResultWithOrdinalDTO(ordinalNumber, id, score));
 
@@ -180,7 +184,7 @@ public sealed class FeaturesController : BaseApiController
                         score = newScore;
                     }
 
-                    if (ordinalNumber != 0 && id != null && score != null)
+                    if (ordinalNumber != 0 && id is { } && score is { })
                     {
                         resultDtos.Add(new StudentResultWithOrdinalDTO(ordinalNumber, id, score));
                         ordinalNumber = 0;

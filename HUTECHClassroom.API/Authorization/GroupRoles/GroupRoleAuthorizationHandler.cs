@@ -76,7 +76,7 @@ public class GroupRoleAuthorizationHandler<TRequiremt> : AuthorizationHandler<TR
         var routeData = _httpContextAccessor.HttpContext?.GetRouteData();
         if (routeData != null && routeData.Values.TryGetValue(GroupParamsConstants.GROUP_ID, out var idValue))
         {
-            if (Guid.TryParse(idValue.ToString(), out var groupId))
+            if (idValue is { } && Guid.TryParse(idValue.ToString(), out var groupId))
             {
                 return groupId;
             }
