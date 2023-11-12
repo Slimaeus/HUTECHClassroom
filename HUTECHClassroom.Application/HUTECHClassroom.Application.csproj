@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Account\Queries\" />
+    <Folder Include="Common\Attributes\" />
   </ItemGroup>
 
   <ItemGroup>

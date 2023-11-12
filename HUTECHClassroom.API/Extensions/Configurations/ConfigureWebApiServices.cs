@@ -84,6 +84,7 @@ public static class ConfigureWebApiServices
         services.AddSwaggerGen(options =>
         {
             options.SchemaFilter<EnumSchemaFilter>();
+            options.SchemaFilter<ExampleSchemaFilter>();
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1.0",

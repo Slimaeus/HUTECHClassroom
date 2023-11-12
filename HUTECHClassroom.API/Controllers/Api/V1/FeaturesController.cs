@@ -47,6 +47,8 @@ public sealed class FeaturesController : BaseApiController
         var str = await FileIO.ReadAllTextAsync(_resultFilePath);
         var pages = JsonConvert.DeserializeObject<IEnumerable<OptimizedPage>>(str);
 
+        var subjectRegex = @"^(?=.*[A-Z])(?=.*\d)[A-Z\d]+$";
+
         var resultDtos = new List<StudentResultWithOrdinalDTO>();
 
         foreach (var page in pages)
@@ -64,7 +66,8 @@ public sealed class FeaturesController : BaseApiController
                     if (text.StartsWith('('))
                     {
                         var subject = text[1..^1];
-                        await Console.Out.WriteLineAsync(subject);
+                        if (Regex.IsMatch(subject, subjectRegex))
+                            await Console.Out.WriteLineAsync(subject);
                     }
 
 
