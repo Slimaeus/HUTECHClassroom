@@ -51,10 +51,24 @@ public sealed class FeaturesController : BaseApiController
 
         var resultDtos = new List<StudentResultWithOrdinalDTO>();
 
+        bool hasSubject = false;
+        string? subject = null;
         foreach (var page in pages)
         {
-            bool hasSubject = false;
-            string? subject;
+
+            //bool hasGroup = false;
+            //string? group;
+
+            var ordinalNumberRegex = @"^\d+$";
+            var idRegex = @"^\d{10}$";
+            var scoreRegex = @"^(?:100(?:[.,]0)?|[1-9](?:\.\d|[0-9])?|0(?:[.,]0)?)$";
+
+            int ordinalNumber = 0;
+            int previousOrdinalNumber = -1;
+            string? id = null;
+            double? score = null;
+
+            var skipped = false;
 
 
             foreach (var line in page.OptimizedLines)
@@ -64,14 +78,82 @@ public sealed class FeaturesController : BaseApiController
 
                 foreach (var text in texts)
                 {
-                    if (!hasSubject && text.StartsWith('('))
+                    if (!hasSubject)
                     {
-                        var analyzedText = text[1..^1];
-                        if (Regex.IsMatch(analyzedText, subjectRegex))
+                        if (text.StartsWith('('))
                         {
-                            subject = analyzedText;
-                            hasSubject = true;
+                            var analyzedText = text[1..^1];
+                            if (Regex.IsMatch(analyzedText, subjectRegex))
+                            {
+                                subject = analyzedText;
+                                hasSubject = true;
+                            }
                         }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (!skipped && texts.Contains("0.5"))
+                    {
+                        skipped = true;
+                        continue;
+                    }
+                    if (!skipped)
+                    {
+                        continue;
+                    }
+                    if (Regex.IsMatch(text, idRegex))
+                    {
+                        id = text;
+                    }
+                    else if (Regex.IsMatch(text, ordinalNumberRegex))
+                    {
+                        var newOrdinalNumber = int.Parse(text);
+                        if (previousOrdinalNumber == -1)
+                        {
+                            previousOrdinalNumber = newOrdinalNumber - 1;
+                        }
+                        if (newOrdinalNumber == previousOrdinalNumber + 1)
+                        {
+                            if (ordinalNumber != 0 && id is { })
+                            {
+                                resultDtos.Add(new StudentResultWithOrdinalDTO(ordinalNumber, id, score));
+
+                                ordinalNumber = 0;
+                                id = null;
+                                score = null;
+                            }
+                            previousOrdinalNumber = newOrdinalNumber;
+                            ordinalNumber = newOrdinalNumber;
+                        }
+                        else if (Regex.IsMatch(text, scoreRegex))
+                        {
+                            var newScore = double.Parse(text.Replace(',', '.'));
+                            if (newScore > 10)
+                            {
+                                newScore /= 10;
+                            }
+                            score = newScore;
+                        }
+                    }
+                    else if (Regex.IsMatch(text, scoreRegex))
+                    {
+                        var newScore = double.Parse(text.Replace(',', '.'));
+                        if (newScore > 10)
+                        {
+                            newScore /= 10;
+                        }
+                        score = newScore;
+                    }
+
+                    if (hasSubject && ordinalNumber != 0 && id is { } && score is { })
+                    {
+                        resultDtos.Add(new StudentResultWithOrdinalDTO(ordinalNumber, id, score));
+                        ordinalNumber = 0;
+                        id = null;
+                        score = null;
                     }
 
 
@@ -80,10 +162,10 @@ public sealed class FeaturesController : BaseApiController
             }
         }
 
-        return Ok(resultDtos);
+        return Ok(new TranscriptDTO(subject, resultDtos));
     }
 
-    public record TranscriptDTO(string SubjectCode, List<StudentResultDTO> StudentResults);
+    public sealed record TranscriptDTO(string? SubjectCode, List<StudentResultWithOrdinalDTO> StudentResults);
 
     [HttpPost("vision/read-file")]
     public async Task<ActionResult> ReadFile(IFormFile file)
