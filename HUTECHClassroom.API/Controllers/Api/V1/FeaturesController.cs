@@ -198,7 +198,7 @@ public sealed class FeaturesController : BaseApiController
         {
             var ordinalNumberRegex = @"^\d+$";
             var idRegex = @"^\d{10}$";
-            var scoreRegex = @"^(?:100(?:[.,]0)?|[1-9](?:\.\d|[0-9])?|0(?:[.,]0)?)$";
+            var scoreRegex = @"^(?:100(?:[.,]0)?|[1-9](?:[.,]\d|[0-9])?|0(?:[.,]0)?)$";
 
             int ordinalNumber = 0;
             int previousOrdinalNumber = -1;
@@ -249,6 +249,7 @@ public sealed class FeaturesController : BaseApiController
                         else if (Regex.IsMatch(text, scoreRegex))
                         {
                             var newScore = double.Parse(text.Replace(',', '.'));
+                            if (newScore > 100) continue;
                             if (newScore > 10)
                             {
                                 newScore /= 10;
@@ -259,6 +260,7 @@ public sealed class FeaturesController : BaseApiController
                     else if (Regex.IsMatch(text, scoreRegex))
                     {
                         var newScore = double.Parse(text.Replace(',', '.'));
+                        if (newScore > 100) continue;
                         if (newScore > 10)
                         {
                             newScore /= 10;

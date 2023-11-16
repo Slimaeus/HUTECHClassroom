@@ -38,7 +38,7 @@ public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEn
         {
             var ordinalNumberRegex = @"^\d+$";
             var idRegex = @"^\d{10}$";
-            var scoreRegex = @"^(?:100(?:[.,]0)?|[1-9](?:\.\d|[0-9])?|0(?:[.,]0)?)$";
+            var scoreRegex = @"^(?:100(?:[.,]0)?|[1-9](?:[.,]\d|[0-9])?|0(?:[.,]0)?)$";
 
             int ordinalNumber = 0;
             int previousOrdinalNumber = -1;
