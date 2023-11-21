@@ -1,4 +1,5 @@
 ﻿using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomResultsWithPagination;
+using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomStudentResultsWithPagination;
 using HUTECHClassroom.Application.Scores.DTOs;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
@@ -74,4 +75,14 @@ public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     [HttpGet("{classroomId}/results")]
     public async Task<ActionResult<IEnumerable<StudentResultDTO>>> GetStudentResults(Guid classroomId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomResultsWithPaginationQuery(classroomId, default, @params)));
+
+    //[Authorize(ReadClassroomPolicy)]
+    //[HttpGet("{classroomId}/ClassroomScores/{scoreTypeId}")]
+    //public async Task<ActionResult<IEnumerable<ClassroomStudentResultDTO>>> GetClassroomStudentResultByScoreType(Guid classroomId, int scoreTypeId, [FromQuery] PaginationParams @params)
+    //    => HandlePagedList(await Mediator.Send(new GetClassroomStudentResultsWithPaginationQuery(classroomId, scoreTypeId, @params)));
+
+    [Authorize(ReadClassroomPolicy)]
+    [HttpGet("{classroomId}/ClassroomScores")]
+    public async Task<ActionResult<IEnumerable<ClassroomStudentResultDTO>>> GetClassroomStudentResults(Guid classroomId, [FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetClassroomStudentResultsWithPaginationQuery(classroomId, default, @params)));
 }

@@ -32,5 +32,7 @@ public sealed class ClassroomMappingProfile : Profile
         CreateMap<Major, ClassroomSubjectMajorDTO>();
 
         CreateMap<AddClassroomUserCommand, ClassroomUser>();
+
+        CreateMap<StudentResult, ClassroomScoreDTO>();
     }
 }
