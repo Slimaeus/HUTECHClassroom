@@ -165,6 +165,10 @@ public sealed class ApplicationDbContextInitializer
             new Class
             {
                 Name = "20DTHD3"
+            },
+            new Class
+            {
+                Name = "20DTHD4"
             }
         };
 
@@ -223,8 +227,7 @@ public sealed class ApplicationDbContextInitializer
 
         var users = new List<ApplicationUser>
         {
-            new ApplicationUser
-            {
+            new() {
                 UserName = "2080600914",
                 FirstName = "Thái",
                 LastName = "Nguyễn Hồng",
@@ -232,15 +235,254 @@ public sealed class ApplicationDbContextInitializer
                 Faculty = faculties[0],
                 Class = classes[1]
             },
-            new ApplicationUser
-            {
+            new() {
                 UserName = "2080600803",
                 FirstName = "Vân",
                 LastName = "Trương Thục",
                 Email = "mei@gmail.com",
                 Faculty = faculties[0],
                 Class = classes[1]
-            }
+            },
+            new() {
+                UserName = "2080600413",
+                FirstName = "Kiên",
+                LastName = "Phan Thị",
+                Email = "2080600413@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600425",
+                FirstName = "Lâm",
+                LastName = "Nguyễn Bá Gia",
+                Email = "2080600425@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600885",
+                FirstName = "Loan",
+                LastName = "Nguyễn Thị",
+                Email = "2080600885@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600442",
+                FirstName = "Long",
+                LastName = "Lâm Hoàng",
+                Email = "2080600442@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600446",
+                FirstName = "Long",
+                LastName = "Nguyễn Phước",
+                Email = "2080600446@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2011061661",
+                FirstName = "Lộc",
+                LastName = "Mông Văn",
+                Email = "2011061661@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600453",
+                FirstName = "Lộc",
+                LastName = "Nguyễn Văn",
+                Email = "2080600453@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600456",
+                FirstName = "Lỗi",
+                LastName = "Tạ Thạch",
+                Email = "2080600456@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600462",
+                FirstName = "Lực",
+                LastName = "Lê Trần Tấn",
+                Email = "2080600462@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600476",
+                FirstName = "Minh",
+                LastName = "Nguyễn Thái Quang",
+                Email = "2080600476@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600477",
+                FirstName = "Minh",
+                LastName = "Nguyễn Thế",
+                Email = "2080600477@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2011063219",
+                FirstName = "Nam",
+                LastName = "Vũ Đức Hoài",
+                Email = "2011063219@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600518",
+                FirstName = "Nguyên",
+                LastName = "Hoàng Nguyễn Quốc",
+                Email = "2080600518@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600532",
+                FirstName = "Nhân",
+                LastName = "Phan Thành",
+                Email = "2080600532@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2011060750",
+                FirstName = "Nhi",
+                LastName = "Nguyễn Hoàng",
+                Email = "2011060750@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600539",
+                FirstName = "Nhi",
+                LastName = "Phạm Võ Linh",
+                Email = "2080600539@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600542",
+                FirstName = "Nhơn",
+                LastName = "Võ Thương Trường",
+                Email = "2080600542@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600546",
+                FirstName = "Nhựt",
+                LastName = "Trần Minh",
+                Email = "2080600546@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600099",
+                FirstName = "Phát",
+                LastName = "Nguyễn Tấn",
+                Email = "2080600099@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600577",
+                FirstName = "Phúc",
+                LastName = "Phạm Bảo",
+                Email = "2080600577@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2011064979",
+                FirstName = "Phương",
+                LastName = "Nguyễn Duy",
+                Email = "2011064979@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600907",
+                FirstName = "Sang",
+                LastName = "Trần Thanh",
+                Email = "2080600907@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600636",
+                FirstName = "Tài",
+                LastName = "Hồ Ngọc",
+                Email = "2080600636@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600639",
+                FirstName = "Tài",
+                LastName = "Phạm Đức",
+                Email = "2080600639@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600648",
+                FirstName = "Tân",
+                LastName = "Đỗ Duy",
+                Email = "2080600648@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2080600652",
+                FirstName = "Thái",
+                LastName = "Dương Hoàng",
+                Email = "2080600652@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2011064299",
+                FirstName = "Thái",
+                LastName = "Hoàng Quốc",
+                Email = "2011064299@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2011065005",
+                FirstName = "Thái",
+                LastName = "Phạm Hông",
+                Email = "2011065005@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
+            new() {
+                UserName = "2011069022",
+                FirstName = "Thanh",
+                LastName = "Lê Chế",
+                Email = "2011069022@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
+                UserName = "2080600663",
+                FirstName = "Thanh",
+                LastName = "Nguyễn Ngọc",
+                Email = "2080600663@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[2]
+            },
         };
 
         var password = "P@ssw0rd";
@@ -299,6 +541,13 @@ public sealed class ApplicationDbContextInitializer
                 Title = "Subject CMP101",
                 TotalCredits = 3,
                 Major = majors[0]
+            },
+            new Subject
+            {
+                Code = "CMP1024",
+                Title = "Lập trình ứng dụng với Java",
+                TotalCredits = 3,
+                Major = majors[0]
             }
         };
 
@@ -308,22 +557,22 @@ public sealed class ApplicationDbContextInitializer
         {
             new ScoreType
             {
-                Id = ScoreTypeConstants.AttendanceScoreId,
-                Name = "Điểm chuyên cần"
+                Id = ScoreTypeConstants.MidtermScoreId,
+                Name = "Điểm quá trình"
             },
             new ScoreType
             {
                 Id = ScoreTypeConstants.FinalScoreId,
-                Name = "Điểm cuối kì"
-            },
-            new ScoreType
-            {
-                Id = ScoreTypeConstants.MidtermScoreId,
-                Name = "Điểm giữa kì"
+                Name = "Điểm cuối kỳ"
             }
         };
 
         await _context.AddRangeAsync(scoreTypes);
+
+        var class2StudentResults = users
+            .Select((x, i) => new StudentResult { Student = x, ScoreType = scoreTypes[0], OrdinalNumber = i + 1, Score = new Random().Next(1, 11) }).ToList();
+
+        class2StudentResults.AddRange(users.Select((x, i) => new StudentResult { Student = x, ScoreType = scoreTypes[1], OrdinalNumber = i + 1, Score = new Random().Next(1, 11) }).ToList());
 
         var classrooms = new List<Classroom>
         {
@@ -421,6 +670,25 @@ public sealed class ApplicationDbContextInitializer
                         Score = 10
                     }
                 }
+            },
+            new Classroom
+            {
+                Title = subjects[1].Title,
+                Description = "Môn học",
+                Topic = "Lập trình",
+                StudyPeriod = "1/1/2022 - 1/1/2023",
+                Room = "102",
+                Class = classes[1],
+                StudyGroup = "20",
+                SchoolYear = "2023",
+                Semester = Semester.II,
+                Type = ClassroomType.TheoryRoom,
+                Subject = subjects[1],
+                Lecturer = lecturer2,
+                Faculty = faculties[0],
+                ClassroomUsers = users.Select(x => new ClassroomUser { User = x }).ToList(),
+                StudentResults = class2StudentResults,
+
             }
         };
 
