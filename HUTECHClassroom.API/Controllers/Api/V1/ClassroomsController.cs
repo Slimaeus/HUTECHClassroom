@@ -82,7 +82,7 @@ public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     //    => HandlePagedList(await Mediator.Send(new GetClassroomStudentResultsWithPaginationQuery(classroomId, scoreTypeId, @params)));
 
     [Authorize(ReadClassroomPolicy)]
-    [HttpGet("{classroomId}/ClassroomScores")]
+    [HttpGet("{classroomId}/Scores")]
     public async Task<ActionResult<IEnumerable<ClassroomStudentResultDTO>>> GetClassroomStudentResults(Guid classroomId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomStudentResultsWithPaginationQuery(classroomId, default, @params)));
 }
