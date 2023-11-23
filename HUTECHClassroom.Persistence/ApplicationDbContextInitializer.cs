@@ -4,6 +4,7 @@ using HUTECHClassroom.Domain.Entities;
 using HUTECHClassroom.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using System.Security.Claims;
 
@@ -14,12 +15,14 @@ public sealed class ApplicationDbContextInitializer
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly IConfiguration _configuration;
 
-    public ApplicationDbContextInitializer(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+    public ApplicationDbContextInitializer(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, IConfiguration configuration)
     {
         _context = context;
         _userManager = userManager;
         _roleManager = roleManager;
+        _configuration = configuration;
     }
 
     public async Task InitialiseAsync()
@@ -485,7 +488,7 @@ public sealed class ApplicationDbContextInitializer
             },
         };
 
-        var password = "P@ssw0rd";
+        var password = _configuration["Accounts:Default:Password"] ?? throw new ArgumentNullException("Missing Default Password");
 
         foreach (var user in users)
         {
