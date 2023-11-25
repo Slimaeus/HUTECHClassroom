@@ -22,6 +22,7 @@ public sealed class ApplicationDbContextInitializer
         _context = context;
         _userManager = userManager;
         _roleManager = roleManager;
+        _roleManager = roleManager;
         _configuration = configuration;
     }
 
@@ -423,6 +424,14 @@ public sealed class ApplicationDbContextInitializer
                 Class = classes[2]
             },
             new() {
+                UserName = "2080600626",
+                FirstName = "Sang",
+                LastName = "Vũ Văn",
+                Email = "2080600626@hutech.edu.vn",
+                Faculty = faculties[0],
+                Class = classes[1]
+            },
+            new() {
                 UserName = "2080600636",
                 FirstName = "Tài",
                 LastName = "Hồ Ngọc",
@@ -465,7 +474,7 @@ public sealed class ApplicationDbContextInitializer
             new() {
                 UserName = "2011065005",
                 FirstName = "Thái",
-                LastName = "Phạm Hông",
+                LastName = "Phạm Hồng",
                 Email = "2011065005@hutech.edu.vn",
                 Faculty = faculties[0],
                 Class = classes[2]
@@ -573,9 +582,9 @@ public sealed class ApplicationDbContextInitializer
         await _context.AddRangeAsync(scoreTypes);
 
         var class2StudentResults = users
-            .Select((x, i) => new StudentResult { Student = x, ScoreType = scoreTypes[0], OrdinalNumber = i + 1, Score = new Random().Next(1, 11) }).ToList();
+            .Select((x, i) => new StudentResult { Student = x, ScoreType = scoreTypes[0], OrdinalNumber = i + 1, Score = new Random().Next(7, 11) }).ToList();
 
-        class2StudentResults.AddRange(users.Select((x, i) => new StudentResult { Student = x, ScoreType = scoreTypes[1], OrdinalNumber = i + 1, Score = new Random().Next(1, 11) }).ToList());
+        class2StudentResults.AddRange(users.Select((x, i) => new StudentResult { Student = x, ScoreType = scoreTypes[1], OrdinalNumber = i + 1, Score = new Random().Next(7, 11) }).ToList());
 
         var classrooms = new List<Classroom>
         {

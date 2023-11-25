@@ -1,23 +1,31 @@
+using AutoMapper.QueryableExtensions;
 using HUTECHClassroom.Application.Scores.DTOs;
+using HUTECHClassroom.Application.Users.DTOs;
 using HUTECHClassroom.Domain.Constants.Services;
 using HUTECHClassroom.Domain.Interfaces;
+using HUTECHClassroom.Persistence;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
 namespace HUTECHClassroom.Application.Scores.Queries.GetStudentScoresFromFile;
 
-public sealed record GetStudentScoresFromFileQuery(IFormFile File) : IRequest<IEnumerable<StudentResultWithOrdinalDTO>>;
-public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEnumerable<StudentResultWithOrdinalDTO>>
+public sealed record GetStudentScoresFromFileQuery(IFormFile File) : IRequest<IEnumerable<StudentResultDTO>>;
+public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEnumerable<StudentResultDTO>>
 {
     private readonly IPhotoAccessor _photoAccessor;
     private readonly IAzureComputerVisionService _azureComputerVisionService;
+    private readonly ApplicationDbContext _applicationDbContext;
+    private readonly IMapper _mapper;
 
-    public Handler(IPhotoAccessor photoAccessor, IAzureComputerVisionService azureComputerVisionService)
+    public Handler(IPhotoAccessor photoAccessor, IAzureComputerVisionService azureComputerVisionService, ApplicationDbContext applicationDbContext, IMapper mapper)
     {
         _photoAccessor = photoAccessor;
         _azureComputerVisionService = azureComputerVisionService;
+        _applicationDbContext = applicationDbContext;
+        _mapper = mapper;
     }
-    public async Task<IEnumerable<StudentResultWithOrdinalDTO>> Handle(GetStudentScoresFromFileQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<StudentResultDTO>> Handle(GetStudentScoresFromFileQuery request, CancellationToken cancellationToken)
     {
         var result = await _photoAccessor.AddPhoto(request.File, $"{ServiceConstants.ROOT_IMAGE_FOLDER}/{ServiceConstants.TRANSCRIPT_FOLDER}");
 
@@ -116,6 +124,23 @@ public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEn
 
             }
         }
-        return resultDtos;
+
+        var studentDtos = await _applicationDbContext.Users
+            .Where(x => resultDtos.Select(x => x.Id).ToList().Contains(x.UserName!))
+            .ProjectTo<UserDTO>(_mapper.ConfigurationProvider)
+            .ToDictionaryAsync(x => x.UserName, x => x, cancellationToken);
+
+        var studentResultDtos = resultDtos.Select(x =>
+            new StudentResultDTO(
+                x.OrdinalNumber,
+                x.Score,
+                studentDtos.TryGetValue(x.Id, out var studentDto)
+                    ? studentDto
+                    : null,
+                null,
+                null,
+                x.Id));
+
+        return studentResultDtos;
     }
 }

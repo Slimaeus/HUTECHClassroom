@@ -3,4 +3,4 @@ using HUTECHClassroom.Application.Users.DTOs;
 
 namespace HUTECHClassroom.Application.Scores.DTOs;
 
-public sealed record StudentResultDTO(int OrdinalNumber, int Score, UserDTO Student, ClassroomDTO Classroom, ScoreTypeDTO ScoreType);
+public sealed record StudentResultDTO(int OrdinalNumber, double? Score, UserDTO? Student, ClassroomDTO? Classroom, ScoreTypeDTO? ScoreType, string? StudentId = null, string? ClassroomId = null, int? ScoreTypeId = null);

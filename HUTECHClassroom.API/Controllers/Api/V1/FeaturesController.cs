@@ -26,7 +26,7 @@ public sealed class FeaturesController : BaseApiController
     }
 
     [HttpPost("vision/test")]
-    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> Test(IFormFile file)
+    public async Task<ActionResult<IEnumerable<StudentResultDTO>>> Test(IFormFile file)
     {
         return Ok(await Mediator.Send(new GetStudentScoresFromFileQuery(file)));
     }
