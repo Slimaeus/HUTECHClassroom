@@ -10,5 +10,5 @@ public class StudentResult
     public virtual ScoreType? ScoreType { get; set; }
 
     public int OrdinalNumber { get; set; }
-    public int Score { get; set; }
+    public double Score { get; set; }
 }

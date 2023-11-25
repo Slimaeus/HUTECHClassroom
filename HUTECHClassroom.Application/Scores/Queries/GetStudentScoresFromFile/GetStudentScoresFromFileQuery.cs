@@ -133,7 +133,7 @@ public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEn
         var studentResultDtos = resultDtos.Select(x =>
             new StudentResultDTO(
                 x.OrdinalNumber,
-                x.Score,
+                x.Score ?? -1,
                 studentDtos.TryGetValue(x.Id, out var studentDto)
                     ? studentDto
                     : null,
