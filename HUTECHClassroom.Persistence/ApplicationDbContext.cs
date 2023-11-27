@@ -96,6 +96,5 @@ public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, Ap
             }
         }
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }
