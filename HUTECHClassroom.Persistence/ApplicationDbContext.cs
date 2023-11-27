@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Domain.Entities;
+﻿using HUTECHClassroom.Domain.Common;
+using HUTECHClassroom.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -38,5 +39,63 @@ public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, Ap
         base.OnModelCreating(builder);
 
         builder.ApplyConfigurationsFromAssembly(AssemblyReference.Assembly);
+    }
+
+    public override int SaveChanges()
+    {
+        var now = DateTime.UtcNow;
+
+        foreach (var changedEntity in ChangeTracker.Entries())
+        {
+            if (changedEntity.Entity is IAuditableEntity entity)
+            {
+                switch (changedEntity.State)
+                {
+                    case EntityState.Modified:
+                        entity.UpdateDate = now;
+                        break;
+                }
+            }
+        }
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.UtcNow;
+
+        foreach (var changedEntity in ChangeTracker.Entries())
+        {
+            if (changedEntity.Entity is IAuditableEntity entity)
+            {
+                switch (changedEntity.State)
+                {
+                    case EntityState.Modified:
+                        entity.UpdateDate = now;
+                        break;
+                }
+            }
+        }
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.UtcNow;
+
+        foreach (var changedEntity in ChangeTracker.Entries())
+        {
+            if (changedEntity.Entity is IAuditableEntity entity)
+            {
+                switch (changedEntity.State)
+                {
+                    case EntityState.Modified:
+                        entity.UpdateDate = now;
+                        break;
+                }
+            }
+        }
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }

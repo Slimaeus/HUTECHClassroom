@@ -12,6 +12,7 @@ public sealed class ClassroomMappingProfile : Profile
     public ClassroomMappingProfile()
     {
         CreateMap<Classroom, ClassroomDTO>()
+            .ForMember(x => x.Title, (config) => config.MapFrom(u => u.Subject != null ? u.Subject.Title : null))
             .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class != null ? u.Class.Name : null));
         CreateMap<CreateClassroomCommand, Classroom>();
         CreateMap<UpdateClassroomCommand, Classroom>()

@@ -9,5 +9,8 @@ public class Major : BaseEntity
     public int TotalCredits { get; set; }
     public int NonComulativeCredits { get; set; }
 
+    public Guid? FacultyId { get; set; }
+    public virtual Faculty? Faculty { get; set; }
+
     public virtual ICollection<Subject> Subjects { get; set; } = new HashSet<Subject>();
 }

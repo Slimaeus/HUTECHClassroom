@@ -20,6 +20,7 @@ public sealed class ExerciseMappingProfile : Profile
         CreateMap<ExerciseUser, ExerciseUserDTO>()
             .ConstructUsing(x => new ExerciseUserDTO(x.UserId, x.User != null ? x.User.UserName : null, x.User != null ? x.User.Email : null, x.User != null ? x.User.FirstName : null, x.User != null ? x.User.LastName : null, x.Exercise != null && x.Exercise.Answers.Any(a => a.UserId == x.UserId)));
         CreateMap<Classroom, ExerciseClassroomDTO>()
+            .ForMember(x => x.Title, (config) => config.MapFrom(u => u.Subject != null ? u.Subject.Title : null))
             .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class != null ? u.Class.Name : null));
 
         CreateMap<AddExerciseUserCommand, ExerciseUser>();

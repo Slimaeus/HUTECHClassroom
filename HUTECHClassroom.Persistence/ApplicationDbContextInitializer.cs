@@ -162,16 +162,13 @@ public sealed class ApplicationDbContextInitializer
 
         var classes = new List<Class>
         {
-            new Class
-            {
+            new() {
                 Name = "20DTHD1"
             },
-            new Class
-            {
+            new() {
                 Name = "20DTHD3"
             },
-            new Class
-            {
+            new() {
                 Name = "20DTHD4"
             }
         };
@@ -182,32 +179,32 @@ public sealed class ApplicationDbContextInitializer
         var admin = new ApplicationUser
         {
             UserName = "admin",
-            FirstName = "admin",
-            LastName = "admin",
+            FirstName = "0",
+            LastName = "Quản trị viên",
             Email = "admin@gmail.com",
         };
 
         var dean = new ApplicationUser
         {
             UserName = "dean",
-            FirstName = "dean",
-            LastName = "dean",
+            FirstName = "0",
+            LastName = "Trưởng Khoa",
             Email = "dean@gmail.com",
         };
 
         var trainingOffice = new ApplicationUser
         {
             UserName = "trainingOffice",
-            FirstName = "trainingOffice",
-            LastName = "trainingOffice",
+            FirstName = "0",
+            LastName = "Nhân viên phòng đào tạo khảo thí",
             Email = "trainingOffice@gmail.com",
         };
 
         var departmentSecretary = new ApplicationUser
         {
             UserName = "departmentSecretary",
-            FirstName = "departmentSecretary",
-            LastName = "departmentSecretary",
+            FirstName = "0",
+            LastName = "Thư ký Khoa",
             Email = "departmentSecretary@gmail.com",
         };
 
@@ -527,19 +524,19 @@ public sealed class ApplicationDbContextInitializer
 
         var majors = new List<Major>
         {
-            new Major
-            {
+            new() {
                 Code = "TH",
                 Title = "Công nghệ thông tin",
                 TotalCredits = 152,
-                NonComulativeCredits = 5
+                NonComulativeCredits = 5,
+                Faculty = faculties[0]
             },
-            new Major
-            {
+            new() {
                 Code = "MARQT",
                 Title = "Marketing - Kinh doanh Quốc tế",
                 TotalCredits = 137,
-                NonComulativeCredits = 5
+                NonComulativeCredits = 5,
+                Faculty = faculties[1]
             }
         };
 
@@ -547,15 +544,13 @@ public sealed class ApplicationDbContextInitializer
 
         var subjects = new List<Subject>
         {
-            new Subject
-            {
+            new() {
                 Code = "CMP101",
                 Title = "Subject CMP101",
                 TotalCredits = 3,
                 Major = majors[0]
             },
-            new Subject
-            {
+            new() {
                 Code = "CMP1024",
                 Title = "Lập trình ứng dụng với Java",
                 TotalCredits = 3,
@@ -567,13 +562,11 @@ public sealed class ApplicationDbContextInitializer
 
         var scoreTypes = new List<ScoreType>
         {
-            new ScoreType
-            {
+            new() {
                 Id = ScoreTypeConstants.MidtermScoreId,
                 Name = "Điểm quá trình"
             },
-            new ScoreType
-            {
+            new() {
                 Id = ScoreTypeConstants.FinalScoreId,
                 Name = "Điểm cuối kỳ"
             }
@@ -588,9 +581,8 @@ public sealed class ApplicationDbContextInitializer
 
         var classrooms = new List<Classroom>
         {
-            new Classroom
-            {
-                Title = "Đại số tuyến tính",
+            new() {
+                //Title = "Đại số tuyến tính",
                 Description = "Môn đại số",
                 Topic = "Toán học",
                 Room = "101",
@@ -605,30 +597,26 @@ public sealed class ApplicationDbContextInitializer
                 Faculty = faculties[0],
                 ClassroomUsers = new List<ClassroomUser>
                 {
-                    new ClassroomUser
-                    {
+                    new() {
                         User = users[0]
                     }
                 },
                 StudentResults = new List<StudentResult>
                 {
-                    new StudentResult
-                    {
+                    new() {
                         Student = users[0],
                         ScoreType = scoreTypes[0],
                         Score = 8
                     },
-                    new StudentResult
-                    {
+                    new() {
                         Student = users[0],
                         ScoreType = scoreTypes[1],
                         Score = 9
                     }
                 }
             },
-            new Classroom
-            {
-                Title = "Tiếng Anh 1",
+            new() {
+                //Title = "Tiếng Anh 1",
                 Description = "Môn học",
                 Topic = "Tiếng Anh",
                 StudyPeriod = "1/1/2022 - 1/1/2023",
@@ -642,40 +630,34 @@ public sealed class ApplicationDbContextInitializer
                 Faculty = faculties[0],
                 ClassroomUsers = new List<ClassroomUser>
                 {
-                    new ClassroomUser
-                    {
+                    new() {
                         User = users[0]
                     },
-                    new ClassroomUser
-                    {
+                    new() {
                         User = users[1]
                     }
                 },
                 StudentResults = new List<StudentResult>
                 {
-                    new StudentResult
-                    {
+                    new() {
                         Student = users[0],
                         ScoreType = scoreTypes[0],
                         OrdinalNumber = 1,
                         Score = 9
                     },
-                    new StudentResult
-                    {
+                    new() {
                         Student = users[0],
                         ScoreType = scoreTypes[1],
                         OrdinalNumber = 1,
                         Score = 10
                     },
-                    new StudentResult
-                    {
+                    new() {
                         Student = users[1],
                         ScoreType = scoreTypes[0],
                         OrdinalNumber = 2,
                         Score = 10
                     },
-                    new StudentResult
-                    {
+                    new() {
                         Student = users[1],
                         ScoreType = scoreTypes[1],
                         OrdinalNumber = 2,
@@ -683,9 +665,8 @@ public sealed class ApplicationDbContextInitializer
                     }
                 }
             },
-            new Classroom
-            {
-                Title = subjects[1].Title,
+            new() {
+                //Title = subjects[1].Title,
                 Description = "Môn học",
                 Topic = "Lập trình",
                 StudyPeriod = "1/1/2022 - 1/1/2023",
@@ -708,8 +689,7 @@ public sealed class ApplicationDbContextInitializer
 
         var exercises = new List<Exercise>
         {
-            new Exercise
-            {
+            new() {
                 Title = "Giải bài toán",
                 Instruction = "62 - 32 = ?",
                 Link = "google.com",
@@ -736,16 +716,14 @@ public sealed class ApplicationDbContextInitializer
 
         var answers = new List<Answer>
         {
-            new Answer
-            {
+            new() {
                 Description = "Xin lỗi thầy em không biết làm T_T",
                 Link = "a.com",
                 Score = 0,
                 Exercise = exercises[0],
                 User = users[0]
             },
-            new Answer
-            {
+            new() {
                 Description = "Xin lỗi thầy em cũng không biết làm ạ T_T",
                 Link = "b.com",
                 Score = 0,
@@ -758,15 +736,13 @@ public sealed class ApplicationDbContextInitializer
 
         var posts = new List<Post>
         {
-            new Post
-            {
+            new() {
                 Content = "Xin chào thế giới",
                 Link = "google.com",
                 User = users[0],
                 Classroom = classrooms[0]
             },
-            new Post
-            {
+            new() {
                 Content = "Xin chào!",
                 Link = "yahoo.com",
                 User = users[1],
@@ -778,14 +754,12 @@ public sealed class ApplicationDbContextInitializer
 
         var comments = new List<Comment>
         {
-            new Comment
-            {
+            new() {
                 Content = "Xin chào vũ trụ ._.",
                 User = users[0],
                 Post = posts[0]
             },
-            new Comment
-            {
+            new() {
                 Content = "Chào",
                 User = users[0],
                 Post = posts[1]
@@ -796,8 +770,7 @@ public sealed class ApplicationDbContextInitializer
 
         var groups = new List<Group>
         {
-            new Group
-            {
+            new() {
                 Name = "Owlvernyte",
                 Description = "Nhóm",
                 Leader = users[0],
@@ -811,15 +784,13 @@ public sealed class ApplicationDbContextInitializer
                 },
                 Classroom = classrooms[0]
             },
-            new Group
-            {
+            new() {
                 Name = "Semibox",
                 Description = "Nửa hộp",
                 Leader = users[1],
                 GroupUsers = new List<GroupUser>
                 {
-                    new GroupUser
-                    {
+                    new() {
                         User = users[0],
                         GroupRole = leader
                     },
@@ -837,14 +808,12 @@ public sealed class ApplicationDbContextInitializer
 
         var projects = new List<Project>
         {
-            new Project
-            {
+            new() {
                 Name = "Plan together",
                 Description = "Hệ thống quản lý nhóm và dự án",
                 Group = groups[0]
             },
-            new Project
-            {
+            new() {
                 Name = "HUTECH Classroom",
                 Description = "Hệ thống quản lý lớp học",
                 Group = groups[1]
@@ -855,64 +824,54 @@ public sealed class ApplicationDbContextInitializer
 
         var missions = new List<Mission>
         {
-            new Mission
-            {
+            new() {
                 Title = "Hãy đọc",
                 Description = "Đọc 1 quyển sách",
                 MissionUsers = new List<MissionUser>
                 {
-                    new MissionUser
-                    {
+                    new() {
                         User = users[0],
                     }
                 },
                 Project = projects[0]
             },
-            new Mission
-            {
+            new() {
                 Title = "Hãy viết",
                 Description = "Viết 1 quyển sách",
                 MissionUsers = new List<MissionUser>
                 {
-                    new MissionUser
-                    {
+                    new() {
                         User = users[1],
                     }
                 },
                 Project = projects[1]
             },
-            new Mission
-            {
+            new() {
                 Title = "Hãy nghe",
                 Description = "Nghe 1 bài hát",
                 MissionUsers = new List<MissionUser>
                 {
-                    new MissionUser
-                    {
+                    new() {
                         User = users[0],
                     },
-                    new MissionUser
-                    {
+                    new() {
                         User = users[1],
                     }
                 },
                 Project = projects[1]
             },
-            new Mission
-            {
+            new() {
                 Title = "Hãy hát",
                 Description = "Hát 1 bài hát",
                 MissionUsers = new List<MissionUser>
                 {
-                    new MissionUser
-                    {
+                    new() {
                         User = users[0],
                     }
                 },
                 Project = projects[1]
             },
-            new Mission
-            {
+            new() {
                 Title = "Hãy chạy",
                 Description = "Chạy đi!",
                 MissionUsers = new List<MissionUser>
@@ -928,14 +887,12 @@ public sealed class ApplicationDbContextInitializer
                 },
                 Project = projects[0]
             },
-            new Mission
-            {
+            new() {
                 Title = "Hãy nghĩ",
                 Description = "Nghĩ một lát",
                 MissionUsers = new List<MissionUser>
                 {
-                    new MissionUser
-                    {
+                    new() {
                         User = users[1],
                     }
                 },

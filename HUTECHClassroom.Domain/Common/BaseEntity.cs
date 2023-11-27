@@ -4,6 +4,7 @@ public abstract class BaseEntity<TKey> : IEntity<TKey>, IAuditableEntity
 {
     public TKey Id { get; set; } = default!;
     public DateTime CreateDate { get; init; } = DateTime.UtcNow;
+    public DateTime? UpdateDate { get; set; }
 }
 
 public abstract class BaseEntity : BaseEntity<Guid>, IEntity

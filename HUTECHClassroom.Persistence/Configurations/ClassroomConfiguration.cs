@@ -9,9 +9,10 @@ public sealed class ClassroomConfiguration : IEntityTypeConfiguration<Classroom>
 {
     public void Configure(EntityTypeBuilder<Classroom> builder)
     {
-        builder.Property(x => x.Title)
-            .HasMaxLength(ClassroomConstants.TITLE_MAX_LENGTH)
-            .IsRequired();
+        builder.Ignore(x => x.Title);
+        //builder.Property(x => x.Title)
+        //    .HasMaxLength(ClassroomConstants.TITLE_MAX_LENGTH)
+        //    .IsRequired();
 
         builder.Property(x => x.Description)
             .HasMaxLength(ClassroomConstants.DESCRIPTION_MAX_LENGTH);

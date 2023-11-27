@@ -14,6 +14,7 @@ public sealed class PostMappingProfile : Profile
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
 
         CreateMap<Classroom, PostClassroomDTO>()
+            .ForMember(x => x.Title, (config) => config.MapFrom(u => u.Subject != null ? u.Subject.Title : null))
             .ForMember(x => x.Class, (config) => config.MapFrom(u => u.Class != null ? u.Class.Name : null));
         CreateMap<Comment, PostCommentDTO>();
     }
