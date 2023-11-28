@@ -150,7 +150,7 @@ public sealed class ClassroomsController : BaseEntityController<Classroom>
             await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
+        //ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
         ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
         ViewData["SubjectId"] = new SelectList(DbContext.Subjects, "Id", "Title", classroom.SubjectId);
         return View(classroom);
@@ -168,7 +168,7 @@ public sealed class ClassroomsController : BaseEntityController<Classroom>
         {
             return NotFound();
         }
-        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
+        //ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
         ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
         ViewData["SubjectId"] = new SelectList(DbContext.Subjects, "Id", "Title", classroom.SubjectId);
         return View(classroom);
@@ -203,7 +203,7 @@ public sealed class ClassroomsController : BaseEntityController<Classroom>
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
+        //ViewData["FacultyId"] = new SelectList(DbContext.Faculties, "Id", "Name", classroom.FacultyId);
         ViewData["LecturerId"] = new SelectList(DbContext.Users, "Id", "UserName", classroom.LecturerId);
         ViewData["SubjectId"] = new SelectList(DbContext.Subjects, "Id", "Title", classroom.SubjectId);
         return View(classroom);

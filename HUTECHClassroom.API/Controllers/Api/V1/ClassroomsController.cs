@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomResultsWithPagination;
+﻿using HUTECHClassroom.Application.Classrooms.Commands.ImportScoreByClassroomId;
+using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomResultsWithPagination;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomStudentResultsWithPagination;
 using HUTECHClassroom.Application.Scores.DTOs;
 
@@ -85,4 +86,10 @@ public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     [HttpGet("{classroomId}/Scores")]
     public async Task<ActionResult<IEnumerable<ClassroomStudentResultDTO>>> GetClassroomStudentResults(Guid classroomId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomStudentResultsWithPaginationQuery(classroomId, default, @params)));
+
+    //[Authorize(ReadClassroomPolicy)]
+    [HttpPost("{classroomId}/Scores/Import")]
+    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> GetScoreInExcel(Guid classroomId, IFormFile file)
+        => HandlePagedList(await Mediator.Send(new ImportScoreByClassroomIdCommand(classroomId, file)));
+
 }
