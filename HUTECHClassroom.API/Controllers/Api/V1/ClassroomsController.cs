@@ -90,6 +90,8 @@ public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     //[Authorize(ReadClassroomPolicy)]
     [HttpPost("{classroomId}/Scores/Import")]
     public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> GetScoreInExcel(Guid classroomId, IFormFile file)
-        => HandlePagedList(await Mediator.Send(new ImportScoreByClassroomIdCommand(classroomId, file)));
-
+    {
+        await Mediator.Send(new ImportScoreByClassroomIdCommand(classroomId, file)).ConfigureAwait(false);
+        return NoContent();
+    }
 }
