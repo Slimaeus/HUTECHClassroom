@@ -1,11 +1,13 @@
-﻿using HUTECHClassroom.Application.Scores.DTOs;
+﻿using HUTECHClassroom.Application.Common.Validators.Classrooms;
+using HUTECHClassroom.Application.Common.Validators.ScoreTypes;
+using HUTECHClassroom.Application.Scores.DTOs;
 using HUTECHClassroom.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace HUTECHClassroom.Application.Classrooms.Commands.ImportScoreByClassroomId;
 
-public sealed record ImportScoreByClassroomIdCommand(Guid ClassroomId, IFormFile File) : IRequest<Unit>;
+public sealed record ImportScoreByClassroomIdCommand(Guid ClassroomId, int ScoreTypeId, IFormFile File) : IRequest<Unit>;
 public sealed class Hanlder : IRequestHandler<ImportScoreByClassroomIdCommand, Unit>
 {
     private readonly IExcelServie _excelServie;
@@ -29,6 +31,7 @@ public sealed class Hanlder : IRequestHandler<ImportScoreByClassroomIdCommand, U
             .Include(i => i.Include(x => x.Student))
             .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll)
             .AndFilter(x => x.ClassroomId == request.ClassroomId)
+            .AndFilter(x => x.ScoreTypeId == request.ScoreTypeId)
             .AndFilter(x => importedStudentResults.Select(x => x.Id).Contains(x.Student!.UserName));
 
         var studentResults = await _studentResultRepository
@@ -45,5 +48,17 @@ public sealed class Hanlder : IRequestHandler<ImportScoreByClassroomIdCommand, U
         await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken);
 
         return Unit.Value;
+    }
+}
+
+public sealed class Validator : AbstractValidator<ImportScoreByClassroomIdCommand>
+{
+    public Validator(ClassroomExistenceByNotNullIdValidator classroomIdValidator, ScoreTypeExistenceByNotNullIdValidator scoreTypeIdValidor)
+    {
+        RuleFor(x => x.ClassroomId)
+            .SetValidator(classroomIdValidator);
+
+        RuleFor(x => x.ScoreTypeId)
+            .SetValidator(scoreTypeIdValidor);
     }
 }

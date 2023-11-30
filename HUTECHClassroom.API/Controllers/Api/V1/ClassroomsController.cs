@@ -88,10 +88,10 @@ public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
         => HandlePagedList(await Mediator.Send(new GetClassroomStudentResultsWithPaginationQuery(classroomId, default, @params)));
 
     //[Authorize(ReadClassroomPolicy)]
-    [HttpPost("{classroomId}/Scores/Import")]
-    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> GetScoreInExcel(Guid classroomId, IFormFile file)
+    [HttpPost("{classroomId}/Scores/{scoreTypeId}/Import")]
+    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> GetScoreInExcel(Guid classroomId, int scoreTypeId, IFormFile file)
     {
-        await Mediator.Send(new ImportScoreByClassroomIdCommand(classroomId, file)).ConfigureAwait(false);
+        await Mediator.Send(new ImportScoreByClassroomIdCommand(classroomId, scoreTypeId, file)).ConfigureAwait(false);
         return NoContent();
     }
 }
