@@ -555,6 +555,12 @@ public sealed class ApplicationDbContextInitializer
                 Title = "Lập trình ứng dụng với Java",
                 TotalCredits = 3,
                 Major = majors[0]
+            },
+            new() {
+                Code = "ENC101",
+                Title = "Tiếng Anh 1",
+                TotalCredits = 3,
+                Major = majors[0]
             }
         };
 
@@ -627,6 +633,7 @@ public sealed class ApplicationDbContextInitializer
                 Semester = Semester.II,
                 Type = ClassroomType.TheoryRoom,
                 Lecturer = lecturer2,
+                Subject = subjects[2],
                 Faculty = faculties[0],
                 ClassroomUsers = new List<ClassroomUser>
                 {
