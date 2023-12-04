@@ -1,4 +1,6 @@
-﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿using HUTECHClassroom.Application.Account.Commands.ChangeEmail;
+
+namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 [AllowAnonymous]
@@ -55,4 +57,12 @@ public sealed class AccountController : BaseApiController
     [HttpGet("@me")]
     public async Task<ActionResult<AccountDTO>> GetCurrentUserDetails()
         => Ok(await Mediator.Send(new GetCurrentUserQuery()));
+
+    [Authorize]
+    [HttpPost("change-email")]
+    public async Task<IActionResult> ChangeEmail(ChangeEmailCommand request)
+    {
+        await Mediator.Send(request);
+        return NoContent();
+    }
 }
