@@ -55,10 +55,22 @@ public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEn
 
             var skipped = false;
 
+            if (page.OptimizedLines
+                    .Any()
+                    && !page
+                    .OptimizedLines
+                    .First()
+                    .Text
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                    .Contains("STT"))
+            {
+                skipped = true;
+            }
+
             foreach (var line in page.OptimizedLines)
             {
                 var texts = line.Text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                if (texts.Contains("Diem"))
+                if (!skipped && texts.Contains("Diem"))
                 {
                     skipped = true;
                     continue;
@@ -134,7 +146,7 @@ public sealed class Handler : IRequestHandler<GetStudentScoresFromFileQuery, IEn
             new StudentResultDTO(
                 x.OrdinalNumber ?? 0,
                 x.Score ?? -1,
-                studentDtos.TryGetValue(x.Id, out var studentDto)
+                studentDtos.TryGetValue(x.Id ?? "", out var studentDto)
                     ? studentDto
                     : null,
                 null,
