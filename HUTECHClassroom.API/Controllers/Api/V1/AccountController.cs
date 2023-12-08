@@ -59,7 +59,7 @@ public sealed class AccountController : BaseApiController
         => Ok(await Mediator.Send(new GetCurrentUserQuery()));
 
     [Authorize]
-    [HttpPost("change-email")]
+    [HttpPatch("change-email")]
     public async Task<IActionResult> ChangeEmail(ChangeEmailCommand request)
     {
         await Mediator.Send(request);
