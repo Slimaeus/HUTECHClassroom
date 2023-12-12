@@ -8,6 +8,7 @@ public static class HostingExtensions
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         //builder.Services.AddApplicationServices();
+        builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddWebApiServices(builder.Configuration);
 
