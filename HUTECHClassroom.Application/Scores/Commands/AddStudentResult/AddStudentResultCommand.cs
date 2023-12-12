@@ -25,7 +25,7 @@ public sealed class Handler : IRequestHandler<AddStudentResultCommand, Unit>
         {
             var failures = new List<ValidationFailure>
             {
-                new ValidationFailure("Result", "Result already existed")
+                new("Result", "Result already existed")
             };
             throw new ValidationException(failures);
         }

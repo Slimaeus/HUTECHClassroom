@@ -25,6 +25,37 @@ public sealed class FeaturesController : BaseApiController
         _photoAccessor = photoAccessor;
     }
 
+    public record FileModel(string ClassroomId, IFormFile File);
+    private static Task<StudentResultDTO> GetStudentResultDTO(IFormFile file)
+    {
+        return Task.FromResult(new StudentResultDTO() { StudentId = file.FileName });
+    }
+
+    [AllowAnonymous]
+    [HttpGet($"Files/{nameof(GetJson)}")]
+    public async Task<IActionResult> GetJson()
+    {
+        var fileContents = await FileIO.ReadAllBytesAsync("output.json");
+        return File(fileContents, "application/json");
+    }
+
+    [AllowAnonymous]
+    [HttpGet($"Files/{nameof(GetExcel)}")]
+    public async Task<IActionResult> GetExcel()
+    {
+        var fileContents = await FileIO.ReadAllBytesAsync("Score.xlsx");
+        return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    }
+
+    [AllowAnonymous]
+    [HttpPost($"Files/{nameof(ReceiveMultipleFile)}")]
+    public async Task<ActionResult<StudentResultDTO[]>> ReceiveMultipleFile([FromForm] IList<FileModel> fileModels)
+    {
+        var tasks = fileModels.Select(x => GetStudentResultDTO(x.File));
+        var results = await Task.WhenAll(tasks);
+        return Ok(results);
+    }
+
     [HttpPost("vision/test")]
     public async Task<ActionResult<IEnumerable<StudentResultDTO>>> Test(IFormFile file)
     {

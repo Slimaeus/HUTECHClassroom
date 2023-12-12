@@ -68,12 +68,10 @@ public sealed class ApplicationDbContextInitializer
 
         var faculties = new List<Faculty>
         {
-            new Faculty
-            {
+            new() {
                 Name = "Công nghệ thông tin"
             },
-            new Faculty
-            {
+            new() {
                 Name = "Marketing - Kinh doanh Quốc tế"
             }
         };
@@ -711,8 +709,7 @@ public sealed class ApplicationDbContextInitializer
                     //{
                     //    User = users[0]
                     //},
-                    new ExerciseUser
-                    {
+                    new() {
                         User = users[1]
                     }
                 }
@@ -883,12 +880,10 @@ public sealed class ApplicationDbContextInitializer
                 Description = "Chạy đi!",
                 MissionUsers = new List<MissionUser>
                 {
-                    new MissionUser
-                    {
+                    new() {
                         User = users[0],
                     },
-                    new MissionUser
-                    {
+                    new() {
                         User = users[1],
                     }
                 },

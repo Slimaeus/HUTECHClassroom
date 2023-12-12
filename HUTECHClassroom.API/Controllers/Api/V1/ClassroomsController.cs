@@ -3,6 +3,7 @@ using HUTECHClassroom.Application.Classrooms.Commands.ImportScoreByClassroomId;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomResultsWithPagination;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomStudentResultsWithPagination;
 using HUTECHClassroom.Application.Scores.DTOs;
+using FileIO = System.IO.File;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
@@ -97,9 +98,17 @@ public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     }
 
     [HttpPost("{classroomId}/Scores/Import")]
-    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> GetScoresInExcel(Guid classroomId, IFormFile file)
+    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> ImportScores(Guid classroomId, IFormFile file)
     {
         await Mediator.Send(new ImportMultipleScoreByClassroomIdCommand(classroomId, file)).ConfigureAwait(false);
         return NoContent();
+    }
+
+    [HttpGet("{classroomId}/Scores/Export")]
+    public async Task<IActionResult> ExportScores(Guid classroomId)
+    {
+        //await Mediator.Send(new ImportMultipleScoreByClassroomIdCommand(classroomId, file)).ConfigureAwait(false);
+        var fileContents = await FileIO.ReadAllBytesAsync("output.json");
+        return File(fileContents, "application/json");
     }
 }
