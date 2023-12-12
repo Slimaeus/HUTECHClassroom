@@ -18,4 +18,10 @@ public sealed class GetUserClassroomsWithPaginationQueryHandler : GetWithPaginat
         => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Classroom, bool>> FilterPredicate(GetUserClassroomsWithPaginationQuery query)
         => x => x.ClassroomUsers.Any(y => y.UserId == _userAccessor.Id) || x.LecturerId == _userAccessor.Id;
+
+    protected override Expression<Func<Classroom, bool>> SearchStringPredicate(string searchString)
+    {
+        var toLowerSearchString = searchString.ToLower();
+        return x => (x.Subject != null && x.Subject.Title.ToLower().Contains(toLowerSearchString)) || (x.Description != null && x.Description.ToLower().Contains(toLowerSearchString)) || (x.Class != null && x.Class.Name.ToLower().Contains(toLowerSearchString));
+    }
 }

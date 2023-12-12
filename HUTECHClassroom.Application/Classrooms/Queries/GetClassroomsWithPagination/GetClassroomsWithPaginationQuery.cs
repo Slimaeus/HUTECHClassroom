@@ -17,7 +17,7 @@ public sealed class GetClassroomsWithPaginationQueryHandler : GetWithPaginationQ
     protected override Expression<Func<Classroom, bool>> SearchStringPredicate(string searchString)
     {
         var toLowerSearchString = searchString.ToLower();
-        return x => x.Title.ToLower().Contains(toLowerSearchString) || (x.Description != null && x.Description.ToLower().Contains(toLowerSearchString)) || (x.Class != null && x.Class.Name.ToLower().Contains(toLowerSearchString));
+        return x => (x.Subject != null && x.Subject.Title.ToLower().Contains(toLowerSearchString)) || (x.Description != null && x.Description.ToLower().Contains(toLowerSearchString)) || (x.Class != null && x.Class.Name.ToLower().Contains(toLowerSearchString));
     }
     protected override IQuery<Classroom> Order(IMultipleResultQuery<Classroom> query)
         => query.OrderByDescending(x => x.CreateDate);

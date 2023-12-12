@@ -25,10 +25,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().LastName)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.First().Faculty)
             </th>
-            <th>
+            <th> *@
                 @Html.DisplayNameFor(model => model.First().UserName)
             </th>
             <th>
@@ -49,9 +49,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
-            <td>
+            @* <td>
                     @Html.DisplayFor(modelItem => item.Faculty != null ? item.Faculty.Name : string.Empty)
-            </td>
+            </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>

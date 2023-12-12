@@ -498,7 +498,7 @@ public sealed class ApplicationDbContextInitializer
         {
             await _userManager.CreateAsync(user, password);
             await _userManager.AddToRoleAsync(user, studentRole.Name!);
-            await _userManager.AddToRoleAsync(user, lecturerRole.Name!);
+            //await _userManager.AddToRoleAsync(user, lecturerRole.Name!);
         }
 
         await _userManager.CreateAsync(admin, password);
