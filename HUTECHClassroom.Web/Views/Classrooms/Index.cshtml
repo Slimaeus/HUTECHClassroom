@@ -48,43 +48,54 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Topic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Room)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lecturer != null ? item.Lecturer.UserName : string.Empty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Faculty != null ? item.Faculty.Name : string.Empty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject != null ? item.Subject.Title : string.Empty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="ImportClassroomUsers" asp-route-id="@item.Id">Import Users</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Topic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Room)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if (item.Lecturer != null)
+                    {
+                        @Html.DisplayFor(model => item.Lecturer.UserName)
+                    }
+                </td>
+                <td>
+                    @if (item.Faculty != null)
+                    {
+                        @Html.DisplayFor(model => item.Faculty.Name)
+                    }
+                </td>
+                <td>
+                    @if (item.Subject != null)
+                    {
+                        @Html.DisplayFor(model => item.Subject.Title)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="ImportClassroomUsers" asp-route-id="@item.Id">Import Users</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }), new X.PagedList.Web.Common.PagedListRenderOptions {
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }), new X.PagedList.Web.Common.PagedListRenderOptions
+{
     LiElementClasses = new string[] { "page-item" },
     PageClasses = new string[] { "page-link" },
     Display = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded

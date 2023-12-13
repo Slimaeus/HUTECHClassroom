@@ -42,36 +42,52 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Link)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Score)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User != null ? item.User.UserName : string.Empty)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Exercise != null ? item.Exercise.Title: string.Empty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Link)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Score)
+                </td>
+                <td>
+                    @if (item.User != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.User.UserName)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => string.Empty)
+                    }
+                </td>
+                <td>
+                    @if (item.Exercise != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Exercise.Title)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => string.Empty)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }), new X.PagedList.Web.Common.PagedListRenderOptions {
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = Model.PageSize }), new X.PagedList.Web.Common.PagedListRenderOptions
+{
     LiElementClasses = new string[] { "page-item" },
     PageClasses = new string[] { "page-link" },
     Display = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded

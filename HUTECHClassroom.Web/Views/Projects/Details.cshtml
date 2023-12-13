@@ -26,7 +26,8 @@
             @Html.DisplayNameFor(model => model.Group)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Group != null ? model.Group.Name : string.Empty)
+            @if (Model.Group is { })
+                @Html.DisplayFor(model => Model.Group.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDate)

@@ -38,19 +38,32 @@
             @Html.DisplayNameFor(model => model.Lecturer)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Lecturer != null ? model.Lecturer.Id : Guid.Empty)
+            @if (Model.Lecturer is { Id: { } })
+            {
+                @Html.DisplayFor(model => Model.Lecturer.Id)
+            } 
+            else
+            {
+                @Html.DisplayFor(model => Guid.Empty)
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Faculty)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Faculty != null ? model.Faculty.Name : string.Empty)
+            @if (Model.Faculty != null)
+            {
+                @Html.DisplayFor(model => Model.Faculty.Name)
+            }
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Subject)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Subject != null ? model.Subject.Title : string.Empty)
+            @if (Model.Subject != null)
+            {
+                @Html.DisplayFor(model => Model.Subject.Title)
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDate)
@@ -78,9 +91,24 @@
             @foreach (var item in Model.ClassroomUsers)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.UserName : string.Empty)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.FirstName : string.Empty)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.LastName : string.Empty)</td>
+                    <td>
+                        @if (item.User != null)
+                        {
+                            @Html.DisplayFor(model => item.User.UserName)
+                        }
+                    </td>
+                    <td>
+                        @if (item.User != null)
+                        {
+                            @Html.DisplayFor(model => item.User.FirstName)
+                        }
+                    </td>
+                    <td>
+                        @if (item.User != null)
+                        {
+                            @Html.DisplayFor(model => item.User.LastName)
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

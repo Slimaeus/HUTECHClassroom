@@ -10,34 +10,36 @@
     <h4>Mission</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IsDone)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IsDone)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Project)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Project != null ? model.Project.Name : string.Empty)
+        <dd class="col-sm-10">
+            @if (Model.Project is { })
+                @Html.DisplayFor(model => Model.Project.Name)
+
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CreateDate)
         </dd>
     </dl>
@@ -60,9 +62,18 @@
             @foreach (var item in Model.MissionUsers)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.UserName : string.Empty)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.FirstName : string.Empty)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User != null ? item.User.LastName : string.Empty)</td>
+                    <td>
+                        @if (item.User is { })
+                            @Html.DisplayFor(modelItem => item.User.UserName)
+                    </td>
+                    <td>
+                        @if (item.User is { })
+                            @Html.DisplayFor(modelItem => item.User.FirstName)
+                    </td>
+                    <td>
+                        @if (item.User is { })
+                            @Html.DisplayFor(modelItem => item.User.LastName)
+                    </td>
                 </tr>
             }
         </tbody>
