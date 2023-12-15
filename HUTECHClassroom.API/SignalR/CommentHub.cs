@@ -2,6 +2,7 @@
 using HUTECHClassroom.Domain.Constants.HttpParams.Common;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HUTECHClassroom.API.SignalR;
 
@@ -33,13 +34,13 @@ public sealed class CommentHub : Hub<ICommentClientHub>
     {
         var httpContext = Context.GetHttpContext() ?? throw new NullReferenceException();
         var postId = httpContext.Request.Query[PostParamsConstants.POST_ID];
-        if (postId is { }) return;
+        if (postId.IsNullOrEmpty()) return;
         var isParsePageNumberSuccess = int.TryParse(httpContext.Request.Query[PaginationParamsConstants.PAGE_NUMBER], out int pageNumber);
         var isParsePageSizeSuccess = int.TryParse(httpContext.Request.Query[PaginationParamsConstants.PAGE_SIZE], out int pageSize);
         if (!isParsePageNumberSuccess) pageNumber = 1;
         if (!isParsePageSizeSuccess) pageSize = 5;
-        await Groups.AddToGroupAsync(Context.ConnectionId, postId).ConfigureAwait(false);
-        var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId), new PostPaginationParams(pageNumber, pageSize)));
+        await Groups.AddToGroupAsync(Context.ConnectionId, postId.ToString()).ConfigureAwait(false);
+        var result = await _mediator.Send(new GetPostCommentsWithPaginationQuery(Guid.Parse(postId.ToString()), new PostPaginationParams(pageNumber, pageSize)));
         await Clients.Caller
             .LoadComments(result.Items, new
             {
