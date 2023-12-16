@@ -544,7 +544,7 @@ public sealed class ApplicationDbContextInitializer
         {
             new() {
                 Code = "CMP101",
-                Title = "Subject CMP101",
+                Title = "Môn CMP101",
                 TotalCredits = 3,
                 Major = majors[0]
             },
