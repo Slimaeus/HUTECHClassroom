@@ -23,7 +23,7 @@ public sealed class ClassroomMappingProfile : Profile
 
         CreateMap<ClassroomUser, ClassroomUserDTO>()
             .ConstructUsing((x) => new ClassroomUserDTO(x.UserId, x.User != null ? x.User.UserName : null, x.User != null ? x.User.Email : null, x.User != null ? x.User.FirstName : null, x.User != null ? x.User.LastName : null, x.User != null && x.User.Class != null ? x.User.Class.Name : null, new HashSet<GroupDTO>()))
-            .ForMember(des => des.Groups, options => options.MapFrom(src => src.Classroom!.Groups.Where(g => g.GroupUsers.Any(gu => src.UserId == gu.UserId))));
+            .ForMember(des => des.Groups, options => options.MapFrom(src => src.Classroom!.Groups.Where(g => g.GroupUsers.Any(gu => src.UserId == gu.UserId || src.UserId == g.LeaderId))));
 
         CreateMap<Exercise, ClassroomExerciseDTO>();
         CreateMap<Faculty, ClassroomFacultyDTO>();
