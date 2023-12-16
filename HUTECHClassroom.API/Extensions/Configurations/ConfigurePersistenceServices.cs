@@ -27,7 +27,7 @@ public static class ConfigurePersistenceServices
                 options.UseNpgsql(configuration.GetConnectionString(ServiceConstants.CONNECTION_STRING_KEY));
             }
 
-            options.UseTriggers(x => x.AddAssemblyTriggers());
+            options.UseTriggers(x => x.AddAssemblyTriggers(Persistence.AssemblyReference.Assembly));
         });
 
         services.AddScoped<ApplicationDbContextInitializer>();
