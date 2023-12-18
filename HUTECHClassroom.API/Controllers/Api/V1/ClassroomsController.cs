@@ -1,10 +1,10 @@
 ﻿using HUTECHClassroom.Application.Classrooms.Commands.ImportMultipleScoreByClassroomId;
 using HUTECHClassroom.Application.Classrooms.Commands.ImportScoreByClassroomId;
+using HUTECHClassroom.Application.Classrooms.Queries.ExportMultipleScoreByClassroomId;
 using HUTECHClassroom.Application.Classrooms.Queries.ExportScoreByClassroomId;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomResultsWithPagination;
 using HUTECHClassroom.Application.Classrooms.Queries.GetClassroomStudentResultsWithPagination;
 using HUTECHClassroom.Application.Scores.DTOs;
-using FileIO = System.IO.File;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
@@ -90,6 +90,13 @@ public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
     public async Task<ActionResult<IEnumerable<ClassroomStudentResultDTO>>> GetClassroomStudentResults(Guid classroomId, [FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetClassroomStudentResultsWithPaginationQuery(classroomId, default, @params)));
 
+    [HttpPost("{classroomId}/Scores/Import")]
+    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> GetScoreMultipeScoreTypeInExcel(Guid classroomId, IFormFile file)
+    {
+        await Mediator.Send(new ImportMultipleScoreByClassroomIdCommand(classroomId, file)).ConfigureAwait(false);
+        return NoContent();
+    }
+
     //[Authorize(ReadClassroomPolicy)]
     [HttpPost("{classroomId}/Scores/{scoreTypeId}/Import")]
     public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> GetScoreInExcel(Guid classroomId, int scoreTypeId, IFormFile file)
@@ -105,18 +112,10 @@ public sealed class ClassroomsController : BaseEntityApiController<ClassroomDTO>
         return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
 
-    [HttpPost("{classroomId}/Scores/Import")]
-    public async Task<ActionResult<IEnumerable<StudentResultWithOrdinalDTO>>> ImportScores(Guid classroomId, IFormFile file)
-    {
-        await Mediator.Send(new ImportMultipleScoreByClassroomIdCommand(classroomId, file)).ConfigureAwait(false);
-        return NoContent();
-    }
-
     [HttpGet("{classroomId}/Scores/Export")]
     public async Task<IActionResult> ExportScores(Guid classroomId)
     {
-        //await Mediator.Send(new ImportMultipleScoreByClassroomIdCommand(classroomId, file)).ConfigureAwait(false);
-        var fileContents = await FileIO.ReadAllBytesAsync("output.json");
-        return File(fileContents, "application/json");
+        var result = await Mediator.Send(new ExportMultipleScoreByClassroomIdQuery(classroomId)).ConfigureAwait(false);
+        return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
 }

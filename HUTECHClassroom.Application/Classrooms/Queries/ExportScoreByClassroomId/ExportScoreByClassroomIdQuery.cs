@@ -32,7 +32,7 @@ public sealed class Handler : IRequestHandler<ExportScoreByClassroomIdQuery, byt
                 x.ClassroomId,
                 x.Classroom!.Class!.Name,
                 x.Score))
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
 
         Type type = typeof(ExportedClassroomScore);
         PropertyInfo[] propertyInfos = type.GetProperties();

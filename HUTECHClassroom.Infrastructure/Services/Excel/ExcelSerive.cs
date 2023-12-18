@@ -190,9 +190,13 @@ public sealed class ExcelSerive : IExcelServie
             for (int j = 0; j < propertyNames.Count(); j++)
             {
                 var propertyName = propertyNames.ElementAt(j);
-                var propertyValue = obj.GetType().GetProperty(propertyName)!.GetValue(obj, null)?.ToString();
+                var property = obj.GetType().GetProperty(propertyName);
+                if (property is null) continue;
+                var propertyValue = property.GetValue(obj, null);
+                if (propertyValue is null) continue;
 
-                worksheet.Cell(i + 2, j + 1).Value = propertyValue;
+
+                worksheet.Cell(i + 2, j + 1).Value = propertyValue.ToString();
             }
         }
 
