@@ -1,4 +1,5 @@
-﻿using HUTECHClassroom.Application.Scores.Commands.AddStudentResult;
+﻿using HUTECHClassroom.Application.Classrooms.Commands.UpdateClassroomScores;
+using HUTECHClassroom.Application.Scores.Commands.AddStudentResult;
 using HUTECHClassroom.Application.Scores.DTOs;
 using HUTECHClassroom.Application.Scores.Queries.GetStudentScoresFromFile;
 using HUTECHClassroom.Application.ScoreTypes.Queries.GetScoreType;
@@ -9,6 +10,13 @@ namespace HUTECHClassroom.API.Controllers.Api.V1;
 [ApiVersion("1.0")]
 public sealed class ScoresController : BaseApiController
 {
+    [HttpPut]
+    public async Task<IActionResult> UpdateScore(UpdateClassroomScoresCommand request)
+    {
+        await Mediator.Send(request).ConfigureAwait(false);
+        return NoContent();
+    }
+
     [HttpPost("ScanResult")]
     public async Task<ActionResult<IEnumerable<StudentResultDTO>>> ScanResult(IFormFile file)
     {

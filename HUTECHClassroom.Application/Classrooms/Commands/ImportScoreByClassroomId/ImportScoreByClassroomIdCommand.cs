@@ -13,12 +13,16 @@ public sealed class Hanlder : IRequestHandler<ImportScoreByClassroomIdCommand, U
     private readonly IExcelServie _excelServie;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<StudentResult> _studentResultRepository;
+    private readonly IRepository<Classroom> _classroomRepository;
+    private readonly IRepository<ApplicationUser> _userRepository;
 
     public Hanlder(IExcelServie excelServie, IUnitOfWork unitOfWork)
     {
         _excelServie = excelServie;
         _unitOfWork = unitOfWork;
         _studentResultRepository = unitOfWork.Repository<StudentResult>();
+        _classroomRepository = unitOfWork.Repository<Classroom>();
+        _userRepository = unitOfWork.Repository<ApplicationUser>();
     }
     public async Task<Unit> Handle(ImportScoreByClassroomIdCommand request, CancellationToken cancellationToken)
     {
@@ -36,6 +40,29 @@ public sealed class Hanlder : IRequestHandler<ImportScoreByClassroomIdCommand, U
 
         var studentResults = await _studentResultRepository
            .SearchAsync(getStudentResultsQuery, cancellationToken);
+
+        var query = _userRepository
+                .MultipleResultQuery()
+                .AndFilter(x => studentResultDictionary.Keys.Contains(x.UserName))
+                .AndFilter(x => x.ClassroomUsers.Any(u => u.ClassroomId == request.ClassroomId))
+                .AndFilter(x => !x.StudentResults.Any(x => x.ClassroomId == request.ClassroomId && x.ScoreTypeId == request.ScoreTypeId));
+
+        var usersInClassroom = await _userRepository
+            .SearchAsync(query, cancellationToken);
+
+        foreach (var user in usersInClassroom)
+        {
+            if (user.UserName is null) continue;
+            var isValidResult = studentResultDictionary.TryGetValue(user.UserName, out var result);
+            if (!isValidResult || result is null || result.Score is null) continue;
+            await _studentResultRepository.AddAsync(new StudentResult
+            {
+                ClassroomId = request.ClassroomId,
+                ScoreTypeId = request.ScoreTypeId,
+                StudentId = user.Id,
+                Score = result.Score.Value
+            }, cancellationToken);
+        }
 
         foreach (var studentResult in studentResults)
         {
