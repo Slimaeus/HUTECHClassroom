@@ -31,10 +31,25 @@ public sealed class ScoresController : BaseApiController
     }
 
     [HttpPost("ScanMultipleResult")]
-    public async Task<ActionResult<IEnumerable<StudentResultDTO>>> ScanMultipleResult(List<IFormFile> files)
+    public async Task<ActionResult<IEnumerable<StudentResultDTO[]>>> ScanMultipleResult(List<IFormFile> files)
     {
         var tasks = files.Select(f => Mediator.Send(new GetStudentScoresFromFileQuery(f)));
         var result = await Task.WhenAll(tasks);
+        return Ok(result);
+    }
+
+    [HttpPost("ScanMultipleFileResult")]
+    public async Task<ActionResult<IEnumerable<StudentResultDTO>>> ScanMultipleFileResult(List<IFormFile> files)
+    {
+        var tasks = files.Select(f => Mediator.Send(new GetStudentScoresFromFileQuery(f)));
+        var lists = await Task.WhenAll(tasks);
+        var result = lists[0]
+            .Concat(lists[1])
+            .GroupBy(x => x.Student?.UserName ?? x.StudentId)
+            .Select(g => g.First())
+            .OrderBy(x => x.OrdinalNumber)
+            .ToList();
+
         return Ok(result);
     }
 
