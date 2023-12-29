@@ -1,4 +1,6 @@
-﻿namespace HUTECHClassroom.API.Controllers.Api.V1;
+﻿using HUTECHClassroom.Application.Users.Queries.GetUsersByIds;
+
+namespace HUTECHClassroom.API.Controllers.Api.V1;
 
 [ApiVersion("1.0")]
 [Authorize]
@@ -8,6 +10,11 @@ public sealed class UsersController : BaseEntityApiController<UserDTO>
     [HttpGet("{userId}")]
     public Task<ActionResult<UserDTO>> GetUserDetails(Guid userId)
         => HandleGetQuery(new GetUserQuery(userId));
+
+    [AllowAnonymous]
+    [HttpGet]
+    public Task<ActionResult<IEnumerable<UserDTO>>> GetRange([FromQuery] IList<Guid> userIds, [FromQuery] PaginationParams @params)
+        => HandlePaginationQuery<GetUsersByIdsQuery, PaginationParams>(new GetUsersByIdsQuery(userIds, @params));
 
     [HttpGet("@me")]
     public async Task<ActionResult<AccountDTO>> GetCurrentUserDetails()
