@@ -21,7 +21,6 @@ public sealed class Handler : GetWithPaginationQueryHandler<ApplicationUser, Get
 
     protected override Expression<Func<ApplicationUser, bool>> SearchStringPredicate(string searchString)
     {
-        var toLowerSearchString = searchString.ToLower();
-        return x => x.UserName != null && x.UserName.ToLower().Contains(toLowerSearchString) || x.Email != null && x.Email.ToLower().Contains(toLowerSearchString);
+        return x => string.Equals(searchString, x.UserName, StringComparison.OrdinalIgnoreCase) && string.Equals(searchString, x.Email, StringComparison.OrdinalIgnoreCase);
     }
 }
