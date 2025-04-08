@@ -37,49 +37,27 @@ public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, Ap
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
         builder.ApplyConfigurationsFromAssembly(AssemblyReference.Assembly);
     }
 
     public override int SaveChanges()
     {
-        var now = DateTime.UtcNow;
-
-        foreach (var changedEntity in ChangeTracker.Entries())
-        {
-            if (changedEntity.Entity is IAuditableEntity entity)
-            {
-                switch (changedEntity.State)
-                {
-                    case EntityState.Modified:
-                        entity.UpdateDate = now;
-                        break;
-                }
-            }
-        }
+        UpdateEntity();
         return base.SaveChanges();
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var now = DateTime.UtcNow;
-
-        foreach (var changedEntity in ChangeTracker.Entries())
-        {
-            if (changedEntity.Entity is IAuditableEntity entity)
-            {
-                switch (changedEntity.State)
-                {
-                    case EntityState.Modified:
-                        entity.UpdateDate = now;
-                        break;
-                }
-            }
-        }
+        UpdateEntity();
         return base.SaveChangesAsync(cancellationToken);
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        UpdateEntity();
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
+    private void UpdateEntity()
     {
         var now = DateTime.UtcNow;
 
@@ -95,6 +73,5 @@ public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, Ap
                 }
             }
         }
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }
