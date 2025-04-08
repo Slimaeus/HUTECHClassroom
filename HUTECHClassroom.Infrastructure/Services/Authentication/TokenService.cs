@@ -60,7 +60,7 @@ public sealed class TokenService : ITokenService
         return jwtToken.ValidTo.ToUniversalTime();
     }
 
-    private IList<Claim> GetRoleClaims(ApplicationUser user)
+    private List<Claim> GetRoleClaims(ApplicationUser user)
     {
         var roles = _context.Roles
             .Where(role => role.ApplicationUserRoles.Any(x => x.UserId == user.Id));

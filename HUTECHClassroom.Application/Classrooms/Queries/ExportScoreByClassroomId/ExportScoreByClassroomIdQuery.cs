@@ -8,10 +8,10 @@ namespace HUTECHClassroom.Application.Classrooms.Queries.ExportScoreByClassroomI
 public sealed record ExportScoreByClassroomIdQuery(Guid ClassroomId, int ScoreTypeId) : IRequest<byte[]>;
 public sealed class Handler : IRequestHandler<ExportScoreByClassroomIdQuery, byte[]>
 {
-    private readonly IExcelServie _excelServie;
+    private readonly IExcelService _excelServie;
     private readonly ApplicationDbContext _applicationDbContext;
 
-    public Handler(IExcelServie excelServie, ApplicationDbContext applicationDbContext)
+    public Handler(IExcelService excelServie, ApplicationDbContext applicationDbContext)
     {
         _excelServie = excelServie;
         _applicationDbContext = applicationDbContext;

@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace HUTECHClassroom.Infrastructure.Services.Excel;
 
-public sealed class ExcelSerive : IExcelServie
+public sealed class ExcelService : IExcelService
 {
     public List<T> ReadExcelFileWithoutColumnNames<T>(Stream stream, string? sheetName) where T : class, new()
     {

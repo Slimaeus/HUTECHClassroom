@@ -10,15 +10,15 @@ namespace HUTECHClassroom.Application.Classrooms.Commands.ImportMultipleScoreByC
 public sealed record ImportMultipleScoreByClassroomIdCommand(Guid ClassroomId, IFormFile File) : IRequest<Unit>;
 public sealed class Hanlder : IRequestHandler<ImportMultipleScoreByClassroomIdCommand, Unit>
 {
-    private readonly IExcelServie _excelServie;
+    private readonly IExcelService _excelService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<StudentResult> _studentResultRepository;
     private readonly IRepository<Classroom> _classroomRepository;
     private readonly IRepository<ApplicationUser> _userRepository;
 
-    public Hanlder(IExcelServie excelServie, IUnitOfWork unitOfWork)
+    public Hanlder(IExcelService excelService, IUnitOfWork unitOfWork)
     {
-        _excelServie = excelServie;
+        _excelService = excelService;
         _unitOfWork = unitOfWork;
         _studentResultRepository = unitOfWork.Repository<StudentResult>();
         _classroomRepository = unitOfWork.Repository<Classroom>();
@@ -26,7 +26,7 @@ public sealed class Hanlder : IRequestHandler<ImportMultipleScoreByClassroomIdCo
     }
     public async Task<Unit> Handle(ImportMultipleScoreByClassroomIdCommand request, CancellationToken cancellationToken)
     {
-        var importedStudentResults = _excelServie.ReadExcelFileWithColumnNames<StudentResultScoresWithOrdinalDTO>(request.File.OpenReadStream(), null);
+        var importedStudentResults = _excelService.ReadExcelFileWithColumnNames<StudentResultScoresWithOrdinalDTO>(request.File.OpenReadStream(), null);
 
         var studentResultDictionary = importedStudentResults.ToDictionary(x => x.Id ?? "", x => x);
 

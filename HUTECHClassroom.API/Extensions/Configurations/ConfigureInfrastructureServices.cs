@@ -90,7 +90,7 @@ public static class ConfigureInfrastructureServices
         #region Services
         services.AddHttpContextAccessor();
         services.AddScoped<IEmailService, GmailSMTPService>();
-        services.AddScoped<IExcelServie, ExcelSerive>();
+        services.AddScoped<IExcelService, ExcelService>();
         services.AddScoped<IPhotoAccessor, CloudinaryPhotoAccessor>();
         services.AddScoped<IAzureComputerVisionService, AzureComputerVisionService>();
         #endregion

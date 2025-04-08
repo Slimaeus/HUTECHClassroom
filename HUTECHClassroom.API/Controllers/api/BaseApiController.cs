@@ -16,7 +16,7 @@ public abstract class BaseApiController : ControllerBase
 
     protected ActionResult<IEnumerable<T>> HandlePagedList<T>(IPagedList<T> pagedList)
     {
-        Response.Headers.Add("pagination", JsonConvert.SerializeObject(new { currentPage = pagedList.PageIndex, itemsPerPage = pagedList.PageSize, totalItems = pagedList.TotalCount, totalPages = pagedList.TotalPages, hasNext = pagedList.HasNextPage, hasPrevious = pagedList.HasPreviousPage }));
+        Response.Headers.Append("pagination", JsonConvert.SerializeObject(new { currentPage = pagedList.PageIndex, itemsPerPage = pagedList.PageSize, totalItems = pagedList.TotalCount, totalPages = pagedList.TotalPages, hasNext = pagedList.HasNextPage, hasPrevious = pagedList.HasPreviousPage }));
         return Ok(pagedList.Items);
     }
 

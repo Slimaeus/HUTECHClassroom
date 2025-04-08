@@ -10,13 +10,13 @@ namespace HUTECHClassroom.Application.Classrooms.Commands.ImportScoreByClassroom
 public sealed record ImportScoreByClassroomIdCommand(Guid ClassroomId, int ScoreTypeId, IFormFile File) : IRequest<Unit>;
 public sealed class Hanlder : IRequestHandler<ImportScoreByClassroomIdCommand, Unit>
 {
-    private readonly IExcelServie _excelServie;
+    private readonly IExcelService _excelServie;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<StudentResult> _studentResultRepository;
     private readonly IRepository<Classroom> _classroomRepository;
     private readonly IRepository<ApplicationUser> _userRepository;
 
-    public Hanlder(IExcelServie excelServie, IUnitOfWork unitOfWork)
+    public Hanlder(IExcelService excelServie, IUnitOfWork unitOfWork)
     {
         _excelServie = excelServie;
         _unitOfWork = unitOfWork;

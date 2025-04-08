@@ -18,7 +18,7 @@ public class BaseEntityController<T> : Controller
 {
     protected ApplicationDbContext DbContext => HttpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
     protected UserManager<ApplicationUser> UserManager => HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
-    protected IExcelServie ExcelService => HttpContext.RequestServices.GetRequiredService<IExcelServie>();
+    protected IExcelService ExcelService => HttpContext.RequestServices.GetRequiredService<IExcelService>();
     protected IMapper Mapper => HttpContext.RequestServices.GetRequiredService<IMapper>();
     public IActionResult Import()
     {
