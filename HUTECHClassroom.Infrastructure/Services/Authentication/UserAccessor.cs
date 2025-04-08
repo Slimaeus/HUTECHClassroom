@@ -44,11 +44,11 @@ public sealed class UserAccessor : IUserAccessor
     public IList<string> Roles => _httpContextAccessor.HttpContext?.User.Claims
         .Where(x => x.Type == ClaimTypes.Role)
         .Select(x => x.Value)
-        .ToList() ?? new List<string>();
+        .ToList() ?? [];
     public IDictionary<string, ImmutableArray<string>> EntityClaims => _httpContextAccessor.HttpContext?.User.Claims
         .Where(x => ApplicationClaimTypes.EntityClaimTypes.Contains(x.Type))
         .GroupBy(x => x.Type)
-        .ToDictionary(g => g.Key, g => g.Select(x => x.Value).ToImmutableArray()) ?? new Dictionary<string, ImmutableArray<string>>();
+        .ToDictionary(g => g.Key, g => g.Select(x => x.Value).ToImmutableArray()) ?? [];
 
     public void AppendCookieAccessToken(string token)
         => _httpContextAccessor.HttpContext?.Response.Cookies

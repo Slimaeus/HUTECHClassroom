@@ -14,8 +14,8 @@ public static class ApplicationClaimTypes
     public const string FACULTY = "faculty";
     public const string MAJOR = "major";
     public const string SUBJECT = "subject";
-    public static readonly IList<string> EntityClaimTypes = new List<string>
-    {
+    public static readonly List<string> EntityClaimTypes =
+    [
         MISSION, PROJECT, GROUP, CLASSROOM, EXERCISE, ANSWER, POST, COMMENT, USER, FACULTY, MAJOR, SUBJECT
-    };
+    ];
 }
