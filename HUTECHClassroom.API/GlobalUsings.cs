@@ -1,4 +1,5 @@
-﻿// Account
+﻿global using Asp.Versioning;
+// Account
 global using HUTECHClassroom.Application.Account.Commands.AddAvatar;
 global using HUTECHClassroom.Application.Account.Commands.ChangePassword;
 global using HUTECHClassroom.Application.Account.Commands.ForgotPassword;
