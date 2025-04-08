@@ -2,7 +2,7 @@
 using HUTECHClassroom.Domain.Constants.HttpParams.Common;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Primitives;
 
 namespace HUTECHClassroom.API.SignalR;
 
@@ -34,7 +34,7 @@ public sealed class CommentHub : Hub<ICommentClientHub>
     {
         var httpContext = Context.GetHttpContext() ?? throw new NullReferenceException();
         var postId = httpContext.Request.Query[PostParamsConstants.POST_ID];
-        if (postId.IsNullOrEmpty()) return;
+        if (StringValues.IsNullOrEmpty(postId)) return;
         var isParsePageNumberSuccess = int.TryParse(httpContext.Request.Query[PaginationParamsConstants.PAGE_NUMBER], out int pageNumber);
         var isParsePageSizeSuccess = int.TryParse(httpContext.Request.Query[PaginationParamsConstants.PAGE_SIZE], out int pageSize);
         if (!isParsePageNumberSuccess) pageNumber = 1;
