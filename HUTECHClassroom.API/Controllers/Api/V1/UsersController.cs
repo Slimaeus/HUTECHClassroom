@@ -1,4 +1,6 @@
-﻿using HUTECHClassroom.Application.Users.Queries.GetUsersByIds;
+﻿using HUTECHClassroom.Application.Classes.DTOs;
+using HUTECHClassroom.Application.Users.Queries.GetUserClassesWithPagination;
+using HUTECHClassroom.Application.Users.Queries.GetUsersByIds;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
@@ -20,6 +22,9 @@ public sealed class UsersController : BaseEntityApiController<UserDTO>
     public async Task<ActionResult<AccountDTO>> GetCurrentUserDetails()
         => Ok(await Mediator.Send(new GetCurrentUserQuery()));
 
+    [HttpGet("@me/classes")]
+    public async Task<ActionResult<IEnumerable<ClassDTO>>> GetClasses([FromQuery] PaginationParams @params)
+        => HandlePagedList(await Mediator.Send(new GetUserClassesWithPaginationQuery(@params)));
     [HttpGet("@me/classrooms")]
     public async Task<ActionResult<IEnumerable<ClassroomDTO>>> GetClassrooms([FromQuery] PaginationParams @params)
         => HandlePagedList(await Mediator.Send(new GetUserClassroomsWithPaginationQuery(@params)));
