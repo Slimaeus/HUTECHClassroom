@@ -1,6 +1,7 @@
 ﻿using HUTECHClassroom.Application.Classes.DTOs;
 using HUTECHClassroom.Application.Users.Queries.GetUserClassesWithPagination;
 using HUTECHClassroom.Application.Users.Queries.GetUsersByIds;
+using HUTECHClassroom.Application.Users.Queries.GetUsersWithPagination;
 
 namespace HUTECHClassroom.API.Controllers.Api.V1;
 
@@ -14,9 +15,14 @@ public sealed class UsersController : BaseEntityApiController<UserDTO>
         => HandleGetQuery(new GetUserQuery(userId));
 
     [AllowAnonymous]
-    [HttpGet]
+    [HttpGet("ids")]
     public Task<ActionResult<IEnumerable<UserDTO>>> GetRange([FromQuery] IList<Guid> userIds, [FromQuery] PaginationParams @params)
         => HandlePaginationQuery<GetUsersByIdsQuery, PaginationParams>(new GetUsersByIdsQuery(userIds, @params));
+
+    [AllowAnonymous]
+    [HttpGet("@me/users")]
+    public Task<ActionResult<IEnumerable<UserDTO>>> GetUsers([FromQuery] UserPaginationParams @params)
+        => HandlePaginationQuery<GetUsersWithPaginationQuery, UserPaginationParams>(new GetUsersWithPaginationQuery(@params));
 
     [HttpGet("@me")]
     public async Task<ActionResult<AccountDTO>> GetCurrentUserDetails()
