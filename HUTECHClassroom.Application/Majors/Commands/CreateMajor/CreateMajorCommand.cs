@@ -8,6 +8,7 @@ public record CreateMajorCommand : CreateCommand
     public string? Title { get; set; }
     public int TotalCredits { get; set; }
     public int NonComulativeCredits { get; set; }
+    public Guid? FacultyId { get; set; }
 }
 public sealed class CreateMajorCommandHandler : CreateCommandHandler<Major, CreateMajorCommand>
 {
