@@ -8,6 +8,7 @@ public sealed record UpdateMajorCommand(Guid Id) : UpdateCommand(Id)
     public string? Title { get; set; }
     public int? TotalCredits { get; set; }
     public int? NonComulativeCredits { get; set; }
+    public Guid? FacultyId { get; set; }
 }
 public sealed class UpdateMajorCommandHandler : UpdateCommandHandler<Major, UpdateMajorCommand>
 {
