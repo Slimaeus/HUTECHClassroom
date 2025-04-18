@@ -8,4 +8,5 @@ public sealed record MajorDTO : BaseEntityDTO
     public string? Title { get; set; }
     public int? TotalCredits { get; set; }
     public int? NonComulativeCredits { get; set; }
+    public MajorFacultyDTO? Faculty { get; set; }
 }

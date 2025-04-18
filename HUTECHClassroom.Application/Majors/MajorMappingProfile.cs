@@ -12,5 +12,7 @@ public sealed class MajorMappingProfile : Profile
         CreateMap<CreateMajorCommand, Major>();
         CreateMap<UpdateMajorCommand, Major>()
             .ForAllMembers(options => options.Condition((src, des, srcValue, desValue) => srcValue != null));
+
+        CreateMap<Faculty, MajorFacultyDTO>();
     }
 }
