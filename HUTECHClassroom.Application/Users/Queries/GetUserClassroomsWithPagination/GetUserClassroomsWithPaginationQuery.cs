@@ -29,11 +29,11 @@ public sealed class GetUserClassroomsWithPaginationQueryHandler : GetWithPaginat
         }
         else if (_userAccessor.Roles.Contains(RoleConstants.Lecturer))
         {
-            return c => c.LecturerId == _userAccessor.Id;
+            return x => x.ClassroomUsers.Any(y => y.UserId == _userAccessor.Id) || x.LecturerId == _userAccessor.Id;
         }
         else if (_userAccessor.Roles.Contains(RoleConstants.Student))
         {
-            return c => c.ClassroomUsers.Any(cu => cu.UserId == _userAccessor.Id);
+            return x => x.ClassroomUsers.Any(y => y.UserId == _userAccessor.Id) || x.LecturerId == _userAccessor.Id;
         }
         else if (_userAccessor.Roles.Contains(RoleConstants.DepartmentSecretary))
         {
