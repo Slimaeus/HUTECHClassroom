@@ -2,6 +2,7 @@
 using HUTECHClassroom.Application.Classrooms.DTOs;
 using HUTECHClassroom.Application.Common.Models;
 using HUTECHClassroom.Application.Common.Requests;
+using HUTECHClassroom.Domain.Constants;
 using HUTECHClassroom.Domain.Interfaces;
 using System.Linq.Expressions;
 
@@ -17,7 +18,34 @@ public sealed class GetUserClassroomsWithPaginationQueryHandler : GetWithPaginat
     protected override IQuery<Classroom> Order(IMultipleResultQuery<Classroom> query)
         => query.OrderByDescending(x => x.CreateDate);
     protected override Expression<Func<Classroom, bool>> FilterPredicate(GetUserClassroomsWithPaginationQuery query)
-        => x => x.ClassroomUsers.Any(y => y.UserId == _userAccessor.Id) || x.LecturerId == _userAccessor.Id;
+    {
+        if (_userAccessor.Roles.Contains(RoleConstants.Dean))
+        {
+            return x => true;
+        }
+        else if (_userAccessor.Roles.Contains(RoleConstants.TrainingOffice))
+        {
+            return x => true;
+        }
+        else if (_userAccessor.Roles.Contains(RoleConstants.Lecturer))
+        {
+            return c => c.LecturerId == _userAccessor.Id;
+        }
+        else if (_userAccessor.Roles.Contains(RoleConstants.Student))
+        {
+            return c => c.ClassroomUsers.Any(cu => cu.UserId == _userAccessor.Id);
+        }
+        else if (_userAccessor.Roles.Contains(RoleConstants.DepartmentSecretary))
+        {
+            return x => true;
+        }
+        else if (_userAccessor.Roles.Contains(RoleConstants.Administrator))
+        {
+            return x => true;
+        }
+
+        return x => false;
+    }
 
     protected override Expression<Func<Classroom, bool>> SearchStringPredicate(string searchString)
     {
